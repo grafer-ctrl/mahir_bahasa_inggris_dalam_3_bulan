@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English 300 - Premium Course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-hover: #45a049;
+            --bg-color: #f4f7f6;
+            --text-color: #2b2d42;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-color); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .hidden { display: none !important; }
+        
+        /* Loader */
+        #loader { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Auth Card */
+        .auth-card { background: white; padding: 40px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); max-width: 400px; margin: 50px auto; text-align: center; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; transition: 0.3s; }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-logout { background: #ff4757; width: auto; font-size: 0.8rem; }
+
+        /* Dashboard */
+        .stats-card { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--box-shadow); margin-bottom: 30px; }
+        .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; }
+        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .day-card { background: white; padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: var(--box-shadow); border: 2px solid transparent; transition: 0.3s; position: relative; }
+        .day-card.completed { border-color: var(--primary); background: #e8f5e9; }
+        .day-card.completed::after { content: '✔'; position: absolute; top: 5px; right: 10px; color: var(--primary); font-weight: bold; }
+
+        /* Viewer */
+        #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
+        .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        iframe { flex-grow: 1; border: none; width: 100%; }
+        .btn-finish { border-radius: 0; padding: 15px; background: #2196f3; }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div class="spinner"></div></div>
+
+    <!-- AUTH SECTION -->
+    <div id="auth-section" class="container hidden">
+        <div class="auth-card">
+            <h2 id="auth-title">Login Pelajar</h2>
+            <p id="auth-subtitle" style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">Silakan masuk ke akun Anda</p>
+            
+            <div id="alert" style="color: red; font-size: 0.8rem; margin-bottom: 10px;" class="hidden"></div>
+
+            <form id="auth-form">
+                <div class="form-group">
+                    <label>EMAIL</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group" id="access-code-group">
+                    <label>KODE AKSES</label>
+                    <input type="text" id="access-code" placeholder="Hanya untuk pendaftaran">
+                </div>
+                <button type="submit" id="btn-submit" class="btn">Masuk</button>
+            </form>
+            <p style="margin-top: 15px; font-size: 0.8rem;">
+                <span id="toggle-text">Belum punya akun?</span> 
+                <a href="#" id="toggle-auth" style="color: var(--primary); font-weight: bold;">Daftar Sekarang</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboard-section" class="container hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3>📚 My Course</h3>
+            <button onclick="handleLogout()" class="btn btn-logout">Logout</button>
+        </div>
+
+        <div class="stats-card">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span>Progres Belajar</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar"><div id="progress-fill"></div></div>
+            <small id="progress-detail">0 dari 300 selesai</small>
+        </div>
+
+        <div class="grid-materi" id="materi-grid"></div>
+    </div>
+
+    <!-- VIEWER SECTION -->
+    <div id="viewer" class="hidden">
+        <div class="viewer-nav">
+            <button onclick="closeViewer()" style="background:none; border:none; cursor:pointer;"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <h4 id="view-title">Hari 1</h4>
+            <div style="width:20px;"></div>
+        </div>
+        <iframe id="content-frame" src=""></iframe>
+        <button id="btn-mark-complete" class="btn btn-finish">Selesaikan Hari Ini</button>
+    </div>
+
+    <script type="module">
+        // IMPORT FIREBASE SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 1. ISI DENGAN KONFIGURASI FIREBASE ANDA
+        const firebaseConfig = {
+            apiKey: "AIzaSy...",
+            authDomain: "project-id.firebaseapp.com",
+            projectId: "project-id",
+            storageBucket: "project-id.appspot.com",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+
+        // 2. DAFTAR KODE AKSES VALID
+        const VALID_CODES = ["ABC123", "MAHIR300", "PROMOOKTOBER"];
+
+        // Initialize
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let isLoginMode = true;
+        let currentUser = null;
+        let completedDays = [];
+
+        // Elements
+        const loader = document.getElementById('loader');
+        const authSection = document.getElementById('auth-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const authForm = document.getElementById('auth-form');
+        const toggleAuthBtn = document.getElementById('toggle-auth');
+
+        // Toggle Login/Register
+        toggleAuthBtn.onclick = () => {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').textContent = isLoginMode ? "Login Pelajar" : "Daftar Akun";
+            document.getElementById('btn-submit').textContent = isLoginMode ? "Masuk" : "Daftar Sekarang";
+            document.getElementById('access-code-group').classList.toggle('hidden', isLoginMode);
+            document.getElementById('toggle-text').textContent = isLoginMode ? "Belum punya akun?" : "Sudah punya akun?";
+            toggleAuthBtn.textContent = isLoginMode ? "Daftar Sekarang" : "Login di sini";
+        };
+
+        // Auth Listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await fetchUserProgress();
+                showDashboard();
+            } else {
+                showAuth();
+            }
+            loader.classList.add('hidden');
+        });
+
+        // Fetch Progress from Firestore
+        async function fetchUserProgress() {
+            const docRef = doc(db, "users", currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                completedDays = docSnap.data().completed || [];
+            } else {
+                // Buat dokumen baru jika belum ada
+                await setDoc(docRef, { completed: [] });
+                completedDays = [];
+            }
+            renderGrid();
+        }
+
+        // Render 300 Days
+        function renderGrid() {
+            const grid = document.getElementById('materi-grid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 300; i++) {
+                const card = document.createElement('div');
+                card.className = `day-card ${completedDays.includes(i) ? 'completed' : ''}`;
+                card.innerHTML = `<small>DAY</small><h4>${i}</h4>`;
+                card.onclick = () => openViewer(i);
+                grid.appendChild(card);
+            }
+            updateProgressUI();
+        }
+
+        function updateProgressUI() {
+            const percent = Math.round((completedDays.length / 300) * 100);
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 selesai`;
+        }
+
+        // Auth Logic
+        authForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const code = document.getElementById('access-code').value;
+            const alertBox = document.getElementById('alert');
+
+            alertBox.classList.add('hidden');
+
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    // Cek Kode Akses
+                    if (!VALID_CODES.includes(code.toUpperCase())) {
+                        throw new Error("Kode akses tidak valid!");
+                    }
+                    await createUserWithEmailAndPassword(auth, email, password);
+                }
+            } catch (err) {
+                alertBox.textContent = err.message;
+                alertBox.classList.remove('hidden');
+            }
+        };
+
+        // Viewer Logic
+        let currentDay = 0;
+        window.openViewer = (day) => {
+            currentDay = day;
+            document.getElementById('view-title').textContent = "Materi Hari " + day;
+            document.getElementById('content-frame').src = `hari${day}.html`;
+            document.getElementById('viewer').classList.remove('hidden');
+            
+            const btn = document.getElementById('btn-mark-complete');
+            if(completedDays.includes(day)) {
+                btn.textContent = "Sudah Selesai";
+                btn.disabled = true;
+                btn.style.background = "#ccc";
+            } else {
+                btn.textContent = "Selesaikan Hari Ini";
+                btn.disabled = false;
+                btn.style.background = "#2196f3";
+            }
+        };
+
+        window.closeViewer = () => {
+            document.getElementById('viewer').classList.add('hidden');
+            document.getElementById('content-frame').src = "";
+        };
+
+        document.getElementById('btn-mark-complete').onclick = async () => {
+            const docRef = doc(db, "users", currentUser.uid);
+            await updateDoc(docRef, {
+                completed: arrayUnion(currentDay)
+            });
+            completedDays.push(currentDay);
+            renderGrid();
+            closeViewer();
+        };
+
+        window.handleLogout = () => signOut(auth);
+        function showDashboard() { authSection.classList.add('hidden'); dashboardSection.classList.remove('hidden'); }
+        function showAuth() { authSection.classList.remove('hidden'); dashboardSection.classList.add('hidden'); }
+    </script>
+</body>
+</html>
