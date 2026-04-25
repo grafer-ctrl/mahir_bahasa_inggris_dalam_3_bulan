@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Mastery - Premium Access</title>
+    <title>English Mastery Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -14,13 +14,12 @@
             --white: #ffffff;
             --text-main: #2c3e50;
             --text-muted: #7f8c8d;
-            --radius: 20px;
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
             --transition: all 0.3s ease;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-main); }
         .hidden { display: none !important; }
 
         /* Loader */
@@ -28,109 +27,69 @@
         .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- UI LOGIN --- */
+        /* Login Section */
         .auth-wrapper { 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
-            padding: 20px;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); padding: 20px;
         }
         .auth-card { 
-            background: var(--white); 
-            padding: 40px; 
-            border-radius: 25px; 
-            box-shadow: var(--shadow); 
-            width: 100%; 
-            max-width: 400px; 
-            text-align: center;
+            background: var(--white); padding: 40px; border-radius: 25px; 
+            box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center;
         }
-        .auth-card h2 { font-weight: 700; color: var(--primary); margin-bottom: 5px; }
-        .auth-card p.subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 30px; }
-
         .form-group { text-align: left; margin-bottom: 20px; }
         .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; letter-spacing: 1px; }
         .form-group input { 
-            width: 100%; padding: 15px; border: 2px solid #edf2f0; 
-            border-radius: 12px; font-family: inherit; font-size: 1rem; transition: var(--transition);
-            text-align: center; letter-spacing: 2px; font-weight: 700;
+            width: 100%; padding: 15px; border: 2px solid #edf2f0; border-radius: 12px; 
+            font-size: 1.1rem; text-align: center; font-weight: 700; letter-spacing: 2px;
         }
-        .form-group input:focus { border-color: var(--primary); outline: none; background: #fff; }
-
         .btn-main { 
             background: var(--primary); color: white; border: none; padding: 15px; 
-            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; 
-            font-size: 1rem; transition: var(--transition); margin-top: 10px;
+            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; font-size: 1rem;
         }
-        .btn-main:hover { background: #0e3d11; transform: translateY(-2px); }
 
-        /* --- DASHBOARD --- */
+        /* Dashboard */
         .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
-        .header-dash { 
-            background: white; padding: 25px; border-radius: 20px; 
-            box-shadow: var(--shadow); margin-bottom: 30px; 
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        
-        .progress-card { 
-            background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); 
-            color: white; padding: 30px; border-radius: 25px; margin-bottom: 35px; box-shadow: var(--shadow);
-        }
+        .header-dash { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .progress-card { background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); color: white; padding: 25px; border-radius: 25px; margin-bottom: 30px; }
         .bar-bg { background: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
         #progress-fill { background: white; height: 100%; width: 0%; transition: 0.8s ease; }
 
-        .grid-materi { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-            gap: 15px; 
-        }
-        .day-card { 
-            background: white; padding: 20px; border-radius: 20px; 
-            text-align: center; cursor: pointer; box-shadow: var(--shadow); 
-            transition: var(--transition); border: 2px solid transparent;
-        }
-        .day-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        /* Grid */
+        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        .day-card { background: white; padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); border: 2px solid transparent; }
         .day-card.completed { background: #e8f5e9; border-color: var(--primary); }
         .day-card i { font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
-        .day-card h4 { font-size: 0.9rem; }
 
-        /* VIEWER */
+        /* Viewer */
         #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
-        .viewer-nav { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        iframe { flex-grow: 1; border: none; width: 100%; }
+        .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        iframe { flex-grow: 1; border: none; }
         .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; }
 
-        #alert-msg { color: #d9534f; font-size: 0.8rem; margin-bottom: 15px; font-weight: 600; }
+        #alert-msg { color: #d9534f; font-size: 0.85rem; margin-bottom: 15px; font-weight: 600; display: none; }
     </style>
 </head>
 <body>
 
     <div id="loader"><div class="spinner"></div></div>
 
-    <!-- HALAMAN LOGIN (HANYA KODE AKSES) -->
+    <!-- HALAMAN LOGIN -->
     <div id="auth-section" class="auth-wrapper hidden">
         <div class="auth-card">
-            <div style="background:#e8f5e9; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-                <i class="fa-solid fa-key fa-xl" style="color:var(--primary)"></i>
-            </div>
-            <h2>Premium Access</h2>
-            <p class="subtitle">Masukkan kode akses unik Anda</p>
+            <i class="fa-solid fa-shield-halved fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
+            <h2>Akses Premium</h2>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:25px;">Masukkan kode akses yang telah Anda beli</p>
             
-            <div id="alert-msg" class="hidden">Kode salah atau tidak aktif!</div>
+            <div id="alert-msg"></div>
 
             <form id="login-form">
                 <div class="form-group">
-                    <label>KODE AKSES</label>
-                    <input type="text" id="access-code-input" placeholder="XXXX-XXXX" required autocomplete="off">
+                    <label>KODE UNIK</label>
+                    <input type="text" id="access-code-input" placeholder="KODE-XXXX" required autocomplete="off">
                 </div>
-                <button type="submit" class="btn-main">Buka Akses Kursus</button>
+                <button type="submit" class="btn-main">AKTIFKAN KURSUS</button>
             </form>
-            
-            <p style="margin-top: 25px; font-size: 0.75rem; color: #7f8c8d; line-height: 1.5;">
-                Belum punya kode? <br>
-                <a href="https://wa.me/NOMOR_WA_ANDA" target="_blank" style="color:var(--primary); font-weight: 700; text-decoration: none;">Beli Kode Akses di Sini</a>
-            </p>
+            <p style="margin-top:20px; font-size:0.7rem; color:#999;">Kode ini akan dikunci pada perangkat ini setelah digunakan.</p>
         </div>
     </div>
 
@@ -138,121 +97,129 @@
     <div id="dashboard-section" class="container hidden">
         <div class="header-dash">
             <div>
-                <h2 style="font-size: 1.1rem;">Selamat Datang!</h2>
-                <p id="display-code" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"></p>
+                <h2 style="font-size: 1rem;">Selamat Belajar!</h2>
+                <p id="display-code" style="font-size: 0.7rem; color: var(--accent); font-weight:700;"></p>
             </div>
-            <button onclick="handleLogout()" style="background:none; border:1px solid #ddd; padding:8px 15px; border-radius:10px; cursor:pointer; font-size: 0.8rem;">Keluar</button>
+            <button onclick="handleLogout()" style="background:#fff1f0; color:#ff4d4f; border:1px solid #ffa39e; padding:5px 12px; border-radius:8px; cursor:pointer; font-size:0.7rem;">Log Out</button>
         </div>
 
         <div class="progress-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <p style="font-weight:600; font-size:0.9rem;">Progres Belajar 300 Hari</p>
+                <p style="font-size:0.8rem;">Progres Belajar</p>
                 <h2 id="progress-text">0%</h2>
             </div>
             <div class="bar-bg"><div id="progress-fill"></div></div>
-            <p id="progress-detail" style="font-size:0.8rem; opacity:0.9;">Selesaikan materi setiap hari.</p>
+            <p id="progress-detail" style="font-size:0.7rem;">0/300 Hari selesai</p>
         </div>
 
-        <h3 style="margin-bottom: 20px; font-size: 1rem;">Daftar Materi</h3>
         <div class="grid-materi" id="materi-grid"></div>
     </div>
 
     <!-- VIEWER MATERI -->
     <div id="viewer" class="hidden">
         <div class="viewer-nav">
-            <button onclick="closeViewer()" style="border:none; background:none; cursor:pointer;"><i class="fa-solid fa-arrow-left fa-xl"></i></button>
-            <h4 id="view-title">Materi</h4>
+            <button onclick="closeViewer()" style="border:none; background:none;"><i class="fa-solid fa-chevron-left fa-xl"></i></button>
+            <h4 id="view-title" style="font-size:0.9rem;">Materi</h4>
             <div style="width:20px;"></div>
         </div>
-        <iframe id="content-frame" src=""></iframe>
-        <button id="btn-mark-complete" class="btn-finish">TANDAI SELESAI</button>
+        <iframe id="content-frame"></iframe>
+        <button id="btn-mark-complete" class="btn-finish">SAYA SUDAH MEMPELAJARI INI</button>
     </div>
 
     <script type="module">
-        /* 
-           ==========================================================================
-           CARA SETTING firbaseE (IKUTI LANGKAH INI):
-           1. Buat Project di firbasee Console.
-           2. Aktifkan "Firestore Database" di menu Build.
-           3. Di Firestore, buat Collection baru bernama: "accessCodes"
-           4. Masukkan dokumen di dalam "accessCodes" dengan:
-              - Document ID: Masukkan kode (Contoh: VIP-2024)
-              - Field: status (string) = "active"
-              - Field: completed (array) = []
-           5. Masuk ke Project Settings, copy config SDK ke bawah ini:
-           ==========================================================================
-        */
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        import { initializeApp } from "https://www.gstatic.com/firbaseejs/10.8.1/firbasee-app.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firbaseejs/10.8.1/firbasee-firestore.js";
+        // ==========================================
+        // TEMPEL CONFIG FIREBASE ANDA DI BAWAH INI
+        // ==========================================
+        const firebaseConfig = {
+        apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
+    authDomain: "blockdag-polling.firebaseapp.com",
+    databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "blockdag-polling",
+    storageBucket: "blockdag-polling.firebasestorage.app",
+    messagingSenderId: "458807719521",
+    appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
 
-        // TEMPELKAN CONFIG firbaseE ANDA DI SINI (CAPSLOCK AGAR TERLIHAT)
-      const firbaseeConfig = {
-  apiKey: "AIzaSyAXqMkiTIjgDVRrLNTqByppWQCGbmdz04M",
-  authDomain: "blockdag-polling.firbaseeapp.com",
-  databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firbaseedatabase.app",
-  projectId: "blockdag-polling",
-  storageBucket: "blockdag-polling.firbaseestorage.app",
-  messagingSenderId: "458807719521",
-  appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
-};
-
-        const app = initializeApp(firbaseeConfig);
+        const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let userCode = localStorage.getItem('userAccessCode');
+        let userCode = localStorage.getItem('premium_code');
         let completedDays = [];
 
-        // Inisialisasi Awal
         window.onload = async () => {
             if (userCode) {
-                await validateAndLoad(userCode);
+                const valid = await validateAndLoad(userCode);
+                if (!valid) {
+                    localStorage.removeItem('premium_code');
+                    showSection('auth');
+                }
             } else {
                 showSection('auth');
             }
             document.getElementById('loader').classList.add('hidden');
         };
 
-        // Form Login Handler
         document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
             const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
-            const alertMsg = document.getElementById('alert-msg');
+            const alertBox = document.getElementById('alert-msg');
             
             document.getElementById('loader').classList.remove('hidden');
-            const isValid = await validateAndLoad(codeInput);
+            const valid = await validateAndLoad(codeInput);
             
-            if (isValid) {
-                localStorage.setItem('userAccessCode', codeInput);
+            if (valid) {
+                localStorage.setItem('premium_code', codeInput);
                 userCode = codeInput;
-                alertMsg.classList.add('hidden');
+                alertBox.style.display = 'none';
             } else {
-                alertMsg.classList.remove('hidden');
+                alertBox.textContent = "KODE TIDAK VALID / SUDAH DIGUNAKAN DI PERANGKAT LAIN";
+                alertBox.style.display = 'block';
                 document.getElementById('loader').classList.add('hidden');
             }
         };
 
-        // Fungsi Validasi Kode ke Firestore
         async function validateAndLoad(code) {
             try {
                 const docRef = doc(db, "accessCodes", code);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists() && docSnap.data().status === "active") {
-                    completedDays = docSnap.data().completed || [];
+                    const data = docSnap.data();
+                    
+                    // FUNGSI DEVICE LOCK:
+                    // Menciptakan ID unik untuk browser ini
+                    let deviceId = localStorage.getItem('dev_token');
+                    if (!deviceId) {
+                        deviceId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                        localStorage.setItem('dev_token', deviceId);
+                    }
+
+                    // Cek jika kode sudah terkunci ke device lain
+                    if (data.lockedDevice && data.lockedDevice !== deviceId) {
+                        return false; 
+                    }
+
+                    // Jika belum terkunci, kunci sekarang ke device ini
+                    if (!data.lockedDevice) {
+                        await updateDoc(docRef, { lockedDevice: deviceId });
+                    }
+
+                    completedDays = data.completed || [];
                     renderDashboard(code);
                     showSection('dashboard');
                     return true;
                 }
                 return false;
             } catch (err) {
-                console.error("Error:", err);
+                console.log(err);
                 return false;
             }
         }
 
         function renderDashboard(code) {
-            document.getElementById('display-code').textContent = "KODE: " + code;
+            document.getElementById('display-code').textContent = code;
             const grid = document.getElementById('materi-grid');
             grid.innerHTML = '';
 
@@ -260,10 +227,7 @@
                 const isDone = completedDays.includes(i);
                 const card = document.createElement('div');
                 card.className = `day-card ${isDone ? 'completed' : ''}`;
-                card.innerHTML = `
-                    <i class="fa-solid ${isDone ? 'fa-circle-check' : 'fa-lock-open'}"></i>
-                    <h4>Hari ${i}</h4>
-                `;
+                card.innerHTML = `<i class="fa-solid ${isDone ? 'fa-check-circle' : 'fa-play-circle'}"></i><h4>Hari ${i}</h4>`;
                 card.onclick = () => openViewer(i);
                 grid.appendChild(card);
             }
@@ -271,7 +235,7 @@
             const pct = Math.round((completedDays.length / 300) * 100);
             document.getElementById('progress-fill').style.width = pct + '%';
             document.getElementById('progress-text').textContent = pct + '%';
-            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 materi selesai.`;
+            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 materi selesai`;
         }
 
         let currentDayOpen = 0;
@@ -282,15 +246,9 @@
             document.getElementById('viewer').classList.remove('hidden');
             
             const btn = document.getElementById('btn-mark-complete');
-            if (completedDays.includes(day)) {
-                btn.textContent = "SUDAH SELESAI ✅";
-                btn.disabled = true;
-                btn.style.background = "#ccc";
-            } else {
-                btn.textContent = "TANDAI SELESAI";
-                btn.disabled = false;
-                btn.style.background = "var(--primary)";
-            }
+            btn.disabled = completedDays.includes(day);
+            btn.textContent = completedDays.includes(day) ? "MATERI SUDAH SELESAI" : "SAYA SUDAH MEMPELAJARI INI";
+            btn.style.opacity = completedDays.includes(day) ? "0.5" : "1";
         };
 
         window.closeViewer = () => {
@@ -299,12 +257,10 @@
         };
 
         document.getElementById('btn-mark-complete').onclick = async () => {
-            if (!userCode) return;
+            if (completedDays.includes(currentDayOpen)) return;
             
             const docRef = doc(db, "accessCodes", userCode);
-            await updateDoc(docRef, {
-                completed: arrayUnion(currentDayOpen)
-            });
+            await updateDoc(docRef, { completed: arrayUnion(currentDayOpen) });
             
             completedDays.push(currentDayOpen);
             renderDashboard(userCode);
@@ -312,8 +268,10 @@
         };
 
         window.handleLogout = () => {
-            localStorage.removeItem('userAccessCode');
-            location.reload();
+            if(confirm("Keluar dari akun? Anda butuh kode akses lagi untuk masuk.")) {
+                localStorage.removeItem('premium_code');
+                location.reload();
+            }
         };
 
         function showSection(id) {
@@ -321,23 +279,5 @@
             document.getElementById('dashboard-section').classList.toggle('hidden', id !== 'dashboard');
         }
     </script>
-
-    <!-- 
-        ==========================================================================
-        KEAMANAN TAMBAHAN (Firestore Rules):
-        Pastikan di Tab "Rules" firbasee Firestore Anda setting seperti ini 
-        agar orang tidak bisa mencuri daftar kode:
-
-        service cloud.firestore {
-          match /databases/{database}/documents {
-            match /accessCodes/{code} {
-              allow get: if true; 
-              allow update: if true;
-              allow list: if false; 
-            }
-          }
-        }
-        ==========================================================================
-    -->
 </body>
 </html>
