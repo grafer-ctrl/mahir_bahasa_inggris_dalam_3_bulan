@@ -131,7 +131,7 @@
         import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // ==========================================
-        // CONFIG FIREBASE (SUDAH DIPERBAIKI)
+        // CONFIG FIREBASE (HARUS SESUAI PROYEK ANDA)
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
@@ -149,6 +149,7 @@
         let userCode = localStorage.getItem('premium_code');
         let completedDays = [];
 
+        // LOAD AWAL
         window.onload = async () => {
             if (userCode) {
                 const valid = await validateAndLoad(userCode);
@@ -159,25 +160,28 @@
             } else {
                 showSection('auth');
             }
-            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden'); // Sembunyikan loader saat awal buka
         };
 
+        // FORM LOGIN
         document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
             const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
             const alertBox = document.getElementById('alert-msg');
             
-            document.getElementById('loader').classList.remove('hidden');
+            document.getElementById('loader').classList.remove('hidden'); // Tampilkan loader saat memproses
+            
             const valid = await validateAndLoad(codeInput);
             
             if (valid) {
                 localStorage.setItem('premium_code', codeInput);
                 userCode = codeInput;
                 alertBox.style.display = 'none';
+                document.getElementById('loader').classList.add('hidden'); // SEMBUNYIKAN LOADER SETELAH SUKSES
             } else {
                 alertBox.textContent = "KODE TIDAK VALID / SUDAH DIGUNAKAN DI PERANGKAT LAIN";
                 alertBox.style.display = 'block';
-                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('loader').classList.add('hidden'); // SEMBUNYIKAN LOADER JIKA GAGAL
             }
         };
 
@@ -210,13 +214,13 @@
                 }
                 return false;
             } catch (err) {
-                console.log(err);
+                console.log("Error Firebase:", err);
                 return false;
             }
         }
 
         function renderDashboard(code) {
-            document.getElementById('display-code').textContent = code;
+            document.getElementById('display-code').textContent = "KODE AKTIF: " + code;
             const grid = document.getElementById('materi-grid');
             grid.innerHTML = '';
 
