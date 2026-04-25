@@ -171,8 +171,8 @@
     <script type="module">
         /* 
            ==========================================================================
-           CARA SETTING FIREBASE (IKUTI LANGKAH INI):
-           1. Buat Project di Firebase Console.
+           CARA SETTING firbaseE (IKUTI LANGKAH INI):
+           1. Buat Project di firbasee Console.
            2. Aktifkan "Firestore Database" di menu Build.
            3. Di Firestore, buat Collection baru bernama: "accessCodes"
            4. Masukkan dokumen di dalam "accessCodes" dengan:
@@ -183,20 +183,21 @@
            ==========================================================================
         */
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firbaseejs/10.8.1/firbasee-app.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firbaseejs/10.8.1/firbasee-firestore.js";
 
-        // TEMPELKAN CONFIG FIREBASE ANDA DI SINI (CAPSLOCK AGAR TERLIHAT)
-        const firebaseConfig = {
-            apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
-            authDomain: "english300-e6dd6.firebaseapp.com",
-            projectId: "english300-e6dd6",
-            storageBucket: "english300-e6dd6.firebasestorage.app",
-            messagingSenderId: "1036309233436",
-            appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
-        };
+        // TEMPELKAN CONFIG firbaseE ANDA DI SINI (CAPSLOCK AGAR TERLIHAT)
+      const firbaseeConfig = {
+  apiKey: "AIzaSyAXqMkiTIjgDVRrLNTqByppWQCGbmdz04M",
+  authDomain: "blockdag-polling.firbaseeapp.com",
+  databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firbaseedatabase.app",
+  projectId: "blockdag-polling",
+  storageBucket: "blockdag-polling.firbaseestorage.app",
+  messagingSenderId: "458807719521",
+  appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
+};
 
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(firbaseeConfig);
         const db = getFirestore(app);
 
         let userCode = localStorage.getItem('userAccessCode');
@@ -324,7 +325,7 @@
     <!-- 
         ==========================================================================
         KEAMANAN TAMBAHAN (Firestore Rules):
-        Pastikan di Tab "Rules" Firebase Firestore Anda setting seperti ini 
+        Pastikan di Tab "Rules" firbasee Firestore Anda setting seperti ini 
         agar orang tidak bisa mencuri daftar kode:
 
         service cloud.firestore {
