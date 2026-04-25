@@ -131,16 +131,17 @@
         import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // ==========================================
-        // TEMPEL CONFIG FIREBASE ANDA DI BAWAH INI
+        // CONFIG FIREBASE (SUDAH DIPERBAIKI)
         // ==========================================
         const firebaseConfig = {
-        apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
-    authDomain: "blockdag-polling.firebaseapp.com",
-    databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "blockdag-polling",
-    storageBucket: "blockdag-polling.firebasestorage.app",
-    messagingSenderId: "458807719521",
-    appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
+            apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
+            authDomain: "blockdag-polling.firebaseapp.com",
+            databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "blockdag-polling",
+            storageBucket: "blockdag-polling.firebasestorage.app",
+            messagingSenderId: "458807719521",
+            appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -188,20 +189,16 @@
                 if (docSnap.exists() && docSnap.data().status === "active") {
                     const data = docSnap.data();
                     
-                    // FUNGSI DEVICE LOCK:
-                    // Menciptakan ID unik untuk browser ini
                     let deviceId = localStorage.getItem('dev_token');
                     if (!deviceId) {
                         deviceId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
                         localStorage.setItem('dev_token', deviceId);
                     }
 
-                    // Cek jika kode sudah terkunci ke device lain
                     if (data.lockedDevice && data.lockedDevice !== deviceId) {
                         return false; 
                     }
 
-                    // Jika belum terkunci, kunci sekarang ke device ini
                     if (!data.lockedDevice) {
                         await updateDoc(docRef, { lockedDevice: deviceId });
                     }
