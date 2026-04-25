@@ -3,254 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English 300 - Premium Course</title>
+    <title>English Mastery - Premium Access</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4CAF50;
-            --primary-hover: #45a049;
-            --bg-color: #f4f7f6;
-            --text-color: #2b2d42;
-            --card-bg: #ffffff;
-            --border-radius: 16px;
-            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --primary: #1b5e20;
+            --accent: #4caf50;
+            --bg-color: #f8faf9;
+            --white: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --radius: 20px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-color); }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
         .hidden { display: none !important; }
-        
+
         /* Loader */
         #loader { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Auth Card */
-        .auth-card { background: white; padding: 40px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); max-width: 400px; margin: 50px auto; text-align: center; }
-        .form-group { text-align: left; margin-bottom: 15px; }
-        .form-group label { font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 5px; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; transition: 0.3s; }
-        .btn:hover { background: var(--primary-hover); }
-        .btn-logout { background: #ff4757; width: auto; font-size: 0.8rem; }
+        /* --- UI LOGIN --- */
+        .auth-wrapper { 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
+            padding: 20px;
+        }
+        .auth-card { 
+            background: var(--white); 
+            padding: 40px; 
+            border-radius: 25px; 
+            box-shadow: var(--shadow); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+        }
+        .auth-card h2 { font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+        .auth-card p.subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 30px; }
 
-        /* Dashboard */
-        .stats-card { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--box-shadow); margin-bottom: 30px; }
-        .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin: 10px 0; overflow: hidden; }
-        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; }
-        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-        .day-card { background: white; padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: var(--box-shadow); border: 2px solid transparent; transition: 0.3s; position: relative; }
-        .day-card.completed { border-color: var(--primary); background: #e8f5e9; }
-        .day-card.completed::after { content: '✔'; position: absolute; top: 5px; right: 10px; color: var(--primary); font-weight: bold; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; letter-spacing: 1px; }
+        .form-group input { 
+            width: 100%; padding: 15px; border: 2px solid #edf2f0; 
+            border-radius: 12px; font-family: inherit; font-size: 1rem; transition: var(--transition);
+            text-align: center; letter-spacing: 2px; font-weight: 700;
+        }
+        .form-group input:focus { border-color: var(--primary); outline: none; background: #fff; }
 
-        /* Viewer */
+        .btn-main { 
+            background: var(--primary); color: white; border: none; padding: 15px; 
+            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; 
+            font-size: 1rem; transition: var(--transition); margin-top: 10px;
+        }
+        .btn-main:hover { background: #0e3d11; transform: translateY(-2px); }
+
+        /* --- DASHBOARD --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+        .header-dash { 
+            background: white; padding: 25px; border-radius: 20px; 
+            box-shadow: var(--shadow); margin-bottom: 30px; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .progress-card { 
+            background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); 
+            color: white; padding: 30px; border-radius: 25px; margin-bottom: 35px; box-shadow: var(--shadow);
+        }
+        .bar-bg { background: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        #progress-fill { background: white; height: 100%; width: 0%; transition: 0.8s ease; }
+
+        .grid-materi { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 15px; 
+        }
+        .day-card { 
+            background: white; padding: 20px; border-radius: 20px; 
+            text-align: center; cursor: pointer; box-shadow: var(--shadow); 
+            transition: var(--transition); border: 2px solid transparent;
+        }
+        .day-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .day-card.completed { background: #e8f5e9; border-color: var(--primary); }
+        .day-card i { font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
+        .day-card h4 { font-size: 0.9rem; }
+
+        /* VIEWER */
         #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
-        .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .viewer-nav { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         iframe { flex-grow: 1; border: none; width: 100%; }
-        .btn-finish { border-radius: 0; padding: 15px; background: #2196f3; }
+        .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; }
+
+        #alert-msg { color: #d9534f; font-size: 0.8rem; margin-bottom: 15px; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div id="loader"><div class="spinner"></div></div>
 
-    <!-- AUTH SECTION -->
-    <div id="auth-section" class="container hidden">
+    <!-- HALAMAN LOGIN (HANYA KODE AKSES) -->
+    <div id="auth-section" class="auth-wrapper hidden">
         <div class="auth-card">
-            <h2 id="auth-title">Login Pelajar</h2>
-            <p id="auth-subtitle" style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">Silakan masuk ke akun Anda</p>
+            <div style="background:#e8f5e9; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+                <i class="fa-solid fa-key fa-xl" style="color:var(--primary)"></i>
+            </div>
+            <h2>Premium Access</h2>
+            <p class="subtitle">Masukkan kode akses unik Anda</p>
             
-            <div id="alert" style="color: red; font-size: 0.8rem; margin-bottom: 10px;" class="hidden"></div>
+            <div id="alert-msg" class="hidden">Kode salah atau tidak aktif!</div>
 
-            <form id="auth-form">
+            <form id="login-form">
                 <div class="form-group">
-                    <label>EMAIL</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="password" required>
-                </div>
-                <div class="form-group" id="access-code-group">
                     <label>KODE AKSES</label>
-                    <input type="text" id="access-code" placeholder="Hanya untuk pendaftaran">
+                    <input type="text" id="access-code-input" placeholder="XXXX-XXXX" required autocomplete="off">
                 </div>
-                <button type="submit" id="btn-submit" class="btn">Masuk</button>
+                <button type="submit" class="btn-main">Buka Akses Kursus</button>
             </form>
-            <p style="margin-top: 15px; font-size: 0.8rem;">
-                <span id="toggle-text">Belum punya akun?</span> 
-                <a href="#" id="toggle-auth" style="color: var(--primary); font-weight: bold;">Daftar Sekarang</a>
+            
+            <p style="margin-top: 25px; font-size: 0.75rem; color: #7f8c8d; line-height: 1.5;">
+                Belum punya kode? <br>
+                <a href="https://wa.me/NOMOR_WA_ANDA" target="_blank" style="color:var(--primary); font-weight: 700; text-decoration: none;">Beli Kode Akses di Sini</a>
             </p>
         </div>
     </div>
 
-    <!-- DASHBOARD SECTION -->
+    <!-- HALAMAN DASHBOARD -->
     <div id="dashboard-section" class="container hidden">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3>📚 My Course</h3>
-            <button onclick="handleLogout()" class="btn btn-logout">Logout</button>
-        </div>
-
-        <div class="stats-card">
-            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                <span>Progres Belajar</span>
-                <span id="progress-percent">0%</span>
+        <div class="header-dash">
+            <div>
+                <h2 style="font-size: 1.1rem;">Selamat Datang!</h2>
+                <p id="display-code" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"></p>
             </div>
-            <div class="progress-bar"><div id="progress-fill"></div></div>
-            <small id="progress-detail">0 dari 300 selesai</small>
+            <button onclick="handleLogout()" style="background:none; border:1px solid #ddd; padding:8px 15px; border-radius:10px; cursor:pointer; font-size: 0.8rem;">Keluar</button>
         </div>
 
+        <div class="progress-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <p style="font-weight:600; font-size:0.9rem;">Progres Belajar 300 Hari</p>
+                <h2 id="progress-text">0%</h2>
+            </div>
+            <div class="bar-bg"><div id="progress-fill"></div></div>
+            <p id="progress-detail" style="font-size:0.8rem; opacity:0.9;">Selesaikan materi setiap hari.</p>
+        </div>
+
+        <h3 style="margin-bottom: 20px; font-size: 1rem;">Daftar Materi</h3>
         <div class="grid-materi" id="materi-grid"></div>
     </div>
 
-    <!-- VIEWER SECTION -->
+    <!-- VIEWER MATERI -->
     <div id="viewer" class="hidden">
         <div class="viewer-nav">
-            <button onclick="closeViewer()" style="background:none; border:none; cursor:pointer;"><i class="fa-solid fa-xmark fa-xl"></i></button>
-            <h4 id="view-title">Hari 1</h4>
+            <button onclick="closeViewer()" style="border:none; background:none; cursor:pointer;"><i class="fa-solid fa-arrow-left fa-xl"></i></button>
+            <h4 id="view-title">Materi</h4>
             <div style="width:20px;"></div>
         </div>
         <iframe id="content-frame" src=""></iframe>
-        <button id="btn-mark-complete" class="btn btn-finish">Selesaikan Hari Ini</button>
+        <button id="btn-mark-complete" class="btn-finish">TANDAI SELESAI</button>
     </div>
 
     <script type="module">
-        // IMPORT FIREBASE SDK
+        /* 
+           ==========================================================================
+           CARA SETTING FIREBASE (IKUTI LANGKAH INI):
+           1. Buat Project di Firebase Console.
+           2. Aktifkan "Firestore Database" di menu Build.
+           3. Di Firestore, buat Collection baru bernama: "accessCodes"
+           4. Masukkan dokumen di dalam "accessCodes" dengan:
+              - Document ID: Masukkan kode (Contoh: VIP-2024)
+              - Field: status (string) = "active"
+              - Field: completed (array) = []
+           5. Masuk ke Project Settings, copy config SDK ke bawah ini:
+           ==========================================================================
+        */
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // 1. ISI DENGAN KONFIGURASI FIREBASE ANDA
-       const firebaseConfig = {
-  apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
-  authDomain: "english300-e6dd6.firebaseapp.com",
-  projectId: "english300-e6dd6",
-  storageBucket: "english300-e6dd6.firebasestorage.app",
-  messagingSenderId: "1036309233436",
-  appId: "1:1036309233436:web:a43155ff8762f4d66684d9",
-  measurementId: "G-21KSJDDXMY"
-};
-
-        // 2. DAFTAR KODE AKSES VALID
-        const VALID_CODES = ["ABC123", "MAHIR300", "PROMOOKTOBER"];
-
-        // Initialize
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let isLoginMode = true;
-        let currentUser = null;
-        let completedDays = [];
-
-        // Elements
-        const loader = document.getElementById('loader');
-        const authSection = document.getElementById('auth-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        const authForm = document.getElementById('auth-form');
-        const toggleAuthBtn = document.getElementById('toggle-auth');
-
-        // Toggle Login/Register
-        toggleAuthBtn.onclick = () => {
-            isLoginMode = !isLoginMode;
-            document.getElementById('auth-title').textContent = isLoginMode ? "Login Pelajar" : "Daftar Akun";
-            document.getElementById('btn-submit').textContent = isLoginMode ? "Masuk" : "Daftar Sekarang";
-            document.getElementById('access-code-group').classList.toggle('hidden', isLoginMode);
-            document.getElementById('toggle-text').textContent = isLoginMode ? "Belum punya akun?" : "Sudah punya akun?";
-            toggleAuthBtn.textContent = isLoginMode ? "Daftar Sekarang" : "Login di sini";
+        // TEMPELKAN CONFIG FIREBASE ANDA DI SINI (CAPSLOCK AGAR TERLIHAT)
+        const firebaseConfig = {
+            apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
+            authDomain: "english300-e6dd6.firebaseapp.com",
+            projectId: "english300-e6dd6",
+            storageBucket: "english300-e6dd6.firebasestorage.app",
+            messagingSenderId: "1036309233436",
+            appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
         };
 
-        // Auth Listener
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                await fetchUserProgress();
-                showDashboard();
-            } else {
-                showAuth();
-            }
-            loader.classList.add('hidden');
-        });
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-        // Fetch Progress from Firestore
-        async function fetchUserProgress() {
-            const docRef = doc(db, "users", currentUser.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                completedDays = docSnap.data().completed || [];
+        let userCode = localStorage.getItem('userAccessCode');
+        let completedDays = [];
+
+        // Inisialisasi Awal
+        window.onload = async () => {
+            if (userCode) {
+                await validateAndLoad(userCode);
             } else {
-                // Buat dokumen baru jika belum ada
-                await setDoc(docRef, { completed: [] });
-                completedDays = [];
+                showSection('auth');
             }
-            renderGrid();
+            document.getElementById('loader').classList.add('hidden');
+        };
+
+        // Form Login Handler
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
+            const alertMsg = document.getElementById('alert-msg');
+            
+            document.getElementById('loader').classList.remove('hidden');
+            const isValid = await validateAndLoad(codeInput);
+            
+            if (isValid) {
+                localStorage.setItem('userAccessCode', codeInput);
+                userCode = codeInput;
+                alertMsg.classList.add('hidden');
+            } else {
+                alertMsg.classList.remove('hidden');
+                document.getElementById('loader').classList.add('hidden');
+            }
+        };
+
+        // Fungsi Validasi Kode ke Firestore
+        async function validateAndLoad(code) {
+            try {
+                const docRef = doc(db, "accessCodes", code);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists() && docSnap.data().status === "active") {
+                    completedDays = docSnap.data().completed || [];
+                    renderDashboard(code);
+                    showSection('dashboard');
+                    return true;
+                }
+                return false;
+            } catch (err) {
+                console.error("Error:", err);
+                return false;
+            }
         }
 
-        // Render 300 Days
-        function renderGrid() {
+        function renderDashboard(code) {
+            document.getElementById('display-code').textContent = "KODE: " + code;
             const grid = document.getElementById('materi-grid');
             grid.innerHTML = '';
+
             for (let i = 1; i <= 300; i++) {
+                const isDone = completedDays.includes(i);
                 const card = document.createElement('div');
-                card.className = `day-card ${completedDays.includes(i) ? 'completed' : ''}`;
-                card.innerHTML = `<small>DAY</small><h4>${i}</h4>`;
+                card.className = `day-card ${isDone ? 'completed' : ''}`;
+                card.innerHTML = `
+                    <i class="fa-solid ${isDone ? 'fa-circle-check' : 'fa-lock-open'}"></i>
+                    <h4>Hari ${i}</h4>
+                `;
                 card.onclick = () => openViewer(i);
                 grid.appendChild(card);
             }
-            updateProgressUI();
+
+            const pct = Math.round((completedDays.length / 300) * 100);
+            document.getElementById('progress-fill').style.width = pct + '%';
+            document.getElementById('progress-text').textContent = pct + '%';
+            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 materi selesai.`;
         }
 
-        function updateProgressUI() {
-            const percent = Math.round((completedDays.length / 300) * 100);
-            document.getElementById('progress-fill').style.width = percent + '%';
-            document.getElementById('progress-percent').textContent = percent + '%';
-            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 selesai`;
-        }
-
-        // Auth Logic
-        authForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const code = document.getElementById('access-code').value;
-            const alertBox = document.getElementById('alert');
-
-            alertBox.classList.add('hidden');
-
-            try {
-                if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, email, password);
-                } else {
-                    // Cek Kode Akses
-                    if (!VALID_CODES.includes(code.toUpperCase())) {
-                        throw new Error("Kode akses tidak valid!");
-                    }
-                    await createUserWithEmailAndPassword(auth, email, password);
-                }
-            } catch (err) {
-                alertBox.textContent = err.message;
-                alertBox.classList.remove('hidden');
-            }
-        };
-
-        // Viewer Logic
-        let currentDay = 0;
+        let currentDayOpen = 0;
         window.openViewer = (day) => {
-            currentDay = day;
+            currentDayOpen = day;
             document.getElementById('view-title').textContent = "Materi Hari " + day;
             document.getElementById('content-frame').src = `hari${day}.html`;
             document.getElementById('viewer').classList.remove('hidden');
             
             const btn = document.getElementById('btn-mark-complete');
-            if(completedDays.includes(day)) {
-                btn.textContent = "Sudah Selesai";
+            if (completedDays.includes(day)) {
+                btn.textContent = "SUDAH SELESAI ✅";
                 btn.disabled = true;
                 btn.style.background = "#ccc";
             } else {
-                btn.textContent = "Selesaikan Hari Ini";
+                btn.textContent = "TANDAI SELESAI";
                 btn.disabled = false;
-                btn.style.background = "#2196f3";
+                btn.style.background = "var(--primary)";
             }
         };
 
@@ -260,18 +298,45 @@
         };
 
         document.getElementById('btn-mark-complete').onclick = async () => {
-            const docRef = doc(db, "users", currentUser.uid);
+            if (!userCode) return;
+            
+            const docRef = doc(db, "accessCodes", userCode);
             await updateDoc(docRef, {
-                completed: arrayUnion(currentDay)
+                completed: arrayUnion(currentDayOpen)
             });
-            completedDays.push(currentDay);
-            renderGrid();
+            
+            completedDays.push(currentDayOpen);
+            renderDashboard(userCode);
             closeViewer();
         };
 
-        window.handleLogout = () => signOut(auth);
-        function showDashboard() { authSection.classList.add('hidden'); dashboardSection.classList.remove('hidden'); }
-        function showAuth() { authSection.classList.remove('hidden'); dashboardSection.classList.add('hidden'); }
+        window.handleLogout = () => {
+            localStorage.removeItem('userAccessCode');
+            location.reload();
+        };
+
+        function showSection(id) {
+            document.getElementById('auth-section').classList.toggle('hidden', id !== 'auth');
+            document.getElementById('dashboard-section').classList.toggle('hidden', id !== 'dashboard');
+        }
     </script>
+
+    <!-- 
+        ==========================================================================
+        KEAMANAN TAMBAHAN (Firestore Rules):
+        Pastikan di Tab "Rules" Firebase Firestore Anda setting seperti ini 
+        agar orang tidak bisa mencuri daftar kode:
+
+        service cloud.firestore {
+          match /databases/{database}/documents {
+            match /accessCodes/{code} {
+              allow get: if true; 
+              allow update: if true;
+              allow list: if false; 
+            }
+          }
+        }
+        ==========================================================================
+    -->
 </body>
 </html>
