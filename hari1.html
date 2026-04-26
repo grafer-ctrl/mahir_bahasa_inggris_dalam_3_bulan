@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- KODE PROTEKSI AKSES (PALING ATAS) -->
+    <!-- KODE PROTEKSI AKSES -->
     <script>
         if (!localStorage.getItem('premium_code')) {
             alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
@@ -11,7 +11,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Learning App - Premium</title>
+    <title>English Learning App - 100+ Materi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -24,6 +24,7 @@
         input[type="range"] { accent-color: #2563eb; }
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.4s ease; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -33,46 +34,63 @@
         <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all">
             <i class="fa-solid fa-house-chimney"></i>
         </a>
-        <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Materi Pelatihan</h1>
-        <div class="w-10"></div>
+        <div class="text-center">
+            <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Materi Pelatihan</h1>
+            <p id="progress-text" class="text-[9px] font-bold text-blue-500 mt-1">1 / 116</p>
+        </div>
+        <div class="w-10 flex justify-end">
+            <span id="percentage-text" class="text-[10px] font-bold text-slate-300">0%</span>
+        </div>
     </header>
 
-    <main class="min-h-screen pt-28 pb-12 flex flex-col items-center px-6">
+    <main class="min-h-screen pt-24 pb-12 flex flex-col items-center px-6">
         
         <!-- ================= SECTION 1: INTRO ================= -->
         <div id="intro-screen" class="max-w-md w-full fade-in">
             <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fa-solid fa-shield-check text-3xl text-blue-500"></i>
+                <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <div class="relative">
+                        <i class="fa-solid fa-user-tie text-4xl text-blue-500"></i>
+                        <i class="fa-solid fa-comment-dots text-xl text-blue-400 absolute -top-1 -right-4 animate-pulse"></i>
+                    </div>
                 </div>
                 <div class="px-2">
                     <p class="mb-4 leading-relaxed">
-                        <span class="text-red-600 font-extrabold block text-xl mb-2 italic uppercase tracking-tighter">ATENSI WAJIB BACA:</span>
+                        <span class="text-red-600 font-extrabold block text-xl mb-2 italic uppercase tracking-tighter underline decoration-2 underline-offset-4">ATENSI WAJIB BACA:</span>
                         <span class="text-slate-600 font-bold text-[15px]">
                             Jawablah secara lisan sesuai kemampuan tanpa ragu agar lebih cepat lancar berbahasa Inggris. 
-                            Pelatihan ini dilengkapi kunci pelafalan dan ejaan.
                         </span>
                     </p>
                 </div>
             </div>
 
             <!-- Settings Card -->
-            <div class="glass-card p-6 mb-10 space-y-8">
+            <div class="glass-card p-6 mb-8 space-y-6">
                 <div>
                     <div class="flex justify-between items-center mb-3">
-                        <label class="text-slate-400 font-bold text-xs uppercase tracking-widest">Kecepatan Suara</label>
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Kecepatan Suara</label>
                         <span id="val-speed" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold shadow-sm">1.0x</span>
                     </div>
                     <input type="range" id="speed-voice" min="0.5" max="1.5" step="0.1" value="1" 
                            oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
                 </div>
+                
                 <div>
                     <div class="flex justify-between items-center mb-3">
-                        <label class="text-slate-400 font-bold text-xs uppercase tracking-widest">Jeda Jawaban</label>
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Jeda Kunci Jawaban</label>
                         <span id="val-timer" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold shadow-sm">5s</span>
                     </div>
-                    <input type="range" id="speed-answer" min="2" max="20" step="1" value="5" 
+                    <input type="range" id="speed-answer" min="2" max="60" step="1" value="5" 
                            oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Volume Suara</label>
+                        <span id="val-volume" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold shadow-sm">100%</span>
+                    </div>
+                    <input type="range" id="volume-voice" min="0" max="1" step="0.1" value="1" 
+                           oninput="updateVal('val-volume', Math.round(this.value * 100) + '%')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
                 </div>
             </div>
 
@@ -83,47 +101,46 @@
 
         <!-- ================= SECTION 2: EXERCISE ================= -->
         <div id="exercise-screen" class="hidden max-w-md w-full fade-in">
-            <div class="text-center mb-10">
-                <!-- Icon Speaker Modern -->
-                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner">
-                    <i class="fa-solid fa-volume-high text-3xl text-slate-400"></i>
-                </div>
-                <h2 id="question-text" class="text-3xl font-extrabold text-slate-800 leading-tight">Halo, siapa nama kamu ?</h2>
+            <div class="w-full bg-slate-100 h-1.5 rounded-full mb-8 overflow-hidden">
+                <div id="progress-bar" class="progress-bar h-full bg-blue-600" style="width: 0%"></div>
             </div>
 
-            <!-- Button Reveal -->
-            <div class="flex justify-center mb-8">
-                <button id="btn-manual-show" onclick="showAnswer()" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs uppercase tracking-[0.2em]">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-microphone-lines text-2xl text-blue-500"></i>
+                </div>
+                <h2 id="question-text" class="text-2xl font-extrabold text-slate-800 leading-tight min-h-[60px]">Loading...</h2>
+            </div>
+
+            <div class="flex justify-center mb-6">
+                <button id="btn-manual-show" onclick="showAnswer()" class="bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 transition-all text-[10px] uppercase tracking-[0.2em]">
                     Buka Kunci Jawaban
                 </button>
             </div>
 
-            <!-- Answer Section -->
             <div id="answer-section" class="hidden glass-card p-6 space-y-4">
                 <div class="flex items-start gap-4">
-                    <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                         <i class="fa-solid fa-check text-[10px] text-white"></i>
                     </div>
                     <div>
-                        <p class="text-blue-600 font-extrabold text-2xl mb-1" id="ans-en">Hello, my name is Andi</p>
-                        <p class="text-slate-400 font-medium italic text-lg" id="ans-id">halo, nama saya andi</p>
-                        <p class="text-slate-300 font-bold mt-2 tracking-wide" id="ans-phonetic">he-lo, mai nem iz an-di</p>
+                        <p class="text-blue-600 font-extrabold text-xl mb-1" id="ans-en"></p>
+                        <p class="text-slate-400 font-medium italic text-md" id="ans-id"></p>
+                        <p class="text-slate-300 font-bold mt-2 tracking-wide text-xs uppercase" id="ans-phonetic"></p>
                     </div>
                 </div>
 
-                <!-- Dengar Audio Button Modern -->
-                <button onclick="playEnglishAudio()" class="mt-4 w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-600 hover:text-white transition-all group border border-slate-100 shadow-sm">
-                    <i class="fa-solid fa-play-circle text-2xl text-blue-500 group-hover:text-white transition-colors"></i>
-                    <span class="text-sm uppercase tracking-widest">Dengar Audio</span>
+                <button onclick="playEnglishAudio()" class="mt-4 w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-600 hover:text-white transition-all border border-slate-100">
+                    <i class="fa-solid fa-circle-play text-xl"></i>
+                    <span class="text-xs uppercase tracking-widest">Dengar Audio</span>
                 </button>
             </div>
 
-            <!-- Modern Next Button -->
-            <div class="mt-12">
-                <button onclick="nextExercise()" class="w-full flex items-center justify-between pl-8 pr-3 py-3 bg-white border border-slate-100 rounded-full hover:shadow-md transition-all group">
-                    <span class="font-extrabold text-slate-500 text-sm uppercase tracking-widest">Latihan Selanjutnya</span>
-                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-arrow-right"></i>
+            <div class="mt-10">
+                <button onclick="nextExercise()" class="w-full flex items-center justify-between pl-8 pr-2 py-2 bg-white border border-slate-100 rounded-full hover:shadow-md transition-all group">
+                    <span class="font-extrabold text-slate-400 text-[10px] uppercase tracking-[0.3em]">Lanjut</span>
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                        <i class="fa-solid fa-chevron-right text-sm"></i>
                     </div>
                 </button>
             </div>
@@ -132,12 +149,125 @@
 
     <script>
         const exercises = [
-            {
-                q: "Halo, siapa nama kamu ?",
-                ans_en: "Hello, my name is Andi",
-                ans_id: "halo, nama saya andi",
-                ans_phonetic: "he-lo, mai nem iz an-di"
-            }
+            { q: "Halo, siapa nama kamu?", ans_en: "Hello, my name is Andi", ans_id: "halo, nama saya Andi", ans_phonetic: "he-lo, mai nem iz an-di" },
+            { q: "Kamu dari mana?", ans_en: "I am from Indonesia", ans_id: "saya dari Indonesia", ans_phonetic: "ai em from in-do-ne-sya" },
+            { q: "Kamu tinggal di mana?", ans_en: "I live in Central Java", ans_id: "saya tinggal di Jawa Tengah", ans_phonetic: "ai liv in sen-tral ja-va" },
+            { q: "Berapa umur kamu?", ans_en: "I am twenty years old", ans_id: "saya berumur 20 tahun", ans_phonetic: "ai em twen-ti yirz old" },
+            { q: "Apa pekerjaan kamu?", ans_en: "I am a student", ans_id: "saya seorang pelajar", ans_phonetic: "ai em e stu-dent" },
+            { q: "Kamu sedang apa sekarang?", ans_en: "I am talking with you", ans_id: "saya sedang ngobrol dengan kamu", ans_phonetic: "ai em tok-ing with yu" },
+            { q: "Kamu lagi santai ya?", ans_en: "I am just relaxing", ans_id: "saya hanya santai saja", ans_phonetic: "ai em jas ri-lak-sing" },
+            { q: "Kamu suka OmeTV?", ans_en: "Yes, I like it", ans_id: "ya, saya suka", ans_phonetic: "yes, ai laik it" },
+            { q: "Ini pertama kali kamu di sini?", ans_en: "This is my first time here", ans_id: "ini pertama kali saya di sini", ans_phonetic: "dis iz mai ferst taim hir" },
+            { q: "Kamu sering pakai OmeTV?", ans_en: "I use OmeTV often", ans_id: "saya sering menggunakan OmeTV", ans_phonetic: "ai yuz ometivi of-ten" },
+            { q: "Kamu lagi cari teman?", ans_en: "I am looking for friends", ans_id: "saya sedang mencari teman", ans_phonetic: "ai em luk-ing for frens" },
+            { q: "Kamu lagi bosan ya?", ans_en: "Yes, I am a little bored", ans_id: "ya, saya agak bosan", ans_phonetic: "yes, ai em e lit-tel bord" },
+            { q: "Kamu lagi sendirian?", ans_en: "Yes, I am alone", ans_id: "ya, saya sendirian", ans_phonetic: "yes, ai em a-lon" },
+            { q: "Kamu laki-laki atau perempuan?", ans_en: "I am a male", ans_id: "saya laki-laki", ans_phonetic: "ai em e meil" },
+            { q: "Kamu bisa bahasa Inggris?", ans_en: "Yes, I can speak a little English", ans_id: "ya, saya bisa sedikit bahasa Inggris", ans_phonetic: "yes, ai ken spik e lit-tel ing-glish" },
+            { q: "Kamu mau latihan bahasa Inggris?", ans_en: "Yes, I want to practice English", ans_id: "ya, saya ingin latihan bahasa Inggris", ans_phonetic: "yes, ai want tu prak-tis ing-glish" },
+            { q: "Hobi kamu apa?", ans_en: "My hobby is listening to music", ans_id: "hobi saya mendengarkan musik", ans_phonetic: "mai ho-bi iz lis-ten-ing tu myu-zik" },
+            { q: "Kamu suka musik?", ans_en: "Yes, I like music", ans_id: "ya, saya suka musik", ans_phonetic: "yes, ai laik myu-zik" },
+            { q: "Kamu suka lagu apa?", ans_en: "I like pop songs", ans_id: "saya suka lagu pop", ans_phonetic: "ai laik pop songz" },
+            { q: "Kamu suka nonton film?", ans_en: "Yes, I like watching movies", ans_id: "ya, saya suka menonton film", ans_phonetic: "yes, ai laik wach-ing mu-viz" },
+            { q: "Film favorit kamu apa?", ans_en: "My favorite movie is action", ans_id: "film favorit saya adalah action", ans_phonetic: "mai fei-vrit mu-vi iz ak-shen" },
+            { q: "Kamu suka game?", ans_en: "Yes, I like playing games", ans_id: "ya, saya suka bermain game", ans_phonetic: "yes, ai laik plei-ing geimz" },
+            { q: "Game favorit kamu apa?", ans_en: "My favorite game is mobile games", ans_id: "game favorit saya adalah game mobile", ans_phonetic: "mai fei-vrit geim iz mo-bail geimz" },
+            { q: "Kamu suka makan apa?", ans_en: "I like fried rice", ans_id: "saya suka nasi goreng", ans_phonetic: "ai laik fraid rais" },
+            { q: "Makanan favorit kamu apa?", ans_en: "My favorite food is noodles", ans_id: "makanan favorit saya mie", ans_phonetic: "mai fei-vrit fud iz nu-dels" },
+            { q: "Kamu suka kopi atau teh?", ans_en: "I like coffee", ans_id: "saya suka kopi", ans_phonetic: "ai laik ko-fi" },
+            { q: "Kamu sudah makan?", ans_en: "Yes, I have eaten", ans_id: "ya, saya sudah makan", ans_phonetic: "yes, ai hav i-ten" },
+            { q: "Sekarang jam berapa di sana?", ans_en: "It is 8 PM here", ans_id: "sekarang jam 8 malam di sini", ans_phonetic: "it iz eit pi-em hir" },
+            { q: "Cuaca di sana bagaimana?", ans_en: "The weather is good", ans_id: "cuacanya bagus", ans_phonetic: "de we-der iz gud" },
+            { q: "Cuaca di sana panas?", ans_en: "Yes, it is hot", ans_id: "ya, panas", ans_phonetic: "yes, it iz hot" },
+            { q: "Kamu suka jalan-jalan?", ans_en: "Yes, I like traveling", ans_id: "ya, saya suka traveling", ans_phonetic: "yes, ai laik tra-ve-ling" },
+            { q: "Negara impian kamu apa?", ans_en: "I want to visit Japan", ans_id: "saya ingin ke Jepang", ans_phonetic: "ai want tu vi-zit je-pan" },
+            { q: "Kamu punya pacar?", ans_en: "No, I am single", ans_id: "tidak, saya jomblo", ans_phonetic: "no, ai em sing-gel" },
+            { q: "Kamu lagi cari pacar?", ans_en: "Maybe, I am not sure", ans_id: "mungkin, saya tidak yakin", ans_phonetic: "mei-bi, ai em not syur" },
+            { q: "Kamu sibuk hari ini?", ans_en: "No, I am free today", ans_id: "tidak, saya santai hari ini", ans_phonetic: "no, ai em fri tu-dey" },
+            { q: "Kamu kerja atau sekolah?", ans_en: "I am studying", ans_id: "saya sedang sekolah", ans_phonetic: "ai em sta-di-ing" },
+            { q: "Jurusan kamu apa?", ans_en: "I study English", ans_id: "saya belajar bahasa Inggris", ans_phonetic: "ai sta-di ing-glish" },
+            { q: "Kamu suka belajar bahasa?", ans_en: "Yes, I like learning languages", ans_id: "ya, saya suka belajar bahasa", ans_phonetic: "yes, ai laik ler-ning lang-gwij" },
+            { q: "Kamu pakai HP apa?", ans_en: "I use an Android phone", ans_id: "saya pakai HP Android", ans_phonetic: "ai yuz en an-droid fon" },
+            { q: "Kamu suka sosial media?", ans_en: "Yes, I use social media", ans_id: "ya, saya pakai sosial media", ans_phonetic: "yes, ai yuz so-shal mi-dia" },
+            { q: "Kamu punya Instagram?", ans_en: "Yes, I have Instagram", ans_id: "ya, saya punya Instagram", ans_phonetic: "yes, ai hav in-sta-gram" },
+            { q: "Boleh minta Instagram kamu?", ans_en: "Sure, I will share it", ans_id: "boleh, saya akan bagikan", ans_phonetic: "syur, ai wil sher it" },
+            { q: "Kamu suka olahraga?", ans_en: "Yes, I like sports", ans_id: "ya, saya suka olahraga", ans_phonetic: "yes, ai laik sports" },
+            { q: "Olahraga favorit kamu apa?", ans_en: "I like football", ans_id: "saya suka sepak bola", ans_phonetic: "ai laik fut-bol" },
+            { q: "Kamu suka nonton YouTube?", ans_en: "Yes, I watch YouTube", ans_id: "ya, saya nonton YouTube", ans_phonetic: "yes, ai woch yu-tyub" },
+            { q: "Kamu lagi di rumah?", ans_en: "Yes, I am at home", ans_id: "ya, saya di rumah", ans_phonetic: "yes, ai em at hom" },
+            { q: "Kamu sendirian di rumah?", ans_en: "Yes, I am alone at home", ans_id: "ya, saya sendirian di rumah", ans_phonetic: "yes, ai em a-lon at hom" },
+            { q: "Kamu pakai kamera atau HP?", ans_en: "I use my phone camera", ans_id: "saya pakai kamera HP", ans_phonetic: "ai yuz mai fon ka-me-ra" },
+            { q: "Kamu suka ngobrol?", ans_en: "Yes, I like chatting", ans_id: "ya, saya suka ngobrol", ans_phonetic: "yes, ai laik chat-ing" },
+            { q: "Kamu orangnya pemalu?", ans_en: "Yes, I am a bit shy", ans_id: "ya, saya agak pemalu", ans_phonetic: "yes, ai em e bit shai" },
+            { q: "Kamu suka ketawa?", ans_en: "Yes, I like to laugh", ans_id: "ya, saya suka tertawa", ans_phonetic: "yes, ai laik tu laf" },
+            { q: "Kamu capek?", ans_en: "Yes, I am a little tired", ans_id: "ya, saya agak capek", ans_phonetic: "yes, ai em e lit-tel tai-erd" },
+            { q: "Kamu mau ngobrol lama?", ans_en: "Yes, I would like that", ans_id: "ya, saya mau", ans_phonetic: "yes, ai wud laik det" },
+            { q: "Kamu mau skip atau lanjut?", ans_en: "Let’s continue chatting", ans_id: "ayo lanjut ngobrol", ans_phonetic: "lets kon-ti-nyu chat-ing" },
+            { q: "Kamu lagi dengar musik?", ans_en: "Yes, I am listening to music", ans_id: "ya, saya sedang dengar musik", ans_phonetic: "yes, ai em lis-ten-ing tu myu-zik" },
+            { q: "Kamu suka lagu barat?", ans_en: "Yes, I like English songs", ans_id: "ya, saya suka lagu Inggris", ans_phonetic: "yes, ai laik ing-glish songz" },
+            { q: "Kamu bisa nyanyi?", ans_en: "No, I cannot sing well", ans_id: "tidak, saya tidak bisa nyanyi dengan baik", ans_phonetic: "no, ai ka-not sing wel" },
+            { q: "Kamu suka nari?", ans_en: "No, I do not dance", ans_id: "tidak, saya tidak menari", ans_phonetic: "no, ai du not dens" },
+            { q: "Kamu lagi di kamar?", ans_en: "Yes, I am in my room", ans_id: "ya, saya di kamar", ans_phonetic: "yes, ai em in mai rum" },
+            { q: "Lampunya terang ya?", ans_en: "Yes, the light is bright", ans_id: "ya, lampunya terang", ans_phonetic: "yes, de lait iz brait" },
+            { q: "Internet kamu bagus?", ans_en: "Yes, my internet is good", ans_id: "ya, internet saya bagus", ans_phonetic: "yes, mai in-ter-net iz gud" },
+            { q: "Kamu sering pakai OmeTV malam hari?", ans_en: "Yes, I use it at night", ans_id: "ya, saya pakai di malam hari", ans_phonetic: "yes, ai yuz it at nait" },
+            { q: "Kamu sudah lama di sini?", ans_en: "I have been here for one hour", ans_id: "saya sudah di sini satu jam", ans_phonetic: "ai hav bin hir for wan au-er" },
+            { q: "Kamu suka ngobrol sama orang asing?", ans_en: "Yes, I enjoy it", ans_id: "ya, saya menikmatinya", ans_phonetic: "yes, ai en-joy it" },
+            { q: "Kamu lagi santai atau sibuk?", ans_en: "I am relaxing now", ans_id: "saya sedang santai sekarang", ans_phonetic: "ai em ri-lak-sing nau" },
+            { q: "Kamu suka belajar hal baru?", ans_en: "Yes, I like learning new things", ans_id: "ya, saya suka belajar hal baru", ans_phonetic: "yes, ai laik ler-ning nyu things" },
+            { q: "Kamu suka bercanda?", ans_en: "Yes, I like joking", ans_id: "ya, saya suka bercanda", ans_phonetic: "yes, ai laik jo-king" },
+            { q: "Kamu orangnya serius?", ans_en: "Sometimes, but I am friendly", ans_id: "kadang, tapi saya ramah", ans_phonetic: "sam-taims, bat ai em frend-li" },
+            { q: "Kamu suka ngobrol panjang?", ans_en: "Yes, I like long conversations", ans_id: "ya, saya suka ngobrol panjang", ans_phonetic: "yes, ai laik long kon-ver-sey-shens" },
+            { q: "Kamu suka ngobrol sama orang luar negeri?", ans_en: "Yes, I like talking to people from other countries", ans_id: "ya, saya suka ngobrol dengan orang dari negara lain", ans_phonetic: "yes, ai laik tok-ing tu pi-pol from a-der kan-triz" },
+            { q: "Kamu lagi cari teman baru?", ans_en: "Yes, I want to make new friends", ans_id: "ya, saya ingin punya teman baru", ans_phonetic: "yes, ai want tu meik nyu frens" },
+            { q: "Kamu suka ketemu orang random?", ans_en: "Yes, it is interesting", ans_id: "ya, itu menarik", ans_phonetic: "yes, it iz in-tres-ting" },
+            { q: "Kamu sering ketemu orang baik di sini?", ans_en: "Yes, I meet many nice people", ans_id: "ya, saya bertemu banyak orang baik", ans_phonetic: "yes, ai mit me-ni nais pi-pol" },
+            { q: "Kamu pernah ke luar negeri?", ans_en: "No, I have never been abroad", ans_id: "tidak, saya belum pernah ke luar negeri", ans_phonetic: "no, ai hav ne-ver bin a-brod" },
+            { q: "Kamu mau ke luar negeri?", ans_en: "Yes, I want to travel abroad", ans_id: "ya, saya ingin ke luar negeri", ans_phonetic: "yes, ai want tu tra-vel a-brod" },
+            { q: "Kamu suka budaya lain?", ans_en: "Yes, I like learning about other cultures", ans_id: "ya, saya suka belajar tentang budaya lain", ans_phonetic: "yes, ai laik ler-ning a-baut a-der kal-chers" },
+            { q: "Kamu lagi pakai WiFi?", ans_en: "Yes, I am using WiFi", ans_id: "ya, saya sedang pakai WiFi", ans_phonetic: "yes, ai em yu-zing wai-fai" },
+            { q: "Kamu lagi pakai data?", ans_en: "I am using mobile data", ans_id: "saya pakai data seluler", ans_phonetic: "ai em yu-zing mo-bail da-ta" },
+            { q: "Kamu suka ngobrol malam hari?", ans_en: "Yes, I prefer chatting at night", ans_id: "ya, saya lebih suka ngobrol malam hari", ans_phonetic: "yes, ai pri-fer chat-ing at nait" },
+            { q: "Kamu tipe orang malam atau pagi?", ans_en: "I am a night person", ans_id: "saya orang yang aktif di malam hari", ans_phonetic: "ai em e nait per-son" },
+            { q: "Kamu sudah tidur tadi?", ans_en: "No, I have not slept yet", ans_id: "tidak, saya belum tidur", ans_phonetic: "no, ai hav not slept yet" },
+            { q: "Kamu mengantuk?", ans_en: "Yes, I am a little sleepy", ans_id: "ya, saya agak mengantuk", ans_phonetic: "yes, ai em e lit-tel sli-pi" },
+            { q: "Kamu lagi minum sesuatu?", ans_en: "Yes, I am drinking water", ans_id: "ya, saya sedang minum air", ans_phonetic: "yes, ai em drink-ing wo-ter" },
+            { q: "Kamu suka kopi?", ans_en: "Yes, I like coffee very much", ans_id: "ya, saya sangat suka kopi", ans_phonetic: "yes, ai laik ko-fi ve-ri mach" },
+            { q: "Kamu suka teh?", ans_en: "Yes, I like tea", ans_id: "ya, saya suka teh", ans_phonetic: "yes, ai laik ti" },
+            { q: "Kamu suka makanan pedas?", ans_en: "Yes, I love spicy food", ans_id: "ya, saya suka makanan pedas", ans_phonetic: "yes, ai lav spai-si fud" },
+            { q: "Kamu bisa masak?", ans_en: "Yes, I can cook a little", ans_id: "ya, saya bisa masak sedikit", ans_phonetic: "yes, ai ken kuk e lit-tel" },
+            { q: "Kamu lagi makan sekarang?", ans_en: "No, I am not eating now", ans_id: "tidak, saya tidak sedang makan", ans_phonetic: "no, ai em not i-ting nau" },
+            { q: "Kamu suka ngemil?", ans_en: "Yes, I like snacks", ans_id: "ya, saya suka camilan", ans_phonetic: "yes, ai laik snek" },
+            { q: "Kamu lagi di luar atau di dalam rumah?", ans_en: "I am inside my house", ans_id: "saya di dalam rumah", ans_phonetic: "ai em in-said mai haus" },
+            { q: "Kamu lagi santai di kasur?", ans_en: "Yes, I am lying on my bed", ans_id: "ya, saya sedang di kasur", ans_phonetic: "yes, ai em lai-ing on mai bed" },
+            { q: "Kamu lagi pakai headset?", ans_en: "Yes, I am using a headset", ans_id: "ya, saya pakai headset", ans_phonetic: "yes, ai em yu-zing e hed-set" },
+            { q: "Suaramu jelas?", ans_en: "Yes, my voice is clear", ans_id: "ya, suara saya jelas", ans_phonetic: "yes, mai vois iz klir" },
+            { q: "Kamu dengar suara saya?", ans_en: "Yes, I can hear you", ans_id: "ya, saya bisa mendengarmu", ans_phonetic: "yes, ai ken hir yu" },
+            { q: "Kamu koneksinya bagus?", ans_en: "Yes, the connection is stable", ans_id: "ya, koneksinya stabil", ans_phonetic: "yes, de ko-nek-shen iz stei-bel" },
+            { q: "Kamu sering ketemu orang Indonesia di sini?", ans_en: "Sometimes, but not often", ans_id: "kadang, tapi tidak sering", ans_phonetic: "sam-taims, bat not of-ten" },
+            { q: "Kamu pernah ke Indonesia?", ans_en: "No, I have never been to Indonesia", ans_id: "tidak, saya belum pernah ke Indonesia", ans_phonetic: "no, ai hav ne-ver bin tu in-do-ne-sya" },
+            { q: "Kamu tahu Indonesia?", ans_en: "Yes, I know Indonesia", ans_id: "ya, saya tahu Indonesia", ans_phonetic: "yes, ai no in-do-ne-sya" },
+            { q: "Kamu tahu Bali?", ans_en: "Yes, Bali is beautiful", ans_id: "ya, Bali itu indah", ans_phonetic: "yes, ba-li iz byu-ti-ful" },
+            { q: "Kamu suka pantai?", ans_en: "Yes, I like the beach", ans_id: "ya, saya suka pantai", ans_phonetic: "yes, ai laik de bich" },
+            { q: "Kamu suka gunung?", ans_en: "Yes, I like mountains", ans_id: "ya, saya suka gunung", ans_phonetic: "yes, ai laik maun-tenz" },
+            { q: "Kamu suka foto-foto?", ans_en: "Yes, I like taking photos", ans_id: "ya, saya suka foto-foto", ans_phonetic: "yes, ai laik tei-king fo-tos" },
+            { q: "Kamu suka selfie?", ans_en: "Yes, I like selfies", ans_id: "ya, saya suka selfie", ans_phonetic: "yes, ai laik sel-fi" },
+            { q: "Kamu suka TikTok?", ans_en: "Yes, I watch TikTok", ans_id: "ya, saya nonton TikTok", ans_phonetic: "yes, ai woch tik-tok" },
+            { q: "Kamu sering scroll TikTok?", ans_en: "Yes, I use it a lot", ans_id: "ya, saya sering pakai", ans_phonetic: "yes, ai yuz it e lot" },
+            { q: "Kamu suka Instagram?", ans_en: "Yes, I like Instagram", ans_id: "ya, saya suka Instagram", ans_phonetic: "yes, ai laik in-sta-gram" },
+            { q: "Kamu aktif di sosial media?", ans_en: "Yes, I am quite active", ans_id: "ya, saya cukup aktif", ans_phonetic: "yes, ai em kwait ak-tiv" },
+            { q: "Kamu suka belajar sendiri?", ans_en: "Yes, I like self-learning", ans_id: "ya, saya suka belajar sendiri", ans_phonetic: "yes, ai laik self ler-ning" },
+            { q: "Kamu suka membaca?", ans_en: "Yes, I like reading", ans_id: "ya, saya suka membaca", ans_phonetic: "yes, ai laik ri-ding" },
+            { q: "Kamu suka buku apa?", ans_en: "I like motivational books", ans_id: "saya suka buku motivasi", ans_phonetic: "ai laik mo-ti-ve-sho-nal buks" },
+            { q: "Kamu punya mimpi besar?", ans_en: "Yes, I have big dreams", ans_id: "ya, saya punya mimpi besar", ans_phonetic: "yes, ai hav big drims" },
+            { q: "Kamu kerja keras untuk masa depan?", ans_en: "Yes, I work hard for my future", ans_id: "ya, saya bekerja keras untuk masa depan", ans_phonetic: "yes, ai work hard for mai fyu-cher" },
+            { q: "Kamu orangnya positif?", ans_en: "Yes, I always think positive", ans_id: "ya, saya selalu berpikir positif", ans_phonetic: "yes, ai ol-weis think po-si-tiv" },
+            { q: "Kamu suka motivasi?", ans_en: "Yes, I like motivation", ans_id: "ya, saya suka motivasi", ans_phonetic: "yes, ai laik mo-ti-ve-shen" },
+            { q: "Kamu percaya diri?", ans_en: "I am learning to be confident", ans_id: "saya sedang belajar percaya diri", ans_phonetic: "ai em ler-ning tu bi kon-fi-dent" },
+            { q: "Kamu mudah bergaul?", ans_en: "Yes, I am friendly", ans_id: "ya, saya ramah", ans_phonetic: "yes, ai em frend-li" },
+            { q: "Kamu suka ketemu orang baru?", ans_en: "Yes, I enjoy meeting new people", ans_id: "ya, saya suka bertemu orang baru", ans_phonetic: "yes, ai en-joy mi-ting nyu pi-pol" },
+            { q: "Kamu lagi senang hari ini?", ans_en: "Yes, I feel happy today", ans_id: "ya, saya merasa senang hari ini", ans_phonetic: "yes, ai fil hap-pi tu-dey" },
+            { q: "Kamu lagi sedih?", ans_en: "No, I am okay", ans_id: "tidak, saya baik-baik saja", ans_phonetic: "no, ai em o-kei" }
         ];
 
         let currentExerciseIndex = 0;
@@ -150,14 +280,15 @@
         function speak(text, lang = 'id-ID') {
             window.speechSynthesis.cancel(); 
             const speed = document.getElementById('speed-voice').value;
+            const volume = document.getElementById('volume-voice').value;
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = lang;
             utterance.rate = parseFloat(speed);
+            utterance.volume = parseFloat(volume);
             window.speechSynthesis.speak(utterance);
         }
 
         function startApp() {
-            // REVISI: Audio intro dihilangkan, langsung masuk ke soal
             document.getElementById('intro-screen').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('intro-screen').classList.add('hidden');
@@ -170,18 +301,29 @@
             const data = exercises[currentExerciseIndex];
             const delaySec = document.getElementById('speed-answer').value;
 
+            // Update Progress UI
+            const total = exercises.length;
+            const current = currentExerciseIndex + 1;
+            const percent = Math.round((current / total) * 100);
+            
+            document.getElementById('progress-text').innerText = `${current} / ${total}`;
+            document.getElementById('percentage-text').innerText = `${percent}%`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            // Update Content
             document.getElementById('question-text').innerText = data.q;
             document.getElementById('ans-en').innerText = data.ans_en;
             document.getElementById('ans-id').innerText = data.ans_id;
             document.getElementById('ans-phonetic').innerText = data.ans_phonetic;
 
+            // Reset Visibility
             document.getElementById('answer-section').classList.add('hidden');
             document.getElementById('btn-manual-show').classList.remove('hidden');
 
-            // Tetap membacakan pertanyaan (opsional, jika ingin pertanyaan bersuara)
+            // Speak Question
             setTimeout(() => speak(data.q, 'id-ID'), 500);
 
-            // Timer otomatis kunci jawaban
+            // Auto reveal timer
             clearTimeout(timerAnswer);
             timerAnswer = setTimeout(() => {
                 showAnswer();
@@ -202,7 +344,13 @@
         }
 
         function nextExercise() {
-            alert("Latihan berikutnya akan segera tersedia di pembaruan sistem!");
+            if (currentExerciseIndex < exercises.length - 1) {
+                currentExerciseIndex++;
+                loadExercise();
+            } else {
+                alert("Selamat! Anda telah menyelesaikan semua materi.");
+                window.location.href = "index.html";
+            }
         }
     </script>
 </body>
