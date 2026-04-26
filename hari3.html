@@ -11,7 +11,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Mastery - 100 Pola Kalimat</title>
+    <title>English Learning - 100 Latihan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -24,10 +24,8 @@
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .progress-bar { transition: width 0.3s ease; }
-        
-        /* Modal Style */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; backdrop-filter: blur(4px); }
-        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -38,13 +36,11 @@
             <i class="fa-solid fa-house-chimney"></i>
         </a>
         <div class="text-center">
-            <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Daily Conversation</h1>
+            <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Latihan Percakapan</h1>
             <p id="progress-text" class="text-[9px] text-blue-500 font-bold mt-1 uppercase tracking-widest">Question 1 / 100</p>
         </div>
         <div class="w-10 flex justify-end">
-            <button onclick="toggleFormula()" class="text-blue-600 bg-blue-50 w-8 h-8 rounded-lg text-xs flex items-center justify-center">
-                <i class="fa-solid fa-book-open"></i>
-            </button>
+            <button onclick="location.reload()" class="text-slate-300 hover:text-slate-600"><i class="fa-solid fa-rotate-right"></i></button>
         </div>
         <div class="absolute bottom-0 left-0 h-[2px] bg-blue-500 progress-bar" id="top-progress" style="width: 0%"></div>
     </header>
@@ -55,10 +51,10 @@
         <div id="intro-screen" class="max-w-md w-full fade-in">
             <div class="text-center mb-8">
                 <div class="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
-                    <i class="fa-solid fa-graduation-cap text-3xl text-blue-500"></i>
+                    <i class="fa-solid fa-microphone-lines text-3xl text-blue-500"></i>
                 </div>
-                <h2 class="text-2xl font-extrabold mb-2">100 Latihan Pola Kalimat</h2>
-                <p class="text-slate-500 text-sm px-4">Kuasai 10 pola dasar percakapan bahasa Inggris melalui 100 latihan praktis.</p>
+                <h2 class="text-2xl font-extrabold mb-2">Pola Kalimat Dasar</h2>
+                <p class="text-slate-500 text-sm px-4">Latihan 100 pertanyaan untuk memperlancar kemampuan berbicara Anda.</p>
             </div>
 
             <div class="glass-card p-6 mb-8 space-y-6">
@@ -67,48 +63,30 @@
                         <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Kecepatan Suara</label>
                         <span id="val-speed" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">1.0x</span>
                     </div>
-                    <input type="range" id="speed-voice" min="0.5" max="1.3" step="0.1" value="1" 
-                           oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="speed-voice" min="0.5" max="1.3" step="0.1" value="1" oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
                 </div>
                 
                 <div>
                     <div class="flex justify-between items-center mb-3">
-                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Jeda Jawaban</label>
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Jeda Kunci Jawaban</label>
                         <span id="val-timer" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">5s</span>
                     </div>
-                    <input type="range" id="speed-answer" min="2" max="15" step="1" value="5" 
-                           oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="speed-answer" min="2" max="15" step="1" value="5" oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
                 </div>
             </div>
 
             <button onclick="startApp()" class="w-full btn-primary text-white font-extrabold py-5 rounded-2xl text-lg shadow-lg tracking-widest uppercase">
-                Mulai Latihan
+                Mulai 100 Latihan
             </button>
         </div>
 
         <!-- SECTION 2: EXERCISE -->
         <div id="exercise-screen" class="hidden max-w-md w-full fade-in">
-            <!-- Formula Hint -->
-            <button onclick="toggleFormula()" class="mb-6 w-full flex items-center justify-between p-4 bg-amber-50 border border-amber-100 rounded-2xl">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-amber-400 text-white flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Rumus Sekarang</p>
-                        <p id="current-pattern-title" class="text-sm font-bold text-amber-900">Do you ___ ?</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right text-amber-300"></i>
-            </button>
-
             <div class="text-center mb-8">
                 <div class="inline-block px-4 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-4">
-                    Terjemahkan Secara Lisan
+                    Terjemahkan ke Bahasa Inggris
                 </div>
-                <h2 id="question-text" class="text-3xl font-extrabold text-slate-800 leading-tight min-h-[100px] flex items-center justify-center">
-                    Loading...
-                </h2>
+                <h2 id="question-text" class="text-3xl font-extrabold text-slate-800 leading-tight min-h-[100px] flex items-center justify-center"></h2>
             </div>
 
             <div class="flex justify-center mb-8 h-12">
@@ -128,10 +106,17 @@
                     </div>
                 </div>
 
-                <button onclick="playEnglishAudio()" class="mt-4 w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-50 transition-all border border-slate-100">
-                    <i class="fa-solid fa-circle-play text-2xl text-blue-600"></i>
-                    <span class="text-xs uppercase tracking-widest">Dengar Audio</span>
-                </button>
+                <div class="pt-4 space-y-3">
+                    <button onclick="playEnglishAudio()" class="w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-50 transition-all border border-slate-100">
+                        <i class="fa-solid fa-circle-play text-2xl text-blue-600"></i>
+                        <span class="text-xs uppercase tracking-widest">Dengar Audio</span>
+                    </button>
+
+                    <button onclick="toggleFormula()" class="w-full flex items-center justify-center gap-3 py-3 bg-amber-50 text-amber-700 rounded-2xl font-bold hover:bg-amber-100 transition-all border border-amber-100">
+                        <i class="fa-solid fa-lightbulb text-lg text-amber-500"></i>
+                        <span class="text-[10px] uppercase tracking-widest">Rumus Grammar</span>
+                    </button>
+                </div>
             </div>
         </div>
     </main>
@@ -139,23 +124,18 @@
     <!-- Formula Modal -->
     <div id="formula-modal" class="modal px-6" onclick="toggleFormula()">
         <div class="bg-white rounded-[32px] w-full max-w-sm p-8 shadow-2xl" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-extrabold">Grammar Tip</h3>
-                <button onclick="toggleFormula()" class="text-slate-300"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div id="formula-content" class="space-y-4">
+                <!-- Content dari JS -->
             </div>
-            <div id="formula-content" class="space-y-4 text-slate-600">
-                <!-- Content injected by JS -->
-            </div>
-            <button onclick="toggleFormula()" class="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-xs">Mengerti</button>
+            <button onclick="toggleFormula()" class="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-[10px]">Tutup</button>
         </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- Navigation -->
     <nav id="nav-controls" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-6 flex items-center justify-between gap-4 z-50">
         <button onclick="prevQuestion()" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-100 transition-all">
             <i class="fa-solid fa-chevron-left"></i>
         </button>
-        
         <button onclick="nextQuestion()" class="flex-1 btn-primary text-white h-14 rounded-2xl font-extrabold uppercase tracking-widest flex items-center justify-center gap-2">
             <span>Selanjutnya</span>
             <i class="fa-solid fa-arrow-right text-sm"></i>
@@ -163,52 +143,20 @@
     </nav>
 
     <script>
-        // Grammar Data
         const formulas = {
-            "do": {
-                title: "Do you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> kebiasaan / hal umum (sekarang)<br>💡 <b>Ingat:</b> Kalau pakai kata kerja biasa (like, eat, play) → pakai <b>DO</b>.<br>🔥 <b>Arti:</b> Kamu biasa atau suka melakukan itu?"
-            },
-            "what": {
-                title: "What do you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> menanyakan aktivitas / informasi umum<br>💡 <b>Ingat:</b> Tetap pakai <b>DO</b> karena ada kata kerja (do, study, watch)."
-            },
-            "where": {
-                title: "Where are you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> sedang melakukan sesuatu (sekarang)<br>💡 <b>Rumus:</b> To be (are) + verb-ing (going, living, working)."
-            },
-            "why": {
-                title: "Why do you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> menanyakan alasan kebiasaan.<br>💡 <b>Ingat:</b> Pakai <b>DO</b> karena bersifat present (umum)."
-            },
-            "when": {
-                title: "When do you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> menanyakan waktu kebiasaan.<br>💡 <b>Ingat:</b> Pakai <b>DO</b> untuk rutinitas."
-            },
-            "often": {
-                title: "How often do you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> menanyakan frekuensi (seberapa sering).<br>💡 <b>Contoh:</b> How often do you exercise?"
-            },
-            "can": {
-                title: "Can you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> kemampuan / bisa atau tidak.<br>💡 <b>Ingat:</b> Pakai <b>CAN</b> karena ini modal (tidak perlu DO)."
-            },
-            "are": {
-                title: "Are you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> kondisi / keadaan / sifat.<br>💡 <b>Ingat:</b> Pakai <b>ARE</b> karena bukan kata kerja, tapi kondisi (tired, happy)."
-            },
-            "did": {
-                title: "Did you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> masa lalu (sudah terjadi).<br>💡 <b>Ingat:</b> Pakai <b>DID</b> sebagai tanda masa lalu."
-            },
-            "have": {
-                title: "Have you ___ ?",
-                body: "🔹 <b>Dipakai untuk:</b> pengalaman / sudah pernah atau belum.<br>💡 <b>Rumus:</b> Have you + Verb 3/Been."
-            }
+            "do": "🔹 <b>Do you ___ ?</b><br><br>👉 Dipakai untuk: kebiasaan / hal umum (sekarang)<br>👉 Contoh: Do you like music?<br><br>💡 Ingat: Kalau pakai kata kerja biasa (like, eat, play) → pakai DO",
+            "what": "🔹 <b>What do you ___ ?</b><br><br>👉 Dipakai untuk: menanyakan aktivitas / informasi umum<br>👉 Contoh: What do you do?<br><br>💡 Tetap pakai DO karena ada kata kerja",
+            "where": "🔹 <b>Where are you ___ ?</b><br><br>👉 Dipakai untuk: sedang melakukan sesuatu (sekarang)<br>👉 Contoh: Where are you going?<br><br>💡 Pakai ARE karena: to be (are) + verb-ing",
+            "why": "🔹 <b>Why do you ___ ?</b><br><br>👉 Dipakai untuk: menanyakan alasan (kebiasaan)<br>👉 Contoh: Why do you study English?<br><br>💡 Pakai DO karena masih present (sekarang)",
+            "when": "🔹 <b>When do you ___ ?</b><br><br>👉 Dipakai untuk: menanyakan waktu kebiasaan<br>👉 Contoh: When do you sleep?<br><br>💡 Pakai DO karena rutin / biasa",
+            "often": "🔹 <b>How often do you ___ ?</b><br><br>👉 Dipakai untuk: menanyakan frekuensi (seberapa sering)<br>👉 Contoh: How often do you exercise?<br><br>💡 Pakai DO karena kebiasaan",
+            "can": "🔹 <b>Can you ___ ?</b><br><br>👉 Dipakai untuk: kemampuan / bisa atau tidak<br>👉 Contoh: Can you swim?<br><br>💡 Pakai CAN karena ini modal (tidak perlu DO)",
+            "are": "🔹 <b>Are you ___ ?</b><br><br>👉 Dipakai untuk: kondisi / keadaan / sifat<br>👉 Contoh: Are you tired?<br><br>💡 Pakai ARE karena bukan kata kerja, tapi kondisi",
+            "did": "🔹 <b>Did you ___ ?</b><br><br>👉 Dipakai untuk: masa lalu (sudah terjadi)<br>👉 Contoh: Did you eat?<br><br>💡 Pakai DID = tanda masa lalu",
+            "have": "🔹 <b>Have you ___ ?</b><br><br>👉 Dipakai untuk: pengalaman / sudah pernah atau belum<br>👉 Contoh: Have you been abroad?<br><br>💡 Pakai HAVE untuk pengalaman hidup"
         };
 
         const questions = [
-            // Do you (1-10)
             { id: "Kamu suka musik?", en: "Do you like music?", ph: "du yu laik myu-zik", cat: "do" },
             { id: "Kamu suka film?", en: "Do you like movies?", ph: "du yu laik mu-viz", cat: "do" },
             { id: "Kamu suka game?", en: "Do you like games?", ph: "du yu laik geimz", cat: "do" },
@@ -219,8 +167,6 @@
             { id: "Kamu suka membaca?", en: "Do you like reading?", ph: "du yu laik ri-ding", cat: "do" },
             { id: "Kamu suka memasak?", en: "Do you like cooking?", ph: "du yu laik kuk-ing", cat: "do" },
             { id: "Kamu suka belajar bahasa Inggris?", en: "Do you like learning English?", ph: "du yu laik ler-ning ing-glish", cat: "do" },
-            
-            // What do you (11-20)
             { id: "Kamu kerja apa?", en: "What do you do?", ph: "wat du yu du", cat: "what" },
             { id: "Kamu suka makan apa?", en: "What do you eat?", ph: "wat du yu it", cat: "what" },
             { id: "Kamu biasanya lakukan apa?", en: "What do you usually do?", ph: "wat du yu yu-zu-a-li du", cat: "what" },
@@ -231,8 +177,6 @@
             { id: "Kamu beli apa?", en: "What do you buy?", ph: "wat du yu bai", cat: "what" },
             { id: "Kamu masak apa?", en: "What do you cook?", ph: "wat du yu kuk", cat: "what" },
             { id: "Kamu baca apa?", en: "What do you read?", ph: "wat du yu rid", cat: "what" },
-
-            // Where are you (21-30)
             { id: "Kamu sedang pergi ke mana?", en: "Where are you going?", ph: "wer ar yu go-ing", cat: "where" },
             { id: "Kamu sedang tinggal di mana?", en: "Where are you living?", ph: "wer ar yu liv-ing", cat: "where" },
             { id: "Kamu sedang bekerja di mana?", en: "Where are you working?", ph: "wer ar yu wor-king", cat: "where" },
@@ -243,8 +187,6 @@
             { id: "Kamu sedang jalan di mana?", en: "Where are you walking?", ph: "wer ar yu wo-king", cat: "where" },
             { id: "Kamu sedang tinggal sekarang di mana?", en: "Where are you staying now?", ph: "wer ar yu stei-ing nau", cat: "where" },
             { id: "Kamu sedang kerja sekarang di mana?", en: "Where are you working now?", ph: "wer ar yu wor-king nau", cat: "where" },
-
-            // Why do you (31-40)
             { id: "Kenapa kamu belajar bahasa Inggris?", en: "Why do you learn English?", ph: "wai du yu lern ing-glish", cat: "why" },
             { id: "Kenapa kamu suka musik?", en: "Why do you like music?", ph: "wai du yu laik myu-zik", cat: "why" },
             { id: "Kenapa kamu suka game?", en: "Why do you like games?", ph: "wai du yu laik geimz", cat: "why" },
@@ -255,8 +197,6 @@
             { id: "Kenapa kamu suka kopi?", en: "Why do you like coffee?", ph: "wai du yu laik ko-fi", cat: "why" },
             { id: "Kenapa kamu nonton film?", en: "Why do you watch movies?", ph: "wai du yu woch mu-viz", cat: "why" },
             { id: "Kenapa kamu olahraga?", en: "Why do you exercise?", ph: "wai du yu ek-ser-saiz", cat: "why" },
-
-            // When do you (41-50)
             { id: "Kamu biasanya tidur kapan?", en: "When do you sleep?", ph: "wen du yu slip", cat: "when" },
             { id: "Kamu bangun kapan?", en: "When do you wake up?", ph: "wen du yu weik ap", cat: "when" },
             { id: "Kamu makan kapan?", en: "When do you eat?", ph: "wen du yu it", cat: "when" },
@@ -267,8 +207,6 @@
             { id: "Kamu main game kapan?", en: "When do you play games?", ph: "wen du yu plei geimz", cat: "when" },
             { id: "Kamu istirahat kapan?", en: "When do you rest?", ph: "wen du yu rest", cat: "when" },
             { id: "Kamu santai kapan?", en: "When do you relax?", ph: "wen du yu ri-laks", cat: "when" },
-
-            // How often (51-60)
             { id: "Seberapa sering kamu olahraga?", en: "How often do you exercise?", ph: "hau of-ten du yu ek-ser-saiz", cat: "often" },
             { id: "Seberapa sering kamu nonton film?", en: "How often do you watch movies?", ph: "hau of-ten du yu woch mu-viz", cat: "often" },
             { id: "Seberapa sering kamu main game?", en: "How often do you play games?", ph: "hau of-ten du yu plei geimz", cat: "often" },
@@ -279,8 +217,6 @@
             { id: "Seberapa sering kamu bangun pagi?", en: "How often do you wake up early?", ph: "hau of-ten du yu weik ap er-li", cat: "often" },
             { id: "Seberapa sering kamu membaca?", en: "How often do you read?", ph: "hau of-ten du yu rid", cat: "often" },
             { id: "Seberapa sering kamu pakai sosial media?", en: "How often do you use social media?", ph: "hau of-ten du yu yuz so-shal mi-dia", cat: "often" },
-
-            // Can you (61-70)
             { id: "Kamu bisa bahasa Inggris?", en: "Can you speak English?", ph: "ken yu spik ing-glish", cat: "can" },
             { id: "Kamu bisa berenang?", en: "Can you swim?", ph: "ken yu swim", cat: "can" },
             { id: "Kamu bisa memasak?", en: "Can you cook?", ph: "ken yu kuk", cat: "can" },
@@ -291,8 +227,6 @@
             { id: "Kamu bisa berbicara cepat?", en: "Can you speak fast?", ph: "ken yu spik fast", cat: "can" },
             { id: "Kamu bisa membantu saya?", en: "Can you help me?", ph: "ken yu help mi", cat: "can" },
             { id: "Kamu bisa datang hari ini?", en: "Can you come today?", ph: "ken yu kam tu-dey", cat: "can" },
-
-            // Are you (71-80)
             { id: "Kamu capek?", en: "Are you tired?", ph: "ar yu tai-erd", cat: "are" },
             { id: "Kamu sibuk?", en: "Are you busy?", ph: "ar yu bi-zi", cat: "are" },
             { id: "Kamu senang?", en: "Are you happy?", ph: "ar yu hap-pi", cat: "are" },
@@ -303,8 +237,6 @@
             { id: "Kamu siap?", en: "Are you ready?", ph: "ar yu re-di", cat: "are" },
             { id: "Kamu serius?", en: "Are you serious?", ph: "ar yu si-ri-es", cat: "are" },
             { id: "Kamu yakin?", en: "Are you sure?", ph: "ar yu syur", cat: "are" },
-
-            // Did you (81-90)
             { id: "Kamu sudah makan?", en: "Did you eat?", ph: "did yu it", cat: "did" },
             { id: "Kamu pergi kemarin?", en: "Did you go yesterday?", ph: "did yu go yes-ter-dey", cat: "did" },
             { id: "Kamu belajar tadi?", en: "Did you study earlier?", ph: "did yu sta-di er-li-er", cat: "did" },
@@ -315,8 +247,6 @@
             { id: "Kamu main game tadi?", en: "Did you play games?", ph: "did yu plei geimz", cat: "did" },
             { id: "Kamu membeli sesuatu?", en: "Did you buy something?", ph: "did yu bai sam-thing", cat: "did" },
             { id: "Kamu memasak tadi?", en: "Did you cook?", ph: "did yu kuk", cat: "did" },
-
-            // Have you (91-100)
             { id: "Kamu pernah ke luar negeri?", en: "Have you been abroad?", ph: "hav yu bin a-brod", cat: "have" },
             { id: "Kamu pernah ke Bali?", en: "Have you been to Bali?", ph: "hav yu bin tu ba-li", cat: "have" },
             { id: "Kamu pernah mencoba makanan ini?", en: "Have you tried this food?", ph: "hav yu traid dis fud", cat: "have" },
@@ -352,45 +282,24 @@
             loadQuestion();
         }
 
-        function toggleFormula() {
-            const modal = document.getElementById('formula-modal');
-            const q = questions[currentIndex];
-            const formula = formulas[q.cat];
-            
-            document.getElementById('formula-content').innerHTML = `
-                <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 mb-4">
-                    <p class="text-blue-700 font-bold text-lg">${formula.title}</p>
-                </div>
-                <div class="text-sm leading-relaxed">
-                    ${formula.body}
-                </div>
-            `;
-            
-            modal.classList.toggle('active');
-        }
-
         function loadQuestion() {
             clearTimeout(timerAnswer);
             const q = questions[currentIndex];
             
-            // Update UI
             document.getElementById('question-text').innerText = q.id;
             document.getElementById('answer-en').innerText = q.en;
             document.getElementById('answer-phonetic').innerText = q.ph;
-            document.getElementById('current-pattern-title').innerText = formulas[q.cat].title;
             
             document.getElementById('answer-section').classList.add('invisible');
+            document.getElementById('answer-section').classList.remove('fade-in');
             document.getElementById('btn-manual-show').classList.remove('hidden');
             
-            // Progress
             const progress = ((currentIndex + 1) / questions.length) * 100;
             document.getElementById('top-progress').style.width = progress + '%';
             document.getElementById('progress-text').innerText = `Question ${currentIndex + 1} / ${questions.length}`;
 
-            // Voice Question
             setTimeout(() => speak(q.id, 'id-ID'), 400);
 
-            // Auto Reveal
             const delay = document.getElementById('speed-answer').value;
             timerAnswer = setTimeout(() => {
                 showAnswer();
@@ -405,6 +314,17 @@
             document.getElementById('btn-manual-show').classList.add('hidden');
         }
 
+        function toggleFormula() {
+            const modal = document.getElementById('formula-modal');
+            const q = questions[currentIndex];
+            document.getElementById('formula-content').innerHTML = `
+                <div class="text-slate-700 leading-relaxed">
+                    ${formulas[q.cat]}
+                </div>
+            `;
+            modal.classList.toggle('active');
+        }
+
         function playEnglishAudio() {
             speak(questions[currentIndex].en, 'en-US');
         }
@@ -414,7 +334,7 @@
                 currentIndex++;
                 loadQuestion();
             } else {
-                alert("Selamat! 100 Latihan Selesai.");
+                alert("Selamat! Anda telah menyelesaikan 100 latihan.");
                 window.location.href = "index.html";
             }
         }
