@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Mastery - 100 Pola Kalimat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; overflow-x: hidden; }
+        .glass-card { background: #ffffff; border: 1px solid #f3f4f6; border-radius: 24px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.03); }
+        .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.3s ease; }
+        
+        /* Modal Style */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; backdrop-filter: blur(4px); }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-slate-100 z-50 px-6 py-4 flex items-center justify-between">
+        <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all">
+            <i class="fa-solid fa-house-chimney"></i>
+        </a>
+        <div class="text-center">
+            <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Daily Conversation</h1>
+            <p id="progress-text" class="text-[9px] text-blue-500 font-bold mt-1 uppercase tracking-widest">Question 1 / 100</p>
+        </div>
+        <div class="w-10 flex justify-end">
+            <button onclick="toggleFormula()" class="text-blue-600 bg-blue-50 w-8 h-8 rounded-lg text-xs flex items-center justify-center">
+                <i class="fa-solid fa-book-open"></i>
+            </button>
+        </div>
+        <div class="absolute bottom-0 left-0 h-[2px] bg-blue-500 progress-bar" id="top-progress" style="width: 0%"></div>
+    </header>
+
+    <main class="min-h-screen pt-28 pb-32 flex flex-col items-center px-6">
+        
+        <!-- SECTION 1: SETTINGS -->
+        <div id="intro-screen" class="max-w-md w-full fade-in">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-blue-500"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold mb-2">100 Latihan Pola Kalimat</h2>
+                <p class="text-slate-500 text-sm px-4">Kuasai 10 pola dasar percakapan bahasa Inggris melalui 100 latihan praktis.</p>
+            </div>
+
+            <div class="glass-card p-6 mb-8 space-y-6">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Kecepatan Suara</label>
+                        <span id="val-speed" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-voice" min="0.5" max="1.3" step="0.1" value="1" 
+                           oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Jeda Jawaban</label>
+                        <span id="val-timer" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">5s</span>
+                    </div>
+                    <input type="range" id="speed-answer" min="2" max="15" step="1" value="5" 
+                           oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+
+            <button onclick="startApp()" class="w-full btn-primary text-white font-extrabold py-5 rounded-2xl text-lg shadow-lg tracking-widest uppercase">
+                Mulai Latihan
+            </button>
+        </div>
+
+        <!-- SECTION 2: EXERCISE -->
+        <div id="exercise-screen" class="hidden max-w-md w-full fade-in">
+            <!-- Formula Hint -->
+            <button onclick="toggleFormula()" class="mb-6 w-full flex items-center justify-between p-4 bg-amber-50 border border-amber-100 rounded-2xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-amber-400 text-white flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Rumus Sekarang</p>
+                        <p id="current-pattern-title" class="text-sm font-bold text-amber-900">Do you ___ ?</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-amber-300"></i>
+            </button>
+
+            <div class="text-center mb-8">
+                <div class="inline-block px-4 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-4">
+                    Terjemahkan Secara Lisan
+                </div>
+                <h2 id="question-text" class="text-3xl font-extrabold text-slate-800 leading-tight min-h-[100px] flex items-center justify-center">
+                    Loading...
+                </h2>
+            </div>
+
+            <div class="flex justify-center mb-8 h-12">
+                <button id="btn-manual-show" onclick="showAnswer()" class="bg-slate-800 text-white px-8 py-2 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-slate-700 transition-all">
+                    Buka Kunci Jawaban
+                </button>
+            </div>
+
+            <div id="answer-section" class="invisible glass-card p-6 space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                    </div>
+                    <div>
+                        <p id="answer-en" class="text-blue-600 font-extrabold text-2xl mb-1"></p>
+                        <p id="answer-phonetic" class="text-slate-300 font-bold mt-2 tracking-wide text-sm uppercase"></p>
+                    </div>
+                </div>
+
+                <button onclick="playEnglishAudio()" class="mt-4 w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-50 transition-all border border-slate-100">
+                    <i class="fa-solid fa-circle-play text-2xl text-blue-600"></i>
+                    <span class="text-xs uppercase tracking-widest">Dengar Audio</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Formula Modal -->
+    <div id="formula-modal" class="modal px-6" onclick="toggleFormula()">
+        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-extrabold">Grammar Tip</h3>
+                <button onclick="toggleFormula()" class="text-slate-300"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div id="formula-content" class="space-y-4 text-slate-600">
+                <!-- Content injected by JS -->
+            </div>
+            <button onclick="toggleFormula()" class="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-xs">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="nav-controls" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-6 flex items-center justify-between gap-4 z-50">
+        <button onclick="prevQuestion()" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-100 transition-all">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        
+        <button onclick="nextQuestion()" class="flex-1 btn-primary text-white h-14 rounded-2xl font-extrabold uppercase tracking-widest flex items-center justify-center gap-2">
+            <span>Selanjutnya</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </button>
+    </nav>
+
+    <script>
+        // Grammar Data
+        const formulas = {
+            "do": {
+                title: "Do you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> kebiasaan / hal umum (sekarang)<br>💡 <b>Ingat:</b> Kalau pakai kata kerja biasa (like, eat, play) → pakai <b>DO</b>.<br>🔥 <b>Arti:</b> Kamu biasa atau suka melakukan itu?"
+            },
+            "what": {
+                title: "What do you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> menanyakan aktivitas / informasi umum<br>💡 <b>Ingat:</b> Tetap pakai <b>DO</b> karena ada kata kerja (do, study, watch)."
+            },
+            "where": {
+                title: "Where are you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> sedang melakukan sesuatu (sekarang)<br>💡 <b>Rumus:</b> To be (are) + verb-ing (going, living, working)."
+            },
+            "why": {
+                title: "Why do you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> menanyakan alasan kebiasaan.<br>💡 <b>Ingat:</b> Pakai <b>DO</b> karena bersifat present (umum)."
+            },
+            "when": {
+                title: "When do you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> menanyakan waktu kebiasaan.<br>💡 <b>Ingat:</b> Pakai <b>DO</b> untuk rutinitas."
+            },
+            "often": {
+                title: "How often do you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> menanyakan frekuensi (seberapa sering).<br>💡 <b>Contoh:</b> How often do you exercise?"
+            },
+            "can": {
+                title: "Can you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> kemampuan / bisa atau tidak.<br>💡 <b>Ingat:</b> Pakai <b>CAN</b> karena ini modal (tidak perlu DO)."
+            },
+            "are": {
+                title: "Are you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> kondisi / keadaan / sifat.<br>💡 <b>Ingat:</b> Pakai <b>ARE</b> karena bukan kata kerja, tapi kondisi (tired, happy)."
+            },
+            "did": {
+                title: "Did you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> masa lalu (sudah terjadi).<br>💡 <b>Ingat:</b> Pakai <b>DID</b> sebagai tanda masa lalu."
+            },
+            "have": {
+                title: "Have you ___ ?",
+                body: "🔹 <b>Dipakai untuk:</b> pengalaman / sudah pernah atau belum.<br>💡 <b>Rumus:</b> Have you + Verb 3/Been."
+            }
+        };
+
+        const questions = [
+            // Do you (1-10)
+            { id: "Kamu suka musik?", en: "Do you like music?", ph: "du yu laik myu-zik", cat: "do" },
+            { id: "Kamu suka film?", en: "Do you like movies?", ph: "du yu laik mu-viz", cat: "do" },
+            { id: "Kamu suka game?", en: "Do you like games?", ph: "du yu laik geimz", cat: "do" },
+            { id: "Kamu suka kopi?", en: "Do you like coffee?", ph: "du yu laik ko-fi", cat: "do" },
+            { id: "Kamu suka teh?", en: "Do you like tea?", ph: "du yu laik ti", cat: "do" },
+            { id: "Kamu suka olahraga?", en: "Do you like sports?", ph: "du yu laik sports", cat: "do" },
+            { id: "Kamu suka traveling?", en: "Do you like traveling?", ph: "du yu laik tra-ve-ling", cat: "do" },
+            { id: "Kamu suka membaca?", en: "Do you like reading?", ph: "du yu laik ri-ding", cat: "do" },
+            { id: "Kamu suka memasak?", en: "Do you like cooking?", ph: "du yu laik kuk-ing", cat: "do" },
+            { id: "Kamu suka belajar bahasa Inggris?", en: "Do you like learning English?", ph: "du yu laik ler-ning ing-glish", cat: "do" },
+            
+            // What do you (11-20)
+            { id: "Kamu kerja apa?", en: "What do you do?", ph: "wat du yu du", cat: "what" },
+            { id: "Kamu suka makan apa?", en: "What do you eat?", ph: "wat du yu it", cat: "what" },
+            { id: "Kamu biasanya lakukan apa?", en: "What do you usually do?", ph: "wat du yu yu-zu-a-li du", cat: "what" },
+            { id: "Kamu belajar apa?", en: "What do you study?", ph: "wat du yu sta-di", cat: "what" },
+            { id: "Kamu tonton apa?", en: "What do you watch?", ph: "wat du yu woch", cat: "what" },
+            { id: "Kamu dengar apa?", en: "What do you listen to?", ph: "wat du yu lis-ten tu", cat: "what" },
+            { id: "Kamu main apa?", en: "What do you play?", ph: "wat du yu plei", cat: "what" },
+            { id: "Kamu beli apa?", en: "What do you buy?", ph: "wat du yu bai", cat: "what" },
+            { id: "Kamu masak apa?", en: "What do you cook?", ph: "wat du yu kuk", cat: "what" },
+            { id: "Kamu baca apa?", en: "What do you read?", ph: "wat du yu rid", cat: "what" },
+
+            // Where are you (21-30)
+            { id: "Kamu sedang pergi ke mana?", en: "Where are you going?", ph: "wer ar yu go-ing", cat: "where" },
+            { id: "Kamu sedang tinggal di mana?", en: "Where are you living?", ph: "wer ar yu liv-ing", cat: "where" },
+            { id: "Kamu sedang bekerja di mana?", en: "Where are you working?", ph: "wer ar yu wor-king", cat: "where" },
+            { id: "Kamu sedang belajar di mana?", en: "Where are you studying?", ph: "wer ar yu sta-di-ing", cat: "where" },
+            { id: "Kamu sedang duduk di mana?", en: "Where are you sitting?", ph: "wer ar yu sit-ing", cat: "where" },
+            { id: "Kamu sedang makan di mana?", en: "Where are you eating?", ph: "wer ar yu i-ting", cat: "where" },
+            { id: "Kamu sedang nongkrong di mana?", en: "Where are you hanging out?", ph: "wer ar yu heng-ing aut", cat: "where" },
+            { id: "Kamu sedang jalan di mana?", en: "Where are you walking?", ph: "wer ar yu wo-king", cat: "where" },
+            { id: "Kamu sedang tinggal sekarang di mana?", en: "Where are you staying now?", ph: "wer ar yu stei-ing nau", cat: "where" },
+            { id: "Kamu sedang kerja sekarang di mana?", en: "Where are you working now?", ph: "wer ar yu wor-king nau", cat: "where" },
+
+            // Why do you (31-40)
+            { id: "Kenapa kamu belajar bahasa Inggris?", en: "Why do you learn English?", ph: "wai du yu lern ing-glish", cat: "why" },
+            { id: "Kenapa kamu suka musik?", en: "Why do you like music?", ph: "wai du yu laik myu-zik", cat: "why" },
+            { id: "Kenapa kamu suka game?", en: "Why do you like games?", ph: "wai du yu laik geimz", cat: "why" },
+            { id: "Kenapa kamu kerja di sini?", en: "Why do you work here?", ph: "wai du yu work hir", cat: "why" },
+            { id: "Kenapa kamu bangun pagi?", en: "Why do you wake up early?", ph: "wai du yu weik ap er-li", cat: "why" },
+            { id: "Kenapa kamu suka traveling?", en: "Why do you like traveling?", ph: "wai du yu laik tra-ve-ling", cat: "why" },
+            { id: "Kenapa kamu belajar sendiri?", en: "Why do you study alone?", ph: "wai du yu sta-di a-lon", cat: "why" },
+            { id: "Kenapa kamu suka kopi?", en: "Why do you like coffee?", ph: "wai du yu laik ko-fi", cat: "why" },
+            { id: "Kenapa kamu nonton film?", en: "Why do you watch movies?", ph: "wai du yu woch mu-viz", cat: "why" },
+            { id: "Kenapa kamu olahraga?", en: "Why do you exercise?", ph: "wai du yu ek-ser-saiz", cat: "why" },
+
+            // When do you (41-50)
+            { id: "Kamu biasanya tidur kapan?", en: "When do you sleep?", ph: "wen du yu slip", cat: "when" },
+            { id: "Kamu bangun kapan?", en: "When do you wake up?", ph: "wen du yu weik ap", cat: "when" },
+            { id: "Kamu makan kapan?", en: "When do you eat?", ph: "wen du yu it", cat: "when" },
+            { id: "Kamu belajar kapan?", en: "When do you study?", ph: "wen du yu sta-di", cat: "when" },
+            { id: "Kamu kerja kapan?", en: "When do you work?", ph: "wen du yu work", cat: "when" },
+            { id: "Kamu olahraga kapan?", en: "When do you exercise?", ph: "wen du yu ek-ser-saiz", cat: "when" },
+            { id: "Kamu nonton film kapan?", en: "When do you watch movies?", ph: "wen du yu woch mu-viz", cat: "when" },
+            { id: "Kamu main game kapan?", en: "When do you play games?", ph: "wen du yu plei geimz", cat: "when" },
+            { id: "Kamu istirahat kapan?", en: "When do you rest?", ph: "wen du yu rest", cat: "when" },
+            { id: "Kamu santai kapan?", en: "When do you relax?", ph: "wen du yu ri-laks", cat: "when" },
+
+            // How often (51-60)
+            { id: "Seberapa sering kamu olahraga?", en: "How often do you exercise?", ph: "hau of-ten du yu ek-ser-saiz", cat: "often" },
+            { id: "Seberapa sering kamu nonton film?", en: "How often do you watch movies?", ph: "hau of-ten du yu woch mu-viz", cat: "often" },
+            { id: "Seberapa sering kamu main game?", en: "How often do you play games?", ph: "hau of-ten du yu plei geimz", cat: "often" },
+            { id: "Seberapa sering kamu makan di luar?", en: "How often do you eat out?", ph: "hau of-ten du yu it aut", cat: "often" },
+            { id: "Seberapa sering kamu minum kopi?", en: "How often do you drink coffee?", ph: "hau of-ten du yu drink ko-fi", cat: "often" },
+            { id: "Seberapa sering kamu belajar bahasa Inggris?", en: "How often do you study English?", ph: "hau of-ten du yu sta-di ing-glish", cat: "often" },
+            { id: "Seberapa sering kamu traveling?", en: "How often do you travel?", ph: "hau of-ten du yu tra-vel", cat: "often" },
+            { id: "Seberapa sering kamu bangun pagi?", en: "How often do you wake up early?", ph: "hau of-ten du yu weik ap er-li", cat: "often" },
+            { id: "Seberapa sering kamu membaca?", en: "How often do you read?", ph: "hau of-ten du yu rid", cat: "often" },
+            { id: "Seberapa sering kamu pakai sosial media?", en: "How often do you use social media?", ph: "hau of-ten du yu yuz so-shal mi-dia", cat: "often" },
+
+            // Can you (61-70)
+            { id: "Kamu bisa bahasa Inggris?", en: "Can you speak English?", ph: "ken yu spik ing-glish", cat: "can" },
+            { id: "Kamu bisa berenang?", en: "Can you swim?", ph: "ken yu swim", cat: "can" },
+            { id: "Kamu bisa memasak?", en: "Can you cook?", ph: "ken yu kuk", cat: "can" },
+            { id: "Kamu bisa menyanyi?", en: "Can you sing?", ph: "ken yu sing", cat: "can" },
+            { id: "Kamu bisa menari?", en: "Can you dance?", ph: "ken yu dens", cat: "can" },
+            { id: "Kamu bisa mengemudi?", en: "Can you drive?", ph: "ken yu draiv", cat: "can" },
+            { id: "Kamu bisa main gitar?", en: "Can you play the guitar?", ph: "ken yu plei de gi-tar", cat: "can" },
+            { id: "Kamu bisa berbicara cepat?", en: "Can you speak fast?", ph: "ken yu spik fast", cat: "can" },
+            { id: "Kamu bisa membantu saya?", en: "Can you help me?", ph: "ken yu help mi", cat: "can" },
+            { id: "Kamu bisa datang hari ini?", en: "Can you come today?", ph: "ken yu kam tu-dey", cat: "can" },
+
+            // Are you (71-80)
+            { id: "Kamu capek?", en: "Are you tired?", ph: "ar yu tai-erd", cat: "are" },
+            { id: "Kamu sibuk?", en: "Are you busy?", ph: "ar yu bi-zi", cat: "are" },
+            { id: "Kamu senang?", en: "Are you happy?", ph: "ar yu hap-pi", cat: "are" },
+            { id: "Kamu sedih?", en: "Are you sad?", ph: "ar yu sad", cat: "are" },
+            { id: "Kamu lapar?", en: "Are you hungry?", ph: "ar yu hung-gri", cat: "are" },
+            { id: "Kamu di rumah?", en: "Are you at home?", ph: "ar yu at hom", cat: "are" },
+            { id: "Kamu sendirian?", en: "Are you alone?", ph: "ar yu a-lon", cat: "are" },
+            { id: "Kamu siap?", en: "Are you ready?", ph: "ar yu re-di", cat: "are" },
+            { id: "Kamu serius?", en: "Are you serious?", ph: "ar yu si-ri-es", cat: "are" },
+            { id: "Kamu yakin?", en: "Are you sure?", ph: "ar yu syur", cat: "are" },
+
+            // Did you (81-90)
+            { id: "Kamu sudah makan?", en: "Did you eat?", ph: "did yu it", cat: "did" },
+            { id: "Kamu pergi kemarin?", en: "Did you go yesterday?", ph: "did yu go yes-ter-dey", cat: "did" },
+            { id: "Kamu belajar tadi?", en: "Did you study earlier?", ph: "did yu sta-di er-li-er", cat: "did" },
+            { id: "Kamu nonton film tadi?", en: "Did you watch a movie?", ph: "did yu woch e mu-vi", cat: "did" },
+            { id: "Kamu kerja hari ini?", en: "Did you work today?", ph: "did yu work tu-dey", cat: "did" },
+            { id: "Kamu bangun pagi tadi?", en: "Did you wake up early?", ph: "did yu weik ap er-li", cat: "did" },
+            { id: "Kamu ketemu temanmu?", en: "Did you meet your friend?", ph: "did yu mit yor frend", cat: "did" },
+            { id: "Kamu main game tadi?", en: "Did you play games?", ph: "did yu plei geimz", cat: "did" },
+            { id: "Kamu membeli sesuatu?", en: "Did you buy something?", ph: "did yu bai sam-thing", cat: "did" },
+            { id: "Kamu memasak tadi?", en: "Did you cook?", ph: "did yu kuk", cat: "did" },
+
+            // Have you (91-100)
+            { id: "Kamu pernah ke luar negeri?", en: "Have you been abroad?", ph: "hav yu bin a-brod", cat: "have" },
+            { id: "Kamu pernah ke Bali?", en: "Have you been to Bali?", ph: "hav yu bin tu ba-li", cat: "have" },
+            { id: "Kamu pernah mencoba makanan ini?", en: "Have you tried this food?", ph: "hav yu traid dis fud", cat: "have" },
+            { id: "Kamu sudah makan?", en: "Have you eaten?", ph: "hav yu i-ten", cat: "have" },
+            { id: "Kamu pernah nonton film itu?", en: "Have you watched that movie?", ph: "hav yu wochd det mu-vi", cat: "have" },
+            { id: "Kamu pernah bertemu dia?", en: "Have you met him?", ph: "hav yu met him", cat: "have" },
+            { id: "Kamu pernah belajar bahasa Inggris?", en: "Have you learned English?", ph: "hav yu lernd ing-glish", cat: "have" },
+            { id: "Kamu pernah main game itu?", en: "Have you played that game?", ph: "hav yu pleid det geim", cat: "have" },
+            { id: "Kamu pernah ke tempat itu?", en: "Have you been there?", ph: "hav yu bin der", cat: "have" },
+            { id: "Kamu sudah selesai?", en: "Have you finished?", ph: "hav yu fi-nisht", cat: "have" }
+        ];
+
+        let currentIndex = 0;
+        let timerAnswer;
+
+        function updateVal(id, value) {
+            document.getElementById(id).innerText = value;
+        }
+
+        function speak(text, lang = 'id-ID') {
+            window.speechSynthesis.cancel(); 
+            const speed = document.getElementById('speed-voice').value;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = parseFloat(speed);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function startApp() {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('exercise-screen').classList.remove('hidden');
+            document.getElementById('nav-controls').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function toggleFormula() {
+            const modal = document.getElementById('formula-modal');
+            const q = questions[currentIndex];
+            const formula = formulas[q.cat];
+            
+            document.getElementById('formula-content').innerHTML = `
+                <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 mb-4">
+                    <p class="text-blue-700 font-bold text-lg">${formula.title}</p>
+                </div>
+                <div class="text-sm leading-relaxed">
+                    ${formula.body}
+                </div>
+            `;
+            
+            modal.classList.toggle('active');
+        }
+
+        function loadQuestion() {
+            clearTimeout(timerAnswer);
+            const q = questions[currentIndex];
+            
+            // Update UI
+            document.getElementById('question-text').innerText = q.id;
+            document.getElementById('answer-en').innerText = q.en;
+            document.getElementById('answer-phonetic').innerText = q.ph;
+            document.getElementById('current-pattern-title').innerText = formulas[q.cat].title;
+            
+            document.getElementById('answer-section').classList.add('invisible');
+            document.getElementById('btn-manual-show').classList.remove('hidden');
+            
+            // Progress
+            const progress = ((currentIndex + 1) / questions.length) * 100;
+            document.getElementById('top-progress').style.width = progress + '%';
+            document.getElementById('progress-text').innerText = `Question ${currentIndex + 1} / ${questions.length}`;
+
+            // Voice Question
+            setTimeout(() => speak(q.id, 'id-ID'), 400);
+
+            // Auto Reveal
+            const delay = document.getElementById('speed-answer').value;
+            timerAnswer = setTimeout(() => {
+                showAnswer();
+            }, delay * 1000);
+        }
+
+        function showAnswer() {
+            clearTimeout(timerAnswer);
+            const section = document.getElementById('answer-section');
+            section.classList.remove('invisible');
+            section.classList.add('fade-in');
+            document.getElementById('btn-manual-show').classList.add('hidden');
+        }
+
+        function playEnglishAudio() {
+            speak(questions[currentIndex].en, 'en-US');
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Selamat! 100 Latihan Selesai.");
+                window.location.href = "index.html";
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+    </script>
+</body>
+</html>
