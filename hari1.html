@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- KODE PROTEKSI AKSES (PALING ATAS) -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning App - Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; }
+        .glass-card { background: #ffffff; border: 1px solid #f3f4f6; border-radius: 24px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.03); }
+        .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25); }
+        input[type="range"] { accent-color: #2563eb; }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-slate-100 z-50 px-6 py-4 flex items-center justify-between">
+        <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all">
+            <i class="fa-solid fa-house-chimney"></i>
+        </a>
+        <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Materi Pelatihan</h1>
+        <div class="w-10"></div>
+    </header>
+
+    <main class="min-h-screen pt-28 pb-12 flex flex-col items-center px-6">
+        
+        <!-- ================= SECTION 1: INTRO ================= -->
+        <div id="intro-screen" class="max-w-md w-full fade-in">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-shield-check text-3xl text-blue-500"></i>
+                </div>
+                <div class="px-2">
+                    <p class="mb-4 leading-relaxed">
+                        <span class="text-red-600 font-extrabold block text-xl mb-2 italic uppercase tracking-tighter">ATENSI WAJIB BACA:</span>
+                        <span class="text-slate-600 font-bold text-[15px]">
+                            Jawablah secara lisan sesuai kemampuan tanpa ragu agar lebih cepat lancar berbahasa Inggris. 
+                            Pelatihan ini dilengkapi kunci pelafalan dan ejaan.
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Settings Card -->
+            <div class="glass-card p-6 mb-10 space-y-8">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-xs uppercase tracking-widest">Kecepatan Suara</label>
+                        <span id="val-speed" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold shadow-sm">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-voice" min="0.5" max="1.5" step="0.1" value="1" 
+                           oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-xs uppercase tracking-widest">Jeda Jawaban</label>
+                        <span id="val-timer" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold shadow-sm">5s</span>
+                    </div>
+                    <input type="range" id="speed-answer" min="2" max="20" step="1" value="5" 
+                           oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+
+            <button onclick="startApp()" class="w-full btn-primary text-white font-extrabold py-5 rounded-2xl text-lg shadow-lg tracking-widest uppercase">
+                Mulai Latihan
+            </button>
+        </div>
+
+        <!-- ================= SECTION 2: EXERCISE ================= -->
+        <div id="exercise-screen" class="hidden max-w-md w-full fade-in">
+            <div class="text-center mb-10">
+                <!-- Icon Speaker Modern -->
+                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner">
+                    <i class="fa-solid fa-volume-high text-3xl text-slate-400"></i>
+                </div>
+                <h2 id="question-text" class="text-3xl font-extrabold text-slate-800 leading-tight">Halo, siapa nama kamu ?</h2>
+            </div>
+
+            <!-- Button Reveal -->
+            <div class="flex justify-center mb-8">
+                <button id="btn-manual-show" onclick="showAnswer()" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all text-xs uppercase tracking-[0.2em]">
+                    Buka Kunci Jawaban
+                </button>
+            </div>
+
+            <!-- Answer Section -->
+            <div id="answer-section" class="hidden glass-card p-6 space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                    </div>
+                    <div>
+                        <p class="text-blue-600 font-extrabold text-2xl mb-1" id="ans-en">Hello, my name is Andi</p>
+                        <p class="text-slate-400 font-medium italic text-lg" id="ans-id">halo, nama saya andi</p>
+                        <p class="text-slate-300 font-bold mt-2 tracking-wide" id="ans-phonetic">he-lo, mai nem iz an-di</p>
+                    </div>
+                </div>
+
+                <!-- Dengar Audio Button Modern -->
+                <button onclick="playEnglishAudio()" class="mt-4 w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-600 hover:text-white transition-all group border border-slate-100 shadow-sm">
+                    <i class="fa-solid fa-play-circle text-2xl text-blue-500 group-hover:text-white transition-colors"></i>
+                    <span class="text-sm uppercase tracking-widest">Dengar Audio</span>
+                </button>
+            </div>
+
+            <!-- Modern Next Button -->
+            <div class="mt-12">
+                <button onclick="nextExercise()" class="w-full flex items-center justify-between pl-8 pr-3 py-3 bg-white border border-slate-100 rounded-full hover:shadow-md transition-all group">
+                    <span class="font-extrabold text-slate-500 text-sm uppercase tracking-widest">Latihan Selanjutnya</span>
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const exercises = [
+            {
+                q: "Halo, siapa nama kamu ?",
+                ans_en: "Hello, my name is Andi",
+                ans_id: "halo, nama saya andi",
+                ans_phonetic: "he-lo, mai nem iz an-di"
+            }
+        ];
+
+        let currentExerciseIndex = 0;
+        let timerAnswer;
+
+        function updateVal(id, value) {
+            document.getElementById(id).innerText = value;
+        }
+
+        function speak(text, lang = 'id-ID') {
+            window.speechSynthesis.cancel(); 
+            const speed = document.getElementById('speed-voice').value;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = parseFloat(speed);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function startApp() {
+            // REVISI: Audio intro dihilangkan, langsung masuk ke soal
+            document.getElementById('intro-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-screen').classList.add('hidden');
+                document.getElementById('exercise-screen').classList.remove('hidden');
+                loadExercise();
+            }, 400);
+        }
+
+        function loadExercise() {
+            const data = exercises[currentExerciseIndex];
+            const delaySec = document.getElementById('speed-answer').value;
+
+            document.getElementById('question-text').innerText = data.q;
+            document.getElementById('ans-en').innerText = data.ans_en;
+            document.getElementById('ans-id').innerText = data.ans_id;
+            document.getElementById('ans-phonetic').innerText = data.ans_phonetic;
+
+            document.getElementById('answer-section').classList.add('hidden');
+            document.getElementById('btn-manual-show').classList.remove('hidden');
+
+            // Tetap membacakan pertanyaan (opsional, jika ingin pertanyaan bersuara)
+            setTimeout(() => speak(data.q, 'id-ID'), 500);
+
+            // Timer otomatis kunci jawaban
+            clearTimeout(timerAnswer);
+            timerAnswer = setTimeout(() => {
+                showAnswer();
+            }, delaySec * 1000);
+        }
+
+        function showAnswer() {
+            clearTimeout(timerAnswer);
+            const section = document.getElementById('answer-section');
+            section.classList.remove('hidden');
+            section.classList.add('fade-in');
+            document.getElementById('btn-manual-show').classList.add('hidden');
+        }
+
+        function playEnglishAudio() {
+            const text = document.getElementById('ans-en').innerText;
+            speak(text, 'en-US');
+        }
+
+        function nextExercise() {
+            alert("Latihan berikutnya akan segera tersedia di pembaruan sistem!");
+        }
+    </script>
+</body>
+</html>
