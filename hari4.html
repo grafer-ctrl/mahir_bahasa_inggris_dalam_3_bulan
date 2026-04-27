@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning - 100 Latihan Chatting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; overflow-x: hidden; }
+        .glass-card { background: #ffffff; border: 1px solid #f3f4f6; border-radius: 24px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.03); }
+        .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.3s ease; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-slate-100 z-50 px-6 py-4 flex items-center justify-between">
+        <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all">
+            <i class="fa-solid fa-house-chimney"></i>
+        </a>
+        <div class="text-center">
+            <h1 class="text-slate-400 font-extrabold text-[10px] tracking-[0.25em] uppercase">Latihan Percakapan Chatting</h1>
+            <p id="progress-text" class="text-[9px] text-blue-500 font-bold mt-1 uppercase tracking-widest">Question 1 / 100</p>
+        </div>
+        <div class="w-10 flex justify-end">
+            <button onclick="location.reload()" class="text-slate-300 hover:text-slate-600"><i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+        <div class="absolute bottom-0 left-0 h-[2px] bg-blue-500 progress-bar" id="top-progress" style="width: 0%"></div>
+    </header>
+
+    <main class="min-h-screen pt-28 pb-32 flex flex-col items-center px-6">
+        
+        <!-- SECTION 1: SETTINGS -->
+        <div id="intro-screen" class="max-w-md w-full fade-in">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <i class="fa-solid fa-comments text-3xl text-blue-500"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold mb-2">Pola Kalimat Chatting</h2>
+                <p class="text-slate-500 text-sm px-4">100 Kalimat praktis untuk OmeTV dan mencari teman baru.</p>
+            </div>
+
+            <div class="glass-card p-6 mb-8 space-y-6">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Kecepatan Suara</label>
+                        <span id="val-speed" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-voice" min="0.5" max="1.3" step="0.1" value="1" oninput="updateVal('val-speed', this.value + 'x')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Jeda Kunci Jawaban</label>
+                        <span id="val-timer" class="bg-blue-600 text-white px-3 py-0.5 rounded-lg text-xs font-bold">5s</span>
+                    </div>
+                    <input type="range" id="speed-answer" min="2" max="15" step="1" value="5" oninput="updateVal('val-timer', this.value + 's')" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+
+            <button onclick="startApp()" class="w-full btn-primary text-white font-extrabold py-5 rounded-2xl text-lg shadow-lg tracking-widest uppercase">
+                Mulai Latihan
+            </button>
+        </div>
+
+        <!-- SECTION 2: EXERCISE -->
+        <div id="exercise-screen" class="hidden max-w-md w-full fade-in">
+            <div class="text-center mb-8">
+                <div class="inline-block px-4 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-4">
+                    Terjemahkan ke Bahasa Inggris
+                </div>
+                <h2 id="question-text" class="text-2xl font-extrabold text-slate-800 leading-tight min-h-[100px] flex items-center justify-center"></h2>
+            </div>
+
+            <div class="flex justify-center mb-8 h-12">
+                <button id="btn-manual-show" onclick="showAnswer()" class="bg-slate-800 text-white px-8 py-2 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-slate-700 transition-all">
+                    Buka Kunci Jawaban
+                </button>
+            </div>
+
+            <div id="answer-section" class="invisible glass-card p-6 space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-check text-[10px] text-white"></i>
+                    </div>
+                    <div>
+                        <p id="answer-en" class="text-blue-600 font-extrabold text-2xl mb-1"></p>
+                        <p id="answer-phonetic" class="text-slate-400 font-bold mt-2 tracking-wide text-sm"></p>
+                    </div>
+                </div>
+
+                <div class="pt-4 space-y-3">
+                    <button onclick="playEnglishAudio()" class="w-full flex items-center justify-center gap-3 py-4 bg-slate-50 text-slate-700 rounded-2xl font-bold hover:bg-blue-50 transition-all border border-slate-100">
+                        <i class="fa-solid fa-circle-play text-2xl text-blue-600"></i>
+                        <span class="text-xs uppercase tracking-widest">Dengar Audio</span>
+                    </button>
+
+                    <button onclick="toggleFormula()" class="w-full flex items-center justify-center gap-3 py-3 bg-amber-50 text-amber-700 rounded-2xl font-bold hover:bg-amber-100 transition-all border border-amber-100">
+                        <i class="fa-solid fa-lightbulb text-lg text-amber-500"></i>
+                        <span class="text-[10px] uppercase tracking-widest">Mengapa pakai kalimat ini?</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Formula Modal -->
+    <div id="formula-modal" class="modal px-6" onclick="toggleFormula()">
+        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 shadow-2xl" onclick="event.stopPropagation()">
+            <div id="formula-content" class="space-y-4">
+                <!-- Content dari JS -->
+            </div>
+            <button onclick="toggleFormula()" class="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-[10px]">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="nav-controls" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-6 flex items-center justify-between gap-4 z-50">
+        <button onclick="prevQuestion()" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-100 transition-all">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="nextQuestion()" class="flex-1 btn-primary text-white h-14 rounded-2xl font-extrabold uppercase tracking-widest flex items-center justify-center gap-2">
+            <span>Selanjutnya</span>
+            <i class="fa-solid fa-arrow-right text-sm"></i>
+        </button>
+    </nav>
+
+    <script>
+        const formulas = {
+            "doing": "🔹 <b>Present Continuous</b><br><br>👉 Memakai “What + are + subject + doing” untuk menanyakan aktivitas yang sedang berlangsung sekarang.",
+            "where": "🔹 <b>Asking Location</b><br><br>👉 Memakai “Where + are + subject” untuk menanyakan lokasi atau keberadaan saat ini.",
+            "from": "🔹 <b>Origin</b><br><br>👉 “Where are you from” digunakan khusus untuk menanyakan asal daerah atau negara seseorang.",
+            "who": "🔹 <b>Asking People</b><br><br>👉 “Who” dipakai untuk menanyakan orang atau teman yang sedang bersama subjek.",
+            "habit": "🔹 <b>Simple Present (Do)</b><br><br>👉 “When + do” atau “Do you” digunakan untuk menanyakan kebiasaan atau fakta umum.",
+            "why": "🔹 <b>Asking Reason</b><br><br>👉 “Why + do” digunakan untuk menanyakan alasan di balik sebuah kebiasaan atau tindakan.",
+            "how": "🔹 <b>Asking Condition</b><br><br>👉 “How is” atau “How old” digunakan untuk menanyakan kondisi, pengalaman, atau usia.",
+            "kind": "🔹 <b>Preferences</b><br><br>👉 “What kind of” atau “What movies” digunakan untuk menanyakan jenis atau preferensi spesifik.",
+            "past_cont": "🔹 <b>Past Continuous</b><br><br>👉 “What were you doing” menanyakan aktivitas yang sedang terjadi di masa lalu sebelum saat ini.",
+            "condition": "🔹 <b>State/Condition</b><br><br>👉 “Are you” digunakan untuk menanyakan kondisi atau status subjek saat ini (seperti lapar, sibuk, sendirian).",
+            "ability": "🔹 <b>Capability</b><br><br>👉 “Can you” digunakan untuk menanyakan kemampuan atau kebisaan seseorang.",
+            "prefer": "🔹 <b>Choice/Preference</b><br><br>👉 “Do you prefer” digunakan untuk menanyakan pilihan antara dua hal atau lebih.",
+            "duration": "🔹 <b>Asking Duration</b><br><br>👉 “How long do you” digunakan untuk menanyakan durasi atau lama sebuah kebiasaan.",
+            "frequency": "🔹 <b>Asking Frequency</b><br><br>👉 “Do you often” atau “How many times” digunakan untuk menanyakan seberapa sering sesuatu dilakukan.",
+            "time": "🔹 <b>Asking Time</b><br><br>👉 “What time do you” digunakan untuk menanyakan waktu spesifik sebuah rutinitas."
+        };
+
+        const questions = [
+            { id: "Kamu lagi ngapain sekarang?", en: "What are you doing right now?", ph: "wat ar yu du-ing rait nau", cat: "doing" },
+            { id: "Kamu lagi di mana sekarang?", en: "Where are you right now?", ph: "wer ar yu rait nau", cat: "where" },
+            { id: "Kamu dari negara mana?", en: "Where are you from?", ph: "wer ar yu from", cat: "from" },
+            { id: "Kamu lagi sama siapa?", en: "Who are you with right now?", ph: "hu ar yu with rait nau", cat: "who" },
+            { id: "Kamu biasanya online jam berapa?", en: "When do you usually go online?", ph: "wen du yu yusuali go onlain", cat: "habit" },
+            { id: "Kenapa kamu pakai OmeTV?", en: "Why do you use OmeTV?", ph: "wai du yu yus ometivi", cat: "why" },
+            { id: "Gimana pengalaman kamu di sini?", en: "How is your experience here?", ph: "hau iz yor eksperiens hir", cat: "how" },
+            { id: "Kamu suka musik apa?", en: "What kind of music do you like?", ph: "wat kaind of myuzik du yu laik", cat: "kind" },
+            { id: "Kamu lagi ngapain sebelum ini?", en: "What were you doing before this?", ph: "wat wer yu du-ing bifor this", cat: "past_cont" },
+            { id: "Kamu lagi libur atau kerja?", en: "Are you on vacation or working?", ph: "ar yu on vekesyen or working", cat: "doing" },
+            { id: "Kamu tinggal di kota apa?", en: "What city do you live in?", ph: "wat siti du yu liv in", cat: "habit" },
+            { id: "Kamu umur berapa?", en: "How old are you?", ph: "hau old ar yu", cat: "how" },
+            { id: "Kamu sekolah atau kerja?", en: "Do you study or work?", ph: "du yu stadi or work", cat: "habit" },
+            { id: "Kamu suka nonton film apa?", en: "What movies do you like to watch?", ph: "wat muvies du yu laik to woch", cat: "kind" },
+            { id: "Kamu punya hobi apa?", en: "What are your hobbies?", ph: "wat ar yor hobis", cat: "how" },
+            { id: "Kamu sering pakai OmeTV?", en: "Do you often use OmeTV?", ph: "du yu ofen yus ometivi", cat: "frequency" },
+            { id: "Kamu lagi sendirian?", en: "Are you alone right now?", ph: "ar yu alon rait nau", cat: "condition" },
+            { id: "Kamu suka traveling?", en: "Do you like traveling?", ph: "du yu laik traveling", cat: "habit" },
+            { id: "Kamu mau ngobrol tentang apa?", en: "What do you want to talk about?", ph: "wat du yu want to tok abaut", cat: "habit" },
+            { id: "Kamu lagi santai atau sibuk?", en: "Are you relaxing or busy?", ph: "ar yu rileksing or bizi", cat: "condition" },
+            { id: "Kamu suka makanan apa?", en: "What food do you like?", ph: "wat fud du yu laik", cat: "kind" },
+            { id: "Kamu bisa bahasa Inggris dengan baik?", en: "Can you speak English well?", ph: "can yu spik ingglish wel", cat: "ability" },
+            { id: "Kamu lagi dengar musik?", en: "Are you listening to music?", ph: "ar yu lisening to myuzik", cat: "doing" },
+            { id: "Kamu suka olahraga apa?", en: "What sports do you like?", ph: "wat sports du yu laik", cat: "kind" },
+            { id: "Kamu tinggal sendiri atau dengan keluarga?", en: "Do you live alone or with your family?", ph: "du yu liv alon or with yor family", cat: "habit" },
+            { id: "Kamu lagi pakai HP atau laptop?", en: "Are you using a phone or a laptop?", ph: "ar yu yusing a fon or a laptop", cat: "doing" },
+            { id: "Kamu suka game apa?", en: "What games do you like?", ph: "wat geims du yu laik", cat: "kind" },
+            { id: "Kamu lagi makan?", en: "Are you eating right now?", ph: "ar yu iting rait nau", cat: "doing" },
+            { id: "Kamu punya hewan peliharaan?", en: "Do you have a pet?", ph: "du yu hav a pet", cat: "habit" },
+            { id: "Kamu lagi nonton sesuatu sekarang?", en: "Are you watching something right now?", ph: "ar yu woching samting rait nau", cat: "doing" },
+            { id: "Kamu sering chatting dengan orang asing?", en: "Do you often chat with strangers?", ph: "du yu ofen chat with strein-jers", cat: "frequency" },
+            { id: "Kamu lagi di rumah atau di luar?", en: "Are you at home or outside?", ph: "ar yu at hom or autsaid", cat: "where" },
+            { id: "Kamu biasanya bangun jam berapa?", en: "What time do you usually wake up?", ph: "wat taim du yu yusuali weik ap", cat: "time" },
+            { id: "Kamu lagi belajar sesuatu sekarang?", en: "Are you studying something right now?", ph: "ar yu stadi-ing samting rait nau", cat: "doing" },
+            { id: "Kamu suka ngobrol lama?", en: "Do you like long conversations?", ph: "du yu laik long konversesyen", cat: "habit" },
+            { id: "Kamu lagi pakai kamera depan?", en: "Are you using the front camera?", ph: "ar yu yusing de front kamera", cat: "doing" },
+            { id: "Kamu sering ketemu orang dari negara mana?", en: "Which country do you often meet people from?", ph: "wich kantri du yu ofen mit pipel from", cat: "frequency" },
+            { id: "Kamu lagi santai di mana?", en: "Where are you relaxing right now?", ph: "wer ar yu rileksing rait nau", cat: "doing" },
+            { id: "Kamu suka ngobrol sama orang baru?", en: "Do you like talking to new people?", ph: "du yu laik toking tu new pipel", cat: "habit" },
+            { id: "Kamu lagi pakai WiFi atau data?", en: "Are you using WiFi or mobile data?", ph: "ar yu yusing waifai or mobail data", cat: "doing" },
+            { id: "Kamu biasanya tidur jam berapa?", en: "What time do you usually sleep?", ph: "wat taim du yu yusuali slip", cat: "time" },
+            { id: "Kamu lagi bosan?", en: "Are you bored right now?", ph: "ar yu bord rait nau", cat: "condition" },
+            { id: "Kamu suka ngobrol serius atau santai?", en: "Do you like serious or casual conversations?", ph: "du yu laik sirius or kazual konversesyen", cat: "habit" },
+            { id: "Kamu lagi di kamar atau di luar rumah?", en: "Are you in your room or outside?", ph: "ar yu in yor rum or autsaid", cat: "where" },
+            { id: "Kamu sering pakai aplikasi ini malam hari?", en: "Do you often use this app at night?", ph: "du yu ofen yus dis ap at nait", cat: "frequency" },
+            { id: "Kamu lagi ngopi atau minum teh?", en: "Are you drinking coffee or tea?", ph: "ar yu drinking kopi or ti", cat: "doing" },
+            { id: "Kamu suka ngobrol lama atau sebentar?", en: "Do you prefer long or short chats?", ph: "du yu prefer long or short chats", cat: "prefer" },
+            { id: "Kamu lagi nunggu seseorang?", en: "Are you waiting for someone?", ph: "ar yu weiting for samwan", cat: "doing" },
+            { id: "Kamu biasanya ngobrol berapa lama di sini?", en: "How long do you usually chat here?", ph: "hau long du yu yusuali chat hir", cat: "duration" },
+            { id: "Kamu lagi pakai headset?", en: "Are you using a headset?", ph: "ar yu yusing hedset", cat: "doing" },
+            { id: "Kamu suka ngobrol pakai video atau chat saja?", en: "Do you prefer video calls or text chat?", ph: "du yu prefer vidio kol or tekst chat", cat: "prefer" },
+            { id: "Kamu lagi di tempat ramai atau sepi?", en: "Are you in a crowded or quiet place?", ph: "ar yu in a krauded or kwaiet ples", cat: "where" },
+            { id: "Kamu sering ketemu orang yang ramah di sini?", en: "Do you often meet friendly people here?", ph: "du yu ofen mit frendli pipel hir", cat: "frequency" },
+            { id: "Kamu lagi jalan-jalan atau di rumah saja?", en: "Are you out or just at home?", ph: "ar yu aut or just at hom", cat: "where" },
+            { id: "Kamu suka ngobrol tentang apa biasanya?", en: "What do you usually talk about?", ph: "wat du yu yusuali tok abaut", cat: "habit" },
+            { id: "Kamu lagi cari teman baru?", en: "Are you looking for new friends?", ph: "ar yu looking for new frends", cat: "doing" },
+            { id: "Kamu sering ketawa saat ngobrol di sini?", en: "Do you laugh a lot when chatting here?", ph: "du yu laf a lot wen chating hir", cat: "habit" },
+            { id: "Kamu lagi santai sambil rebahan?", en: "Are you lying down and relaxing?", ph: "ar yu lai-ing daun and rileksing", cat: "doing" },
+            { id: "Kamu suka ngobrol pakai bahasa Inggris atau bahasa lain?", en: "Do you prefer English or another language?", ph: "du yu prefer ingglish or anoder langwij", cat: "prefer" },
+            { id: "Kamu lagi pakai earphone sekarang?", en: "Are you using earphones right now?", ph: "ar yu yusing irfonz rait nau", cat: "doing" },
+            { id: "Kamu sering ketemu orang dari Asia?", en: "Do you often meet people from Asia?", ph: "du yu ofen mit pipel from esia", cat: "frequency" },
+            { id: "Kamu lagi di tempat terang atau gelap?", en: "Are you in a bright or dark place?", ph: "ar yu in a brait or dark ples", cat: "where" },
+            { id: "Kamu biasanya ngobrol pakai bahasa apa?", en: "What language do you usually use?", ph: "wat langwij du yu yusuali yus", cat: "habit" },
+            { id: "Kamu lagi senang atau biasa saja?", en: "Are you feeling happy or just okay?", ph: "ar yu fil-ing hapi or just okei", cat: "doing" },
+            { id: "Kamu suka ngobrol malam atau siang?", en: "Do you prefer chatting at night or during the day?", ph: "du yu prefer chating at nait or during de dei", cat: "prefer" },
+            { id: "Kamu lagi sendirian di rumah?", en: "Are you alone at home right now?", ph: "ar yu alon at hom rait nau", cat: "where" },
+            { id: "Kamu sering skip orang di sini?", en: "Do you often skip people here?", ph: "du yu ofen skip pipel hir", cat: "frequency" },
+            { id: "Kamu lagi cari teman ngobrol atau pasangan?", en: "Are you looking for friends or a partner?", ph: "ar yu looking for frends or a partner", cat: "doing" },
+            { id: "Kamu biasanya ngobrol berapa kali sehari?", en: "How many times do you chat in a day?", ph: "hau meni taims du yu chat in a dei", cat: "frequency" },
+            { id: "Kamu lagi duduk atau berdiri?", en: "Are you sitting or standing?", ph: "ar yu sit-ing or stand-ing", cat: "doing" },
+            { id: "Kamu suka ngobrol cepat atau pelan?", en: "Do you like fast or slow conversations?", ph: "du yu laik fast or slow konversesyen", cat: "habit" },
+            { id: "Kamu lagi pakai internet cepat?", en: "Are you using a fast internet connection?", ph: "ar yu yusing a fast internet konek-syen", cat: "doing" },
+            { id: "Kamu sering ngobrol sama orang luar negeri?", en: "Do you often talk to people from other countries?", ph: "du yu ofen tok tu pipel from ader kantris", cat: "frequency" },
+            { id: "Kamu lagi di kota besar atau kecil?", en: "Are you in a big or small city?", ph: "ar yu in a big or smol siti", cat: "where" },
+            { id: "Kamu biasanya mulai chat jam berapa?", en: "What time do you usually start chatting?", ph: "wat taim du yu yusuali start chating", cat: "time" },
+            { id: "Kamu lagi istirahat atau lagi kerja?", en: "Are you taking a break or working?", ph: "ar yu teiking a breik or working", cat: "doing" },
+            { id: "Kamu suka ngobrol dengan orang yang ramah?", en: "Do you like talking to friendly people?", ph: "du yu laik toking tu frendli pipel", cat: "habit" },
+            { id: "Kamu lagi di dalam ruangan atau luar ruangan?", en: "Are you indoors or outdoors?", ph: "ar yu indors or autdors", cat: "where" },
+            { id: "Kamu sering ketemu orang yang lucu di sini?", en: "Do you often meet funny people here?", ph: "du yu ofen mit fani pipel hir", cat: "frequency" },
+            { id: "Kamu lagi santai sendirian?", en: "Are you relaxing by yourself?", ph: "ar yu rileksing bai yorself", cat: "doing" },
+            { id: "Kamu suka ngobrol pakai kamera atau tanpa kamera?", en: "Do you prefer chatting with or without a camera?", ph: "du yu prefer chating with or without a kamera", cat: "prefer" },
+            { id: "Kamu lagi di tempat yang berisik?", en: "Are you in a noisy place?", ph: "ar yu in a noizi ples", cat: "where" },
+            { id: "Kamu sering ngobrol lama di sini?", en: "Do you often have long chats here?", ph: "du yu ofen hav long chats hir", cat: "frequency" },
+            { id: "Kamu lagi cari teman dari negara tertentu?", en: "Are you looking for friends from a specific country?", ph: "ar yu looking for frends from a spesifik kantri", cat: "doing" },
+            { id: "Kamu biasanya ngobrol pakai kamera berapa lama?", en: "How long do you usually use the camera while chatting?", ph: "hau long du yu yusuali yus de kamera wail chating", cat: "duration" },
+            { id: "Kamu lagi santai sambil dengar lagu?", en: "Are you relaxing while listening to music?", ph: "ar yu rileksing wail lisening tu myuzik", cat: "doing" },
+            { id: "Kamu suka ngobrol sama orang yang serius?", en: "Do you like talking to serious people?", ph: "du yu laik toking tu sirius pipel", cat: "habit" },
+            { id: "Kamu lagi nunggu koneksi bagus?", en: "Are you waiting for a better connection?", ph: "ar yu weiting for a beter konek-syen", cat: "doing" },
+            { id: "Kamu siap ngobrol sekarang?", en: "Are you ready to chat now?", ph: "ar yu redi tu chat nau", cat: "condition" },
+            { id: "Kamu suka OmeTV?", en: "Do you like OmeTV?", ph: "du yu laik ometivi", cat: "habit" }
+        ];
+
+        let currentIndex = 0;
+        let timerAnswer;
+
+        function updateVal(id, value) {
+            document.getElementById(id).innerText = value;
+        }
+
+        function speak(text, lang = 'id-ID') {
+            window.speechSynthesis.cancel(); 
+            const speed = document.getElementById('speed-voice').value;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = parseFloat(speed);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function startApp() {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('exercise-screen').classList.remove('hidden');
+            document.getElementById('nav-controls').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            clearTimeout(timerAnswer);
+            const q = questions[currentIndex];
+            
+            document.getElementById('question-text').innerText = q.id;
+            document.getElementById('answer-en').innerText = q.en;
+            document.getElementById('answer-phonetic').innerText = q.ph;
+            
+            document.getElementById('answer-section').classList.add('invisible');
+            document.getElementById('answer-section').classList.remove('fade-in');
+            document.getElementById('btn-manual-show').classList.remove('hidden');
+            
+            const progress = ((currentIndex + 1) / questions.length) * 100;
+            document.getElementById('top-progress').style.width = progress + '%';
+            document.getElementById('progress-text').innerText = `Question ${currentIndex + 1} / ${questions.length}`;
+
+            setTimeout(() => speak(q.id, 'id-ID'), 400);
+
+            const delay = document.getElementById('speed-answer').value;
+            timerAnswer = setTimeout(() => {
+                showAnswer();
+            }, delay * 1000);
+        }
+
+        function showAnswer() {
+            clearTimeout(timerAnswer);
+            const section = document.getElementById('answer-section');
+            section.classList.remove('invisible');
+            section.classList.add('fade-in');
+            document.getElementById('btn-manual-show').classList.add('hidden');
+        }
+
+        function toggleFormula() {
+            const modal = document.getElementById('formula-modal');
+            const q = questions[currentIndex];
+            document.getElementById('formula-content').innerHTML = `
+                <div class="text-slate-700 leading-relaxed">
+                    ${formulas[q.cat] || "Pola kalimat ini umum digunakan dalam percakapan sehari-hari."}
+                </div>
+            `;
+            modal.classList.toggle('active');
+        }
+
+        function playEnglishAudio() {
+            speak(questions[currentIndex].en, 'en-US');
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Selamat! Anda telah menyelesaikan 100 latihan chatting.");
+                window.location.href = "index.html";
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+    </script>
+</body>
+</html>
