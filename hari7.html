@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Kata Benda - 30 Soal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.3s; }
+        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
+        .blue-box { background-color: #89b0f8; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 10px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <h1 class="text-3xl font-bold text-center mt-10 uppercase">Pelatihan<br>Kata Benda (Nouns)</h1>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium shadow-lg">
+            Ucapkan kalimatnya secara lisan sebelum jawaban muncul.<br>Fokus pada <b>Kata Benda</b>.
+        </div>
+
+        <!-- Settings -->
+        <div class="w-full space-y-6 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Volume Suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Kecepatan Suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Jeda Kunci Jawaban (Maks 120s)</label>
+                <input type="range" id="timer-setting" min="1" max="120" step="1" value="5" class="slider-pink">
+                <p class="text-xs text-right text-gray-500 font-bold"><span id="timer-val">5</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition">
+                <i class="fas fa-play text-3xl text-white ml-1"></i>
+            </div>
+            <span class="text-2xl font-black mt-3 text-gray-800 uppercase">Mulai 30 Soal</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
+        <header class="flex items-center justify-between p-4 border-b">
+            <button onclick="goBack()" class="text-2xl text-gray-600 hover:text-black">
+                <i class="fas fa-home"></i>
+            </button>
+            <h2 class="text-xl font-bold uppercase tracking-tighter">Noun Training</h2>
+            <div class="text-sm font-bold bg-gray-200 px-3 py-1 rounded-full" id="quiz-counter">1/30</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-lg font-bold mb-6 uppercase tracking-widest text-gray-500">Terjemahkan Lisan</p>
+
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
+                <span id="question-text" class="text-xl font-bold text-left leading-tight">...</span>
+                <button onclick="speakText('id')" class="hover:scale-110 transition ml-2"><i class="fas fa-volume-up text-3xl"></i></button>
+            </div>
+
+            <p class="mb-2 font-bold text-gray-400 uppercase text-sm">Jawaban Otomatis / Klik Lampu</p>
+            
+            <div id="answer-container" class="w-full">
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-6 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
+                    <i class="far fa-lightbulb"></i>
+                </button>
+
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
+                            <p id="ph-text" class="text-lg italic text-blue-900 mt-1">...</p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white p-2 rounded-full shadow-sm hover:scale-110 transition">
+                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="reason-text" class="text-xs mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-800 leading-relaxed">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER INFO (Inti Materi) -->
+        <div id="info-box" class="hidden px-6 pb-4">
+            <div class="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200 text-[10px] text-gray-700">
+                <p class="font-bold mb-1 underline">KATA BENDA = NAMA SESUATU:</p>
+                <div class="grid grid-cols-2 gap-1">
+                    <span>• Orang: teacher, friend</span>
+                    <span>• Benda: phone, book</span>
+                    <span>• Tempat: city, house</span>
+                    <span>• Abstrak: music, time</span>
+                </div>
+                <p class="mt-2 font-bold">PENTING:</p>
+                <p>Pakai <b>a/an</b>: Bisa dihitung (a book). Tanpa <b>a/an</b>: Tidak bisa dihitung (water). Tambah <b>-s</b>: Jamak (friends).</p>
+            </div>
+        </div>
+
+        <footer class="p-6 flex justify-between gap-4 bg-gray-50 border-t">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Prev</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Next</button>
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            { id: "Aku seorang pelajar", en: "I am a student", ph: "ai em e student", reason: "student = kata benda (orang) → menunjukkan identitas" },
+            { id: "Ini adalah teman saya", en: "This is my friend", ph: "dis iz mai frend", reason: "friend = kata benda (orang) → orang yang dikenal" },
+            { id: "Saya punya handphone", en: "I have a phone", ph: "ai hev e fon", reason: "phone = benda yang bisa dimiliki" },
+            { id: "Itu adalah rumah saya", en: "That is my house", ph: "det iz mai haus", reason: "house = tempat" },
+            { id: "Saya melihat seorang wanita", en: "I see a woman", ph: "ai sii e wuman", reason: "woman = kata benda (orang)" },
+            { id: "Saya punya banyak teman", en: "I have many friends", ph: "ai hev meni frends", reason: "friends = plural noun (jamak) karena lebih dari satu" },
+            { id: "Ini adalah meja", en: "This is a table", ph: "dis iz e tebel", reason: "table = benda" },
+            { id: "Saya membeli makanan", en: "I buy food", ph: "ai bai fud", reason: "food = kata benda (benda umum / tidak bisa dihitung)" },
+            { id: "Saya minum air", en: "I drink water", ph: "ai drink woter", reason: "water = uncountable noun → tidak pakai “a/an”" },
+            { id: "Saya melihat mobil", en: "I see a car", ph: "ai sii e kar", reason: "car = benda yang bisa dihitung" },
+            { id: "Dia seorang guru", en: "He is a teacher", ph: "hi iz e ticher", reason: "teacher = kata benda profesi" },
+            { id: "Saya punya buku", en: "I have a book", ph: "ai hev e buk", reason: "book = benda yang bisa dihitung" },
+            { id: "Ini adalah kota saya", en: "This is my city", ph: "dis iz mai siti", reason: "city = tempat" },
+            { id: "Saya suka musik", en: "I like music", ph: "ai laik miuzik", reason: "music = kata benda abstrak / tidak bisa dihitung" },
+            { id: "Saya punya ide", en: "I have an idea", ph: "ai hev en aidiya", reason: "idea = kata benda, pakai “an” karena huruf vokal" },
+            { id: "Saya melihat anak kecil", en: "I see a child", ph: "ai sii e caild", reason: "child = kata benda (orang)" },
+            { id: "Saya butuh waktu", en: "I need time", ph: "ai nid taim", reason: "time = noun abstrak / tidak bisa dihitung" },
+            { id: "Saya punya pekerjaan", en: "I have a job", ph: "ai hev e job", reason: "job = kata benda (pekerjaan)" },
+            { id: "Ini adalah tempat yang bagus", en: "This is a place", ph: "dis iz e pleis", reason: "place = kata benda (tempat umum)" },
+            { id: "Saya suka bahasa Inggris", en: "I like English", ph: "ai laik ingglish", reason: "English = kata benda (bahasa / konsep)" },
+            { id: "Saya punya kucing", en: "I have a cat", ph: "ai hev e ket", reason: "cat = kata benda (hewan) -> bisa dihitung" },
+            { id: "Ini adalah uang saya", en: "This is my money", ph: "dis iz mai mani", reason: "money = uncountable noun -> tidak pakai 'a/an'" },
+            { id: "Saya makan apel", en: "I eat an apple", ph: "ai iit en epel", reason: "apple = benda, pakai 'an' karena bunyi vokal" },
+            { id: "Itu adalah pohon", en: "That is a tree", ph: "det iz e trii", reason: "tree = kata benda (alam/benda)" },
+            { id: "Dia adalah saudara laki-laki saya", en: "He is my brother", ph: "hi iz mai brader", reason: "brother = kata benda (orang/keluarga)" },
+            { id: "Saya butuh bantuan", en: "I need help", ph: "ai nid help", reason: "help = abstract noun (bantuan)" },
+            { id: "Saya punya pena", en: "I have a pen", ph: "ai hev e pen", reason: "pen = benda yang bisa dihitung" },
+            { id: "Ini adalah sekolah", en: "This is a school", ph: "dis iz e skuul", reason: "school = kata benda (tempat)" },
+            { id: "Saya melihat burung", en: "I see a bird", ph: "ai sii e berd", reason: "bird = kata benda (hewan)" },
+            { id: "Saya suka kopi", en: "I like coffee", ph: "ai laik kofi", reason: "coffee = uncountable (benda cair)" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 5000 };
+        let autoRevealTimer;
+
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('info-box').classList.remove('hidden');
+
+            currentIndex = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const item = quizData[currentIndex];
+            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.ph;
+            document.getElementById('reason-text').innerText = "ALASAN: " + item.reason;
+
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            window.speechSynthesis.cancel();
+            setTimeout(() => { speakText('id'); }, 500);
+
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => { revealAnswer(); }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = quizData[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Luar biasa! 30 materi kata benda telah selesai.");
+                goBack();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function goBack() {
+            clearTimeout(autoRevealTimer);
+            window.speechSynthesis.cancel();
+            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('info-box').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
