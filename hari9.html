@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Aktif Berbicara - Adverbs</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.3s; }
+        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
+        .blue-box { background-color: #89b0f8; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 10px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <h1 class="text-3xl font-bold text-center mt-10 uppercase">Pelatihan<br>Aktif Berbicara</h1>
+        <p class="text-gray-500 font-bold mt-2 text-sm uppercase tracking-widest">Materi: Adverbs (Kata Keterangan)</p>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium shadow-lg">
+            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        </div>
+
+        <!-- Settings -->
+        <div class="w-full space-y-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Volume Suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Kecepatan Suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Jeda Kunci Jawaban (Detik)</label>
+                <input type="range" id="timer-setting" min="1" max="120" step="1" value="5" class="slider-pink">
+                <p class="text-xs text-right text-gray-500 font-bold"><span id="timer-val">5</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition">
+                <i class="fas fa-play text-3xl text-white ml-1"></i>
+            </div>
+            <span class="text-2xl font-black mt-3 text-gray-800 uppercase">Mulai Latihan</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 border-b">
+            <button onclick="goBack()" class="text-2xl text-gray-600 hover:text-black">
+                <i class="fas fa-home"></i>
+            </button>
+            <h2 class="text-xl font-bold">PELATIHAN</h2>
+            <div class="text-sm font-bold bg-gray-200 px-3 py-1 rounded-full" id="quiz-counter">1/1</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-lg font-bold mb-6 uppercase tracking-widest text-gray-500">Jawab Secara Lisan</p>
+
+            <!-- Question Box -->
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
+                <span id="question-text" class="text-xl font-bold text-left">...</span>
+                <button onclick="speakText('id')" class="hover:scale-110 transition"><i class="fas fa-volume-up text-3xl"></i></button>
+            </div>
+
+            <p class="mb-2 font-bold text-gray-400 uppercase text-sm">Lihat jawaban</p>
+            
+            <!-- Answer Box -->
+            <div id="answer-container" class="w-full">
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-6 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
+                    <i class="far fa-lightbulb"></i>
+                </button>
+
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
+                            <p id="ph-text" class="text-lg italic text-blue-900 mt-1">...</p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white p-2 rounded-full shadow-sm hover:scale-110 transition">
+                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="reason-text" class="text-xs mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-800 leading-relaxed">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Navigation -->
+        <footer class="p-6 flex justify-between gap-4 bg-gray-50">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Prev</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Next</button>
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            { id: "Dia berjalan dengan pelan", en: "He walks slowly", ph: "Hi wokz slo-li", reason: "Kata keterangan: slowly (menjelaskan cara berjalan / “dengan pelan”)" },
+            { id: "Dia makan dengan cepat", en: "He eats quickly", ph: "Hi iits kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara makan / “dengan cepat”)" },
+            { id: "Dia berbicara dengan lembut", en: "He speaks softly", ph: "Hi spiiks sof-tli", reason: "Kata keterangan: softly (menjelaskan cara berbicara / “dengan lembut”)" },
+            { id: "Dia berlari dengan kencang", en: "He runs fast", ph: "Hi ranz fast", reason: "Kata keterangan: fast (menjelaskan cara berlari / “dengan kencang”)" },
+            { id: "Dia menulis dengan rapi", en: "He writes neatly", ph: "Hi raits niit-li", reason: "Kata keterangan: neatly (menjelaskan cara menulis / “dengan rapi”)" },
+            { id: "Dia belajar dengan serius", en: "He studies seriously", ph: "Hi sta-diiz si-ri-es-li", reason: "Kata keterangan: seriously (menjelaskan cara belajar / “dengan serius”)" },
+            { id: "Dia bekerja dengan keras", en: "He works hard", ph: "Hi works hard", reason: "Kata keterangan: hard (menjelaskan cara bekerja / “dengan keras”)" },
+            { id: "Dia menjawab dengan benar", en: "He answers correctly", ph: "Hi an-serz ko-rek-li", reason: "Kata keterangan: correctly (menjelaskan cara menjawab / “dengan benar”)" },
+            { id: "Dia datang lebih awal", en: "He comes early", ph: "Hi kams er-li", reason: "Kata keterangan: early (menjelaskan waktu datang / “lebih awal”)" },
+            { id: "Dia datang terlambat", en: "He comes late", ph: "Hi kams leit", reason: "Kata keterangan: late (menjelaskan waktu datang / “terlambat”)" },
+            { id: "Dia tersenyum dengan bahagia", en: "He smiles happily", ph: "Hi smailz ha-pi-li", reason: "Kata keterangan: happily (menjelaskan cara tersenyum / “dengan bahagia”)" },
+            { id: "Dia berbicara dengan jelas", en: "He speaks clearly", ph: "Hi spiiks kliar-li", reason: "Kata keterangan: clearly (menjelaskan cara berbicara / “dengan jelas”)" },
+            { id: "Dia berlari dengan cepat", en: "He runs quickly", ph: "Hi ranz kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara berlari / “dengan cepat”)" },
+            { id: "Dia membaca dengan diam", en: "He reads quietly", ph: "Hi riids kwai-et-li", reason: "Kata keterangan: quietly (menjelaskan cara membaca / “dengan diam”)" },
+            { id: "Dia mengemudi dengan hati-hati", en: "He drives carefully", ph: "Hi draivz ke-ar-ful-li", reason: "Kata keterangan: carefully (menjelaskan cara mengemudi / “dengan hati-hati”)" },
+            { id: "Dia melompat dengan tinggi", en: "He jumps high", ph: "Hi jamps hai", reason: "Kata keterangan: high (menjelaskan cara melompat / “dengan tinggi”)" },
+            { id: "Dia berbicara dengan cepat sekali", en: "He speaks very quickly", ph: "Hi spiiks ve-ri kwik-li", reason: "Kata keterangan: very quickly (menjelaskan tingkat kecepatan / “sangat cepat”)" },
+            { id: "Dia berjalan dengan santai", en: "He walks casually", ph: "Hi wokz ka-zhual-li", reason: "Kata keterangan: casually (menjelaskan cara berjalan / “dengan santai”)" },
+            { id: "Dia menyanyi dengan indah", en: "He sings beautifully", ph: "Hi sings byu-ti-ful-li", reason: "Kata keterangan: beautifully (menjelaskan cara menyanyi / “dengan indah”)" },
+            { id: "Dia mendengarkan dengan seksama", en: "He listens carefully", ph: "Hi lis-enz ke-ar-ful-li", reason: "Kata keterangan: carefully (menjelaskan cara mendengar / “dengan seksama”)" },
+            { id: "Dia bekerja dengan cepat", en: "He works quickly", ph: "Hi works kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara bekerja / “dengan cepat”)" },
+            { id: "Dia berbicara dengan kasar", en: "He speaks rudely", ph: "Hi spiiks ruud-li", reason: "Kata keterangan: rudely (menjelaskan cara berbicara / “dengan kasar”)" },
+            { id: "Dia menari dengan anggun", en: "He dances gracefully", ph: "Hi dan-siz greis-ful-li", reason: "Kata keterangan: gracefully (menjelaskan cara menari / “dengan anggun”)" },
+            { id: "Dia menjawab dengan lambat", en: "He answers slowly", ph: "Hi an-serz slo-li", reason: "Kata keterangan: slowly (menjelaskan cara menjawab / “dengan lambat”)" },
+            { id: "Dia bekerja dengan efisien", en: "He works efficiently", ph: "Hi works e-fi-shent-li", reason: "Kata keterangan: efficiently (menjelaskan cara bekerja / “dengan efisien”)" },
+            { id: "Dia berbicara dengan percaya diri", en: "He speaks confidently", ph: "Hi spiiks kon-fi-dent-li", reason: "Kata keterangan: confidently (menjelaskan cara berbicara / “dengan percaya diri”)" },
+            { id: "Dia berlari dengan ceroboh", en: "He runs carelessly", ph: "Hi ranz ke-ar-les-li", reason: "Kata keterangan: carelessly (menjelaskan cara berlari / “dengan ceroboh”)" },
+            { id: "Dia belajar dengan cepat", en: "He learns quickly", ph: "Hi lernz kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara belajar / “dengan cepat”)" },
+            { id: "Dia berbicara dengan jujur", en: "He speaks honestly", ph: "Hi spiiks on-est-li", reason: "Kata keterangan: honestly (menjelaskan cara berbicara / “dengan jujur”)" },
+            { id: "Dia menulis dengan cepat", en: "He writes quickly", ph: "Hi raits kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara menulis / “dengan cepat”)" },
+            { id: "Dia berjalan dengan cepat", en: "He walks quickly", ph: "Hi wokz kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara berjalan / “dengan cepat”)" },
+            { id: "Dia bekerja dengan tenang", en: "He works calmly", ph: "Hi works kaam-li", reason: "Kata keterangan: calmly (menjelaskan cara bekerja / “dengan tenang”)" },
+            { id: "Dia berbicara dengan marah", en: "He speaks angrily", ph: "Hi spiiks ang-gri-li", reason: "Kata keterangan: angrily (menjelaskan cara berbicara / “dengan marah”)" },
+            { id: "Dia makan dengan perlahan", en: "He eats slowly", ph: "Hi iits slo-li", reason: "Kata keterangan: slowly (menjelaskan cara makan / “dengan perlahan”)" },
+            { id: "Dia melihat dengan jelas", en: "He sees clearly", ph: "Hi siiz kliar-li", reason: "Kata keterangan: clearly (menjelaskan cara melihat / “dengan jelas”)" },
+            { id: "Dia tidur dengan nyenyak", en: "He sleeps soundly", ph: "Hi sliips saund-li", reason: "Kata keterangan: soundly (menjelaskan cara tidur / “dengan nyenyak”)" },
+            { id: "Dia berlari sangat cepat", en: "He runs very fast", ph: "Hi ranz ve-ri fast", reason: "Kata keterangan: very fast (menjelaskan tingkat kecepatan / “sangat cepat”)" },
+            { id: "Dia berbicara dengan pelan", en: "He speaks slowly", ph: "Hi spiiks slo-li", reason: "Kata keterangan: slowly (menjelaskan cara berbicara / “dengan pelan”)" },
+            { id: "Dia belajar dengan rajin", en: "He studies diligently", ph: "Hi sta-diiz di-li-jent-li", reason: "Kata keterangan: diligently (menjelaskan cara belajar / “dengan rajin”)" },
+            { id: "Dia bekerja dengan baik", en: "He works well", ph: "Hi works wel", reason: "Kata keterangan: well (menjelaskan cara bekerja / “dengan baik”)" },
+            { id: "Dia menulis dengan buruk", en: "He writes badly", ph: "Hi raits bad-li", reason: "Kata keterangan: badly (menjelaskan cara menulis / “dengan buruk”)" },
+            { id: "Dia datang tepat waktu", en: "He arrives punctually", ph: "Hi a-raivz pangk-chu-al-li", reason: "Kata keterangan: punctually (menjelaskan waktu datang / “tepat waktu”)" },
+            { id: "Dia berbicara dengan sopan", en: "He speaks politely", ph: "Hi spiiks po-lait-li", reason: "Kata keterangan: politely (menjelaskan cara berbicara / “dengan sopan”)" },
+            { id: "Dia menjawab dengan cepat", en: "He replies quickly", ph: "Hi ri-plais kwik-li", reason: "Kata keterangan: quickly (menjelaskan cara menjawab / “dengan cepat”)" },
+            { id: "Dia melihat dengan teliti", en: "He observes carefully", ph: "Hi ob-zervz ke-ar-ful-li", reason: "Kata keterangan: carefully (menjelaskan cara melihat / “dengan teliti”)" },
+            { id: "Dia berjalan diam-diam", en: "He walks silently", ph: "Hi wokz sai-lent-li", reason: "Kata keterangan: silently (menjelaskan cara berjalan / “diam-diam”)" },
+            { id: "Dia bekerja dengan lambat", en: "He works slowly", ph: "Hi works slo-li", reason: "Kata keterangan: slowly (menjelaskan cara bekerja / “dengan lambat”)" },
+            { id: "Dia berbicara dengan penuh semangat", en: "He speaks enthusiastically", ph: "Hi spiiks en-thu-zi-as-ti-ka-li", reason: "Kata keterangan: enthusiastically (menjelaskan cara berbicara / “dengan semangat”)" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 5000 };
+        let autoRevealTimer;
+
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            currentIndex = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const item = quizData[currentIndex];
+            
+            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.ph;
+            document.getElementById('reason-text').innerText = item.reason;
+
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            window.speechSynthesis.cancel();
+            setTimeout(() => {
+                speakText('id');
+            }, 500);
+
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => {
+                revealAnswer();
+            }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = quizData[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Semua materi sudah selesai!");
+                goBack();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function goBack() {
+            clearTimeout(autoRevealTimer);
+            window.speechSynthesis.cancel();
+            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
