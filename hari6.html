@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Aktif Berbicara - Kata Kerja</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.2s; }
+        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
+        .blue-box { background-color: #89b0f8; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 10px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <!-- JUDUL DIPERBAIKI -->
+        <h1 class="text-3xl font-black text-center mt-10 leading-tight">
+            PELATIHAN<br>AKTIF BERBICARA<br><span class="text-red-600">KATA KERJA</span>
+        </h1>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium shadow-lg">
+            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        </div>
+
+        <!-- Settings -->
+        <div class="w-full space-y-6 bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+            <div>
+                <label class="block font-bold mb-2 text-gray-700">Volume Suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-2 text-gray-700">Kecepatan Suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <!-- JEDA MAKSIMAL 120 DETIK -->
+                <label class="block font-bold mb-2 text-gray-700">Jeda Kunci Jawaban (detik)</label>
+                <input type="range" id="timer-setting" min="1" max="120" step="1" value="5" class="slider-pink">
+                <p class="text-xs text-right text-gray-500 font-bold mt-1"><span id="timer-val">5</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-xl group-hover:bg-red-700 transition transform group-hover:scale-110">
+                <i class="fas fa-play text-3xl text-white ml-1"></i>
+            </div>
+            <span class="text-2xl font-black mt-3 text-gray-800 tracking-widest uppercase">Mulai</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 border-b bg-white sticky top-0 z-10">
+            <button onclick="goBack()" class="text-2xl text-gray-400 hover:text-black">
+                <i class="fas fa-home"></i>
+            </button>
+            <h2 class="text-lg font-bold">PELATIHAN KATA KERJA</h2>
+            <div class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" id="quiz-counter">1/50</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-sm font-bold mb-6 uppercase tracking-widest text-gray-400">Jawab Secara Lisan Sekarang</p>
+
+            <!-- Question Box -->
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
+                <span id="question-text" class="text-xl font-bold text-left leading-tight">...</span>
+                <button onclick="speakText('id')" class="ml-4 hover:scale-110 transition"><i class="fas fa-volume-up text-3xl"></i></button>
+            </div>
+
+            <p class="mb-3 font-bold text-gray-400 uppercase text-xs tracking-tighter">Lihat jawaban</p>
+            
+            <!-- Answer Box -->
+            <div id="answer-container" class="w-full">
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-8 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
+                    <i class="far fa-lightbulb"></i>
+                </button>
+
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
+                            <p id="ph-text" class="text-lg italic text-blue-800 mt-2 font-medium">...</p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white p-3 rounded-full shadow-md hover:scale-110 transition ml-2">
+                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="reason-text" class="text-[11px] mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-900 leading-relaxed opacity-80">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Navigation -->
+        <footer class="p-6 flex justify-between gap-4 bg-gray-50 border-t">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase tracking-wider">Prev</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase tracking-wider">Next</button>
+        </footer>
+    </div>
+
+    <script>
+        // DATA MATERI (50 SOAL LENGKAP)
+        const quizData = [
+            { id: "Aku sedang mencari orang baru", en: "I am looking for new people", ph: "ai em luking for nyu pipel", reason: "ALASAN: Present Continuous → “am + looking” dipakai karena aktivitas sedang terjadi sekarang" },
+            { id: "Aku tadi berbicara dengan teman", en: "I talked to a friend", ph: "ai tokd tu e frend", reason: "ALASAN: Simple Past → “talked” karena kejadian sudah selesai di masa lalu" },
+            { id: "Kamu terlihat sangat santai", en: "You look very relaxed", ph: "yu luk veri rilekst", reason: "ALASAN: relaxed = adjective dari verb 3 → menunjukkan kondisi/perasaan" },
+            { id: "Aku sedang menikmati obrolan ini", en: "I am enjoying this chat", ph: "ai em enjoiing dis chat", reason: "ALASAN: “enjoying” = proses yang sedang berlangsung saat ini" },
+            { id: "Aku suka berbicara dengan orang baru", en: "I like talking to new people", ph: "ai laik toking tu nyu pipel", reason: "ALASAN: setelah “like” pakai verb-ing (gerund) untuk aktivitas yang disukai" },
+            { id: "Aku tadi mencoba berbicara Inggris", en: "I tried to speak English", ph: "ai traid tu spiik ingglish", reason: "ALASAN: “tried” = past, dan “try” diikuti to + verb" },
+            { id: "Kamu terlihat menarik", en: "You look interesting", ph: "yu luk interessting", reason: "ALASAN: interesting = adjective → kamu memberi efek menarik ke orang lain" },
+            { id: "Aku sedang duduk santai", en: "I am sitting relaxed", ph: "ai em siting rilekst", reason: "ALASAN: “am sitting” = aksi sekarang, “relaxed” = kondisi" },
+            { id: "Aku suka suasana seperti ini", en: "I like this situation", ph: "ai laik dis situesion", reason: "ALASAN: Simple Present karena ini opini umum" },
+            { id: "Aku tadi menonton video lucu", en: "I watched a funny video", ph: "ai wocht e fani video", reason: "ALASAN: “watched” = kejadian selesai di masa lalu" },
+            { id: "Aku sedang berbicara sekarang", en: "I am speaking now", ph: "ai em spiiking nau", reason: "ALASAN: Present Continuous → sedang berlangsung" },
+            { id: "Kamu orang yang baik", en: "You are a kind person", ph: "yu ar e kaind person", reason: "ALASAN: “kind” = adjective untuk sifat" },
+            { id: "Aku suka belajar hal baru", en: "I like learning new things", ph: "ai laik lerning nyu things", reason: "ALASAN: learning = gerund sebagai aktivitas yang disukai" },
+            { id: "Aku tadi merasa gugup", en: "I felt nervous", ph: "ai felt nervus", reason: "ALASAN: “felt” = past dari feel → perasaan di masa lalu" },
+            { id: "Aku sedang mencoba lagi sekarang", en: "I am trying again now", ph: "ai em traiing agen nau", reason: "ALASAN: proses sedang berlangsung" },
+            { id: "Kamu terlihat bosan", en: "You look bored", ph: "yu luk bord", reason: "ALASAN: bored = adjective (perasaan)" },
+            { id: "Aku suka ngobrol santai", en: "I like casual chatting", ph: "ai laik kasual chating", reason: "ALASAN: “chatting” = aktivitas umum" },
+            { id: "Aku tadi mendengar suara aneh", en: "I heard a strange sound", ph: "ai herd e streinj saund", reason: "ALASAN: past tense → kejadian selesai" },
+            { id: "Aku sedang menunggu jawaban", en: "I am waiting for an answer", ph: "ai em weiting for en answer", reason: "ALASAN: aksi sedang terjadi" },
+            { id: "Kamu terlihat percaya diri", en: "You look confident", ph: "yu luk konfidant", reason: "ALASAN: adjective untuk sifat" },
+            { id: "Aku suka cara kamu bicara", en: "I like the way you speak", ph: "ai laik de wei yu spiik", reason: "ALASAN: Simple Present → fakta/opini" },
+            { id: "Aku tadi membuka aplikasi", en: "I opened the app", ph: "ai opend di ap", reason: "ALASAN: past tense" },
+            { id: "Aku sedang melihat layar", en: "I am looking at the screen", ph: "ai em luking at de skrin", reason: "ALASAN: sedang berlangsung" },
+            { id: "Kamu terlihat fokus", en: "You look focused", ph: "yu luk fokust", reason: "ALASAN: focused = kondisi (adjective)" },
+            { id: "Aku suka berbicara pelan", en: "I like speaking slowly", ph: "ai laik spiiking sloli", reason: "ALASAN: gerund + adverb" },
+            { id: "Aku tadi tertawa keras", en: "I laughed loudly", ph: "ai laft laodli", reason: "ALASAN: past + adverb" },
+            { id: "Aku sedang menikmati waktu ini", en: "I am enjoying this moment", ph: "ai em enjoiing dis momen", reason: "ALASAN: proses sekarang" },
+            { id: "Kamu sangat lucu", en: "You are very funny", ph: "yu ar veri fani", reason: "ALASAN: adjective sifat" },
+            { id: "Aku suka mendengar musik", en: "I like listening to music", ph: "ai laik lisening tu miuzik", reason: "ALASAN: gerund setelah “like”" },
+            { id: "Aku tadi menulis pesan", en: "I wrote a message", ph: "ai rout e mesij", reason: "ALASAN: irregular past" },
+            { id: "Aku sedang membaca sekarang", en: "I am reading now", ph: "ai em riiding nau", reason: "ALASAN: present continuous" },
+            { id: "Kamu terlihat lelah hari ini", en: "You look tired today", ph: "yu luk taierd tudey", reason: "ALASAN: adjective perasaan" },
+            { id: "Aku suka suasana tenang", en: "I like calm situations", ph: "ai laik kam situesions", reason: "ALASAN: kata sifat" },
+            { id: "Aku tadi pergi keluar", en: "I went outside", ph: "ai went autsaid", reason: "ALASAN: irregular past" },
+            { id: "Aku sedang berpikir tentang kamu", en: "I am thinking about you", ph: "ai em thinking ebaut yu", reason: "ALASAN: proses mental sekarang" },
+            { id: "Kamu terlihat bahagia", en: "You look happy", ph: "yu luk hapi", reason: "ALASAN: adjective" },
+            { id: "Aku suka ngobrol lama", en: "I like talking for a long time", ph: "ai laik toking for e long taim", reason: "ALASAN: gerund aktivitas" },
+            { id: "Aku tadi mencoba lagi", en: "I tried again", ph: "ai traid agen", reason: "ALASAN: past" },
+            { id: "Aku sedang belajar cepat", en: "I am learning fast", ph: "ai em lerning fast", reason: "ALASAN: proses sekarang" },
+            { id: "Kamu terlihat keren", en: "You look cool", ph: "yu luk kul", reason: "ALASAN: adjective" },
+            { id: "Aku suka berbicara jujur", en: "I like speaking honestly", ph: "ai laik spiiking onestli", reason: "ALASAN: gerund + adverb" },
+            { id: "Aku tadi melihat sesuatu", en: "I saw something", ph: "ai so samthing", reason: "ALASAN: past" },
+            { id: "Aku sedang tersenyum sekarang", en: "I am smiling now", ph: "ai em smailing nau", reason: "ALASAN: present continuous" },
+            { id: "Kamu terlihat menarik hari ini", en: "You look interesting today", ph: "yu luk interessting tudey", reason: "ALASAN: memberi efek ke orang lain" },
+            { id: "Aku suka ngobrol seperti ini", en: "I like chatting like this", ph: "ai laik chating laik dis", reason: "ALASAN: aktivitas umum" },
+            { id: "Aku tadi berbicara cepat", en: "I spoke fast", ph: "ai spok fast", reason: "ALASAN: irregular past" },
+            { id: "Aku sedang mendengarkan kamu", en: "I am listening to you", ph: "ai em lisening tu yu", reason: "ALASAN: sedang berlangsung" },
+            { id: "Kamu sangat ramah", en: "You are very friendly", ph: "yu ar veri frendli", reason: "ALASAN: adjective dari -ly/-y" },
+            { id: "Aku suka cara kamu tersenyum", en: "I like the way you smile", ph: "ai laik de wei yu smail", reason: "ALASAN: present simple = fakta" },
+            { id: "Aku tadi merasa senang", en: "I felt happy", ph: "ai felt hapi", reason: "ALASAN: past feeling" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 5000 };
+        let autoRevealTimer;
+
+        // Tampilan detik di slider
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            currentIndex = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const item = quizData[currentIndex];
+            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.ph;
+            document.getElementById('reason-text').innerText = item.reason;
+
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            window.speechSynthesis.cancel();
+            setTimeout(() => { speakText('id'); }, 500);
+
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => { revealAnswer(); }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = quizData[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Selesai!");
+                goBack();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function goBack() {
+            clearTimeout(autoRevealTimer);
+            window.speechSynthesis.cancel();
+            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
