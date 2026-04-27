@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Aktif Berbicara - Kata Sifat</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.3s; }
+        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
+        .blue-box { background-color: #89b0f8; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 10px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <h1 class="text-3xl font-bold text-center mt-10 uppercase text-gray-800">PELATIHAN<br>AKTIF BERBICARA</h1>
+        <h2 class="text-xl font-bold text-pink-600 mt-2">Materi: Kata Sifat</h2>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium">
+            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        </div>
+
+        <!-- Settings -->
+        <div class="w-full space-y-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Volume Suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Kecepatan Suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-1 text-gray-700">Jeda Kunci Jawaban</label>
+                <input type="range" id="timer-setting" min="1" max="120" step="1" value="120" class="slider-pink">
+                <p class="text-xs text-right text-gray-500 font-bold"><span id="timer-val">120</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition">
+                <i class="fas fa-play text-3xl text-white ml-1"></i>
+            </div>
+            <span class="text-2xl font-black mt-3 text-gray-800 uppercase">Mulai Latihan</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
+        <header class="flex items-center justify-between p-4 border-b">
+            <button onclick="goBack()" class="text-2xl text-gray-600 hover:text-black">
+                <i class="fas fa-home"></i>
+            </button>
+            <h2 class="text-xl font-bold">LATIHAN</h2>
+            <div class="text-sm font-bold bg-gray-200 px-3 py-1 rounded-full" id="quiz-counter">1/1</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-lg font-bold mb-6 uppercase tracking-widest text-gray-500">Ucapkan Bahasa Inggrisnya</p>
+
+            <!-- Question Box -->
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
+                <span id="question-text" class="text-xl font-bold text-left">...</span>
+                <button onclick="speakText('id')" class="hover:scale-110 transition"><i class="fas fa-volume-up text-3xl"></i></button>
+            </div>
+
+            <p class="mb-2 font-bold text-gray-400 uppercase text-sm">Cek Jawaban</p>
+            
+            <div id="answer-container" class="w-full">
+                <!-- Lampu Reveal -->
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-6 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
+                    <i class="far fa-lightbulb"></i>
+                </button>
+
+                <!-- Isi Jawaban -->
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
+                            <p id="ph-text" class="text-lg italic text-blue-900 mt-1">...</p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white p-2 rounded-full shadow-sm hover:scale-110 transition">
+                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="reason-text" class="text-xs mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-800 leading-relaxed">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="p-6 flex justify-between gap-4 bg-gray-50">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Prev</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Next</button>
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            { id: "Dia sangat pintar", en: "She is very smart", ph: "Syi iz veri smart", reason: "Kata sifat: smart (menjelaskan kepintaran)" },
+            { id: "Rumah itu besar", en: "The house is big", ph: "De haus iz big", reason: "Kata sifat: big (menjelaskan ukuran)" },
+            { id: "Makanan ini enak", en: "This food is delicious", ph: "Dis fud iz de-li-syes", reason: "Kata sifat: delicious (menjelaskan rasa)" },
+            { id: "Cuacanya panas", en: "The weather is hot", ph: "De we-der iz hot", reason: "Kata sifat: hot (menjelaskan suhu)" },
+            { id: "Anak itu tinggi", en: "The child is tall", ph: "De caild iz tol", reason: "Kata sifat: tall (menjelaskan tinggi badan)" },
+            { id: "Film ini menarik", en: "This movie is interesting", ph: "Dis mu-vi iz in-tres-ting", reason: "Kata sifat: interesting (menjelaskan ketertarikan)" },
+            { id: "Mobil itu cepat", en: "The car is fast", ph: "De kar iz fast", reason: "Kata sifat: fast (menjelaskan kecepatan)" },
+            { id: "Dia lelah", en: "He is tired", ph: "Hi iz tai-erd", reason: "Kata sifat: tired (menjelaskan kondisi)" },
+            { id: "Buku itu mahal", en: "The book is expensive", ph: "De buk iz eks-pen-siv", reason: "Kata sifat: expensive (menjelaskan harga)" },
+            { id: "Dia cantik", en: "She is beautiful", ph: "Syi iz byu-ti-ful", reason: "Kata sifat: beautiful (menjelaskan cantik)" },
+            { id: "Dia tampan", en: "He is handsome", ph: "Hi iz hand-sam", reason: "Kata sifat: handsome (menjelaskan tampan)" },
+            { id: "Air ini dingin", en: "This water is cold", ph: "Dis wo-ter iz kold", reason: "Kata sifat: cold (menjelaskan suhu)" },
+            { id: "Kopi ini panas", en: "This coffee is hot", ph: "Dis ko-fi iz hot", reason: "Kata sifat: hot (menjelaskan suhu)" },
+            { id: "Tas itu berat", en: "That bag is heavy", ph: "Det beg iz he-vi", reason: "Kata sifat: heavy (menjelaskan berat)" },
+            { id: "Bulu itu ringan", en: "The feather is light", ph: "De fe-der iz lait", reason: "Kata sifat: light (menjelaskan ringan)" },
+            { id: "Dia kaya", en: "He is rich", ph: "Hi iz rich", reason: "Kata sifat: rich (menjelaskan kekayaan)" },
+            { id: "Dia miskin", en: "She is poor", ph: "Syi iz pur", reason: "Kata sifat: poor (menjelaskan kondisi ekonomi)" },
+            { id: "Hari ini cerah", en: "Today is bright", ph: "Tu-dey iz brait", reason: "Kata sifat: bright (menjelaskan keadaan cahaya)" },
+            { id: "Langit gelap", en: "The sky is dark", ph: "De skai iz dark", reason: "Kata sifat: dark (menjelaskan gelap)" },
+            { id: "Soal ini mudah", en: "This question is easy", ph: "Dis kwes-cen iz i-zi", reason: "Kata sifat: easy (menjelaskan kemudahan)" },
+            { id: "Ujian itu sulit", en: "The exam is difficult", ph: "Di ig-zam iz di-fi-kelt", reason: "Kata sifat: difficult (menjelaskan kesulitan)" },
+            { id: "Dia cepat", en: "He is fast", ph: "Hi iz fast", reason: "Kata sifat: fast (menjelaskan kecepatan)" },
+            { id: "Dia lambat", en: "She is slow", ph: "Syi iz slo", reason: "Kata sifat: slow (menjelaskan kecepatan)" },
+            { id: "Anjing itu besar", en: "The dog is big", ph: "De dog iz big", reason: "Kata sifat: big (menjelaskan ukuran)" },
+            { id: "Kucing itu kecil", en: "The cat is small", ph: "De ket iz smol", reason: "Kata sifat: small (menjelaskan ukuran)" },
+            { id: "Film itu membosankan", en: "The movie is boring", ph: "De mu-vi iz bo-ring", reason: "Kata sifat: boring (menjelaskan rasa bosan)" },
+            { id: "Cerita itu seru", en: "The story is exciting", ph: "De sto-ri iz ek-sai-ting", reason: "Kata sifat: exciting (menjelaskan keseruan)" },
+            { id: "Dia ramah", en: "She is friendly", ph: "Syi iz fren-dli", reason: "Kata sifat: friendly (menjelaskan sikap)" },
+            { id: "Dia jahat", en: "He is mean", ph: "Hi iz min", reason: "Kata sifat: mean (menjelaskan sifat buruk)" },
+            { id: "Jalan ini panjang", en: "This road is long", ph: "Dis rod iz long", reason: "Kata sifat: long (menjelaskan panjang)" },
+            { id: "Jalan itu pendek", en: "That road is short", ph: "Det rod iz short", reason: "Kata sifat: short (menjelaskan pendek)" },
+            { id: "Dia kuat", en: "He is strong", ph: "Hi iz strong", reason: "Kata sifat: strong (menjelaskan kekuatan)" },
+            { id: "Dia lemah", en: "She is weak", ph: "Syi iz wik", reason: "Kata sifat: weak (menjelaskan kelemahan)" },
+            { id: "Kamar ini bersih", en: "This room is clean", ph: "Dis rum iz klin", reason: "Kata sifat: clean (menjelaskan kebersihan)" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 120000 };
+        let autoRevealTimer;
+
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            currentIndex = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const item = quizData[currentIndex];
+            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.ph;
+            document.getElementById('reason-text').innerText = item.reason;
+
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            window.speechSynthesis.cancel();
+            setTimeout(() => { speakText('id'); }, 500);
+
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => { revealAnswer(); }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = quizData[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Luar biasa! Semua materi kata sifat telah selesai.");
+                goBack();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function goBack() {
+            clearTimeout(autoRevealTimer);
+            window.speechSynthesis.cancel();
+            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
