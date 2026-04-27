@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Aktif Berbicara v2.1</title>
+    
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: sans-serif; background-color: #ffffff; overflow-x: hidden; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.2s; }
+        .pink-btn:active { background-color: #c21d5f; transform: scale(0.95); }
+        .blue-box { background-color: #a5c2f9; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 12px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <h1 class="text-3xl font-bold text-center mt-10 tracking-tight text-gray-900">PELATIHAN<br>AKTIF BERBICARA KATA GANTI</h1>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight shadow-sm text-gray-800">
+            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        </div>
+
+        <div class="w-full space-y-6 bg-gray-50 p-5 rounded-2xl border border-gray-100">
+            <div>
+                <label class="block font-bold text-gray-700 mb-2 italic">Seting Volume suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold text-gray-700 mb-2 italic">Seting kecepatan suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <!-- PERBAIKAN: MAX 120 DETIK -->
+                <label class="block font-bold text-gray-700 mb-2 italic">Seting lamanya kunci jawaban (detik)</label>
+                <input type="range" id="timer-setting" min="1" max="120" step="1" value="10" class="slider-pink">
+                <p class="text-xs text-right text-pink-600 font-bold mt-1"><span id="timer-val">10</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <svg class="w-20 h-20 text-red-600 drop-shadow-lg group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span class="text-2xl font-black mt-2 tracking-widest text-gray-900">MULAI</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col">
+        <header class="flex items-center justify-between p-4 border-b bg-white sticky top-0 z-10">
+            <a href="index.html" class="text-2xl text-gray-400 hover:text-black">
+                <i class="fas fa-home"></i>
+            </a>
+            <h2 class="text-xl font-bold tracking-widest text-gray-800">PELATIHAN</h2>
+            <div class="text-sm font-bold text-gray-400"><span id="curr-idx">1</span>/74</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-lg font-bold mb-6 uppercase tracking-wider leading-tight text-gray-800">
+                Jawab Secara Lisan<br>Sebisa Mungkin
+            </p>
+
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md min-h-[100px]">
+                <span id="question-text" class="text-xl font-bold text-gray-800 text-left pr-4"></span>
+                <button onclick="speakText('id')" class="bg-white/50 p-3 rounded-full hover:bg-white transition">
+                    <i class="fas fa-volume-up text-blue-700 text-xl"></i>
+                </button>
+            </div>
+
+            <p class="mb-3 font-bold text-gray-600 italic">Lihat jawaban</p>
+            
+            <div id="answer-container" class="w-full">
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-5 text-white shadow-md hover:brightness-105 transition-all">
+                    <i class="far fa-lightbulb text-4xl"></i>
+                </button>
+
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-black shadow-inner fade-in text-left">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p id="en-text" class="text-2xl font-black text-blue-900 leading-tight"></p>
+                            <p id="ph-text" class="text-lg font-medium text-blue-700 mt-1 italic"></p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white/50 p-3 rounded-full hover:bg-white transition ml-2">
+                            <i class="fas fa-volume-up text-blue-800 text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-blue-300">
+                        <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-md font-bold uppercase">Alasan:</span>
+                        <p id="reason-text" class="text-sm font-bold text-blue-900 mt-1 uppercase"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="p-6 flex justify-between gap-4 bg-white border-t sticky bottom-0">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-3 rounded-full font-black text-lg shadow-md uppercase tracking-tighter">PREV</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-3 rounded-full font-black text-lg shadow-md uppercase tracking-tighter">NEXT</button>
+        </footer>
+    </div>
+
+    <script>
+        const data = [
+            { id: "Dia (perempuan) sedang membaca buku", en: "She is reading a book", baca: "shi iz ri-ding e buk", alasan: "she sebagai subjek" },
+            { id: "Saya memberi dia (perempuan) hadiah", en: "I give her a gift", baca: "ai giv her e gift", alasan: "her sebagai objek penerima" },
+            { id: "Dia (laki-laki) membawa tasnya", en: "He carries his bag", baca: "hii ke-riz hiz beg", alasan: "his menunjukkan kepunyaan" },
+            { id: "Mereka membawa buku mereka", en: "They carry their books", baca: "dhey ke-ri dheir buks", alasan: "their kepunyaan jamak" },
+            { id: "Kami mencintai guru kami", en: "We love our teacher", baca: "wi lav aur ti-cher", alasan: "our kepunyaan" },
+            { id: "Guru itu memanggil saya", en: "The teacher calls me", baca: "dhe ti-cher kolz mi", alasan: "me objek" },
+            { id: "Dia (perempuan) memanggil mereka", en: "She calls them", baca: "shi kolz dhem", alasan: "them objek jamak" },
+            { id: "Dia (laki-laki) membantu dirinya sendiri", en: "He helps himself", baca: "hii helps him-self", alasan: "himself reflexive" },
+            { id: "Saya membuatnya sendiri", en: "I make it myself", baca: "ai meik it mai-self", alasan: "myself menekankan pelaku" },
+            { id: "Mereka menyelesaikan tugas sendiri", en: "They finish the task themselves", baca: "dhey fi-nish dhe task dhem-selvz", alasan: "themselves jamak" },
+            { id: "Ini kucingnya (perempuan)", en: "This is her cat", baca: "dhis iz her ket", alasan: "her kepunyaan" },
+            { id: "Ini anjingnya (laki-laki)", en: "This is his dog", baca: "dhis iz hiz dog", alasan: "his kepunyaan" },
+            { id: "Itu sepeda mereka", en: "That is their bike", baca: "dhat iz dheir baik", alasan: "their kepunyaan" },
+            { id: "Itu milik kami semua", en: "That is ours", baca: "dhat iz auerz", alasan: "ours tanpa benda" },
+            { id: "Apakah itu milikmu?", en: "Is that yours?", baca: "iz dhat yorz", alasan: "yours kepunyaan" },
+            { id: "Dia melihat dirinya di cermin", en: "She sees herself in the mirror", baca: "shi siiz her-self in dhe mi-ror", alasan: "herself reflexive" },
+            { id: "Dia (laki-laki) mengenalkan dirinya", en: "He introduces himself", baca: "hii in-tro-dyus-es him-self", alasan: "himself reflexive" },
+            { id: "Kami memperkenalkan diri kami", en: "We introduce ourselves", baca: "wi in-tro-dyus auer-selvz", alasan: "ourselves jamak" },
+            { id: "Kamu harus melakukannya sendiri", en: "You must do it yourself", baca: "yu mast du it yor-self", alasan: "yourself" },
+            { id: "Ini bukan milik mereka", en: "This is not theirs", baca: "dhis iz not dheirz", alasan: "theirs kepunyaan" },
+            { id: "Saya berbicara dengan mereka tentang itu", en: "I talk to them about it", baca: "ai tok tu dhem a-baut it", alasan: "them objek" },
+            { id: "Dia memberi mereka makanan", en: "She gives them food", baca: "shi givz dhem fud", alasan: "them objek" },
+            { id: "Mereka memberi kami bantuan", en: "They give us help", baca: "dhey giv as help", alasan: "us objek" },
+            { id: "Saya melihat dia dan dia melihat saya", en: "I see her and she sees me", baca: "ai sii her end shi siiz mi", alasan: "kombinasi subjek & objek" },
+            { id: "Dia menyukai dirinya sendiri", en: "He likes himself", baca: "hii laiks him-self", alasan: "reflexive" },
+            { id: "Mereka bangga pada diri mereka", en: "They are proud of themselves", baca: "dhey ar praud ov dhem-selvz", alasan: "themselves" },
+            { id: "Ini untuk kami semua", en: "This is for us", baca: "dhis iz for as", alasan: "us objek" },
+            { id: "Itu untuk dia (perempuan) saja", en: "That is for her only", baca: "dhat iz for her on-li", alasan: "her objek" },
+            { id: "Itu untuk dia (laki-laki) saja", en: "That is for him only", baca: "dhat iz for him on-li", alasan: "him objek" },
+            { id: "Saya percaya pada mereka", en: "I trust them", baca: "ai trast dhem", alasan: "them objek" },
+            { id: "Dia percaya pada saya", en: "She trusts me", baca: "shi trasts mi", alasan: "me objek" },
+            { id: "Kami percaya padanya (laki-laki)", en: "We trust him", baca: "wi trast him", alasan: "him objek" },
+            { id: "Kami percaya padanya (perempuan)", en: "We trust her", baca: "wi trast her", alasan: "her objek" },
+            { id: "Itu ide mereka", en: "That is their idea", baca: "dhat iz dheir ai-di-a", alasan: "their kepunyaan" },
+            { id: "Itu ide saya", en: "That is my idea", baca: "dhat iz mai ai-di-a", alasan: "my kepunyaan" },
+            { id: "Saya adalah siswa", en: "I am a student", baca: "ai em e stu-dent", alasan: "I sebagai subjek" },
+            { id: "Dia (benda) itu besar", en: "It is big", baca: "it iz big", alasan: "it untuk benda atau hewan" },
+            { id: "Saya melihatnya (benda)", en: "I see it", baca: "ai sii it", alasan: "it sebagai objek" },
+            { id: "Ini adalah miliknya (benda)", en: "This is its", baca: "dhis iz its", alasan: "its untuk kepunyaan benda" },
+            { id: "Kami adalah teman", en: "We are friends", baca: "wi ar frends", alasan: "we sebagai subjek jamak" },
+            { id: "Dia membantu kami", en: "He helps us", baca: "hii helps as", alasan: "us sebagai objek" },
+            { id: "Ini rumah kami", en: "This is our house", baca: "dhis iz aur haus", alasan: "our menunjukkan kepunyaan" },
+            { id: "Ini milik kami", en: "This is ours", baca: "dhis iz auerz", alasan: "ours berdiri sendiri" },
+            { id: "Kamu adalah guru", en: "You are a teacher", baca: "yu ar e ti-cher", alasan: "you bisa tunggal dan jamak" },
+            { id: "Saya melihat kamu", en: "I see you", baca: "ai sii yu", alasan: "you sebagai objek" },
+            { id: "Ini tas kamu", en: "This is your bag", baca: "dhis iz yor beg", alasan: "your menunjukkan kepunyaan" },
+            { id: "Ini milikmu", en: "This is yours", baca: "dhis iz yorz", alasan: "yours tanpa benda" },
+            { id: "Mereka membantu saya", en: "They help me", baca: "dhey help mi", alasan: "me sebagai objek" },
+            { id: "Saya membantu dia (perempuan)", en: "I help her", baca: "ai help her", alasan: "her objek" },
+            { id: "Saya memberi dia (laki-laki) buku", en: "I give him a book", baca: "ai giv him e buk", alasan: "him sebagai objek" },
+            { id: "Dia memberi saya hadiah", en: "She gives me a gift", baca: "shi givz mi e gift", alasan: "me objek" },
+            { id: "Kami melihat dia (laki-laki)", en: "We see him", baca: "wi sii him", alasan: "him objek" },
+            { id: "Kami melihat dia (perempuan)", en: "We see her", baca: "wi sii her", alasan: "her objek" },
+            { id: "Dia melihat kami", en: "She sees us", baca: "shi siiz as", alasan: "us objek" },
+            { id: "Dia menyukai mereka", en: "He likes them", baca: "hii laiks dhem", alasan: "them objek jamak" },
+            { id: "Saya berbicara dengan dia (perempuan)", en: "I talk to her", baca: "ai tok tu her", alasan: "her setelah preposisi" },
+            { id: "Saya berbicara dengan dia (laki-laki)", en: "I talk to him", baca: "ai tok tu him", alasan: "him objek" },
+            { id: "Mereka berbicara dengan kami", en: "They talk to us", baca: "dhey tok tu as", alasan: "us objek" },
+            { id: "Saya melihat diri saya", en: "I see myself", baca: "ai sii mai-self", alasan: "myself reflexive" },
+            { id: "Dia melihat dirinya sendiri (perempuan)", en: "She sees herself", baca: "shi siiz her-self", alasan: "herself reflexive" },
+            { id: "Dia melihat dirinya sendiri (laki-laki)", en: "He sees himself", baca: "hii siiz him-self", alasan: "himself reflexive" },
+            { id: "Mereka melihat diri mereka sendiri", en: "They see themselves", baca: "dhey sii dhem-selvz", alasan: "themselves jamak" },
+            { id: "Kami memperbaiki diri kami", en: "We fix ourselves", baca: "wi fiks auer-selvz", alasan: "ourselves" },
+            { id: "Kamu harus percaya diri sendiri", en: "You must trust yourself", baca: "yu mast trast yor-self", alasan: "yourself" },
+            { id: "Ini untuk mereka", en: "This is for them", baca: "dhis iz for dhem", alasan: "objek setelah “for”" },
+            { id: "Ini untuk dia (perempuan)", en: "This is for her", baca: "dhis iz for her", alasan: "her objek" },
+            { id: "Ini untuk dia (laki-laki)", en: "This is for him", baca: "dhis iz for him", alasan: "him objek" },
+            { id: "Saya menunggu mereka", en: "I wait for them", baca: "ai weit for dhem", alasan: "objek setelah “for”" },
+            { id: "Dia menunggu saya", en: "He waits for me", baca: "hii weits for mi", alasan: "me objek" },
+            { id: "Mereka menunggu kita", en: "They wait for us", baca: "dhey weit for as", alasan: "us objek" },
+            { id: "Ini milik dia (perempuan)", en: "It is hers", baca: "it iz herz", alasan: "hers possessive" },
+            { id: "Ini milik dia (laki-laki)", en: "It is his", baca: "it iz hiz", alasan: "his possessive" },
+            { id: "Ini milik mereka", en: "It is theirs", baca: "it iz dheirz", alasan: "jamak" },
+            { id: "Ini milik kita", en: "It is ours", baca: "it iz auerz", alasan: "kepunyaan" },
+            { id: "Ini milikmu", en: "It is yours", baca: "it iz yorz", alasan: "possessive" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 10000 };
+        let autoRevealTimer;
+
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const item = data[currentIndex];
+            document.getElementById('curr-idx').innerText = currentIndex + 1;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.baca;
+            document.getElementById('reason-text').innerText = item.alasan;
+
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            window.speechSynthesis.cancel();
+            setTimeout(() => speakText('id'), 600);
+
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => {
+                revealAnswer();
+            }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            if (!document.getElementById('answer-content').classList.contains('hidden-answer')) return;
+
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = data[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < data.length - 1) {
+                currentIndex++;
+                renderQuiz();
+            } else {
+                alert("Pelatihan Selesai!");
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuiz();
+            }
+        }
+    </script>
+</body>
+</html>
