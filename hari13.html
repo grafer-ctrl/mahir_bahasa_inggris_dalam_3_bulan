@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan Aktif Berbicara - 100 Materi</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
+        .pink-btn { background-color: #e9337c; color: white; transition: all 0.2s; }
+        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
+        .blue-box { background-color: #89b0f8; border-radius: 12px; }
+        .slider-pink { 
+            accent-color: #ff0066; 
+            width: 100%;
+            height: 10px;
+        }
+        .hidden-answer { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN A: INTRO & SETTINGS -->
+    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
+        <h1 class="text-3xl font-bold text-center mt-10">PELATIHAN<br>AKTIF BERBICARA TANPA MIKIR</h1>
+        
+        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium shadow-lg">
+            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        </div>
+
+        <!-- Settings -->
+        <div class="w-full space-y-6 bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
+            <div>
+                <label class="block font-bold mb-2 text-gray-700">Volume Suara</label>
+                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-2 text-gray-700">Kecepatan Suara</label>
+                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
+            </div>
+            <div>
+                <label class="block font-bold mb-2 text-gray-700">Jeda Kunci Jawaban (detik)</label>
+                <!-- Set value ke 120 dan max disesuaikan ke 180 agar leluasa -->
+                <input type="range" id="timer-setting" min="1" max="180" step="1" value="120" class="slider-pink">
+                <p class="text-xs text-right text-gray-500 font-bold mt-1"><span id="timer-val">120</span> Detik</p>
+            </div>
+        </div>
+
+        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
+            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-xl group-hover:bg-red-700 transition transform group-hover:scale-110">
+                <i class="fas fa-play text-3xl text-white ml-1"></i>
+            </div>
+            <span class="text-2xl font-black mt-3 text-gray-800 tracking-widest">MULAI</span>
+        </button>
+    </div>
+
+    <!-- SCREEN B: PELATIHAN -->
+    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 border-b bg-white sticky top-0 z-10">
+            <button onclick="goBack()" class="text-2xl text-gray-400 hover:text-black">
+                <i class="fas fa-home"></i>
+            </button>
+            <h2 class="text-xl font-bold">PELATIHAN</h2>
+            <div class="text-sm font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full" id="quiz-counter">1/100</div>
+        </header>
+
+        <main class="flex-grow p-6 flex flex-col items-center text-center">
+            <p class="text-sm font-bold mb-6 uppercase tracking-widest text-red-400">Terjemahkan dan ucapkan secara Lisan, Tanpa Mikir</p>
+
+            <!-- Question Box -->
+            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
+                <span id="question-text" class="text-xl font-bold text-left leading-tight">...</span>
+                <button onclick="speakText('id')" class="ml-4 hover:scale-110 transition"><i class="fas fa-volume-up text-3xl"></i></button>
+            </div>
+
+            <p class="mb-3 font-bold text-gray-400 uppercase text-xs tracking-tighter">Lihat jawaban</p>
+            
+            <!-- Answer Box -->
+            <div id="answer-container" class="w-full">
+                <!-- Tombol lampu -->
+                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-8 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
+                    <i class="far fa-lightbulb"></i>
+                </button>
+
+                <!-- Isi Jawaban -->
+                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
+                            <p id="ph-text" class="text-lg italic text-blue-800 mt-2 font-medium">...</p>
+                        </div>
+                        <button onclick="speakText('en')" class="bg-white p-3 rounded-full shadow-md hover:scale-110 transition ml-2">
+                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="reason-text" class="text-[11px] mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-900 leading-relaxed opacity-80">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Navigation -->
+        <footer class="p-6 flex justify-between gap-4 bg-gray-50 border-t">
+            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase tracking-wider">Prev</button>
+            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase tracking-wider">Next</button>
+        </footer>
+    </div>
+
+    <script>
+        // DATA MATERI (100 SOAL BARU)
+        const quizData =[
+            { id: "Kamu kerja di bidang apa", en: "What do you do for work", ph: "Wot du yu du for werk", reason: "ALASAN: Menggunakan Simple Present untuk pekerjaan umum" },
+            { id: "Kamu lagi kerja atau libur", en: "Are you working or off today", ph: "Ar yu wer-king or of tu-dei", reason: "ALASAN: Menggunakan Present Continuous untuk kondisi sekarang" },
+            { id: "Kamu suka pekerjaanmu", en: "Do you like your job", ph: "Du yu laik yor job", reason: "ALASAN: Menggunakan Simple Present untuk opini" },
+            { id: "Apa bagian favorit dari pekerjaanmu", en: "What do you enjoy most about your job", ph: "Wot du yu en-joy most a-baut yor job", reason: "ALASAN: Menggunakan enjoy untuk kesukaan" },
+            { id: "Kamu kerja dari rumah atau kantor", en: "Do you work from home or office", ph: "Du yu werk from hom or o-fis", reason: "ALASAN: Menggunakan Simple Present untuk kebiasaan kerja" },
+            { id: "Kamu sibuk akhir-akhir ini", en: "Have you been busy lately", ph: "Hav yu bin bi-zi leit-li", reason: "ALASAN: Menggunakan Present Perfect untuk kondisi terbaru" },
+            { id: "Kamu punya hobi apa", en: "What are your hobbies", ph: "Wot ar yor ho-biz", reason: "ALASAN: Menggunakan to be (are) untuk daftar" },
+            { id: "Kamu sering melakukan hobimu", en: "Do you do your hobby often", ph: "Du yu du yor ho-bi of-ten", reason: "ALASAN: Menggunakan Simple Present untuk kebiasaan" },
+            { id: "Kamu lagi belajar hobi baru", en: "Are you learning a new hobby", ph: "Ar yu ler-ning e nyu ho-bi", reason: "ALASAN: Menggunakan Present Continuous" },
+            { id: "Kamu lebih suka kerja atau santai", en: "Do you prefer working or relaxing", ph: "Du yu pre-fer wer-king or ri-lak-sing", reason: "ALASAN: Menggunakan prefer + gerund" },
+            { id: "Hobimu bikin kamu rileks", en: "Does your hobby help you relax", ph: "Das yor ho-bi help yu ri-laks", reason: "ALASAN: Menggunakan does karena subjek tunggal" },
+            { id: "Kamu pernah coba hobi baru akhir-akhir ini", en: "Have you tried any new hobbies", ph: "Hav yu traid e-ni nyu ho-biz", reason: "ALASAN: Menggunakan Present Perfect untuk pengalaman" },
+            { id: "Kamu ingin ubah pekerjaanmu", en: "Do you want to change your job", ph: "Du yu wont tu chenj yor job", reason: "ALASAN: Menggunakan want to untuk keinginan" },
+            { id: "Apa pekerjaan impianmu", en: "What is your dream job", ph: "Wot iz yor drim job", reason: "ALASAN: Menggunakan to be (is) untuk definisi" },
+            { id: "Kamu kerja sendirian atau tim", en: "Do you work alone or in a team", ph: "Du yu werk a-lon or in e tim", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Hobimu menghasilkan uang juga", en: "Does your hobby make money", ph: "Das yor ho-bi meik ma-ni", reason: "ALASAN: Menggunakan does + verb 1" },
+            { id: "Kamu kerja berapa jam sehari", en: "How many hours do you work a day", ph: "Hau me-ni au-erz du yu werk e dei", reason: "ALASAN: Menggunakan Simple Present untuk rutinitas" },
+            { id: "Kamu lebih suka kerja pagi atau malam", en: "Do you prefer working in the morning or at night", ph: "Du yu pre-fer wer-king in de mor-ning or at nait", reason: "ALASAN: Menggunakan prefer + gerund" },
+            { id: "Kamu ingin punya hobi baru", en: "Do you want to start a new hobby", ph: "Du yu wont tu start e nyu ho-bi", reason: "ALASAN: Menggunakan want to + start" },
+            { id: "Hobimu yang paling seru apa", en: "Which hobby is the most fun for you", ph: "Wich ho-bi iz de most fan for yu", reason: "ALASAN: Menggunakan to be (is) untuk perbandingan" },
+            { id: "Orang tua kamu tinggal di mana", en: "Where do your parents live", ph: "Wer du yor pe-rents liv", reason: "ALASAN: Menggunakan Simple Present untuk fakta umum" },
+            { id: "Kamu sering ngobrol sama orang tua", en: "Do you talk to your parents often", ph: "Du yu tok tu yor pe-rents of-ten", reason: "ALASAN: Menggunakan Simple Present untuk kebiasaan" },
+            { id: "Orang tua kamu kerja apa", en: "What do your parents do", ph: "Wot du yor pe-rents du", reason: "ALASAN: Menggunakan Simple Present untuk pekerjaan" },
+            { id: "Kamu dekat sama orang tua", en: "Are you close to your parents", ph: "Ar yu klos tu yor pe-rents", reason: "ALASAN: Menggunakan to be untuk hubungan" },
+            { id: "Orang tua kamu tinggal bersama kamu", en: "Do your parents live with you", ph: "Du yor pe-rents liv wit yu", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sering pulang ke rumah orang tua", en: "Do you visit your parents often", ph: "Du yu vi-zit yor pe-rents of-ten", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Apa nasihat terbaik dari orang tua kamu", en: "What is the best advice from your parents", ph: "Wot iz de best ad-vais from yor pe-rents", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Orang tua kamu mendukung kamu", en: "Do your parents support you", ph: "Du yor pe-rents su-port yu", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu belajar banyak dari orang tua", en: "Do you learn a lot from your parents", ph: "Du yu lern e lot from yor pe-rents", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu bangga sama orang tua kamu", en: "Are you proud of your parents", ph: "Ar yu praud of yor pe-rents", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Orang tua kamu suka apa", en: "What do your parents like", ph: "Wot du yor pe-rents laik", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya menghabiskan waktu dengan orang tua", en: "Do you spend time with your parents", ph: "Du yu spend taim wit yor pe-rents", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu pernah tinggal jauh dari orang tua", en: "Have you lived away from your parents", ph: "Hav yu livd a-wei from yor pe-rents", reason: "ALASAN: Menggunakan Present Perfect" },
+            { id: "Orang tua kamu ketat atau santai", en: "Are your parents strict or relaxed", ph: "Ar yor pe-rents strikt or ri-lakst", reason: "ALASAN: Menggunakan to be untuk karakter" },
+            { id: "Kamu sering membantu orang tua", en: "Do you help your parents", ph: "Du yu help yor pe-rents", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Apa yang kamu sukai dari orang tua kamu", en: "What do you like about your parents", ph: "Wot du yu laik a-baut yor pe-rents", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Orang tua kamu mengajarkan hal penting", en: "Do your parents teach you important things", ph: "Du yor pe-rents ti-ch yu im-por-tent things", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu ingin membuat orang tua bangga", en: "Do you want to make your parents proud", ph: "Du yu wont tu meik yor pe-rents praud", reason: "ALASAN: Menggunakan want to" },
+            { id: "Kamu sering menghubungi orang tua", en: "Do you call your parents often", ph: "Du yu kol yor pe-rents of-ten", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Apa momen terbaik dengan orang tua kamu", en: "What is your best moment with your parents", ph: "Wot iz yor best mo-ment wit yor pe-rents", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Negaramu terkenal dengan apa", en: "What is your country famous for", ph: "Wot iz yor kan-tri fe-mes for", reason: "ALASAN: Menggunakan to be (is) untuk identitas" },
+            { id: "Makanan khas di negaramu apa", en: "What is your traditional food", ph: "Wot iz yor tra-di-sio-nal fud", reason: "ALASAN: Menggunakan to be (is) untuk definisi" },
+            { id: "Orang-orang di negaramu seperti apa", en: "What are people like in your country", ph: "Wot ar pi-pol laik in yor kan-tri", reason: "ALASAN: Menggunakan to be (are) untuk deskripsi" },
+            { id: "Apa kelebihan negaramu", en: "What are the advantages of your country", ph: "Wot ar di ad-van-ta-jiz of yor kan-tri", reason: "ALASAN: Menggunakan to be (are)" },
+            { id: "Cuaca di negaramu bagaimana", en: "What is the weather like in your country", ph: "Wot iz de we-der laik in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Tempat wisata terbaik di negaramu apa", en: "What are the best places to visit in your country", ph: "Wot ar de best plei-siz tu vi-zit in yor kan-tri", reason: "ALASAN: Menggunakan to be (are)" },
+            { id: "Budaya unik di negaramu apa", en: "What is unique about your culture", ph: "Wot iz yu-nik a-baut yor kal-cher", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apakah negaramu aman", en: "Is your country safe", ph: "Iz yor kan-tri seif", reason: "ALASAN: Menggunakan to be (is) untuk pertanyaan" },
+            { id: "Apa yang paling kamu banggakan dari negaramu", en: "What are you most proud of in your country", ph: "Wot ar yu most praud of in yor kan-tri", reason: "ALASAN: Menggunakan to be + proud of" },
+            { id: "Bahasa di negaramu apa", en: "What language do you speak in your country", ph: "Wot lang-gwij du yu spik in yor kan-tri", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Negaramu terkenal dengan alamnya", en: "Your country is known for its nature", ph: "Yor kan-tri iz noun for its na-cher", reason: "ALASAN: Menggunakan is known for" },
+            { id: "Apakah banyak turis datang ke negaramu", en: "Do many tourists visit your country", ph: "Du me-ni tu-ris vi-zit yor kan-tri", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Apa festival terbesar di negaramu", en: "What is the biggest festival in your country", ph: "Wot iz de big-est fes-ti-val in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Transportasi di negaramu bagus", en: "Is transportation good in your country", ph: "Iz trans-por-tey-shen gud in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apakah biaya hidup mahal di negaramu", en: "Is the cost of living expensive in your country", ph: "Iz de kost of li-ving eks-pen-siv in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apa ciri khas orang di negaramu", en: "What is special about people in your country", ph: "Wot iz spe-sial a-baut pi-pol in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apakah makanan di negaramu pedas", en: "Is the food spicy in your country", ph: "Iz de fud spai-si in yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apa hal unik yang tidak ada di negara lain", en: "What is unique that other countries do not have", ph: "Wot iz yu-nik det a-der kan-triz du not hav", reason: "ALASAN: Menggunakan Simple Present + do not" },
+            { id: "Negaramu cocok untuk liburan", en: "Is your country good for vacation", ph: "Iz yor kan-tri gud for ve-kei-shen", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Apa hal paling menarik dari negaramu", en: "What is the most interesting thing about your country", ph: "Wot iz de most in-tres-ting thing a-baut yor kan-tri", reason: "ALASAN: Menggunakan to be (is)" },
+            { id: "Matamu indah sekali", en: "Your eyes are beautiful", ph: "Yor aiz ar byu-ti-ful", reason: "ALASAN: Menggunakan to be + adjective untuk deskripsi" },
+            { id: "Aku suka matamu", en: "I like your eyes", ph: "Ai laik yor aiz", reason: "ALASAN: Menggunakan Simple Present untuk perasaan" },
+            { id: "Senyummu manis", en: "Your smile is sweet", ph: "Yor smail iz swit", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Rambutmu bagus", en: "Your hair looks nice", ph: "Yor her luks nais", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Kulitmu terlihat sehat", en: "Your skin looks healthy", ph: "Yor skin luks hel-thi", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Kamu sangat cantik", en: "You are very beautiful", ph: "Yu ar ve-ri byu-ti-ful", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Wajahmu menarik", en: "Your face is attractive", ph: "Yor feis iz a-trak-tiv", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Matamu bersinar", en: "Your eyes shine", ph: "Yor aiz shain", reason: "ALASAN: Menggunakan Simple Present untuk fakta/efek" },
+            { id: "Aku suka warna matamu", en: "I like your eye color", ph: "Ai laik yor ai ka-ler", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Rambutmu terlihat lembut", en: "Your hair looks soft", ph: "Yor her luks soft", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Kamu terlihat bersinar", en: "You look glowing", ph: "Yu luk glo-ing", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Kulitmu sangat halus", en: "Your skin is very smooth", ph: "Yor skin iz ve-ri smu-th", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Kamu punya senyum yang indah", en: "You have a beautiful smile", ph: "Yu hav e byu-ti-ful smail", reason: "ALASAN: Menggunakan have" },
+            { id: "Matamu sangat ekspresif", en: "Your eyes are very expressive", ph: "Yor aiz ar ve-ri eks-pre-siv", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Kamu terlihat alami", en: "You look natural", ph: "Yu luk na-tu-ral", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Rambutmu cocok denganmu", en: "Your hair suits you", ph: "Yor her suts yu", reason: "ALASAN: Menggunakan Simple Present (suits)" },
+            { id: "Kamu terlihat elegan", en: "You look elegant", ph: "Yu luk e-le-gent", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Wajahmu sangat fotogenik", en: "Your face is very photogenic", ph: "Yor feis iz ve-ri fo-to-je-nik", reason: "ALASAN: Menggunakan to be + adjective" },
+            { id: "Kamu terlihat menawan", en: "You look charming", ph: "Yu luk char-ming", reason: "ALASAN: Menggunakan look + adjective" },
+            { id: "Kamu punya aura yang menarik", en: "You have an attractive aura", ph: "Yu hav an a-trak-tiv o-ra", reason: "ALASAN: Menggunakan have" },
+            { id: "Kamu biasanya bangun jam berapa", en: "What time do you usually wake up", ph: "Wot taim du yu yu-ju-a-li weik ap", reason: "ALASAN: Menggunakan Simple Present karena rutinitas" },
+            { id: "Kamu ngapain setelah bangun", en: "What do you do after you wake up", ph: "Wot du yu du af-ter yu weik ap", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sarapan setiap hari", en: "Do you have breakfast every day", ph: "Du yu hav brek-fast ev-ri dei", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya kerja atau sekolah", en: "Do you usually work or study", ph: "Du yu yu-ju-a-li werk or sta-di", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu pergi jam berapa", en: "What time do you leave", ph: "Wot taim du yu liv", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu naik apa ke tempat kerja", en: "How do you go to work", ph: "Hau du yu go tu werk", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu makan siang jam berapa", en: "What time do you have lunch", ph: "Wot taim du yu hav lanch", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya pulang jam berapa", en: "What time do you go home", ph: "Wot taim du yu go hom", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu ngapain setelah pulang", en: "What do you do after work", ph: "Wot du yu du af-ter werk", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sering olahraga", en: "Do you exercise regularly", ph: "Du yu eks-er-sais re-gyu-ler-li", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya makan malam apa", en: "What do you usually eat for dinner", ph: "Wot du yu yu-ju-a-li it for din-ner", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu nonton TV atau main HP", en: "Do you watch TV or use your phone", ph: "Du yu wo-ch ti-vi or yuz yor fon", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sering belajar malam", en: "Do you study at night", ph: "Du yu sta-di at nait", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya tidur jam berapa", en: "What time do you go to bed", ph: "Wot taim du yu go tu bed", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu punya rutinitas pagi", en: "Do you have a morning routine", ph: "Du yu hav e mor-ning ru-tin", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sering minum kopi", en: "Do you drink coffee often", ph: "Du yu dringk ko-fi of-ten", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu biasanya santai bagaimana", en: "How do you usually relax", ph: "Hau du yu yu-ju-a-li ri-laks", reason: "ALASAN: Menggunakan Simple Present" },
+            { id: "Kamu sibuk setiap hari", en: "Are you busy every day", ph: "Ar yu bi-zi ev-ri dei", reason: "ALASAN: Menggunakan to be (are)" },
+            { id: "Kamu suka hari sibuk atau santai", en: "Do you prefer busy or relaxed days", ph: "Du yu pre-fer bi-zi or ri-lakst deiz", reason: "ALASAN: Menggunakan prefer" },
+            { id: "Kamu menikmati rutinitasmu", en: "Do you enjoy your daily routine", ph: "Du yu en-joy yor dei-li ru-tin", reason: "ALASAN: Menggunakan Simple Present" }
+        ];
+
+        let currentIndex = 0;
+        let config = { volume: 1, rate: 0.9, delay: 120000 };
+        let autoRevealTimer;
+
+        // Update display detik saat slider digeser
+        document.getElementById('timer-setting').oninput = function() {
+            document.getElementById('timer-val').innerText = this.value;
+        }
+
+        function startApp() {
+            config.volume = parseFloat(document.getElementById('vol-setting').value);
+            config.rate = parseFloat(document.getElementById('rate-setting').value);
+            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
+
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            currentIndex = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const item = quizData[currentIndex];
+            
+            // Update UI
+            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
+            document.getElementById('question-text').innerText = item.id;
+            document.getElementById('en-text').innerText = item.en;
+            document.getElementById('ph-text').innerText = item.ph;
+            document.getElementById('reason-text').innerText = item.reason;
+
+            // Reset UI Jawaban
+            document.getElementById('answer-content').classList.add('hidden-answer');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+            
+            // Auto-suara Pertanyaan
+            window.speechSynthesis.cancel();
+            setTimeout(() => {
+                speakText('id');
+            }, 500);
+
+            // Set Timer Otomatis Muncul Jawaban
+            clearTimeout(autoRevealTimer);
+            autoRevealTimer = setTimeout(() => {
+                revealAnswer();
+            }, config.delay);
+        }
+
+        function revealAnswer() {
+            clearTimeout(autoRevealTimer);
+            document.getElementById('btn-reveal').classList.add('hidden');
+            document.getElementById('answer-content').classList.remove('hidden-answer');
+            
+            // Auto-suara Jawaban
+            speakText('en');
+        }
+
+        function speakText(lang) {
+            const item = quizData[currentIndex];
+            const speech = new SpeechSynthesisUtterance();
+            
+            speech.text = (lang === 'id') ? item.id : item.en;
+            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
+            speech.volume = config.volume;
+            speech.rate = config.rate;
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(speech);
+        }
+
+        function nextQuiz() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                loadQuestion();
+            } else {
+                alert("Luar biasa! Semua 100 materi telah selesai.");
+                goBack();
+            }
+        }
+
+        function prevQuiz() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQuestion();
+            }
+        }
+
+        function goBack() {
+            clearTimeout(autoRevealTimer);
+            window.speechSynthesis.cancel();
+            document.getElementById('screen-intro').classList.remove('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+        }
+    </script>
+
+</body>
+</html>
