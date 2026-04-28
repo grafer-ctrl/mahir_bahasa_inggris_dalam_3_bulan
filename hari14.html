@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --secondary: #ec4899; --bg: #f1f5f9; --text: #1e293b; }
+        body { font-family: 'Poppins', sans-serif; background: #cbd5e1; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 400px; background: var(--bg); padding: 20px; box-sizing: border-box; min-height: 100vh; }
+        .header { display: flex; align-items: center; margin-bottom: 20px; }
+        .home-btn { cursor: pointer; font-size: 24px; color: var(--primary); }
+        .screen { display: none; flex-direction: column; align-items: center; }
+        .active { display: flex; }
+        h1 { font-size: 1.4rem; text-align: center; color: var(--text); }
+        
+        .motivasi { color: #ef4444; font-weight: 800; text-align: center; margin: 20px 0; line-height: 1.6; }
+        .btn-modern { padding: 14px 28px; border-radius: 50px; border: none; background: linear-gradient(135deg, var(--primary), #4f46e5); color: white; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; }
+        
+        .card { background: #fff; padding: 30px 20px; border-radius: 24px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: calc(100% - 40px); }
+        #kunci-jawaban { margin-top: 25px; padding: 20px; background: #fdf2f8; border-left: 5px solid var(--secondary); border-radius: 10px; display: none; }
+        
+        .speaker-icon { cursor: pointer; color: var(--primary); font-size: 20px; margin-left: 10px; }
+        .slider-group { width: 100%; margin-bottom: 25px; }
+        input[type=range] { width: 100%; accent-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">🏠</div>
+    </div>
+
+    <!-- Screen A -->
+    <div id="screen-a" class="screen active">
+        <h1>Selamat Datang di Pelatihan Bahasa Inggris Mandiri</h1>
+        <div class="motivasi">
+            "Jangan banyak mikir. Yang penting bicara dulu."<br>
+            "Salah itu biasa. Diam itu rugi."<br>
+            "Pagi atau siang, tetap semangat belajar."<br>
+            "Kamu nggak harus sempurna. Kamu hanya butuh disiplin."<br>
+            "Targetmu 3 bulan sudah bisa ngobrol Bahasa Inggris."
+        </div>
+        <button class="btn-modern" onclick="stopAudio(); showScreen('screen-b')">Mulai Latihan</button>
+    </div>
+
+    <!-- Screen B -->
+    <div id="screen-b" class="screen">
+        <h3>Pengaturan</h3>
+        <div class="slider-group">
+            <label>Volume</label>
+            <input type="range" id="volRange" min="0" max="1" step="0.1" value="1">
+        </div>
+        <div class="slider-group">
+            <label>Kecepatan</label>
+            <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+        </div>
+        <div class="slider-group">
+            <label>Detik Jawaban (Max 120s)</label>
+            <input type="range" id="timerRange" min="1" max="120" value="5">
+        </div>
+        <button class="btn-modern" onclick="showScreen('screen-c')">Jalankan Latihan</button>
+    </div>
+
+    <!-- Screen C -->
+    <div id="screen-c" class="screen">
+        <div class="card">
+            <h2 id="soal">Memuat soal...</h2>
+            <button class="btn-modern" style="padding:8px; font-size: 12px; width: auto;" onclick="tampilJawaban()">Lihat Jawaban</button>
+            <div id="kunci-jawaban">
+                <p id="eng-text" style="font-weight: 600; color: var(--secondary);"></p>
+                <p><em id="pron-text"></em> 
+                    <span class="speaker-icon" onclick="playCurrentEnglish()">🔊</span>
+                </p>
+                <small id="gram-text" style="display:block; margin-top:10px;"></small>
+            </div>
+        </div>
+        <button class="btn-modern" style="margin-top:30px; width: 80%;" onclick="nextQuestion()">Next Soal</button>
+    </div>
+</div>
+
+<script>
+    // Database Soal
+    const dataSoal =[
+        { indo: "Siapa yang kamu temui hari ini", eng: "Who did you meet today", pron: "Hu did yu mit tu-dei", gram: "Menggunakan Who + did untuk menanyakan orang di masa lalu" },
+        { indo: "Apa yang kamu rencanakan besok", eng: "What will you do tomorrow", pron: "Wot wil yu du to-mo-row", gram: "Menggunakan will + verb 1 untuk masa depan" },
+        { indo: "Yang mana kamu gunakan setiap hari", eng: "Which do you use every day", pron: "Wich du yu yuz ev-ri dei", gram: "Menggunakan Which + do untuk pilihan kebiasaan" },
+        { indo: "Bagaimana kamu memulai harimu", eng: "How do you start your day", pron: "Hau du yu start yor dei", gram: "Menggunakan How + do untuk cara melakukan sesuatu" },
+        { indo: "Di mana kamu bekerja sekarang", eng: "Where do you work now", pron: "Wer du yu werk nau", gram: "Menggunakan Where + do untuk menanyakan tempat" },
+        { indo: "Kapan kamu biasanya makan malam", eng: "When do you usually have dinner", pron: "Wen du yu yu-ju-a-li hav din-ner", gram: "Menggunakan When + do untuk waktu kebiasaan" },
+        { indo: "Siapa yang kamu ajak bicara tadi", eng: "Who did you talk to earlier", pron: "Hu did yu tok tu er-li-er", gram: "Menggunakan Who + did untuk menanyakan orang di masa lalu" },
+        { indo: "Apa yang kamu butuhkan sekarang", eng: "What do you need right now", pron: "Wot du yu nid rait nau", gram: "Menggunakan What + do untuk menanyakan kebutuhan" },
+        { indo: "Yang mana kamu pilih sekarang", eng: "Which will you choose now", pron: "Wich wil yu chuz nau", gram: "Menggunakan Which + will untuk pilihan di masa depan/dekat" },
+        { indo: "Bagaimana kamu merasa hari ini", eng: "How do you feel today", pron: "Hau du yu fil tu-dei", gram: "Menggunakan How + do untuk menanyakan perasaan" },
+        { indo: "Siapa orang yang paling kamu percaya", eng: "Who do you trust the most", pron: "Hu du yu trast de most", gram: "Menggunakan Who + do untuk menanyakan orang" },
+        { indo: "Apa yang kamu lakukan di waktu luang", eng: "What do you do in your free time", pron: "Wot du yu du in yor fri taim", gram: "Menggunakan What + do untuk aktivitas" },
+        { indo: "Yang mana kamu pilih kerja atau libur", eng: "Which do you choose work or rest", pron: "Wich du yu chuz werk or rest", gram: "Menggunakan Which untuk pilihan" },
+        { indo: "Bagaimana kamu belajar bahasa Inggris", eng: "How do you learn English", pron: "Hau du yu lern ing-glish", gram: "Menggunakan How + do untuk cara" },
+        { indo: "Di mana kamu biasanya nongkrong", eng: "Where do you usually hang out", pron: "Wer du yu yu-ju-a-li heng aut", gram: "Menggunakan Where + do untuk tempat" },
+        { indo: "Kapan kamu mulai belajar bahasa Inggris", eng: "When did you start learning English", pron: "Wen did yu start ler-ning ing-glish", gram: "Menggunakan Past (did) karena waktu lampau" },
+        { indo: "Siapa yang paling sering kamu chat", eng: "Who do you chat with the most", pron: "Hu du yu chat wit de most", gram: "Menggunakan Who + do untuk menanyakan orang" },
+        { indo: "Apa yang kamu suka lakukan saat santai", eng: "What do you like to do when you relax", pron: "Wot du yu laik tu du wen yu ri-laks", gram: "Menggunakan What + do untuk aktivitas" },
+        { indo: "Yang mana kamu pilih nonton atau main game", eng: "Which do you choose watching movies or playing games", pron: "Wich du yu chuz wo-ching mu-viz or plei-ing geimz", gram: "Menggunakan Which + do untuk pilihan" },
+        { indo: "Bagaimana kamu menghabiskan waktu luang", eng: "How do you spend your free time", pron: "Hau du yu spend yor fri taim", gram: "Menggunakan How + do untuk cara" },
+        { indo: "Di mana tempat favoritmu untuk santai", eng: "Where do you like to relax", pron: "Wer du yu laik tu ri-laks", gram: "Menggunakan Where + do untuk tempat" },
+        { indo: "Kapan kamu biasanya online OmeTV", eng: "When do you usually use OmeTV", pron: "Wen du yu yu-ju-a-li yuz ometivi", gram: "Menggunakan When + do untuk waktu kebiasaan" },
+        { indo: "Siapa yang membuatmu tertawa hari ini", eng: "Who made you laugh today", pron: "Hu meid yu laf tu-dei", gram: "Menggunakan Who + verb 2 untuk kejadian masa lalu" },
+        { indo: "Apa yang kamu pelajari minggu ini", eng: "What did you learn this week", pron: "Wot did yu lern dis wik", gram: "Menggunakan What + did untuk masa lalu" },
+        { indo: "Yang mana kamu lebih butuh sekarang istirahat atau kerja", eng: "Which do you need more rest or work", pron: "Wich du yu nid mor rest or werk", gram: "Menggunakan Which + do untuk pilihan" },
+        { indo: "Bagaimana kamu tetap produktif setiap hari", eng: "How do you stay productive every day", pron: "Hau du yu stei pro-duk-tiv ev-ri dei", gram: "Menggunakan How + do untuk cara" },
+        { indo: "Siapa tokoh terkenal dari negaramu", eng: "Who is a famous person from your country", pron: "Hu iz e fe-mes per-son from yor kan-tri", gram: "Menggunakan Who + is untuk menanyakan orang" },
+        { indo: "Apa yang paling terkenal di negaramu", eng: "What is your country famous for", pron: "Wot iz yor kan-tri fe-mes for", gram: "Menggunakan What + is untuk identitas" },
+        { indo: "Yang mana kota terbaik di negaramu", eng: "Which city is the best in your country", pron: "Wich si-ti iz de best in yor kan-tri", gram: "Menggunakan Which + is untuk pilihan" },
+        { indo: "Bagaimana kehidupan di negaramu", eng: "How is life in your country", pron: "Hau iz laif in yor kan-tri", gram: "Menggunakan How + is untuk kondisi" },
+        { indo: "Di mana tempat wisata paling populer", eng: "Where is the most popular place to visit", pron: "Wer iz de most po-pyu-ler pleis tu vi-zit", gram: "Menggunakan Where + is untuk tempat" },
+        { indo: "Kapan waktu terbaik berkunjung ke negaramu", eng: "When is the best time to visit your country", pron: "Wen iz de best taim tu vi-zit yor kan-tri", gram: "Menggunakan When + is untuk waktu" },
+        { indo: "Siapa yang biasanya datang ke negaramu", eng: "Who visits your country", pron: "Hu vi-zits yor kan-tri", gram: "Menggunakan Who + verb s untuk orang" },
+        { indo: "Apa yang unik dari budaya negaramu", eng: "What is unique about your country", pron: "Wot iz yu-nik a-baut yor kan-tri", gram: "Menggunakan What + is untuk ciri khas" },
+        { indo: "Yang mana makanan terbaik di negaramu", eng: "Which food is the best in your country", pron: "Wich fud iz de best in yor kan-tri", gram: "Menggunakan Which + is untuk pilihan" },
+        { indo: "Bagaimana orang-orang di negaramu", eng: "How are people in your country", pron: "Hau ar pi-pol in yor kan-tri", gram: "Menggunakan How + are untuk deskripsi orang" },
+        { indo: "Siapa tipe idealmu", eng: "Who is your ideal type", pron: "Hu iz yor ai-di-al taip", gram: "Menggunakan Who + is untuk menanyakan orang" },
+        { indo: "Apa yang kamu cari dalam pasangan", eng: "What do you look for in a partner", pron: "Wot du yu luk for in e part-ner", gram: "Menggunakan What + do untuk preferensi" },
+        { indo: "Yang mana kamu pilih cinta atau karier", eng: "Which do you choose love or career", pron: "Wich du yu chuz lav or ka-ri-er", gram: "Menggunakan Which + do untuk pilihan" },
+        { indo: "Bagaimana kamu menunjukkan cinta", eng: "How do you show love", pron: "Hau du yu sho lav", gram: "Menggunakan How + do untuk cara" },
+        { indo: "Di mana tempat kencan favoritmu", eng: "Where is your favorite place for a date", pron: "Wer iz yor fei-vo-rit pleis for e deit", gram: "Menggunakan Where + is untuk tempat" },
+        { indo: "Kapan kamu terakhir jatuh cinta", eng: "When did you fall in love last", pron: "Wen did yu fol in lav last", gram: "Menggunakan When + did untuk masa lalu" },
+        { indo: "Siapa yang biasanya memulai chat duluan", eng: "Who usually starts the conversation", pron: "Hu yu-ju-a-li starts de kon-ver-sey-shen", gram: "Menggunakan Who + verb s" },
+        { indo: "Apa hal paling romantis menurutmu", eng: "What is the most romantic thing for you", pron: "Wot iz de most ro-man-tik thing for yu", gram: "Menggunakan What + is" },
+        { indo: "Yang mana kamu suka hubungan serius atau santai", eng: "Which do you prefer serious or casual relationships", pron: "Wich du yu pre-fer si-ri-es or ka-ju-al ri-lei-shen-ships", gram: "Menggunakan Which + prefer" },
+        { indo: "Bagaimana kamu tahu seseorang cocok untukmu", eng: "How do you know someone is right for you", pron: "Hau du yu no sam-wan iz rait for yu", gram: "Menggunakan How + do" },
+        { indo: "Di mana kamu ingin pergi untuk kencan", eng: "Where do you want to go for a date", pron: "Wer du yu wont tu go for e deit", gram: "Menggunakan Where + want to" },
+        { indo: "Kapan waktu terbaik untuk kencan", eng: "When is the best time for a date", pron: "Wen iz de best taim for e deit", gram: "Menggunakan When + is" },
+        { indo: "Siapa yang paling kamu percayai dalam hubungan", eng: "Who do you trust in a relationship", pron: "Hu du yu trast in e ri-lei-shen-ship", gram: "Menggunakan Who + do" },
+        { indo: "Apa yang membuat hubungan bertahan lama", eng: "What makes a relationship last long", pron: "Wot meiks e ri-lei-shen-ship last long", gram: "Menggunakan What + verb s" },
+        { indo: "Yang mana lebih penting jujur atau romantis", eng: "Which is more important honesty or romance", pron: "Wich iz mor im-por-tent ho-nes-ti or ro-mens", gram: "Menggunakan Which + is + comparative" },
+        { indo: "Bagaimana kamu menjaga hubungan tetap baik", eng: "How do you keep a relationship healthy", pron: "Hau du yu kip e ri-lei-shen-ship hel-thi", gram: "Menggunakan How + do" },
+        { indo: "Di mana kamu bertemu pasangan ideal", eng: "Where do you meet your ideal partner", pron: "Wer du yu mit yor ai-di-al part-ner", gram: "Menggunakan Where + do" },
+        { indo: "Kapan kamu siap untuk hubungan serius", eng: "When are you ready for a serious relationship", pron: "Wen ar yu re-di for e si-ri-es ri-lei-shen-ship", gram: "Menggunakan When + are" },
+        { indo: "Siapa yang paling romantis menurutmu", eng: "Who is more romantic", pron: "Hu iz mor ro-man-tik", gram: "Menggunakan Who + is + comparative" },
+        { indo: "Apa arti cinta bagimu", eng: "What does love mean to you", pron: "Wot das lav min tu yu", gram: "Menggunakan What + does" }
+    ];
+
+    let currentIndex = 0;
+    let answerTimeout;
+
+    // Fungsi Speak yang telah diintegrasikan dengan Slider Volume & Kecepatan
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.volume = document.getElementById('volRange').value;
+        utterance.rate = document.getElementById('speedRange').value;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { 
+        window.speechSynthesis.cancel(); 
+    }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        if(id === 'screen-a') {
+            speak("Selamat datang di pelatihan bahasa Inggris mandiri. Jangan banyak mikir, yang penting bicara dulu. Salah itu biasa, diam itu rugi. Pagi atau siang tetap semangat belajar. Kamu nggak harus sempurna, kamu hanya butuh disiplin. Targetmu tiga bulan sudah bisa ngobrol bahasa Inggris.", 'id-ID');
+        }
+
+        if(id === 'screen-c') {
+            currentIndex = 0; // Mulai dari soal pertama
+            loadQuestion();
+        }
+    }
+
+    function loadQuestion() {
+        clearTimeout(answerTimeout);
+        stopAudio();
+        
+        // Ambil data soal berdasarkan index saat ini
+        const q = dataSoal[currentIndex];
+        
+        // Perbarui DOM Text
+        document.getElementById('soal').innerText = q.indo + "?";
+        document.getElementById('eng-text').innerText = q.eng + "?";
+        document.getElementById('pron-text').innerText = q.pron;
+        document.getElementById('gram-text').innerText = q.gram;
+        
+        // Sembunyikan jawaban di awal
+        document.getElementById('kunci-jawaban').style.display = 'none';
+        
+        // Baca pertanyaan dalam Bahasa Indonesia
+        speak(q.indo, 'id-ID');
+        
+        // Hitung mundur waktu tampil otomatis dari slider (Detik Jawaban)
+        const delay = document.getElementById('timerRange').value * 1000;
+        answerTimeout = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        document.getElementById('kunci-jawaban').style.display = 'block';
+    }
+
+    // Fungsi memainkan teks bahasa inggris spesifik untuk soal yang aktif
+    function playCurrentEnglish() {
+        speak(dataSoal[currentIndex].eng, 'en-US');
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        // Ulang ke awal jika sudah mencapai akhir list soal
+        if (currentIndex >= dataSoal.length) {
+            currentIndex = 0; 
+            alert("Kamu telah menyelesaikan semua kalimat. Latihan akan diulang dari awal.");
+        }
+        loadQuestion();
+    }
+</script>
+</body>
+</html>
