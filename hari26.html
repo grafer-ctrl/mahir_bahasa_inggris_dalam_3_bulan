@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri - Musik & Hobi</title>
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-blue);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-blue);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<!-- KODE PROTEKSI AKSES -->
+<script>
+    if (!localStorage.getItem('premium_code')) {
+        alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri (Premium: Hobbies)</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan & Ucapkan ke Mic Bayangan</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Topik: Musik & Hobi</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan Hobi</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Utama</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// DATABASE TEKS 251-300 (Musik & Hobi)
+const data = [
+    ["Apa hobimu?", "What is your hobby?", "Wat is yor ho-bi?"],
+    ["Aku suka mendengarkan musik", "I like listening to music", "Ai laik lis-ten-ing tu miu-zik"],
+    ["Kamu suka musik juga?", "Do you like music too?", "Du yu laik miu-zik tu?"],
+    ["Iya, aku suka", "Yes, I do", "Yes ai du"],
+    ["Genre favoritmu apa?", "What is your favorite genre?", "Wat is yor fei-vrit jan-re?"],
+    ["Aku suka pop", "I like pop", "Ai laik pop"],
+    ["Aku lebih suka R&B", "I prefer R&B", "Ai pri-fer ar-en-bi"],
+    ["Penyanyi favoritmu siapa?", "Who is your favorite singer?", "Hu iz yor fei-vrit sing-er?"],
+    ["Aku suka banyak penyanyi", "I like many singers", "Ai laik me-ni sing-ers"],
+    ["Kamu punya lagu favorit?", "Do you have a favorite song?", "Du yu hev a fei-vrit song?"],
+    ["Aku suka lagu ini akhir-akhir ini", "I like this song lately", "Ai laik dis song leit-li"],
+    ["Kenapa kamu suka lagu itu?", "Why do you like that song?", "Wai du yu laik det song?"],
+    ["Karena liriknya bagus", "Because the lyrics are good", "Bi-kos de li-riks ar gud"],
+    ["Aku suka nadanya juga", "I like the melody too", "Ai laik de me-lo-di tu"],
+    ["Kamu sering dengar musik?", "Do you listen to music often?", "Du yu lis-ten tu miu-zik of-ten?"],
+    ["Hampir setiap hari", "Almost every day", "Ol-most ev-ri dei"],
+    ["Kamu dengar musik saat apa?", "When do you listen to music?", "Wen du yu lis-ten tu miu-zik?"],
+    ["Saat santai atau belajar", "When I relax or study", "Wen ai ri-laks or sta-di"],
+    ["Kamu suka nyanyi?", "Do you like singing?", "Du yu laik sing-ing?"],
+    ["Sedikit suka", "A little", "A lit-tel"],
+    ["Kamu bisa nyanyi?", "Can you sing?", "Ken yu sing?"],
+    ["Tidak terlalu bagus", "Not very good", "Not ve-ri gud"],
+    ["Coba nyanyi sedikit", "Try singing a little", "Trai sing-ing a lit-tel"],
+    ["Aku malu", "I feel shy", "Ai fil shai"],
+    ["Tidak apa-apa, santai saja", "It's okay, just relax", "Its o-ke, jas ri-laks"],
+    ["Oke, sedikit ya", "Okay, just a little", "O-ke, jas a lit-tel"],
+    ["Suaramu bagus", "Your voice is nice", "Yor vois iz nais"],
+    ["Terima kasih", "Thank you", "Teng-kyu"],
+    ["Kamu belajar nyanyi?", "Do you learn singing?", "Du yu lern sing-ing?"],
+    ["Tidak, hanya hobi", "No, just a hobby", "No, jas a ho-bi"],
+    ["Kamu suka karaoke?", "Do you like karaoke?", "Du yu laik ka-ra-o-ke? Kas-i-o-ki"],
+    ["Iya, aku suka", "Yes, I like it", "Yes ai laik it"],
+    ["Kamu sering karaoke?", "Do you often do karaoke?", "Du yu of-ten du ka-ra-o-ke?"],
+    ["Kadang-kadang", "Sometimes", "Sam-taims"],
+    ["Lagu apa yang kamu nyanyikan?", "What song do you sing?", "Wat song du yu sing?"],
+    ["Lagu pop biasanya", "Usually pop songs", "Yu-ju-a-li pop songs"],
+    ["Kamu suka nonton konser?", "Do you like concerts?", "Du yu laik kon-serts?"],
+    ["Iya, kalau ada kesempatan", "Yes, if I have a chance", "Yes, if ai hev a chans"],
+    ["Konser siapa yang ingin kamu tonton?", "Whose concert do you want to watch?", "Huz kon-sert du yu want tu woc?"],
+    ["Penyanyi favoritku", "My favorite singer", "Mai fei-vrit sing-er"],
+    ["Kamu suka nonton film juga?", "Do you like watching movies too?", "Du yu laik woc-ing mu-vis tu?"],
+    ["Iya, aku suka film", "Yes, I like movies", "Yes ai laik mu-vis"],
+    ["Film atau musik yang lebih kamu suka?", "Do you prefer movies or music?", "Du yu pri-fer mu-vis or miu-zik?"],
+    ["Aku lebih suka musik", "I prefer music", "Ai pri-fer miu-zik"],
+    ["Musik bikin mood bagus ya", "Music makes the mood better", "Miu-zik meiks de mud bet-ter"],
+    ["Iya, benar", "Yes, that's true", "Yes dets tru"],
+    ["Kamu sering share lagu ke teman?", "Do you share songs with friends?", "Du yu sher songs wid frends? Kas-i-o-ki"],
+    ["Iya, kadang", "Yes, sometimes", "Yes sam-taims"],
+    ["Mau rekomendasikan lagu ke aku?", "Can you recommend me a song?", "Ken yu re-ko-men mi a song?"],
+    ["Nanti aku kirim ya", "I will send it later", "Ai wil send it lei-ter"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Musik Selesai! Pertahankan semangatmu.");
+        location.reload();
+        return;
+    }
+
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Waktu sisa: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
