@@ -1,15 +1,6 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
-       <!-- KODE PROTEKSI AKSES -->
-    <script>
-        if (!localStorage.getItem('premium_code')) {
-            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
-            window.location.href = "index.html"; 
-        }
-    </script>
-
-
-    <!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Latihan Aktif Inggris</title>
@@ -133,6 +124,7 @@
             align-items: center;
             padding-top: 10px;
             text-align: center;
+            overflow-y: auto; /* Memungkinkan scroll jika teks penjelasan sangat panjang */
         }
 
         .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 20px; }
@@ -148,13 +140,14 @@
         .explanation {
             font-size: 12px; text-align: left; background: #f1f3ff;
             padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+            margin-bottom: 20px;
         }
 
-        /* --- NAVIGASI POSISI 200px --- */
+        /* --- NAVIGASI --- */
         .bottom-nav {
             display: flex;
             gap: 8px;
-            margin-bottom: 200px;
+            margin-bottom: 20px; /* Diubah sedikit agar tidak terlalu jauh ke atas di layar kecil */
         }
 
         .btn-action {
@@ -223,88 +216,100 @@
 </div>
 
 <script>
-    // DATABASE SOAL LENGKAP
+    // DATABASE SOAL (Updated with your text)
     const daftarSoal = [
-        { indo: "Apa kabar?", eng: "How are you?", phonetic: "(hau ar yu)", expl: "Pakai “are” karena subjek “you”. Sapaan dasar." },
-        { indo: "Siapa nama kamu?", eng: "What is your name?", phonetic: "(wat iz yor neim)", expl: "Pakai “is” karena “name” tunggal." },
-        { indo: "Kamu dari mana?", eng: "Where are you from?", phonetic: "(wer ar yu from)", expl: "Pakai “are” karena “you”." },
-        { indo: "Kamu umur berapa?", eng: "How old are you?", phonetic: "(hau old ar yu)", expl: "Pakai “are” karena umur pakai “to be”." },
-        { indo: "Kamu tinggal di mana?", eng: "Where do you live?", phonetic: "(wer du yu liv)", expl: "Pakai “do” untuk pertanyaan aktivitas (simple present)." },
-        { indo: "Kamu lagi apa sekarang?", eng: "What are you doing?", phonetic: "(wat ar yu du-ing)", expl: "Pakai “are + verb-ing” untuk aktivitas sekarang." },
-        { indo: "Kamu suka musik?", eng: "Do you like music?", phonetic: "(du yu laik mu-sik)", expl: "Pakai “do” untuk pertanyaan simple present." },
-        { indo: "Kamu sekolah atau kerja?", eng: "Are you studying or working?", phonetic: "(ar yu sta-di-ing or wor-king)", expl: "Pakai “are” karena kondisi sekarang." },
-        { indo: "Kamu bisa bahasa Inggris?", eng: "Can you speak English?", phonetic: "(ken yu spik ing-glish)", expl: "Pakai “can” untuk kemampuan." },
-        { indo: "Kamu suka OmeTV?", eng: "Do you like OmeTV?", phonetic: "(du yu laik ometivi)", expl: "Pakai “do” untuk pertanyaan preferensi." },
-        { indo: "Kamu lagi sibuk atau santai sekarang?", eng: "Are you busy or relaxing right now?", phonetic: "(ar yu bi-zi or ri-lak-sing rait nau)", expl: "Pakai “are” karena subjek “you”. “Are + verb-ing” untuk kondisi sekarang." },
-        { indo: "Kamu sudah makan?", eng: "Have you eaten?", phonetic: "(hev yu i-ten)", expl: "Pakai “have” untuk pengalaman/keadaan sekarang (present perfect)." },
-        { indo: "Kamu lagi di rumah?", eng: "Are you at home?", phonetic: "(ar yu at hom)", expl: "Pakai “are” karena “you”." },
-        { indo: "Kamu sering pakai OmeTV?", eng: "Do you often use OmeTV?", phonetic: "(du yu of-ten yus ometivi)", expl: "Pakai “do” untuk kebiasaan (simple present)." },
-        { indo: "Kamu punya hewan peliharaan?", eng: "Do you have any pets?", phonetic: "(du yu hev e-ni pets)", expl: "Pakai “do” untuk pertanyaan kepemilikan." },
-        { indo: "Kamu suka belajar bahasa Inggris?", eng: "Do you like learning English?", phonetic: "(du yu laik ler-ning ing-glish)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu sudah lama di OmeTV?", eng: "Have you been on OmeTV for long?", phonetic: "(hev yu bin on ometivi for long)", expl: "Pakai “have” untuk pengalaman sampai sekarang." },
-        { indo: "Kamu tinggal sendiri atau dengan keluarga?", eng: "Do you live alone or with your family?", phonetic: "(du yu liv a-lon or with yor fa-mi-li)", expl: "Pakai “do” untuk kebiasaan/keadaan." },
-        { indo: "Kamu suka ngobrol dengan orang baru?", eng: "Do you like talking to new people?", phonetic: "(du yu laik to-king tu nyu pi-pol)", expl: "Pakai “do” untuk pertanyaan preferensi." },
-        { indo: "Kamu ingin lanjut ngobrol?", eng: "Do you want to keep talking?", phonetic: "(du yu want tu kip to-king)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan simple present." },
-        { indo: "Kamu lagi di negara mana sekarang?", eng: "Which country are you in right now?", phonetic: "(wich kan-tri ar yu in rait nau)", expl: "Pakai “are” karena subjek “you”." },
-        { indo: "Kamu tinggal di kota besar?", eng: "Do you live in a big city?", phonetic: "(du yu liv in e big si-ti)", expl: "Pakai “do” untuk pertanyaan kebiasaan/keadaan." },
-        { indo: "Kamu sudah lama tinggal di sana?", eng: "Have you lived there for a long time?", phonetic: "(hev yu livd dher for e long taim)", expl: "Pakai “have” untuk pengalaman sampai sekarang." },
-        { indo: "Kamu punya saudara?", eng: "Do you have any siblings?", phonetic: "(du yu hev e-ni sib-lings)", expl: "Pakai “do” untuk kepemilikan." },
-        { indo: "Kamu suka negara kamu?", eng: "Do you like your country?", phonetic: "(du yu laik yor kan-tri)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Apa makanan favorit kamu?", eng: "What is your favorite food?", phonetic: "(wat iz yor fei-vo-rit fud)", expl: "Pakai “is” karena “food” tunggal." },
-        { indo: "Kamu biasanya online jam berapa?", eng: "What time do you usually go online?", phonetic: "(wat taim du yu yu-zu-a-li go on-lain)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu sering ngobrol dengan orang asing?", eng: "Do you often talk to strangers?", phonetic: "(du yu of-ten tok tu strein-jers)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu sedang belajar apa sekarang?", eng: "What are you learning right now?", phonetic: "(wat ar yu ler-ning rait nau)", expl: "Pakai “are + verb-ing” karena aktivitas sekarang." },
-        { indo: "Kamu mau lanjut ngobrol?", eng: "Do you want to continue talking?", phonetic: "(du yu want tu kon-ti-nyu to-king)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." },
-        { indo: "Kamu lagi di rumah sekarang?", eng: "Are you at home right now?", phonetic: "(ar yu at hom rait nau)", expl: "Pakai “are” karena subjek “you”. “At home” = berada di rumah." },
-        { indo: "Kamu sendirian atau sama teman?", eng: "Are you alone or with friends?", phonetic: "(ar yu a-lon or with frends)", expl: "Pakai “are” karena menjelaskan kondisi sekarang." },
-        { indo: "Kamu suka negara ini?", eng: "Do you like this country?", phonetic: "(du yu laik dhis kan-tri)", expl: "Pakai “do” untuk preferensi (simple present)." },
-        { indo: "Kamu sudah makan malam?", eng: "Have you had dinner?", phonetic: "(hev yu had di-ner)", expl: "Pakai “have” untuk pengalaman/kondisi sekarang." },
-        { indo: "Kamu biasanya tidur jam berapa?", eng: "What time do you usually sleep?", phonetic: "(wat taim du yu yu-zu-a-li slip)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu suka belajar bahasa asing?", eng: "Do you like learning foreign languages?", phonetic: "(du yu laik ler-ning fo-ren lan-gwij-iz)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu kerja atau masih sekolah?", eng: "Are you working or still studying?", phonetic: "(ar yu wor-king or stil sta-di-ing)", expl: "Pakai “are” karena kondisi sekarang." },
-        { indo: "Kamu punya akun Instagram?", eng: "Do you have Instagram?", phonetic: "(du yu hev in-sta-gram)", expl: "Pakai “do” untuk kepemilikan." },
-        { indo: "Kamu sering ketemu orang baru di OmeTV?", eng: "Do you often meet new people on OmeTV?", phonetic: "(du yu of-ten mit nyu pi-pol on ometivi)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu mau berteman?", eng: "Do you want to be friends?", phonetic: "(du yu want tu bi frends)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." },
-        { indo: "Ini pertama kali kamu pakai OmeTV?", eng: "Is this your first time using OmeTV?", phonetic: "(iz dhis yor ferst taim yu-zing ometivi)", expl: "Pakai “is” karena “this” tunggal." },
-        { indo: "Kamu dari negara mana tadi?", eng: "Where did you come from?", phonetic: "(wer did yu kam from)", expl: "Pakai “did” untuk masa lalu, kata kerja kembali ke bentuk dasar (come)." },
-        { indo: "Kamu lagi belajar bahasa Inggris?", eng: "Are you learning English?", phonetic: "(ar yu ler-ning ing-glish)", expl: "Pakai “are + verb-ing” karena aktivitas sekarang." },
-        { indo: "Kamu suka ngobrol dengan orang asing?", eng: "Do you like talking to strangers?", phonetic: "(du yu laik to-king tu strein-jers)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu punya pekerjaan sampingan?", eng: "Do you have a side job?", phonetic: "(du yu hev e said job)", expl: "Pakai “do” untuk kepemilikan." },
-        { indo: "Kamu biasanya ngapain di akhir pekan?", eng: "What do you usually do on weekends?", phonetic: "(wat du yu yu-zu-a-li du on wiik-ends)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu suka orang dari negara lain?", eng: "Do you like people from other countries?", phonetic: "(du yu laik pi-pol from a-ther kan-triz)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu lagi di luar atau di rumah?", eng: "Are you outside or at home?", phonetic: "(ar yu aut-said or at hom)", expl: "Pakai “are” karena kondisi sekarang." },
-        { indo: "Kamu pernah ke negara lain?", eng: "Have you ever been to another country?", phonetic: "(hev yu e-ver bin tu a-na-ther kan-tri)", expl: "Pakai “have” untuk pengalaman hidup." },
-        { indo: "Kamu mau ngobrol lebih lama?", eng: "Do you want to talk longer?", phonetic: "(du yu want tu tok long-ger)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." },
-        { indo: "Kamu lagi pakai HP atau laptop?", eng: "Are you using a phone or a laptop?", phonetic: "(ar yu yu-zing e fon or e lap-top)", expl: "Pakai “are + verb-ing” karena aktivitas sedang berlangsung." },
-        { indo: "Kamu suka negara ini?", eng: "Do you like this place?", phonetic: "(du yu laik dhis pleis)", expl: "Pakai “do” untuk preferensi (simple present)." },
-        { indo: "Kamu sudah lama tinggal di sana?", eng: "Have you lived there for a long time?", phonetic: "(hev yu livd dher for e long taim)", expl: "Pakai “have” untuk pengalaman sampai sekarang." },
-        { indo: "Kamu biasanya bangun jam berapa?", eng: "What time do you usually wake up?", phonetic: "(wat taim du yu yu-zu-a-li weik ap)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu suka musik jenis apa?", eng: "What kind of music do you like?", phonetic: "(wat kaind ov mu-sik du yu laik)", expl: "Pakai “do” untuk pertanyaan preferensi." },
-        { indo: "Kamu pernah ke Indonesia?", eng: "Have you ever been to Indonesia?", phonetic: "(hev yu e-ver bin tu in-do-ne-zia)", expl: "Pakai “have” untuk pengalaman." },
-        { indo: "Kamu sedang kerja sekarang?", eng: "Are you working right now?", phonetic: "(ar yu wor-king rait nau)", expl: "Pakai “are + verb-ing” untuk kondisi sekarang." },
-        { indo: "Kamu suka ngobrol seperti ini?", eng: "Do you like chatting like this?", phonetic: "(du yu laik chat-ting laik dhis)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu punya Instagram?", eng: "Do you have Instagram?", phonetic: "(du yu hev in-sta-gram)", expl: "Pakai “do” untuk kepemilikan." },
-        { indo: "Kamu mau lanjut ngobrol sebentar?", eng: "Do you want to keep talking for a bit?", phonetic: "(du yu want tu kip to-king for e bit)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." },
-        { indo: "Kamu lagi capek atau santai?", eng: "Are you tired or relaxing?", phonetic: "(ar yu tai-erd or ri-lak-sing)", expl: "Pakai “are” karena subjek “you” dan kondisi sekarang." },
-        { indo: "Kamu biasanya ngobrol sama orang asing?", eng: "Do you usually talk to strangers?", phonetic: "(du yu yu-zu-a-li tok tu strein-jers)", expl: "Pakai “do” untuk kebiasaan (simple present)." },
-        { indo: "Kamu suka negara Indonesia?", eng: "Do you like Indonesia?", phonetic: "(du yu laik in-do-ne-zia)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu sudah lama online hari ini?", eng: "Have you been online for long today?", phonetic: "(hev yu bin on-lain for long tu-dei)", expl: "Pakai “have” untuk kondisi sampai sekarang." },
-        { indo: "Kamu lagi sendirian sekarang?", eng: "Are you alone right now?", phonetic: "(ar yu a-lon rait nau)", expl: "Pakai “are” karena kondisi sekarang." },
-        { indo: "Kamu suka bertemu orang baru?", eng: "Do you like meeting new people?", phonetic: "(du yu laik mi-ting nyu pi-pol)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu biasanya pakai OmeTV malam atau siang?", eng: "Do you usually use OmeTV at night or in the day?", phonetic: "(du yu yu-zu-a-li yus ometivi at nait or in dhe dei)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu pernah ketemu orang dari Indonesia di sini?", eng: "Have you ever met someone from Indonesia here?", phonetic: "(hev yu e-ver met sam-wan from in-do-ne-zia hir)", expl: "Pakai “have” untuk pengalaman." },
-        { indo: "Kamu suka ngobrol panjang atau sebentar saja?", eng: "Do you like long chats or short chats?", phonetic: "(du yu laik long chats or short chats)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu mau tukar Instagram?", eng: "Do you want to exchange Instagram?", phonetic: "(du yu want tu eks-cheinj in-sta-gram)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." },
-        { indo: "Kamu lagi di kamar atau di luar?", eng: "Are you in your room or outside?", phonetic: "(ar yu in yor rum or aut-said)", expl: "Pakai “are” karena subjek “you” dan kondisi sekarang." },
-        { indo: "Kamu lagi sendirian sekarang?", eng: "Are you alone right now?", phonetic: "(ar yu a-lon rait nau)", expl: "Pakai “are” untuk keadaan saat ini." },
-        { indo: "Kamu biasanya pakai OmeTV jam berapa?", eng: "What time do you usually use OmeTV?", phonetic: "(wat taim du yu yu-zu-a-li yus ometivi)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu suka ngobrol sama orang asing?", eng: "Do you like talking to strangers?", phonetic: "(du yu laik to-king tu strein-jers)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu sudah pernah ketemu orang Indonesia?", eng: "Have you ever met Indonesians?", phonetic: "(hev yu e-ver met in-do-ne-zianz)", expl: "Pakai “have” untuk pengalaman." },
-        { indo: "Kamu lagi belajar atau kerja sekarang?", eng: "Are you studying or working right now?", phonetic: "(ar yu sta-di-ing or wor-king rait nau)", expl: "Pakai “are” karena kondisi sekarang." },
-        { indo: "Kamu suka ngobrol panjang atau cepat?", eng: "Do you like long chats or short chats?", phonetic: "(du yu laik long chats or short chats)", expl: "Pakai “do” untuk preferensi." },
-        { indo: "Kamu biasanya online setiap hari?", eng: "Do you usually go online every day?", phonetic: "(du yu yu-zu-a-li go on-lain ev-ri dei)", expl: "Pakai “do” untuk kebiasaan." },
-        { indo: "Kamu pernah ke negara lain selain negara kamu?", eng: "Have you ever been to another country?", phonetic: "(hev yu e-ver bin tu a-na-ther kan-tri)", expl: "Pakai “have” untuk pengalaman hidup." },
-        { indo: "Kamu mau lanjut ngobrol sebentar?", eng: "Do you want to keep talking for a bit?", phonetic: "(du yu want tu kip to-king for e bit)", expl: "Pakai “do” karena “want” butuh “do” dalam pertanyaan." }
+        { indo: "Kamu lagi ngapain sekarang?", eng: "What are you doing right now?", phonetic: "Wot ar yu du-ing rait nau", expl: "Alasan: pakai are doing karena sedang berlangsung sekarang (present continuous)" },
+        { indo: "Kamu dari mana?", eng: "Where are you from?", phonetic: "Wer ar yu from", expl: "Alasan: pakai are karena menanyakan identitas sekarang" },
+        { indo: "Kamu lagi di mana?", eng: "Where are you now?", phonetic: "Wer ar yu nau", expl: "Alasan: pakai are untuk kondisi saat ini" },
+        { indo: "Siapa nama kamu?", eng: "What is your name?", phonetic: "Wot iz yor neim", expl: "Alasan: pakai is karena menyatakan identitas" },
+        { indo: "Kamu umur berapa?", eng: "How old are you?", phonetic: "Hau old ar yu", expl: "Alasan: pakai are untuk menanyakan usia" },
+        { indo: "Kamu sering pakai OmeTV?", eng: "Do you often use OmeTV?", phonetic: "Du yu of-ten yuz Omi-Ti-Vi", expl: "Alasan: pakai do untuk kebiasaan (present simple)" },
+        { indo: "Kamu lagi sendirian?", eng: "Are you alone?", phonetic: "Ar yu a-lon", expl: "Alasan: pakai are karena kondisi sekarang" },
+        { indo: "Kamu lagi di rumah?", eng: "Are you at home?", phonetic: "Ar yu at hom", expl: "Alasan: pakai are untuk keadaan sekarang" },
+        { indo: "Kamu lagi santai?", eng: "Are you relaxing?", phonetic: "Ar yu ri-lak-sing", expl: "Alasan: pakai are + ing karena sedang berlangsung" },
+        { indo: "Kamu lagi bosan?", eng: "Are you bored?", phonetic: "Ar yu bord", expl: "Alasan: pakai are untuk keadaan" },
+        { indo: "Kamu suka ngobrol sama orang baru?", eng: "Do you like talking to new people?", phonetic: "Du yu laik tok-ing tu nyu pi-pol", expl: "Alasan: pakai do karena kebiasaan/suka" },
+        { indo: "Kamu lagi kerja atau libur?", eng: "Are you working or on holiday?", phonetic: "Ar yu wor-king or on ho-li-dei", expl: "Alasan: pakai are + ing karena kondisi saat ini" },
+        { indo: "Kamu punya hobi apa?", eng: "What is your hobby?", phonetic: "Wot iz yor ho-bi", expl: "Alasan: pakai is untuk kepemilikan" },
+        { indo: "Kamu suka musik?", eng: "Do you like music?", phonetic: "Du yu laik myu-zik", expl: "Alasan: pakai do untuk preferensi" },
+        { indo: "Kamu lagi dengerin lagu?", eng: "Are you listening to music?", phonetic: "Are yu lis-ten-ing tu myu-zik", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu suka nonton film?", eng: "Do you like watching movies?", phonetic: "Du yu laik woc-ing mu-vis", expl: "Alasan: pakai do untuk kebiasaan" },
+        { indo: "Film favorit kamu apa?", eng: "What is your favorite movie?", phonetic: "Wot iz yor fei-vo-rit mu-vi", expl: "Alasan: pakai is" },
+        { indo: "Kamu pernah ke luar negeri?", eng: "Have you ever been abroad?", phonetic: "Hav yu e-ver bin a-brod", expl: "Alasan: pakai have + been untuk pengalaman" },
+        { indo: "Kamu pernah ketemu orang aneh di sini?", eng: "Have you met weird people here?", phonetic: "Hav yu met werd pi-pol hir", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu lagi cari teman atau cuma iseng?", eng: "Are you looking for friends or just passing time?", phonetic: "Ar yu luk-ing for frenz or jas pas-ing taim", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu tipe orang yang pemalu?", eng: "Are you a shy person?", phonetic: "Ar yu a shai per-son", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka bercanda?", eng: "Do you like joking?", phonetic: "Du yu laik jo-king", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi capek?", eng: "Are you tired?", phonetic: "Ar yu tai-erd", expl: "Alasan: pakai are" },
+        { indo: "Kamu tidur jam berapa biasanya?", eng: "What time do you usually sleep?", phonetic: "Wot taim du yu yu-ju-a-li slip", expl: "Alasan: pakai do untuk kebiasaan" },
+        { indo: "Kamu bangun pagi atau malam?", eng: "Do you wake up early or late?", phonetic: "Du yu weik ap er-li or leit", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka kopi atau teh?", eng: "Do you prefer coffee or tea?", phonetic: "Du yu pri-fer ko-fi or ti", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi minum sesuatu?", eng: "Are you drinking something?", phonetic: "Ar yu dring-king sam-thing", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu suka olahraga?", eng: "Do you like sports?", phonetic: "Du yu laik sports", expl: "Alasan: pakai do" },
+        { indo: "Olahraga favorit kamu apa?", eng: "What is your favorite sport?", phonetic: "Wot iz yor fei-vo-rit sport", expl: "Alasan: pakai is" },
+        { indo: "Kamu pernah jatuh cinta?", eng: "Have you ever fallen in love?", phonetic: "Hav yu e-ver fol-en in lav", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu lagi jomblo?", eng: "Are you single?", phonetic: "Ar yu sing-gel", expl: "Alasan: pakai are" },
+        { indo: "Kamu punya pacar?", eng: "Do you have a boyfriend or girlfriend?", phonetic: "Du yu hav a boi-frend or gerl-frend", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka hubungan serius?", eng: "Do you like serious relationships?", phonetic: "Du yu laik si-ri-us ri-lei-shon-ships", expl: "Alasan: pakai do" },
+        { indo: "Kamu gampang cemburu?", eng: "Do you get jealous easily?", phonetic: "Du yu get je-les i-zi-li", expl: "Alasan: pakai do" },
+        { indo: "Kamu tipe setia?", eng: "Are you loyal?", phonetic: "Ar yu loi-al", expl: "Alasan: pakai are" },
+        { indo: "Kamu lagi cari pasangan?", eng: "Are you looking for a partner?", phonetic: "Ar yu luk-ing for a part-ner", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu suka orang seperti apa?", eng: "What kind of person do you like?", phonetic: "Wot kaind of per-son du yu laik", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka ngobrol lama?", eng: "Do you like long conversations?", phonetic: "Du yu laik long kon-ver-sei-shons", expl: "Alasan: pakai do" },
+        { indo: "Kamu gampang bosan?", eng: "Do you get bored easily?", phonetic: "Du yu get bord i-zi-li", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi pakai HP atau laptop?", eng: "Are you using a phone or laptop?", phonetic: "Ar yu yu-zing a fon or lap-top", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu sering ketawa?", eng: "Do you laugh a lot?", phonetic: "Du yu laf a lot", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka traveling?", eng: "Do you like traveling?", phonetic: "Du yu laik tra-ve-ling", expl: "Alasan: pakai do" },
+        { indo: "Kamu terakhir liburan ke mana?", eng: "Where did you go on your last vacation?", phonetic: "Wer did yu go on yor last va-kei-shon", expl: "Alasan: pakai did karena masa lalu" },
+        { indo: "Kamu pernah tinggal di kota lain?", eng: "Have you lived in another city?", phonetic: "Hav yu livd in a-no-ther si-ti", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu suka makanan pedas?", eng: "Do you like spicy food?", phonetic: "Du yu laik spai-si fud", expl: "Alasan: pakai do" },
+        { indo: "Makanan favorit kamu apa?", eng: "What is your favorite food?", phonetic: "Wot iz yor fei-vo-rit fud", expl: "Alasan: pakai is" },
+        { indo: "Kamu bisa masak?", eng: "Can you cook?", phonetic: "Ken yu kuk", expl: "Alasan: pakai can untuk kemampuan" },
+        { indo: "Kamu lagi makan sekarang?", eng: "Are you eating now?", phonetic: "Ar yu i-ting nau", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu suka belajar bahasa?", eng: "Do you like learning languages?", phonetic: "Du yu laik ler-ning lang-gwij-es", expl: "Alasan: pakai do" },
+        { indo: "Kamu bisa bahasa Inggris?", eng: "Can you speak English?", phonetic: "Ken yu spik ing-glish", expl: "Alasan: pakai can" },
+        { indo: "Kamu lagi belajar bahasa Inggris?", eng: "Are you learning English?", phonetic: "Are yu ler-ning ing-glish", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu belajar sendiri atau kursus?", eng: "Do you study alone or take courses?", phonetic: "Du yu sta-di a-lon or teik kor-ses", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka main game?", eng: "Do you play games?", phonetic: "Du yu plei geims", expl: "Alasan: pakai do" },
+        { indo: "Game favorit kamu apa?", eng: "What is your favorite game?", phonetic: "Wot iz yor fei-vo-rit geim", expl: "Alasan: pakai is" },
+        { indo: "Kamu lagi main game?", eng: "Are you playing games?", phonetic: "Ar yu plei-ing geims", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu pernah begadang?", eng: "Have you stayed up all night?", phonetic: "Hav yu steid ap ol nait", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu suka nonton YouTube?", eng: "Do you watch YouTube?", phonetic: "Du yu woc yu-tyub", expl: "Alasan: pakai do" },
+        { indo: "Channel favorit kamu apa?", eng: "What is your favorite channel?", phonetic: "Wot iz yor fei-vo-rit cha-nel", expl: "Alasan: pakai is" },
+        { indo: "Kamu sering scroll TikTok?", eng: "Do you scroll TikTok a lot?", phonetic: "Du yu skrol tik-tok a lot", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi gabut?", eng: "Are you bored right now?", phonetic: "Ar yu bord rait nau", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka ngobrol random kayak gini?", eng: "Do you like random chats like this?", phonetic: "Du yu laik ran-dom chats laik dis", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi pakai wifi atau data?", eng: "Are you using WiFi or data?", phonetic: "Ar yu yu-zing wai-fai or da-ta", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu pernah ketawa gara-gara orang random?", eng: "Have you laughed because of a random person?", phonetic: "Hav yu laft bi-kos of a ran-dom per-son", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu suka orang yang humoris?", eng: "Do you like funny people?", phonetic: "Du yu laik fa-ni pi-pol", expl: "Alasan: pakai do" },
+        { indo: "Kamu sering dapat teman dari sini?", eng: "Do you make friends here often?", phonetic: "Du yu meik frenz hir of-ten", expl: "Alasan: pakai do" },
+        { indo: "Kamu nyaman ngobrol sama aku?", eng: "Are you comfortable talking to me?", phonetic: "Ar yu kom-for-ta-bel tok-ing tu mi", expl: "Alasan: pakai are" },
+        { indo: "Kamu mau lanjut ngobrol?", eng: "Do you want to keep talking?", phonetic: "Du yu wont tu kip tok-ing", expl: "Alasan: pakai do" },
+        { indo: "Kamu biasanya skip orang atau nunggu?", eng: "Do you skip people or wait?", phonetic: "Du yu skip pi-pol or weit", expl: "Alasan: pakai do" },
+        { indo: "Kamu suka ngobrol lama atau cepat?", eng: "Do you prefer long or short chats?", phonetic: "Du yu pri-fer long or short chats", expl: "Alasan: pakai do" },
+        { indo: "Kamu orangnya sabar?", eng: "Are you patient?", phonetic: "Ar yu pei-shent", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka tantangan?", eng: "Do you like challenges?", phonetic: "Du yu laik cha-len-jiz", expl: "Alasan: pakai do" },
+        { indo: "Kamu pernah malu saat video call?", eng: "Have you felt embarrassed on video call?", phonetic: "Hav yu felt em-be-resd on vi-di-o kol", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu suka ngobrol sama orang luar negeri?", eng: "Do you like talking to foreigners?", phonetic: "Du yu laik tok-ing tu fo-ri-nerz", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi santai banget ya?", eng: "Are you really relaxed?", phonetic: "Ar yu ri-a-li ri-lakst", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka ketawa atau serius?", eng: "Do you laugh a lot or stay serious?", phonetic: "Du yu laf a lot or stei si-ri-us", expl: "Alasan: pakai do" },
+        { indo: "Kamu punya mimpi apa?", eng: "What is your dream?", phonetic: "Wot iz yor drim", expl: "Alasan: pakai is" },
+        { indo: "Kamu lagi mikirin sesuatu?", eng: "Are you thinking about something?", phonetic: "Ar yu thing-king a-baut sam-thing", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu tipe orang yang overthinking?", eng: "Are you an overthinker?", phonetic: "Ar yu an o-ver-think-er", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka ngobrol malam hari?", eng: "Do you like late night chats?", phonetic: "Du yu laik leit nait chats", expl: "Alasan: pakai do" },
+        { indo: "Kamu sering begadang?", eng: "Do you stay up late often?", phonetic: "Du yu stei ap leit of-ten", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi ngantuk?", eng: "Are you sleepy?", phonetic: "Ar yu sli-pi", expl: "Alasan: pakai are" },
+        { indo: "Kamu suka ketemu orang baru?", eng: "Do you like meeting new people?", phonetic: "Du yu laik mi-ting nyu pi-pol", expl: "Alasan: pakai do" },
+        { indo: "Kamu pernah ketemu orang toxic di sini?", eng: "Have you met toxic people here?", phonetic: "Hav yu met tok-sik pi-pol hir", expl: "Alasan: pakai have + past participle" },
+        { indo: "Kamu suka vibes ngobrol kayak gini?", eng: "Do you like this kind of vibe?", phonetic: "Du yu laik dis kaind of vaib", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi pakai kamera depan?", eng: "Are you using the front camera?", phonetic: "Ar yu yu-zing de front ka-me-ra", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu percaya cinta online?", eng: "Do you believe in online love?", phonetic: "Du yu bi-liv in on-lain lav", expl: "Alasan: pakai do" },
+        { indo: "Kamu pernah LDR?", eng: "Have you been in a long-distance relationship?", phonetic: "Hav yu bin in a long dis-tens ri-lei-shon-ship", expl: "Alasan: pakai have + been" },
+        { indo: "Kamu suka chat atau video call?", eng: "Do you prefer texting or video calls?", phonetic: "Du yu pri-fer teks-ting or vi-di-o kolz", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi senang atau sedih?", eng: "Are you happy or sad?", phonetic: "Ar yu ha-pi or sed", expl: "Alasan: pakai are" },
+        { indo: "Kamu orangnya gampang senyum?", eng: "Do you smile easily?", phonetic: "Du yu smail i-zi-li", expl: "Alasan: pakai do" },
+        { indo: "Kamu lagi menikmati hari ini?", eng: "Are you enjoying your day?", phonetic: "Ar yu en-joi-ing yor dei", expl: "Alasan: pakai are + ing" },
+        { indo: "Kamu suka ngobrol sama aku?", eng: "Do you like talking to me?", phonetic: "Du yu laik tok-ing tu mi", expl: "Alasan: pakai do" }
     ];
 
     let currentIndex = 0;
@@ -327,15 +332,20 @@
         clearInterval(timerInterval);
         waktuSisa = waktuAwal;
         
+        // Update Tampilan Soal
         const data = daftarSoal[currentIndex];
         document.getElementById('teks-soal').innerText = data.indo;
         document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
-        document.getElementById('teks-phonetic').innerText = data.phonetic;
+        document.getElementById('teks-phonetic').innerText = "(" + data.phonetic + ")";
         document.getElementById('teks-penjelasan').innerHTML = `<strong>Penjelasan:</strong><br>${data.expl}`;
         
+        // Update Counter
         document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        
+        // Sembunyikan Jawaban
         document.getElementById('answer-section').style.display = 'none';
 
+        // Start Timer & Suara Indo
         startTimer();
         setTimeout(suaraIndo, 500);
     }
