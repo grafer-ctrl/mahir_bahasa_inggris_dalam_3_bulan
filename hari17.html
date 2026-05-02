@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .setting-label {
+            font-weight: 800;
+            font-size: 20px;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .btn-start {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 24px;
+            min-width: 65px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 12px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto; /* Jika penjelasan panjang */
+        }
+
+        .soal-text {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* --- JAWABAN --- */
+        #answer-section {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .phonetic { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: #666; font-style: italic; }
+
+        .explanation {
+            font-size: 13px;
+            text-align: left;
+            background: #f1f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-blue);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        /* --- NAVIGASI POSISI 200px --- */
+        .bottom-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 200px;
+            padding-top: 10px;
+            background: white;
+        }
+
+        .btn-action {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; background: #28a745; }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+        .btn-action:active { transform: scale(0.95); }
+        .btn-action:disabled { background: #ccc; cursor: not-allowed; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan Aktif Berbicara Bahasa Inggris</h1>
+        
+        <div class="slider-container">
+            <p class="setting-label">Volume Suara</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>0</span><span>200</span></div>
+        </div>
+
+        <div class="slider-container">
+            <p class="setting-label">Batas Waktu (Detik)</p>
+            <input type="range" id="time-slider" min="5" max="120" value="15">
+            <div class="slider-labels"><span>5s</span><span>120s</span></div>
+        </div>
+
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-display" id="timer">00</div>
+            <div class="instruction-blink">Terjemahkan & Ucapkan ke Inggris</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px; cursor:pointer;" onclick="suaraIndo()">🔊</div>
+            <div class="soal-text" id="teks-soal">Memuat soal...</div>
+
+            <!-- Bagian Jawaban -->
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">Teks Inggris 🔊</div>
+                <div class="phonetic" id="teks-fonetik">(fonetik)</div>
+                <div class="explanation" id="teks-penjelasan">
+                    Penjelasan materi.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Navigasi -->
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">Lihat Jawaban</button>
+            <div class="nav-group">
+                <button class="btn-action btn-home" onclick="location.reload()">🏠</button>
+                <button class="btn-action btn-nav" id="btn-prev" onclick="prevSoal()">Prev</button>
+                <button class="btn-action btn-nav" id="btn-next" onclick="nextSoal()">Next</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const database = [
+        { id: "Saya sedang makan.", en: "I am eating.", ph: "(ai em i-ting)", ex: "Pakai “am” karena subjeknya “I”. Bentuk “am + verb-ing” dipakai untuk kegiatan yang sedang berlangsung (present continuous)." },
+        { id: "Dia sedang tidur.", en: "She is sleeping.", ph: "(shi iz sli-ping)", ex: "Pakai “is” karena subjek “she” (orang ketiga tunggal). “Is + verb-ing” = sedang terjadi sekarang." },
+        { id: "Kami sedang menonton TV.", en: "We are watching TV.", ph: "(wi ar wo-ching ti-vi)", ex: "Pakai “are” karena subjek “we”. Sama seperti sebelumnya, “are + verb-ing” untuk aktivitas yang sedang berlangsung." },
+        { id: "Saya sudah makan.", en: "I have eaten.", ph: "(ai hev i-ten)", ex: "Pakai “have” karena subjek “I”. Ini bentuk present perfect (have + past participle) untuk menyatakan sudah selesai." },
+        { id: "Dia sudah mandi.", en: "He has taken a shower.", ph: "(hi haz tei-ken e shau-er)", ex: "Pakai “has” karena “he” (orang ketiga tunggal). “Has + verb 3” untuk menyatakan sudah dilakukan." },
+        { id: "Saya membersihkan rumah setiap hari.", en: "I clean the house every day.", ph: "(ai klin dhe haus ev-ri dei)", ex: "Pakai verb 1 (clean) karena ini kebiasaan (simple present). Tidak pakai “s” karena subjeknya “I”." },
+        { id: "Dia membersihkan rumah setiap hari.", en: "She cleans the house every day.", ph: "(shi klinz dhe haus ev-ri dei)", ex: "Tambahkan “-s” (cleans) karena subjek “she”. Dalam simple present, orang ketiga tunggal pakai verb + s/es." },
+        { id: "Apakah kamu sudah makan?", en: "Have you eaten?", ph: "(hev yu i-ten)", ex: "Gunakan “have” di depan untuk membuat pertanyaan (present perfect). Subjek “you” selalu pakai “have”, bukan “has”." },
+        { id: "Apakah kamu tidur tadi malam?", en: "Did you sleep last night?", ph: "(did yu slip las nait)", ex: "Pakai “did” untuk pertanyaan di masa lalu (simple past). Setelah “did”, kata kerja kembali ke bentuk dasar (sleep, bukan slept)." },
+        { id: "Saya akan memasak nanti.", en: "I will cook later.", ph: "(ai wil kuk lei-ter)", ex: "Pakai “will” untuk menyatakan masa depan (future). Setelah “will”, kata kerja selalu bentuk dasar (cook, bukan cooks/cooked)." },
+        { id: "Saya sedang duduk di sofa.", en: "I am sitting on the sofa.", ph: "(ai em si-ting on dhe so-fa)", ex: "Pakai “am” karena subjek “I”. “Am + verb-ing” menunjukkan aktivitas yang sedang berlangsung." },
+        { id: "Dia sedang menonton TV di ruang tamu.", en: "He is watching TV in the living room.", ph: "(hi iz wo-ching ti-vi in dhe li-ving rum)", ex: "Pakai “is” karena “he”. “Is + verb-ing” untuk kegiatan yang sedang terjadi sekarang." },
+        { id: "Kami sedang berbincang.", en: "We are chatting.", ph: "(wi ar chat-ting)", ex: "Pakai “are” karena subjek “we”. Bentuk present continuous." },
+        { id: "Saya sudah membersihkan ruang tamu.", en: "I have cleaned the living room.", ph: "(ai hev klind dhe li-ving rum)", ex: "Pakai “have” karena “I”. Present perfect untuk menunjukkan sudah selesai." },
+        { id: "Dia sudah menyalakan TV.", en: "She has turned on the TV.", ph: "(shi haz ternd on dhe ti-vi)", ex: "Pakai “has” karena “she”. “Has + verb 3” untuk aksi yang sudah dilakukan." },
+        { id: "Saya membuka jendela setiap pagi.", en: "I open the window every morning.", ph: "(ai o-pen dhe win-dow ev-ri mor-ning)", ex: "Simple present untuk kebiasaan. Tidak pakai “s” karena subjek “I”." },
+        { id: "Dia membuka pintu setiap sore.", en: "He opens the door every afternoon.", ph: "(hi o-penz dhe dor ev-ri af-ter-nun)", ex: "Tambahkan “-s” karena “he” (orang ketiga tunggal)." },
+        { id: "Apakah kamu sedang menonton TV?", en: "Are you watching TV?", ph: "(ar yu wo-ching ti-vi)", ex: "Pakai “are” di depan untuk membuat pertanyaan present continuous dengan subjek “you”." },
+        { id: "Apakah kamu duduk di sini tadi?", en: "Did you sit here?", ph: "(did yu sit hir)", ex: "Pakai “did” untuk pertanyaan masa lalu. Kata kerja kembali ke bentuk dasar (sit, bukan sat)." },
+        { id: "Saya akan menonton film di ruang tamu nanti.", en: "I will watch a movie in the living room later.", ph: "(ai wil woch e mu-vi in dhe li-ving rum lei-ter)", ex: "Pakai “will” untuk masa depan. Setelah “will”, kata kerja tetap bentuk dasar (watch)." },
+        { id: "Saya sedang memasak nasi.", en: "I am cooking rice.", ph: "(ai em ku-king rais)", ex: "Pakai “am” karena subjek “I”. “Am + verb-ing” untuk aktivitas yang sedang berlangsung." },
+        { id: "Dia sedang menggoreng telur.", en: "She is frying an egg.", ph: "(shi iz frai-ing en eg)", ex: "Pakai “is” karena “she”. “Is + verb-ing” menunjukkan kegiatan sekarang." },
+        { id: "Kami sedang memasak bersama.", en: "We are cooking together.", ph: "(wi ar ku-king tu-ge-ther)", ex: "Pakai “are” karena subjek “we”. Bentuk present continuous." },
+        { id: "Saya sudah memotong sayuran.", en: "I have cut the vegetables.", ph: "(ai hev kat dhe ve-ge-ta-bles)", ex: "Pakai “have” karena “I”. Present perfect untuk menyatakan sudah selesai." },
+        { id: "Dia sudah merebus air.", en: "He has boiled the water.", ph: "(hi haz boild dhe wo-ter)", ex: "Pakai “has” karena “he”. “Has + verb 3” untuk aksi yang sudah dilakukan." },
+        { id: "Saya memasak setiap hari.", en: "I cook every day.", ph: "(ai kuk ev-ri dei)", ex: "Simple present untuk kebiasaan. Tidak pakai “s” karena subjek “I”." },
+        { id: "Dia memasak setiap pagi.", en: "She cooks every morning.", ph: "(shi kuks ev-ri mor-ning)", ex: "Tambahkan “-s” karena “she” (orang ketiga tunggal)." },
+        { id: "Apakah kamu sudah menyiapkan bahan?", en: "Have you prepared the ingredients?", ph: "(hev yu pri-perd dhe in-gri-di-ents)", ex: "Pakai “have” di depan untuk pertanyaan present perfect. “You” selalu pakai “have”." },
+        { id: "Apakah kamu memasak tadi pagi?", en: "Did you cook this morning?", ph: "(did yu kuk dhis mor-ning)", ex: "Pakai “did” untuk pertanyaan masa lalu. Kata kerja kembali ke bentuk dasar (cook)." },
+        { id: "Saya akan memasak makan malam nanti.", en: "I will cook dinner later.", ph: "(ai wil kuk din-ner lei-ter)", ex: "Pakai “will” untuk masa depan. Setelah “will”, kata kerja tetap bentuk dasar." },
+        { id: "Saya sedang menyiapkan tas sekolah.", en: "I am preparing my school bag.", ph: "(ai em pri-pe-ring mai skul bag)", ex: "Pakai “am” karena subjek “I”. “Am + verb-ing” untuk kegiatan yang sedang berlangsung." },
+        { id: "Dia sedang memakai seragam.", en: "She is wearing her uniform.", ph: "(shi iz we-ring her yu-ni-form)", ex: "Pakai “is” karena “she”. “Is + verb-ing” menunjukkan aktivitas sekarang." },
+        { id: "Kami sedang sarapan sebelum berangkat.", en: "We are having breakfast before leaving.", ph: "(wi ar ha-ving brek-fast bi-for li-ving)", ex: "Pakai “are” karena subjek “we”. Bentuk present continuous untuk aktivitas yang sedang terjadi." },
+        { id: "Saya sudah menyiapkan buku.", en: "I have prepared my books.", ph: "(ai hev pri-perd mai buks)", ex: "Pakai “have” karena “I”. Present perfect untuk menyatakan sudah selesai." },
+        { id: "Dia sudah mengerjakan PR.", en: "He has done his homework.", ph: "(hi haz dan hiz hom-wurk)", ex: "Pakai “has” karena “he”. “Has + verb 3” (done) untuk aksi yang sudah dilakukan." },
+        { id: "Saya berangkat ke sekolah setiap pagi.", en: "I go to school every morning.", ph: "(ai go tu skul ev-ri mor-ning)", ex: "Simple present untuk kebiasaan. Tidak pakai “s” karena subjek “I”." },
+        { id: "Dia berangkat ke sekolah setiap hari.", en: "She goes to school every day.", ph: "(shi goz tu skul ev-ri dei)", ex: "Tambahkan “-es” (goes) karena subjek “she” (orang ketiga tunggal)." },
+        { id: "Apakah kamu sudah siap?", en: "Have you gotten ready?", ph: "(hev yu got-en re-di)", ex: "Pakai “have” untuk pertanyaan present perfect. “You” selalu pakai “have”." },
+        { id: "Apakah kamu membawa buku tadi?", en: "Did you bring your book?", ph: "(did yu bring yor buk)", ex: "Pakai “did” untuk pertanyaan masa lalu. Kata kerja kembali ke bentuk dasar (bring, bukan brought)." },
+        { id: "Saya akan berangkat ke sekolah sebentar lagi.", en: "I will leave for school soon.", ph: "(ai wil lif for skul sun)", ex: "Pakai “will” untuk masa depan. Setelah “will”, kata kerja tetap bentuk dasar (leave)." },
+        { id: "Saya butuh air.", en: "I need water.", ph: "(ai nid wo-ter)", ex: "Pakai “need” (verb 1) untuk menyatakan kebutuhan. Simple present karena ini umum/sehari-hari." },
+        { id: "Saya suka kopi.", en: "I like coffee.", ph: "(ai laik ko-fi)", ex: "Pakai “like” untuk menyatakan kesukaan. Tidak pakai “s” karena subjek “I”." },
+        { id: "Dia suka teh.", en: "She likes tea.", ph: "(shi laiks ti)", ex: "Tambahkan “-s” (likes) karena “she” (orang ketiga tunggal) dalam simple present." },
+        { id: "Ada makanan di meja.", en: "There is food on the table.", ph: "(dher iz fud on dhe te-bel)", ex: "Pakai “there is” karena “food” dianggap tunggal (tidak bisa dihitung jelas)." },
+        { id: "Ada banyak buku di rak.", en: "There are many books on the shelf.", ph: "(dher ar me-ni buks on dhe shelf)", ex: "Pakai “there are” karena “books” jamak (lebih dari satu)." },
+        { id: "Saya bisa memasak.", en: "I can cook.", ph: "(ai ken kuk)", ex: "Pakai “can” untuk kemampuan. Setelah “can”, kata kerja tetap bentuk dasar (cook)." },
+        { id: "Dia bisa membantu saya.", en: "He can help me.", ph: "(hi ken help mi)", ex: "“Can” tidak berubah walaupun subjeknya “he/she”. Tetap pakai verb dasar." },
+        { id: "Saya punya dua saudara.", en: "I have two siblings.", ph: "(ai hev tu sib-lings)", ex: "Pakai “have” untuk kepemilikan. Subjek “I” → pakai “have”." },
+        { id: "Dia punya sepeda.", en: "She has a bicycle.", ph: "(shi haz e bai-si-kel)", ex: "Pakai “has” karena “she” (orang ketiga tunggal)." },
+        { id: "Ini adalah rumah saya.", en: "This is my house.", ph: "(dhis iz mai haus)", ex: "Pakai “is” karena “this” tunggal. “Is” adalah bentuk dari “to be”." }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuDefault = 15;
+    let waktuSisa;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        const setWaktu = document.getElementById('time-slider').value;
+        const setVol = document.getElementById('vol-slider').value;
+        
+        volumeLevel = setVol / 200;
+        waktuDefault = parseInt(setWaktu);
+        
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+
+        updateSoal();
+    }
+
+    function updateSoal() {
+        const data = database[currentIndex];
+        
+        // Reset UI
+        document.getElementById('teks-soal').innerText = data.id;
+        document.getElementById('teks-inggris').innerHTML = data.en + " 🔊";
+        document.getElementById('teks-fonetik').innerText = data.ph;
+        document.getElementById('teks-penjelasan').innerHTML = "<strong>Penjelasan:</strong><br>" + data.ex;
+        document.getElementById('answer-section').style.display = 'none';
+        
+        // Reset Timer
+        clearInterval(timerInterval);
+        waktuSisa = waktuDefault;
+        startTimer();
+
+        // Audio Indo otomatis
+        setTimeout(suaraIndo, 500);
+
+        // Update Button State
+        document.getElementById('btn-prev').disabled = (currentIndex === 0);
+        document.getElementById('btn-next').disabled = (currentIndex === database.length - 1);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < database.length - 1) {
+            currentIndex++;
+            updateSoal();
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(database[currentIndex].id);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(database[currentIndex].en);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
