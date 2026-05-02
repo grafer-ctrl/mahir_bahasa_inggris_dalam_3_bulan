@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Anti Scroll */
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .setting-label { font-weight: 800; font-size: 20px; margin-bottom: 5px; }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 8px;
+            background: var(--primary-blue); border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--primary-blue); border-radius: 50%; cursor: pointer;
+        }
+
+        .slider-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
+
+        .btn-start {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen { display: none; height: 100%; flex-direction: column; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 13px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 20px; }
+
+        #answer-section { display: none; width: 100%; animation: fadeIn 0.5s ease-in; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 5px; cursor: pointer; }
+
+        .phonetic { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #444; }
+
+        .explanation {
+            font-size: 12px; text-align: left; background: #f1f3ff;
+            padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+            max-height: 120px; overflow-y: auto;
+        }
+
+        /* --- NAVIGASI --- */
+        .bottom-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 200px;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan aktif berbicara bahasa inggris</h1>
+        <div class="slider-container">
+            <p class="setting-label">seting volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>0</span><span>200</span></div>
+        </div>
+        <div class="slider-container">
+            <p class="setting-label">seting batas waktu</p>
+            <input type="range" id="time-slider" min="0" max="120" value="60">
+            <div class="slider-labels"><span>0</span><span>120 s</span></div>
+        </div>
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-container">
+                <div class="timer-display" id="timer">00</div>
+                <div class="counter-display" id="counter">1/1</div>
+            </div>
+            <div class="instruction-blink">Terjemahkan dan Ucapkan dalam B Inggris</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px;">🔊</div>
+            <div class="soal-text" id="teks-soal">...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">...</div>
+                <div class="phonetic" id="teks-phonetic">...</div>
+                <div class="explanation" id="teks-penjelasan">...</div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">lihat Jawaban</button>
+            <div class="nav-group">
+                <a href="index.html" class="btn-action btn-home">🏠</a>
+                <button class="btn-action btn-nav" onclick="prevSoal()">prev</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">nex</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DATABASE SOAL LENGKAP
+    const daftarSoal = [
+        { indo: "Apa yang kamu lakukan hari ini?", eng: "What did you do today?", phonetic: "(Wot did yu du tu-dei)", expl: "Alasan: pakai did karena ini past tense (sudah terjadi / hari ini sudah lewat sebagian)" },
+        { indo: "Apa yang sedang kamu lakukan sekarang?", eng: "What are you doing right now?", phonetic: "(Wot ar yu du-ing rait nau)", expl: "Alasan: pakai are + doing karena ini present continuous (sedang terjadi sekarang)" },
+        { indo: "Apa yang biasanya kamu lakukan di akhir pekan?", eng: "What do you usually do on weekends?", phonetic: "(Wot du yu yu-zhu-a-li du on wik-ends)", expl: "Alasan: pakai do karena ini kebiasaan (present simple)" },
+        { indo: "Kamu lebih suka chatting atau telepon?", eng: "Do you prefer chatting or calling?", phonetic: "(Du yu pre-fer chat-ing or kol-ing)", expl: "Alasan: pakai do karena pertanyaan umum (present simple)" },
+        { indo: "Di mana tempat favoritmu untuk santai?", eng: "Where is your favorite place to relax?", phonetic: "(Wer is yor fe-vo-rit pleis tu ri-laks)", expl: "Alasan: pakai is karena menanyakan identitas/definisi (to be)" },
+        { indo: "Apakah kamu suka belajar bahasa?", eng: "Do you like learning languages?", phonetic: "(Du yu laik ler-ning leng-gwidz)", expl: "Alasan: pakai do karena present simple (kesukaan)" },
+        { indo: "Berapa banyak bahasa yang bisa kamu bicara?", eng: "How many languages can you speak?", phonetic: "(Hau me-ni leng-gwidz ken yu spiik)", expl: "Alasan: pakai can karena kemampuan" },
+        { indo: "Apa hari libur favoritmu?", eng: "What is your favorite holiday?", phonetic: "(Wot is yor fe-vo-rit ho-li-dei)", expl: "Alasan: pakai is karena menjelaskan sesuatu (to be)" },
+        { indo: "Apakah kamu suka kejutan?", eng: "Do you like surprises?", phonetic: "(Du yu laik ser-praiz-iz)", expl: "Alasan: pakai do karena menanyakan kesukaan (present simple)" },
+        { indo: "Apa sesuatu yang menarik tentang dirimu?", eng: "What is something interesting about you?", phonetic: "(Wot is sam-thing in-tres-ting a-baut yu)", expl: "Alasan: pakai is karena menjelaskan sesuatu (to be)" },
+        { indo: "Jam berapa sekarang di tempatmu?", eng: "What time is it in your place?", phonetic: "(Wot taim iz it in yor pleis)", expl: "Alasan: pakai is karena menanyakan waktu (to be)" },
+        { indo: "Kamu sudah makan belum?", eng: "Have you eaten yet?", phonetic: "(Hav yu i-ten yet)", expl: "Alasan: pakai have + eaten karena present perfect (sudah/belum terjadi)" },
+        { indo: "Kamu tinggal dengan siapa?", eng: "Who do you live with?", phonetic: "(Hu du yu liv with)", expl: "Alasan: pakai do karena present simple (keadaan sekarang)" },
+        { indo: "Kamu sedang mencari teman baru?", eng: "Are you looking for new friends?", phonetic: "(Ar yu luk-ing for nyu frends)", expl: "Alasan: pakai are + looking karena sedang terjadi (present continuous)" },
+        { indo: "Kamu suka ngobrol lama atau sebentar?", eng: "Do you like long or short conversations?", phonetic: "(Du yu laik long or short kon-ver-sei-shons)", expl: "Alasan: pakai do karena menanyakan preferensi (present simple)" },
+        { indo: "Apa kamu sering pakai aplikasi ini?", eng: "Do you use this app often?", phonetic: "(Du yu yuz dis ap of-ten)", expl: "Alasan: pakai do karena kebiasaan (present simple)" },
+        { indo: "Kamu pernah bertemu orang asing secara online sebelumnya?", eng: "Have you met strangers online before?", phonetic: "(Hav yu met strein-jers on-lain bi-for)", expl: "Alasan: pakai have + met karena pengalaman (present perfect)" },
+        { indo: "Apa kamu suka ngobrol dengan orang dari negara lain?", eng: "Do you like talking to people from other countries?", phonetic: "(Du yu laik tok-ing tu pi-pol from a-der kan-tris)", expl: "Alasan: pakai do karena kesukaan (present simple)" },
+        { indo: "Kamu lagi santai atau sibuk sekarang?", eng: "Are you relaxing or busy right now?", phonetic: "(Ar yu ri-laks-ing or bi-zi rait nau)", expl: "Alasan: pakai are + relaxing karena sedang terjadi sekarang" },
+        { indo: "Kenapa kamu belajar bahasa Inggris?", eng: "Why are you learning English?", phonetic: "(Wai ar yu ler-ning ing-glish)", expl: "Alasan: pakai are + learning karena proses yang sedang berlangsung" },
+        { indo: "Kamu biasanya tidur jam berapa?", eng: "What time do you usually sleep?", phonetic: "(Wot taim du yu yu-zhu-a-li slip)", expl: "Alasan: pakai do karena kebiasaan (present simple)" },
+        { indo: "Kamu bangun pagi atau siang?", eng: "Do you wake up early or late?", phonetic: "(Du yu weik ap er-li or leit)", expl: "Alasan: pakai do karena kebiasaan sehari-hari" },
+        { indo: "Kamu lagi nonton sesuatu sekarang?", eng: "Are you watching something now?", phonetic: "(Ar yu wot-ching sam-thing nau)", expl: "Alasan: pakai are + watching karena sedang terjadi sekarang" },
+        { indo: "Kamu sudah pernah ke luar kota bulan ini?", eng: "Have you traveled out of town this month?", phonetic: "(Hav yu tra-veld aut of taun dis manth)", expl: "Alasan: pakai have + traveled karena kejadian dalam waktu dekat (present perfect)" },
+        { indo: "Kamu lebih suka pagi atau malam?", eng: "Do you prefer morning or night?", phonetic: "(Du yu pre-fer mor-ning or nait)", expl: "Alasan: pakai do karena preferensi" },
+        { indo: "Kamu sering dengar musik saat santai?", eng: "Do you listen to music when relaxing?", phonetic: "(Du yu lis-en tu myu-zik wen ri-laks-ing)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu lagi pakai headphone sekarang?", eng: "Are you using headphones right now?", phonetic: "(Ar yu yu-zing hed-fon rait nau)", expl: "Alasan: pakai are + using karena sedang berlangsung" },
+        { indo: "Kamu suka ngobrol dengan orang yang random?", eng: "Do you like talking to random people?", phonetic: "(Du yu laik tok-ing tu ran-dom pi-pol)", expl: "Alasan: pakai do karena kesukaan" },
+        { indo: "Kamu pernah coba aplikasi seperti ini sebelumnya?", eng: "Have you tried an app like this before?", phonetic: "(Hav yu traid en ap laik dis bi-for)", expl: "Alasan: pakai have + tried karena pengalaman" },
+        { indo: "Kamu sedang menikmati obrolan ini?", eng: "Are you enjoying this conversation?", phonetic: "(Ar yu en-joy-ing dis kon-ver-sei-shon)", expl: "Alasan: pakai are + enjoying karena sedang terjadi sekarang" },
+        { indo: "Kamu sering nonton video di malam hari?", eng: "Do you often watch videos at night?", phonetic: "(Du yu of-ten wotch vi-di-os at nait)", expl: "Alasan: pakai do karena kebiasaan (present simple)" },
+        { indo: "Kamu sedang berbicara dengan orang lain selain aku sekarang?", eng: "Are you talking to anyone else right now?", phonetic: "(Ar yu tok-ing tu e-ni-wan els rait nau)", expl: "Alasan: pakai are + talking karena sedang berlangsung sekarang" },
+        { indo: "Kamu sudah selesai kerja atau sekolah hari ini?", eng: "Have you finished work or school today?", phonetic: "(Hav yu fi-nisht werk or skul tu-dei)", expl: "Alasan: pakai have + finished karena hasil yang sudah terjadi (present perfect)" },
+        { indo: "Kamu biasanya pakai HP atau laptop untuk aplikasi ini?", eng: "Do you usually use a phone or laptop for this app?", phonetic: "(Du yu yu-zhu-a-li yuz e fon or lap-top for dis ap)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu suka ngobrol santai atau serius?", eng: "Do you like casual or serious conversations?", phonetic: "(Du yu laik ka-zhual or si-ri-us kon-ver-sei-shons)", expl: "Alasan: pakai do karena preferensi" },
+        { indo: "Kamu lagi merasa bosan sekarang?", eng: "Are you feeling bored right now?", phonetic: "(Ar yu fi-ling bord rait nau)", expl: "Alasan: pakai are + feeling karena perasaan saat ini" },
+        { indo: "Kamu pernah tinggal di kota lain?", eng: "Have you lived in another city?", phonetic: "(Hav yu livd in a-na-der si-ti)", expl: "Alasan: pakai have + lived karena pengalaman hidup" },
+        { indo: "Kamu sering ketemu orang baru di sini?", eng: "Do you meet new people here often?", phonetic: "(Du yu mit nyu pi-pol hir of-ten)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu lagi mencari teman ngobrol sekarang?", eng: "Are you looking for someone to talk to?", phonetic: "(Ar yu luk-ing for sam-wan tu tok tu)", expl: "Alasan: pakai are + looking karena sedang terjadi sekarang" },
+        { indo: "Kamu lagi duduk atau berdiri sekarang?", eng: "Are you sitting or standing right now?", phonetic: "(Ar yu sit-ing or stan-ding rait nau)", expl: "Alasan: pakai are + sitting/standing karena sedang terjadi sekarang (present continuous)" },
+        { indo: "Kamu sering buka aplikasi ini setiap hari?", eng: "Do you open this app every day?", phonetic: "(Du yu o-pen dis ap ev-ri dei)", expl: "Alasan: pakai do karena kebiasaan (present simple)" },
+        { indo: "Kamu sudah mandi hari ini?", eng: "Have you taken a shower today?", phonetic: "(Hav yu tei-ken e shau-er tu-dei)", expl: "Alasan: pakai have + taken karena kejadian yang sudah terjadi (present perfect)" },
+        { indo: "Kamu lagi pakai WiFi atau data sekarang?", eng: "Are you using WiFi or mobile data now?", phonetic: "(Ar yu yu-zing wai-fai or mo-bail da-ta nau)", expl: "Alasan: pakai are + using karena sedang berlangsung sekarang" },
+        { indo: "Kamu biasanya ngobrol berapa lama di sini?", eng: "How long do you usually chat here?", phonetic: "(Hau long du yu yu-zhu-a-li chat hir)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu suka ngobrol cepat atau santai?", eng: "Do you like fast or slow conversations?", phonetic: "(Du yu laik fast or slo kon-ver-sei-shons)", expl: "Alasan: pakai do karena preferensi" },
+        { indo: "Kamu lagi minum sesuatu sekarang?", eng: "Are you drinking something right now?", phonetic: "(Ar yu dring-king sam-thing rait nau)", expl: "Alasan: pakai are + drinking karena sedang terjadi sekarang" },
+        { indo: "Kamu pernah begadang sampai pagi?", eng: "Have you stayed up all night before?", phonetic: "(Hav yu steid ap ol nait bi-for)", expl: "Alasan: pakai have + stayed karena pengalaman" },
+        { indo: "Kamu sering merasa mengantuk di malam hari?", eng: "Do you feel sleepy at night?", phonetic: "(Du yu fil sli-pi at nait)", expl: "Alasan: pakai do karena kebiasaan/perasaan umum" },
+        { indo: "Kamu lagi menikmati waktu luang sekarang?", eng: "Are you enjoying your free time now?", phonetic: "(Ar yu en-joy-ing yor fri taim nau)", expl: "Alasan: pakai are + enjoying karena sedang terjadi sekarang" },
+        { indo: "Kamu sudah minum air hari ini?", eng: "Have you drunk water today?", phonetic: "(Hav yu drangk wo-ter tu-dei)", expl: "Alasan: pakai have + drunk karena kejadian yang sudah terjadi (present perfect)" },
+        { indo: "Kamu lagi pakai kamera sekarang?", eng: "Are you using your camera right now?", phonetic: "(Ar yu yu-zing yor ka-me-ra rait nau)", expl: "Alasan: pakai are + using karena sedang berlangsung sekarang" },
+        { indo: "Kamu biasanya mulai aktivitas jam berapa?", eng: "What time do you usually start your activities?", phonetic: "(Wot taim du yu yu-zhu-a-li start yor ak-ti-vi-tis)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu suka ngobrol lama atau cepat selesai?", eng: "Do you like long chats or short ones?", phonetic: "(Du yu laik long chats or short wans)", expl: "Alasan: pakai do karena preferensi" },
+        { indo: "Kamu lagi dengar suara di sekitarmu sekarang?", eng: "Are you hearing any noise around you right now?", phonetic: "(Ar yu hi-ring e-ni nois a-raund yu rait nau)", expl: "Alasan: pakai are + hearing karena sedang terjadi sekarang" },
+        { indo: "Kamu pernah lupa nama orang saat ngobrol?", eng: "Have you forgotten someone's name while chatting?", phonetic: "(Hav yu for-got-en sam-wanz neim wail chat-ing)", expl: "Alasan: pakai have + forgotten karena pengalaman" },
+        { indo: "Kamu sering ketawa saat ngobrol?", eng: "Do you laugh a lot when chatting?", phonetic: "(Du yu laf a lot wen chat-ing)", expl: "Alasan: pakai do karena kebiasaan" },
+        { indo: "Kamu lagi merasa nyaman ngobrol sekarang?", eng: "Are you feeling comfortable talking now?", phonetic: "(Ar yu fi-ling kom-for-ta-bel tok-ing nau)", expl: "Alasan: pakai are + feeling karena perasaan saat ini" }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuSisa;
+    let waktuAwal;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        waktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+
+        loadSoal();
+    }
+
+    function loadSoal() {
+        clearInterval(timerInterval);
+        waktuSisa = waktuAwal;
+        
+        const data = daftarSoal[currentIndex];
+        document.getElementById('teks-soal').innerText = data.indo;
+        document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
+        document.getElementById('teks-phonetic').innerText = data.phonetic;
+        document.getElementById('teks-penjelasan').innerHTML = `<strong>Penjelasan:</strong><br>${data.expl}`;
+        
+        document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+
+        startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < daftarSoal.length - 1) {
+            currentIndex++;
+            loadSoal();
+        } else {
+            alert("Latihan Selesai!");
+            window.location.reload();
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].indo);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].eng);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
