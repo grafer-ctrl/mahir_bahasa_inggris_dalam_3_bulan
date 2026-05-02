@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri - Tipe Pasangan</title>
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-blue);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-blue);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<!-- KODE PROTEKSI AKSES -->
+<script>
+    if (!localStorage.getItem('premium_code')) {
+        alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri (Ideal Partner)</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan & Ucapkan Sekarang</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Topik: Kriteria Pasangan</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Lihat Jawaban </button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Utama</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// DATABASE TEKS 351-400 (Tipe Pasangan)
+const data = [
+    ["Kamu punya tipe pasangan?", "Do you have a type?", "Du yu hev a taip?"],
+    ["Iya, sedikit", "Yes, a little", "Yes a lit-tel"],
+    ["Seperti apa tipemu?", "What is your type like?", "Wat iz yor taip laik?"],
+    ["Aku suka yang baik hati", "I like someone kind", "Ai laik sam-wan kaind"],
+    ["Aku suka yang jujur", "I like someone honest", "Ai laik sam-wan o-nest"],
+    ["Kejujuran itu penting", "Honesty is important", "O-nes-ti iz im-por-tent"],
+    ["Kamu suka yang romantis?", "Do you like romantic people?", "Du yu laik ro-man-tik pi-pol?"],
+    ["Iya, tapi tidak berlebihan", "Yes, but not too much", "Yes, bat not tu mach"],
+    ["Aku suka yang perhatian", "I like someone caring", "Ai laik sam-wan ke-ring"],
+    ["Perhatian itu bikin nyaman", "Caring makes you comfortable", "Ke-ring meiks yu kom-for-ta-bel"],
+    ["Kamu suka yang humoris?", "Do you like someone funny?", "Du yu laik sam-wan fan-ni?"],
+    ["Iya, itu penting", "Yes, that's important", "Yes dets im-por-tent"],
+    ["Aku suka yang bisa bikin tertawa", "I like someone who makes me laugh", "Ai laik sam-wan hu meiks mi laf"],
+    ["Kamu suka yang tinggi?", "Do you like someone tall?", "Du yu laik sam-wan tol?"],
+    ["Tidak terlalu penting", "Not very important", "Not ve-ri im-por-tent"],
+    ["Aku lebih lihat kepribadian", "I care more about personality", "Ai ker mor a-baut per-so-na-li-ti"],
+    ["Kepribadian nomor satu", "Personality comes first", "Per-so-na-li-ti kams fers"],
+    ["Kamu suka yang pintar?", "Do you like someone smart?", "Du yu laik sam-wan smart?"],
+    ["Iya, itu menarik", "Yes, that's attractive", "Yes dets at-trak-tiv"],
+    ["Aku suka yang punya tujuan hidup", "I like someone with goals", "Ai laik sam-wan wid gols"],
+    ["Kamu suka yang pekerja keras?", "Do you like hardworking people?", "Du yu laik hard-werk-ing pi-pol?"],
+    ["Iya, itu penting", "Yes, that's important", "Yes dets im-por-tent"],
+    ["Aku suka yang mandiri", "I like someone independent", "Ai laik sam-wan in-de-pen-dent"],
+    ["Mandiri itu keren", "Being independent is cool", "Bi-ing in-de-pen-dent iz kul"],
+    ["Kamu suka yang dewasa?", "Do you like someone mature?", "Du yu laik sam-wan ma-tyur?"],
+    ["Iya, aku suka", "Yes, I do", "Yes ai du"],
+    ["Dewasa dalam berpikir penting", "Maturity is important", "Ma-tyu-ri-ti iz im-por-tent"],
+    ["Kamu suka yang setia?", "Do you like someone loyal?", "Du yu laik sam-wan loi-al?"],
+    ["Tentu saja", "Of course", "Of kors"],
+    ["Kesetiaan itu utama", "Loyalty is essential", "Loi-al-ti iz e-sen-sial"],
+    ["Kamu suka yang sederhana?", "Do you like someone simple?", "Du yu laik sam-wan sim-pel?"],
+    ["Iya, aku suka yang sederhana", "Yes, I like simple people", "Yes ai laik sim-pel pi-pol"],
+    ["Aku tidak suka yang berlebihan", "I don't like someone excessive", "Ai dont laik sam-wan eks-se-siv"],
+    ["Kamu suka yang perhatian ke keluarga?", "Do you like family-oriented people?", "Du yu laik fa-mi-li o-ri-en-ted pi-pol?"],
+    ["Iya, itu penting", "Yes, that's important", "Yes dets im-por-tent"],
+    ["Keluarga nomor satu", "Family comes first", "Fa-mi-li kams fers"],
+    ["Kamu suka yang seiman?", "Do you like someone with same beliefs?", "Du yu laik sam-wan wid seim be-lifs?"],
+    ["Iya, itu penting buat aku", "Yes, it's important to me", "Yes its im-por-tent tu mi"],
+    ["Kamu suka yang suka traveling?", "Do you like someone who likes traveling?", "Du yu laik sam-wan hu laiks tra-ve-ling?"],
+    ["Iya, biar bisa jalan bareng", "Yes, so we can travel together", "Yes so wi ken tra-vel tu-ge-der"],
+    ["Kamu suka yang suka olahraga?", "Do you like someone who exercises?", "Du yu laik sam-wan hu ek-ser-saiz?"],
+    ["Iya, biar sehat bersama", "Yes, to stay healthy together", "Yes tu stei hel-ti tu-ge-der"],
+    ["Kamu suka yang romantis kecil-kecilan?", "Do you like small romantic gestures?", "Du yu laik smol ro-man-tik jes-cherz?"],
+    ["Iya, itu manis", "Yes, that's sweet", "Yes dets swit"],
+    ["Kamu suka yang bisa diajak ngobrol?", "Do you like someone easy to talk to?", "Du yu laik sam-wan i-zi tu tok tu?"],
+    ["Iya, komunikasi penting", "Yes, communication is important", "Yes ko-myu-ni-kei-shen iz im-por-tent"],
+    ["Kamu suka yang sabar?", "Do you like someone patient?", "Du yu laik sam-wan pei-shent?"],
+    ["Iya, itu penting sekali", "Yes, very important", "Yes ve-ri im-por-tent"],
+    ["Menurutmu pasangan ideal itu seperti apa?", "What is your ideal partner like?", "Wat iz yor ai-di-al part-ner laik?"],
+    ["Yang bisa saling mengerti", "Someone who understands each other", "Sam-wan hu un-der-stands ich a-der"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Selesai! Kamu sudah menguasai topik kriteria pasangan.");
+        location.reload();
+        return;
+    }
+
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Sisa waktu berpikir: ${timeLeft} detik`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
