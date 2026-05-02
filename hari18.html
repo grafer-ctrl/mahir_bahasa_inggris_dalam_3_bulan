@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .setting-label {
+            font-weight: 800;
+            font-size: 20px;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .btn-start {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 24px;
+            min-width: 65px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 11px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .soal-text {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        /* --- JAWABAN --- */
+        #answer-section {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en {
+            font-size: 20px;
+            font-weight: 900;
+            color: #007bff;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .phonetic { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #444; }
+
+        .explanation {
+            font-size: 12px;
+            text-align: left;
+            background: #f1f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-blue);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        /* --- NAVIGASI POSISI 200px DARI BAWAH --- */
+        .bottom-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 200px; /* DINAIKKAN 200px DARI TEPI BAWAH */
+        }
+
+        .btn-action {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+        .btn-action:active { transform: scale(0.95); }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan aktif berbicara bahasa inggris</h1>
+        
+        <div class="slider-container">
+            <p class="setting-label">seting volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>0</span><span>200</span></div>
+        </div>
+
+        <div class="slider-container">
+            <p class="setting-label">seting batas waktu</p>
+            <input type="range" id="time-slider" min="0" max="120" value="15">
+            <div class="slider-labels"><span>0</span><span>120 s</span></div>
+        </div>
+
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-display" id="timer">00</div>
+            <div class="counter-display" id="soal-counter">1 / 66</div>
+            <div class="instruction-blink">Terjemahkan & Ucapkan</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px; cursor:pointer;" onclick="suaraIndo()">🔊</div>
+            <div class="soal-text" id="teks-soal">Memuat...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">🔊</div>
+                <div class="phonetic" id="teks-phonetic"></div>
+                <div class="explanation" id="teks-penjelasan"></div>
+            </div>
+        </div>
+
+        <!-- NAVIGASI -->
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">lihat Jawaban</button>
+            <div class="nav-group">
+                <button class="btn-action btn-home" onclick="location.reload()">🏠</button>
+                <button class="btn-action btn-nav" onclick="prevSoal()">prev</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">nex</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const daftarSoal = [
+        { id: "Halo, apa kabar?", en: "Hello, how are you?", ph: "(he-lo, hau ar yu)", exp: "Pakai “are” karena subjek “you”. “How are you” adalah sapaan umum." },
+        { id: "Nama saya Andi.", en: "My name is Andi.", ph: "(mai neim iz an-di)", exp: "Pakai “is” karena “name” tunggal. “Is” adalah bentuk “to be”." },
+        { id: "Siapa nama kamu?", en: "What is your name?", ph: "(wat iz yor neim)", exp: "Pakai “is” karena “name” tunggal. Struktur pertanyaan dasar." },
+        { id: "Kamu dari mana?", en: "Where are you from?", ph: "(wer ar yu from)", exp: "Pakai “are” karena subjek “you”. “From” untuk asal." },
+        { id: "Saya dari Indonesia.", en: "I am from Indonesia.", ph: "(ai em from in-do-ne-sia)", exp: "Pakai “am” karena subjek “I”." },
+        { id: "Umur saya 18 tahun.", en: "I am 18 years old.", ph: "(ai em eit-tin yirs old)", exp: "Pakai “am” untuk menyatakan umur (pakai “to be”, bukan “have”)." },
+        { id: "Senang bertemu denganmu.", en: "Nice to meet you.", ph: "(nais tu mit yu)", exp: "Kalimat tetap (fixed expression), tidak perlu “am/is/are”." },
+        { id: "Saya suka musik.", en: "I like music.", ph: "(ai laik mu-sik)", exp: "Pakai verb 1 (like) karena simple present. Tidak pakai “s” karena “I”." },
+        { id: "Kamu suka apa?", en: "What do you like?", ph: "(wat du yu laik)", exp: "Pakai “do” untuk pertanyaan simple present dengan subjek “you”." },
+        { id: "Kita bisa berteman.", en: "We can be friends.", ph: "(wi ken bi frends)", exp: "Pakai “can” untuk kemungkinan/ajakan. Setelah “can”, pakai verb dasar (be)." },
+        { id: "Kamu tinggal di kota apa?", en: "What city do you live in?", ph: "(wat si-ti du yu liv in)", exp: "Pakai “do” untuk pertanyaan simple present dengan “you”." },
+        { id: "Kamu sedang apa sekarang?", en: "What are you doing now?", ph: "(wat ar yu du-ing nau)", exp: "Pakai “are + verb-ing” karena sedang terjadi sekarang." },
+        { id: "Kamu suka apa di waktu luang?", en: "What do you like in your free time?", ph: "(wat du yu laik in yor fri taim)", exp: "Pakai “do” untuk pertanyaan kebiasaan (simple present)." },
+        { id: "Kamu sering pakai OmeTV?", en: "Do you often use OmeTV?", ph: "(du yu of-ten yus ometivi)", exp: "Pakai “do” untuk pertanyaan simple present." },
+        { id: "Kamu bisa bahasa Inggris dengan lancar?", en: "Can you speak English fluently?", ph: "(ken yu spik ing-glish flu-ent-li)", exp: "Pakai “can” untuk kemampuan. Setelah “can” pakai verb dasar." },
+        { id: "Boleh kita tetap kontak?", en: "Can we stay in touch?", ph: "(ken wi stei in tach)", exp: "Pakai “can” untuk permintaan/ajakan yang sopan." },
+        { id: "Kamu lagi santai atau sibuk?", en: "Are you relaxing or busy?", ph: "(ar yu ri-lak-sing or bi-zi)", exp: "Pakai “are” karena “you”. “Are + verb-ing” untuk kondisi sekarang." },
+        { id: "Kamu biasanya online jam berapa?", en: "What time do you usually go online?", ph: "(wat taim du yu yu-zu-a-li go on-lain)", exp: "Pakai “do” untuk pertanyaan kebiasaan (simple present)." },
+        { id: "Kamu suka ngobrol sama orang baru?", en: "Do you like talking to new people?", ph: "(du yu laik to-king tu nyu pi-pol)", exp: "Pakai “do” untuk pertanyaan. Setelah “like” bisa pakai verb-ing (talking)." },
+        { id: "Kamu lagi pakai HP atau laptop?", en: "Are you using a phone or a laptop?", ph: "(ar yu yu-zing e fon or e lap-top)", exp: "Pakai “are + using” karena aktivitas sedang berlangsung." },
+        { id: "Di sana sekarang siang atau malam?", en: "Is it day or night there?", ph: "(iz it dei or nait dher)", exp: "Pakai “is” karena subjek “it” (cuaca/waktu)." },
+        { id: "Cuacanya bagaimana di sana?", en: "How is the weather there?", ph: "(hau iz dhe we-ther dher)", exp: "Pakai “is” karena “weather” dianggap tunggal." },
+        { id: "Kamu lebih suka musik atau film?", en: "Do you prefer music or movies?", ph: "(du yu pre-fer mu-sik or mu-viz)", exp: "Pakai “do” untuk pertanyaan simple present." },
+        { id: "Kamu sering nonton film?", en: "Do you often watch movies?", ph: "(du yu woch mu-viz)", exp: "Pakai “do” untuk kebiasaan. Verb tetap bentuk dasar (watch)." },
+        { id: "Kamu tinggal sendiri atau dengan keluarga?", en: "Do you live alone or with your family?", ph: "(du yu liv a-lon or with yor fa-mi-li)", exp: "Pakai “do” untuk pertanyaan simple present." },
+        { id: "Kamu nyaman ngobrol sama saya?", en: "Are you comfortable talking with me?", ph: "(ar yu kom-for-ta-bel to-king with mi)", exp: "Pakai “are” karena “you”. “Talking” sebagai aktivitas." },
+        { id: "Kamu lagi dengar musik sekarang?", en: "Are you listening to music right now?", ph: "(ar yu lis-ten-ing tu mu-sik rait nau)", exp: "Pakai “are + listening” karena aktivitas sedang berlangsung sekarang." },
+        { id: "Kamu punya hobi apa?", en: "What hobbies do you have?", ph: "(wat ho-biz du yu hev)", exp: "Pakai “do” untuk pertanyaan simple present. “Have” untuk kepemilikan." },
+        { id: "Kamu suka traveling?", en: "Do you like traveling?", ph: "(du yu laik tra-ve-ling)", exp: "Pakai “do” untuk pertanyaan. Setelah “like” bisa pakai verb-ing." },
+        { id: "Tempat favorit kamu di mana?", en: "Where is your favorite place?", ph: "(wer iz yor fe-vo-rit pleis)", exp: "Pakai “is” karena “place” tunggal." },
+        { id: "Kamu sering keluar rumah atau di rumah saja?", en: "Do you often go out or stay at home?", ph: "(du yu of-ten go aut or stei at hom)", exp: "Pakai “do” untuk kebiasaan (simple present)." },
+        { id: "Kamu suka makanan pedas?", en: "Do you like spicy food?", ph: "(du yu laik spai-si fud)", exp: "Pakai “do” untuk pertanyaan simple present." },
+        { id: "Kamu lagi belajar sesuatu sekarang?", en: "Are you learning something now?", ph: "(ar yu ler-ning sam-thing nau)", exp: "Pakai “are + learning” karena sedang terjadi sekarang." },
+        { id: "Kamu biasanya bangun jam berapa?", en: "What time do you usually wake up?", ph: "(wat taim du yu yu-zu-a-li weik ap)", exp: "Pakai “do” untuk pertanyaan kebiasaan." },
+        { id: "Kamu orang yang pendiam atau suka bicara?", en: "Are you a quiet person or talkative?", ph: "(ar yu e kwi-et per-son or to-ka-tiv)", exp: "Pakai “are” karena mendeskripsikan sifat dengan “to be”." },
+        { id: "Kamu ingin lanjut ngobrol?", en: "Do you want to keep talking?", ph: "(du yu want tu kip to-king)", exp: "Pakai “do” untuk pertanyaan. Setelah “want” pakai “to + verb”." },
+        { id: "Kamu masih sekolah atau sudah kerja?", en: "Are you still studying or working?", ph: "(ar yu stil sta-di-ing or wor-king)", exp: "Pakai “are” karena “you”. “Are + verb-ing” untuk kondisi sekarang." },
+        { id: "Kamu sekolah di mana?", en: "Where do you study?", ph: "(wer du yu sta-di)", exp: "Pakai “do” untuk pertanyaan kebiasaan/aktivitas (simple present)." },
+        { id: "Kamu kerja apa?", en: "What do you do for work?", ph: "(wat du yu du for work)", exp: "Pakai “do” karena menanyakan pekerjaan secara umum." },
+        { id: "Kamu kelas berapa?", en: "What grade are you in?", ph: "(wat greid ar yu in)", exp: "Pakai “are” karena “you”. Struktur untuk posisi/kelas." },
+        { id: "Umur kamu berapa?", en: "How old are you?", ph: "(hau old ar yu)", exp: "Pakai “are” karena umur pakai “to be”, bukan “have”." },
+        { id: "Kamu sudah kerja lama?", en: "Have you been working long?", ph: "(hev yu bin wor-king long)", exp: "Pakai “have” untuk pengalaman/keadaan sejak dulu sampai sekarang." },
+        { id: "Kamu suka sekolah atau kerja?", en: "Do you like school or work?", ph: "(du yu laik skul or work)", exp: "Pakai “do” untuk pertanyaan preferensi." },
+        { id: "Sekolah kamu jauh dari rumah?", en: "Is your school far from your home?", ph: "(iz yor skul far from yor hom)", exp: "Pakai “is” karena “school” tunggal." },
+        { id: "Kamu mulai kerja jam berapa?", en: "What time do you start work?", ph: "(wat taim du yu start work)", exp: "Pakai “do” untuk rutinitas." },
+        { id: "Kamu suka pekerjaanmu sekarang?", en: "Do you like your job now?", ph: "(du yu laik yor job nau)", exp: "Pakai “do” untuk pertanyaan simple present." },
+        { id: "Apa yang kamu suka dari negaramu?", en: "What do you like about your country?", ph: "(wat du yu laik a-baut yor kan-tri)", exp: "Pakai “do” untuk pertanyaan umum (simple present)." },
+        { id: "Apa hal terbaik dari negaramu?", en: "What is the best thing about your country?", ph: "(wat iz dhe best thing a-baut yor kan-tri)", exp: "Pakai “is” karena “thing” tunggal." },
+        { id: "Negaramu terkenal karena apa?", en: "What is your country famous for?", ph: "(wat iz yor kan-tri fei-mes for)", exp: "Pakai “is” karena struktur deskripsi fakta." },
+        { id: "Makanan khas di negaramu apa?", en: "What is your traditional food?", ph: "(wat iz yor tra-di-sho-nal fud)", exp: "Pakai “is” karena “food” dianggap tunggal." },
+        { id: "Tempat wisata terbaik di negaramu apa?", en: "What is the best tourist place in your country?", ph: "(wat iz dhe best tu-rist pleis in yor kan-tri)", exp: "Pakai “is” karena “place” tunggal." },
+        { id: "Orang di negaramu biasanya seperti apa?", en: "What are people like in your country?", ph: "(wat ar pi-pol laik in yor kan-tri)", exp: "Pakai “are” karena “people” jamak." },
+        { id: "Apa yang membuat negaramu spesial?", en: "What makes your country special?", ph: "(wat meiks yor kan-tri spe-shal)", exp: "Pakai “makes” karena subjek “what” dianggap tunggal." },
+        { id: "Apakah negaramu aman untuk wisatawan?", en: "Is your country safe for tourists?", ph: "(iz yor kan-tri seif for tu-rist)", exp: "Pakai “is” karena “country” tunggal." },
+        { id: "Apa kelebihan hidup di negaramu?", en: "What are the advantages of living in your country?", ph: "(wat ar dhi ad-van-ti-jiz ov li-ving in yor kan-tri)", exp: "Pakai “are” karena “advantages” jamak." },
+        { id: "Kenapa kamu suka tinggal di negaramu?", en: "Why do you like living in your country?", ph: "(wai du yu laik li-ving in yor kan-tri)", exp: "Pakai “do” untuk pertanyaan alasan (simple present)." },
+        { id: "Biaya hidup di negaramu mahal?", en: "Is the cost of living expensive in your country?", ph: "(iz dhe kost ov li-ving ik-spen-siv in yor kan-tri)", exp: "Pakai “is” karena “cost” tunggal. Struktur pertanyaan dengan “to be”." },
+        { id: "Berapa biaya makan di negaramu?", en: "How much is food in your country?", ph: "(hau mach iz fud in yor kan-tri)", exp: "Pakai “is” karena menanyakan harga (singular concept)." },
+        { id: "Apakah sewa rumah mahal di sana?", en: "Is rent expensive there?", ph: "(iz rent ik-spen-siv dher)", exp: "Pakai “is” karena “rent” dianggap tunggal." },
+        { id: "Berapa biaya hidup per bulan di negaramu?", en: "How much is the monthly cost of living in your country?", ph: "(hau mach iz dhe man-thli kost ov li-ving in yor kan-tri)", exp: "Pakai “is” untuk menanyakan nilai/biaya." },
+        { id: "Apakah transportasi di sana mahal?", en: "Is transportation expensive there?", ph: "(iz trans-por-tei-shon ik-spen-siv dher)", exp: "Pakai “is” karena “transportation” tidak dihitung satuan." },
+        { id: "Apakah gaji di negaramu cukup?", en: "Is the salary enough in your country?", ph: "(iz dhe sa-le-ri i-nuf in yor kan-tri)", exp: "Pakai “is” untuk kondisi/kualitas." },
+        { id: "Berapa harga makanan di sana?", en: "How much does food cost there?", ph: "(hau mach daz fud kost dher)", exp: "Pakai “does” untuk pertanyaan simple present dengan “food”." },
+        { id: "Apakah hidup di sana lebih mahal dari sini?", en: "Is living there more expensive than here?", ph: "(iz li-ving dher mor ik-spen-siv dhan hir)", exp: "Pakai “is” untuk perbandingan." },
+        { id: "Orang di negaramu biasanya menghabiskan berapa uang per hari?", en: "How much money do people usually spend per day?", ph: "(hau mach ma-ni du pi-pol yu-zu-a-li spend per dei)", exp: "Pakai “do” karena subjek “people” (jamak)." },
+        { id: "Apakah hidup di sana lebih murah atau mahal?", en: "Is life there cheap or expensive?", ph: "(iz laif dher chip or ik-spen-siv)", exp: "Pakai “is” karena “life” tunggal." }
+    ];
+
+    let currentIdx = 0;
+    let timerInterval;
+    let waktuSisa;
+    let volumeLevel = 0.5;
+    let batasWaktuAwal = 15;
+
+    function mulaiLatihan() {
+        batasWaktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+        tampilkanSoal();
+    }
+
+    function tampilkanSoal() {
+        clearInterval(timerInterval);
+        const soal = daftarSoal[currentIdx];
+        document.getElementById('teks-soal').innerText = soal.id;
+        document.getElementById('teks-inggris').innerText = soal.en + " 🔊";
+        document.getElementById('teks-phonetic').innerText = soal.ph;
+        document.getElementById('teks-penjelasan').innerHTML = "<strong>Penjelasan:</strong><br>" + soal.exp;
+        document.getElementById('soal-counter').innerText = `${currentIdx + 1} / ${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+        
+        waktuSisa = batasWaktuAwal;
+        updateTimerDisplay();
+        if (waktuSisa > 0) startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIdx < daftarSoal.length - 1) {
+            currentIdx++;
+            tampilkanSoal();
+        }
+    }
+
+    function prevSoal() {
+        if (currentIdx > 0) {
+            currentIdx--;
+            tampilkanSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIdx].id);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIdx].en);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
