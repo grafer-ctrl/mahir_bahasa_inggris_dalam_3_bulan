@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri Cepat</title>
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        /* HEADER & ANIMASI BLINK */
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* UI SETTING & INPUT */
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-blue);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-blue);
+        }
+
+        /* TOMBOL */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+        }
+
+        /* TRACKING PROGRESS */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* AREA PERCAKAPAN */
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-blue);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri Cepat</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan dan ucapkan dalam B. Inggris</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Pengaturan Latihan</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="200" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">60s</span></label>
+            <input type="range" min="3" max="120" step="1" value="60" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/37</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Kunci Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Awal</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const data = [
+    ["Hai, halo!","Hi, hello!","Hai, he-lo!"],
+    ["Hai juga!","Hi too!","Hai tuu!"],
+    ["Kamu dari mana?","Where are you from?","Wer ar yu from"],
+    ["Aku dari Indonesia, kamu?","I'm from Indonesia, you?","Aim from indo-nee-sya, yu"],
+    ["Aku juga dari Indonesia. Lagi ngapain?","I'm also from Indonesia. What are you doing?","Aim olso from indo-nee-sya"],
+    ["Lagi santai aja, kamu?","Just relaxing, you?","Jas rileks-ing"],
+    ["Sama, lagi cari teman ngobrol.","Same, just looking for someone to chat with","Seim luk-ing"],
+    ["Asik, boleh banget.","Nice, sure!","Nais syur"],
+    ["Nama kamu siapa?","What's your name?","Wats yor neim"],
+    ["Namaku Rina, kamu?","My name is Rina, you?","Mai neim iz Rina"],
+    ["Aku Umar. Umur kamu berapa?","I'm Umar. How old are you?","Aim Umar"],
+    ["Aku 20 tahun, kamu?","I'm 20 years old","Twenti yirs"],
+    ["Aku 25 tahun. Kamu kerja atau masih sekolah?","Do you work or study?","Du yu werk"],
+    ["Masih kuliah, kamu?","Still in college?","Stil kolij"],
+    ["Aku sudah kerja. Hobi kamu apa?","What's your hobby?","Wats yor hobi"],
+    ["Aku suka nonton film dan denger musik, kamu?","I like movies and music","Ai laik muvi"],
+    ["Aku suka olahraga dan main game.","I like sports and games","Ai laik sports"],
+    ["Wah seru juga.","That's fun","Dets fan"],
+    ["Kamu sering pakai OmeTV?","Do you use OmeTV?","Du yu use"],
+    ["Kadang-kadang aja.","Sometimes","Samtaims"],
+    ["Sama, aku juga.","Me too","Mi tu"],
+    ["Hehe iya.","Haha yeah","Ha ha ye"],
+    ["Kamu lagi di rumah atau di luar?","At home or outside?","At hom"],
+    ["Lagi di rumah.","I'm at home","Aim hom"],
+    ["Di kota mana?","Which city?","Wich siti"],
+    ["Di Jogja, kamu?","In Jogja?","Jogja"],
+    ["Aku juga di Jogja.","I'm in Jogja too","Jogja"],
+    ["Wah deket dong.","That's close","Klos"],
+    ["Iya, kebetulan banget.","What a coincidence","Ko-in-si-dens"],
+    ["Boleh lanjut ngobrol di Instagram?","Continue on Instagram?","Instgram"],
+    ["Boleh, ini IG aku:","This is my IG","Mai IG"],
+    ["Oke, nanti aku follow ya.","I'll follow you","Fo-lo"],
+    ["Siap!","Alright","Olrait"],
+    ["Senang ngobrol sama kamu.","Nice talking with you","Tok-ing"],
+    ["Sama-sama, aku juga.","Me too","Mi tu"],
+    ["Oke, hati-hati ya.","Take care","Teik ker"],
+    ["Kamu juga!","You too","Yu tu"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Selesai! Bagus sekali.");
+        location.reload();
+        return;
+    }
+
+    // Reset UI
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    // Update Progress
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    // Set Text
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    // Auto Speak Indo
+    speak(item[0], 'id');
+
+    // Start Thinking Timer
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Sisa waktu berpikir: ${timeLeft} detik`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    // Auto Speak English
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    
+    // Get settings
+    const rawVol = document.getElementById("volume").value; // 0-200
+    const speed = document.getElementById("speed").value;
+    
+    // SpeechSynthesisUtterance volume is 0 to 1
+    // We map 0-200 to 0-1 range (Note: Web Speech API doesn't support 200% naturally, 
+    // but 1.0 is the hardware max. We treat 100-200 as 1.0)
+    u.volume = Math.min(rawVol / 100, 1); 
+    u.rate = speed;
+
+    window.speechSynthesis.speak(u);
+}
+
+// Shortcut keyboard
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
