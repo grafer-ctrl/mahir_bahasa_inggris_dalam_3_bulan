@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri - Topik Rayuan</title>
+    <style>
+        :root {
+            --primary-pink: #E91E63;
+            --dark-pink: #AD1457;
+            --light-pink: #FCE4EC;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #fff0f5;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary-pink);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-pink);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-pink);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-pink);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-pink);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-pink);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-pink);
+            background: var(--light-pink);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-pink);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<!-- KODE PROTEKSI AKSES -->
+<script>
+    if (!localStorage.getItem('premium_code')) {
+        alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara: Rayuan (401-450)</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan & Rayu Dia Sekarang!</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-pink);">Topik: Flirting / Rayuan</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan Merayu</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Utama</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// DATABASE TEKS 401-450 (Rayuan)
+const data = [
+    ["Kayaknya aku salah tempat", "I think I'm in the wrong place", "Ai tingk aim in de rong pleis"],
+    ["Kenapa?", "Why?", "Wai?"],
+    ["Harusnya aku di hatimu", "I should be in your heart", "Ai shud bi in yor hart"],
+    ["Haha kamu bisa aja", "Haha, you're funny", "Ha-ha, yor fan-ni"],
+    ["Serius, kamu bikin aku nyaman", "Seriously, you make me comfortable", "Si-ri-us-li, yu meik mi kom-for-ta-bel"],
+    ["Aku baru kenal tapi terasa dekat", "We just met but it feels close", "Wi jas met bat it fils klos"],
+    ["Kamu punya sesuatu yang beda", "You have something special", "Yu hev sam-ting spe-sial"],
+    ["Apa itu?", "What is it?", "Wat iz it?"],
+    ["Aku juga tidak tahu, tapi aku suka", "I don't know, but I like it", "Ai dont no, bat ai laik it"],
+    ["Kamu bikin aku penasaran terus", "You keep me curious", "Yu kip mi kyu-ri-us"],
+    ["Kalau aku boleh jujur", "If I may be honest", "If ai mei bi o-nest"],
+    ["Aku merasa beruntung ketemu kamu", "I feel lucky to meet you", "Ai fil la-ki tu mit yu"],
+    ["Padahal cuma random", "Even though it's random", "I-ven dou its ran-dom"],
+    ["Tapi rasanya tidak random", "But it doesn't feel random", "Bat it daz-ent fil ran-dom"],
+    ["Seperti ada alasan", "Like there is a reason", "Laik der iz a ri-zon"],
+    ["Mungkin karena kamu menarik", "Maybe because you are attractive", "Mei-bi bi-kos yu ar at-trak-tiv"],
+    ["Kamu bikin aku susah fokus", "You make it hard for me to focus", "Yu meik it hard for mi tu fo-kes"],
+    ["Kenapa?", "Why?", "Wai?"],
+    ["Karena aku terus lihat kamu", "Because I keep looking at you", "Bi-kos ai kip luk-ing at yu"],
+    ["Kamu manis sekali", "You are so sweet", "Yu ar so swit"],
+    ["Aku jadi lupa mau bilang apa", "I forgot what I wanted to say", "Ai for-got wat ai wan-ted tu sei"],
+    ["Itu karena kamu gugup", "That's because you're nervous", "Dets bi-kos yor ner-ves"],
+    ["Iya, karena kamu", "Yes, because of you", "Yes bi-kos of yu"],
+    ["Kamu punya senyum berbahaya", "Your smile is dangerous", "Yor smail iz dan-jer-es"],
+    ["Bisa bikin orang jatuh hati", "It can make people fall in love", "It ken meik pi-pol fol in lav"],
+    ["Kamu sering dengar itu?", "Do you hear that often?", "Du yu hir det of-ten?"],
+    ["Tidak, hanya dari aku", "No, only from me", "No on-li from mi"],
+    ["Aku serius", "I'm serious", "Aim si-ri-us"],
+    ["Kamu beda dari yang lain", "You are different from others", "Yu ar di-fe-rent from a-ders"],
+    ["Aku tidak bisa skip kamu", "I can't skip you", "Ai kant skip yu"],
+    ["Kalau aku skip kamu", "If I skip you", "If ai skip yu"],
+    ["Aku bakal nyesel", "I will regret it", "Ai wil ri-gret it"],
+    ["Aku jarang merasa seperti ini", "I rarely feel like this", "Ai rer-li fil laik dis"],
+    ["Kamu bikin hari aku lebih baik", "You make my day better", "Yu meik mai dei bet-ter"],
+    ["Terima kasih sudah muncul", "Thank you for appearing", "Teng-kyu for a-pir-ing"],
+    ["Kamu seperti kejutan", "You are like a surprise", "Yu ar laik a ser-prais"],
+    ["Dan aku suka kejutan ini", "And I like this surprise", "End ai laik dis ser-prais"],
+    ["Kamu membuat semuanya terasa ringan", "You make everything feel light", "Yu meik ev-ri-ting fil lait"],
+    ["Aku jadi ingin ngobrol lama", "I want to talk longer", "Ai want tu tok long-ger"],
+    ["Kamu mau tetap di sini?", "Will you stay here?", "Wil yu stei hir?"],
+    ["Jangan pergi dulu", "Don't leave yet", "Dont liv yet"],
+    ["Aku belum selesai ngobrol", "I'm not done talking", "Aim not dan tok-ing"],
+    ["Aku ingin mengenal kamu", "I want to know you", "Ai want tu no yu"],
+    ["Lebih dari ini", "More than this", "Mor den dis"],
+    ["Kamu punya sesuatu yang bikin nyaman", "You have something comforting", "Yu hev sam-ting kom-for-ting"],
+    ["Aku merasa tenang", "I feel calm", "Ai fil kam"],
+    ["Aku suka cara kamu", "I like your way", "Ai laik yor wei"],
+    ["Semua tentang kamu menarik", "Everything about you is interesting", "Ev-ri-ting a-baut yu iz in-tres-ting"],
+    ["Aku harap ini bukan terakhir", "I hope this is not the last", "Ai hop dis iz not de last"],
+    ["Aku ingin ngobrol lagi denganmu", "I want to talk with you again", "Ai want tu tok wid yu a-gen"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Rayuan Selesai! Kamu siap menaklukkan hati lawan bicara.");
+        location.reload();
+        return;
+    }
+
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Rayu dalam: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
