@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri - Karir & Pekerjaan</title>
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-blue);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-blue);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<!-- KODE PROTEKSI AKSES -->
+<script>
+    if (!localStorage.getItem('premium_code')) {
+        alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri (Premium: Work)</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan & Ucapkan Langsung</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Topik: Pekerjaan</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan Kerja</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Utama</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// DATABASE TEKS 201-250 (Pekerjaan)
+const data = [
+    ["Kamu kerja apa?", "What do you do?", "Wat du yu du?"],
+    ["Aku kerja di kantor", "I work in an office", "Ai werk in an o-fis"],
+    ["Bidang apa?", "What field?", "Wat fild?"],
+    ["Di bidang marketing", "In marketing", "In mar-ke-ting"],
+    ["Sudah lama kerja di situ?", "How long have you worked there?", "Hau long hev yu werkt der?"],
+    ["Sekitar 2 tahun", "About 2 years", "A-baut tu yirs"],
+    ["Kamu suka pekerjaanmu?", "Do you like your job?", "Du yu laik yor job?"],
+    ["Lumayan suka", "I quite like it", "Ai kwait laik it"],
+    ["Kerjanya sibuk?", "Is your job busy?", "Iz yor job bi-zi?"],
+    ["Kadang sibuk, kadang santai", "Sometimes busy, sometimes relaxed", "Sam-taims bi-zi, sam-taims ri-laksd"],
+    ["Kamu kerja dari rumah atau kantor?", "Do you work from home or office?", "Du yu werk from hom or o-fis?"],
+    ["Aku kerja dari kantor", "I work from the office", "Ai werk from de o-fis"],
+    ["Jam kerjamu bagaimana?", "What are your working hours?", "Wat ar yor werk-ing au-ers?"],
+    ["Dari jam 9 sampai 5", "From 9 to 5", "From nain tu faiv"],
+    ["Capek tidak?", "Is it tiring?", "Iz it tai-ring?"],
+    ["Lumayan capek", "Quite tiring", "Kwait tai-ring"],
+    ["Gajinya bagus?", "Is the salary good?", "Iz de sa-la-ri gud?"],
+    ["Lumayan untuk hidup", "Enough to live", "I-naf tu liv"],
+    ["Kamu puas dengan gajimu?", "Are you satisfied with your salary?", "Ar yu sa-tis-faid wid yor sa-la-ri?"],
+    ["Belum terlalu", "Not really", "Not ri-li"],
+    ["Kamu ingin gaji lebih besar?", "Do you want a higher salary?", "Du yu want a hai-er sa-la-ri?"],
+    ["Tentu saja", "Of course", "Of kors"],
+    ["Kamu punya rencana karir?", "Do you have a career plan?", "Du yu hev a ka-rir plan?"],
+    ["Aku ingin naik jabatan", "I want a promotion", "Ai want a pro-mo-shen"],
+    ["Kamu sering lembur?", "Do you often work overtime?", "Du yu of-ten werk o-ver-taim?"],
+    ["Kadang-kadang", "Sometimes", "Sam-taims"],
+    ["Lembur dibayar?", "Is overtime paid?", "Iz o-ver-taim peid?"],
+    ["Iya, dibayar", "Yes, it is paid", "Yes it iz peid"],
+    ["Kamu punya pekerjaan sampingan?", "Do you have a side job?", "Du yu hev a said job?"],
+    ["Tidak punya", "No, I don't", "No, ai dont"],
+    ["Kamu ingin punya bisnis sendiri?", "Do you want your own business?", "Du yu want yor on bis-nes?"],
+    ["Iya, suatu hari nanti", "Yes, someday", "Yes sam-dei"],
+    ["Bisnis apa yang kamu inginkan?", "What business do you want?", "Wat bis-nes du yu want?"],
+    ["Bisnis online", "An online business", "An on-lain bis-nes"],
+    ["Kamu suka pekerjaan fleksibel?", "Do you like flexible work?", "Du yu laik flek-si-bel werk?"],
+    ["Iya, lebih santai", "Yes, it's more relaxed", "Yes its mor ri-laksd"],
+    ["Kamu kerja sendirian atau tim?", "Do you work alone or in a team?", "Du yu werk a-lon or in a tim?"],
+    ["Aku kerja dengan tim", "I work in a team", "Ai werk in a tim"],
+    ["Teman kerjamu baik?", "Are your coworkers nice?", "Ar yor ko-werk-ers nais?"],
+    ["Iya, mereka baik", "Yes, they are nice", "Yes de ar nais"],
+    ["Bosmu baik?", "Is your boss nice?", "Iz yor bos nais?"],
+    ["Lumayan baik", "Quite nice", "Kwait nais"],
+    ["Kamu stres dengan pekerjaan?", "Are you stressed with your job?", "Ar yu strest wid yor job?"],
+    ["Kadang stres", "Sometimes stressed", "Sam-taims strest"],
+    ["Apa yang membuatmu tetap semangat?", "What keeps you motivated?", "Wat kips yu mo-ti-veit-ed?"],
+    ["Tujuan masa depan", "My future goals", "Mai fyu-cher gols"],
+    ["Kamu menabung dari gajimu?", "Do you save money from your salary?", "Du yu seiv ma-ni from yor sa-la-ri?"],
+    ["Iya, sedikit", "Yes, a little", "Yes a lit-tel"],
+    ["Kamu ingin kerja di luar negeri?", "Do you want to work abroad?", "Du yu want tu werk a-brod?"],
+    ["Iya, itu impianku", "Yes, that's my dream", "Yes dets mai drim"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Selesai! Kamu hebat.");
+        location.reload();
+        return;
+    }
+
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Sisa waktu: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
