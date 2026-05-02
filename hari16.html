@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking Practice Pro</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #0f172a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 100vh;
+            background: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 600px) { .app-container { height: 800px; border-radius: 24px; } }
+
+        .screen {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Home Screen */
+        .title { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 8px; text-align: center; }
+        .desc { font-size: 14px; color: #64748b; text-align: center; margin-bottom: 32px; }
+
+        .setting-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .setting-item { margin-bottom: 16px; }
+        .setting-item label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #475569; }
+        input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+        /* Practice Screen */
+        .timer-track { width: 100%; height: 6px; background: #e2e8f0; border-radius: 10px; margin-bottom: 40px; overflow: hidden; }
+        .timer-fill { height: 100%; background: var(--primary); width: 100%; transition: width 1s linear; }
+
+        .question-container { flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .label-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 12px; }
+        .badge-id { background: #dbeafe; color: var(--primary); }
+        .badge-en { background: #d1fae5; color: var(--secondary); }
+
+        .text-soal { font-size: 22px; font-weight: 700; margin-bottom: 40px; line-height: 1.4; }
+        .answer-box { animation: slideIn 0.4s ease-out; }
+        .text-jawaban { font-size: 22px; font-weight: 700; color: var(--secondary); margin-bottom: 8px; }
+        .text-phonetic { font-size: 15px; color: #64748b; font-style: italic; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-next { background: var(--secondary); }
+
+        /* Modal */
+        .modal {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.95);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 40px; text-align: center; z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- SCREEN HOME -->
+    <div id="home-screen" class="screen">
+        <div style="margin-top: 40px;">
+            <h1 class="title">Latihan Speaking</h1>
+            <p class="desc">Dengarkan kalimat bahasa Indonesia, lalu terjemahkan ke bahasa Inggris secara lisan.</p>
+        </div>
+
+        <div class="setting-card">
+            <div class="setting-item">
+                <label>Kecepatan: <span id="v-rate">1</span>x</label>
+                <input type="range" id="rate" min="0.5" max="1.5" step="0.1" value="1">
+            </div>
+            <div class="setting-item">
+                <label>Volume: <span id="v-vol">100</span>%</label>
+                <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+            </div>
+        </div>
+
+        <button class="btn" onclick="startApp()">Mulai Sekarang</button>
+    </div>
+
+    <!-- SCREEN LATIHAN -->
+    <div id="practice-screen" class="screen hidden">
+        <div class="timer-track">
+            <div id="timer-bar" class="timer-fill"></div>
+        </div>
+
+        <div class="question-container">
+            <div id="box-soal">
+                <span class="label-badge badge-id">BAHASA INDONESIA</span>
+                <div id="txt-soal" class="text-soal">...</div>
+            </div>
+
+            <div id="box-jawaban" class="answer-box hidden">
+                <span class="label-badge badge-en">BAHASA INGGRIS</span>
+                <div id="txt-en" class="text-jawaban">...</div>
+                <div id="txt-phonetic" class="text-phonetic">...</div>
+            </div>
+        </div>
+
+        <button id="main-btn" class="btn" onclick="handleMainAction()">Lihat Jawaban</button>
+    </div>
+
+    <!-- FINISH MODAL -->
+    <div id="finish-modal" class="modal hidden">
+        <h2 style="font-size: 32px; margin-bottom: 16px;">Selesai! 🎉</h2>
+        <p style="color: #64748b; margin-bottom: 32px;">Kamu telah menyelesaikan semua percakapan.</p>
+        <button class="btn" onclick="location.reload()">Latihan Lagi</button>
+    </div>
+</div>
+
+<script>
+    const data = [
+        ["Hai, halo!","Hi, hello!","Hai, he-lo!"],
+        ["Hai juga!","Hi too!","Hai tuu!"],
+        ["Kamu dari mana?","Where are you from?","Wer ar yu from"],
+        ["Aku dari Indonesia, kamu?","I'm from Indonesia, you?","Aim from indo-nee-sya"],
+        ["Aku juga dari Indonesia. Lagi ngapain?","What are you doing?","Wat ar yu du-ing"],
+        ["Lagi santai aja, kamu?","Just relaxing?","Jas rileks-ing"],
+        ["Sama, lagi cari teman ngobrol.","Looking for someone to chat with","Seim luk-ing"],
+        ["Asik, boleh banget.","Nice, sure!","Nais syur"],
+        ["Nama kamu siapa?","What's your name?","Wats yor neim"],
+        ["Namaku Rina, kamu?","My name is Rina, you?","Mai neim iz Rina"],
+        ["Aku Umar. Umur kamu berapa?","How old are you?","Hau old ar yu"],
+        ["Aku 20 tahun, kamu?","I'm 20 years old","Twenti yirs"],
+        ["Aku 25 tahun. Kamu kerja atau masih sekolah?","Do you work or study?","Du yu werk"],
+        ["Masih kuliah, kamu?","Still in college?","Stil kolij"],
+        ["Aku sudah kerja. Hobi kamu apa?","What's your hobby?","Wats yor hobi"],
+        ["Aku suka nonton film dan musik","I like movies and music","Ai laik muvi"],
+        ["Aku suka olahraga dan game","I like sports and games","Ai laik sports"],
+        ["Wah seru juga","That's fun","Dets fan"],
+        ["Kamu sering pakai OmeTV?","Do you use OmeTV?","Du yu use"],
+        ["Kadang-kadang aja","Sometimes","Samtaims"],
+        ["Sama, aku juga","Me too","Mi tu"],
+        ["Hehe iya","Haha yeah","Ha ha ye"],
+        ["Kamu di rumah atau di luar?","At home or outside?","At hom"],
+        ["Lagi di rumah","I'm at home","Aim hom"],
+        ["Di kota mana?","Which city?","Wich siti"],
+        ["Di Jogja, kamu?","In Jogja?","Jogja"],
+        ["Aku juga di Jogja","I'm in Jogja too","Jogja"],
+        ["Wah deket","That's close","Klos"],
+        ["Iya kebetulan","What a coincidence","Ko-in-si-dens"],
+        ["Lanjut di Instagram?","Continue on Instagram?","Instgram"],
+        ["Ini IG aku","This is my IG","Mai IG"],
+        ["Nanti aku follow","I'll follow you","Fo-lo"],
+        ["Siap","Alright","Olrait"],
+        ["Senang ngobrol","Nice talking with you","Tok-ing"],
+        ["Aku juga","Me too","Mi tu"],
+        ["Hati-hati ya","Take care","Teik ker"],
+        ["Kamu juga","You too","Yu tu"]
+    ];
+
+    let currentIndex = 0;
+    let timer;
+    let secondsLeft = 60;
+    let showingAnswer = false;
+
+    const rateInp = document.getElementById('rate');
+    const volInp = document.getElementById('volume');
+    
+    rateInp.oninput = () => document.getElementById('v-rate').innerText = rateInp.value;
+    volInp.oninput = () => document.getElementById('v-vol').innerText = Math.round(volInp.value * 100);
+
+    // Fungsi Bicara (TTS)
+    function speak(text, lang) {
+        window.speechSynthesis.cancel(); // Stop audio yang sedang berjalan
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = lang;
+        msg.rate = parseFloat(rateInp.value);
+        msg.volume = parseFloat(volInp.value);
+        
+        // Pilih suara yang tersedia
+        const voices = window.speechSynthesis.getVoices();
+        if(lang === 'id-ID') {
+            msg.voice = voices.find(v => v.lang.includes('id')) || voices[0];
+        } else {
+            msg.voice = voices.find(v => v.lang.includes('en-US')) || voices[0];
+        }
+        
+        window.speechSynthesis.speak(msg);
+    }
+
+    function startApp() {
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('practice-screen').classList.remove('hidden');
+        currentIndex = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        showingAnswer = false;
+        secondsLeft = 60;
+        
+        // Reset UI
+        document.getElementById('box-jawaban').classList.add('hidden');
+        const btn = document.getElementById('main-btn');
+        btn.innerText = "Lihat Jawaban";
+        btn.classList.remove('btn-next');
+
+        // Set Content
+        document.getElementById('txt-soal').innerText = data[currentIndex][0];
+        document.getElementById('txt-en').innerText = data[currentIndex][1];
+        document.getElementById('txt-phonetic').innerText = data[currentIndex][2];
+
+        updateTimerBar();
+        
+        // Suara Indonesia
+        setTimeout(() => {
+            speak(data[currentIndex][0], 'id-ID');
+        }, 300);
+
+        // Jalankan Timer
+        clearInterval(timer);
+        timer = setInterval(() => {
+            secondsLeft--;
+            updateTimerBar();
+            if (secondsLeft <= 0) {
+                showAnswer();
+            }
+        }, 1000);
+    }
+
+    function updateTimerBar() {
+        const percent = (secondsLeft / 60) * 100;
+        document.getElementById('timer-bar').style.width = percent + "%";
+    }
+
+    function handleMainAction() {
+        if (!showingAnswer) {
+            showAnswer();
+        } else {
+            nextQuestion();
+        }
+    }
+
+    function showAnswer() {
+        clearInterval(timer);
+        showingAnswer = true;
+        document.getElementById('box-jawaban').classList.remove('hidden');
+        
+        const btn = document.getElementById('main-btn');
+        btn.innerText = "Lanjut";
+        btn.classList.add('btn-next');
+
+        // Suara Inggris
+        speak(data[currentIndex][1], 'en-US');
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < data.length) {
+            loadQuestion();
+        } else {
+            document.getElementById('finish-modal').classList.remove('hidden');
+        }
+    }
+
+    // Pastikan suara termuat di Chrome
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+</script>
+</body>
+</html>
