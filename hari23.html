@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri Cepat</title>
+    
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+            --danger-red: #e53935;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        /* HEADER & ANIMASI BLINK MERAH */
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: #ff5252; /* Warna Merah Terang */
+            text-shadow: 0 0 5px rgba(255,0,0,0.3);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        /* UI SETTING */
+        .setting-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+        .value-label { float: right; color: var(--primary-blue); }
+
+        /* BUTTONS */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        /* PROGRESS BAR */
+        .progress-container { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .progress-bar { flex-grow: 1; height: 10px; background: #ddd; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary-blue); width: 0%; transition: width 0.3s; }
+
+        /* AREA PERCAKAPAN */
+        .chat-area { text-align: center; min-height: 220px; display: flex; flex-direction: column; justify-content: center; }
+        .indo-text { font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
+        .eng-text { font-size: 20px; color: var(--primary-blue); background: var(--light-blue); padding: 15px; border-radius: 12px; border: 1px dashed var(--primary-blue); margin-top: 10px; }
+        
+        .timer-text { font-size: 14px; color: var(--danger-red); margin-top: 10px; font-weight: bold; }
+        .hidden { display: none; }
+        .footer-nav { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri Cepat</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan dan ucapkan dalam B. Inggris</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Pengaturan Latihan</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" value="100" id="volume" oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed" oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer" oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan</button>
+    </div>
+
+    <!-- SCREEN 2: APP -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777; margin-top: 5px; display: block;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Kunci Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Awal</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const data = [
+    ["Kamu terlihat ramah", "You look friendly", "Yu luk frend-li"],
+    ["Terima kasih, kamu juga", "Thank you, you too", "Teng-kyu, yu tu"],
+    ["Senyummu bagus", "You have a nice smile", "Yu hev a nais smail"],
+    ["Wah makasih banyak", "Wow, thank you so much", "Wau, teng-kyu so mach"],
+    ["Kamu terlihat percaya diri", "You look confident", "Yu luk kon-fi-dent"],
+    ["Aku masih belajar percaya diri", "I'm still learning to be confident", "Aim stil ler-ning tu bi kon-fi-dent"],
+    ["Bahasa Inggrismu bagus", "Your English is good", "Yor ing-glish iz gud"],
+    ["Tidak juga, aku masih belajar", "Not really, I'm still learning", "Not ri-li, aim stil ler-ning"],
+    ["Tapi kamu ngomongnya jelas", "But you speak clearly", "Bat yu spik kli-er-li"],
+    ["Terima kasih, itu membantu aku semangat", "Thank you, that motivates me", "Teng-kyu, det mo-ti-veits mi"],
+    ["Kamu kelihatan pintar", "You look smart", "Yu luk smart"],
+    ["Terima kasih, kamu juga pintar", "Thank you, you are smart too", "Teng-kyu, yu ar smart tu"],
+    ["Gayamu keren", "Your style is cool", "Yor stail iz kul"],
+    ["Aku suka bajumu", "I like your outfit", "Ai laik yor aut-fit"],
+    ["Warnanya cocok untukmu", "The color suits you", "De ko-lor suits yu"],
+    ["Kamu punya energi positif", "You have positive energy", "Yu hev po-si-tif e-ner-ji"],
+    ["Ngobrol sama kamu menyenangkan", "Talking with you is fun", "Tok-ing wid yu iz fan"],
+    ["Aku juga merasa begitu", "I feel the same", "Ai fil de seim"],
+    ["Kamu pendengar yang baik", "You are a good listener", "Yu ar a gud lis-ten-er"],
+    ["Aku senang mendengarkan orang", "I like listening to people", "Ai laik lis-ten-ing tu pi-pol"],
+    ["Kamu sopan sekali", "You are very polite", "Yu ar ve-ri po-lait"],
+    ["Terima kasih, aku berusaha", "Thank you, I try my best", "Teng-kyu, ai trai mai best"],
+    ["Kamu punya suara yang bagus", "You have a nice voice", "Yu hev a nais vois"],
+    ["Wah, aku jadi malu", "Wow, I feel shy", "Wau, ai fil shai"],
+    ["Cara bicaramu enak didengar", "You speak nicely", "Yu spik nais-li"],
+    ["Aku suka caramu berbicara", "I like the way you speak", "Ai laik de wei yu spik"],
+    ["Kamu terlihat santai", "You look relaxed", "Yu luk ri-laksd"],
+    ["Aku memang sedang santai", "I'm just relaxing", "Aim jas ri-laks-ing"],
+    ["Kamu orang yang menarik", "You are interesting", "Yu ar in-tres-ting"],
+    ["Terima kasih, itu pujian besar", "Thank you, that's a big compliment", "Teng-kyu, dets a big kom-pli-ment"],
+    ["Kamu punya vibe yang bagus", "You have a good vibe", "Yu hev a gud vaib"],
+    ["Aku suka ngobrol denganmu", "I enjoy talking with you", "Ai en-joy tok-ing wid yu"],
+    ["Kamu terlihat jujur", "You look honest", "Yu luk o-nest"],
+    ["Aku memang suka jujur", "I like being honest", "Ai laik bi-ing o-nest"],
+    ["Kamu orangnya positif", "You are a positive person", "Yu ar a po-si-tif per-son"],
+    ["Aku berusaha tetap positif", "I try to stay positive", "Ai trai tu stei po-si-tif"],
+    ["Kamu cepat mengerti", "You understand quickly", "Yu un-der-stand kwik-li"],
+    ["Aku hanya fokus saja", "I just focus", "Ai jas fo-kes"],
+    ["Kamu lucu juga", "You are funny too", "Yu ar fan-ni tu"],
+    ["Aku senang bikin orang tertawa", "I like making people laugh", "Ai laik meik-ing pi-pol laf"],
+    ["Kamu punya wajah yang ramah", "You have a friendly face", "Yu hev a frend-li feis"],
+    ["Terima kasih, kamu baik sekali", "Thank you, you're so kind", "Teng-kyu, yor so kaind"],
+    ["Kamu kelihatan dewasa", "You look mature", "Yu luk ma-tyur"],
+    ["Aku mencoba berpikir dewasa", "I try to think maturely", "Ai trai tu tingk ma-tyur-li"],
+    ["Kamu punya cara pikir bagus", "You have a good mindset", "Yu hev a gud maind-set"],
+    ["Aku belajar dari pengalaman", "I learn from experience", "Ai lern from eks-pi-ri-ens"],
+    ["Kamu orang yang menyenangkan", "You are a pleasant person", "Yu ar a ple-zent per-son"],
+    ["Aku senang ngobrol seperti ini", "I like conversations like this", "Ai laik kon-ver-sei-shens laik dis"],
+    ["Kamu membuat hari aku lebih baik", "You made my day better", "Yu meid mai dei bet-ter"],
+    ["Senang bisa ngobrol denganmu", "Glad to talk with you", "Glad tu tok wid yu"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Selesai! Bagus sekali.");
+        location.reload();
+        return;
+    }
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Sisa waktu berpikir: ${timeLeft} detik`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
