@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Bicara Mandiri - Olahraga & Kesehatan</title>
+    <style>
+        :root {
+            --primary-blue: #1E88E5;
+            --dark-blue: #1565C0;
+            --light-blue: #E3F2FD;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            accent-color: var(--primary-blue);
+        }
+
+        .value-label {
+            float: right;
+            color: var(--primary-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-blue);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .chat-area {
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .indo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .eng-text {
+            font-size: 20px;
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary-blue);
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #e53935;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        .footer-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-small { padding: 10px; font-size: 14px; background: #90A4AE; }
+    </style>
+</head>
+<body>
+
+<!-- KODE PROTEKSI AKSES -->
+<script>
+    if (!localStorage.getItem('premium_code')) {
+        alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<header>
+    <div id="header-title"><b>Latihan Bicara Mandiri (Premium: Sports)</b></div>
+    <div id="instruction" class="blink hidden">Terjemahkan & Ucapkan ke Mic</div>
+</header>
+
+<div class="container">
+
+    <!-- SCREEN 1: INTRO SETTINGS -->
+    <div id="screen-intro" class="card">
+        <h2 style="text-align:center; color: var(--primary-blue);">Topik: Olahraga & Fitness</h2>
+        
+        <div class="setting-group">
+            <label>Volume Audio <span class="value-label" id="vol-val">100%</span></label>
+            <input type="range" min="0" max="100" step="1" value="100" id="volume" 
+                   oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+        </div>
+
+        <div class="setting-group">
+            <label>Kecepatan Suara <span class="value-label" id="speed-val">1.0x</span></label>
+            <input type="range" min="0.5" max="1.5" step="0.1" value="1" id="speed"
+                   oninput="document.getElementById('speed-val').innerText = this.value + 'x'">
+        </div>
+
+        <div class="setting-group">
+            <label>Jeda Berpikir (detik) <span class="value-label" id="timer-val">10s</span></label>
+            <input type="range" min="3" max="60" step="1" value="10" id="think-timer"
+                   oninput="document.getElementById('timer-val').innerText = this.value + 's'">
+        </div>
+
+        <button onclick="startApp()">▶ Mulai Latihan Olahraga</button>
+    </div>
+
+    <!-- SCREEN 2: PRACTICE AREA -->
+    <div id="screen-app" class="hidden">
+        <div class="progress-container">
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+            <span id="progress-text">1/50</span>
+        </div>
+
+        <div class="card chat-area">
+            <div id="display-indo" class="indo-text">Menyiapkan...</div>
+            
+            <div id="timer-display" class="timer-text"></div>
+
+            <div id="answer-box" class="hidden">
+                <div id="display-eng" class="eng-text"></div>
+                <small id="display-phonetic" style="color: #777;"></small>
+            </div>
+        </div>
+
+        <button id="btn-reveal" onclick="revealAnswer()">Buka Jawaban (Spasi)</button>
+        
+        <div class="footer-nav">
+            <button class="btn-small" onclick="location.reload()">🏠 Menu Utama</button>
+            <button id="btn-next" class="hidden" onclick="nextQuestion()">Lanjut Sekarang ➡</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// DATABASE TEKS 301-350 (Olahraga)
+const data = [
+    ["Kamu suka olahraga?", "Do you like sports?", "Du yu laik sports?"],
+    ["Iya, aku suka", "Yes, I do", "Yes ai du"],
+    ["Olahraga apa yang kamu suka?", "What sport do you like?", "Wat sport du yu laik?"],
+    ["Aku suka sepak bola", "I like football", "Ai laik fut-bol"],
+    ["Aku lebih suka basket", "I prefer basketball", "Ai pri-fer bas-ket-bol"],
+    ["Kamu sering olahraga?", "Do you exercise often?", "Du yu ek-ser-saiz of-ten?"],
+    ["Tidak terlalu sering", "Not very often", "Not ve-ri of-ten"],
+    ["Aku mencoba rutin", "I try to be consistent", "Ai trai tu bi kon-sis-tent"],
+    ["Kapan kamu biasanya olahraga?", "When do you usually exercise?", "Wen du yu yu-ju-a-li ek-ser-saiz?"],
+    ["Pagi atau sore", "In the morning or evening", "In de mor-ning or iv-ning"],
+    ["Kamu suka gym?", "Do you like going to the gym?", "Du yu laik go-ing tu de jim?"],
+    ["Iya, aku suka gym", "Yes, I like the gym", "Yes ai laik de jim"],
+    ["Apa yang kamu latih di gym?", "What do you train at the gym?", "Wat du yu trein at de jim?"],
+    ["Aku latihan otot", "I train muscles", "Ai trein mas-sels"],
+    ["Kamu angkat beban?", "Do you lift weights?", "Du yu lift weits?"],
+    ["Iya, sedikit", "Yes, a little", "Yes a lit-tel"],
+    ["Aku lebih suka jogging", "I prefer jogging", "Ai pri-fer jog-ing"],
+    ["Jogging itu bagus", "Jogging is good", "Jog-ing iz gud"],
+    ["Kamu pernah ikut lomba?", "Have you joined a competition?", "Hef yu joind a kom-pe-ti-shen?"],
+    ["Belum pernah", "Not yet", "Not yet"],
+    ["Kamu punya tim favorit?", "Do you have a favorite team?", "Du yu hev a fei-vrit tim?"],
+    ["Iya, aku punya", "Yes, I do", "Yes ai du"],
+    ["Tim mana?", "Which team?", "Wich tim?"],
+    ["Aku suka tim besar", "I like big teams", "Ai laik big tims"],
+    ["Kamu nonton pertandingan?", "Do you watch matches?", "Du yu woc match-es?"],
+    ["Iya, kadang", "Yes, sometimes", "Yes sam-taims"],
+    ["Kamu lebih suka main atau nonton?", "Do you prefer playing or watching?", "Du yu pri-fer plei-ing or woc-ing?"],
+    ["Aku lebih suka main", "I prefer playing", "Ai pri-fer plei-ing"],
+    ["Olahraga bikin sehat", "Sports make you healthy", "Sports meik yu hel-ti"],
+    ["Iya, itu penting", "Yes, it's important", "Yes its im-por-tent"],
+    ["Kamu pernah cedera?", "Have you ever been injured?", "Hef yu ev-er bin in-jurd?"],
+    ["Pernah sedikit", "A little injury", "A lit-tel in-jur-i"],
+    ["Sekarang sudah sembuh?", "Are you okay now?", "Ar yu o-ke nau?"],
+    ["Iya, sudah sembuh", "Yes, I'm fine now", "Yes aim fain nau"],
+    ["Kamu olahraga sendiri atau dengan teman?", "Do you exercise alone or with friends?", "Du yu ek-ser-saiz a-lon or wid frends?"],
+    ["Kadang sendiri, kadang bareng", "Sometimes alone, sometimes together", "Sam-taims a-lon, sam-taims tu-ge-der"],
+    ["Lebih seru bareng teman", "It's more fun with friends", "Its mor fan wid frends"],
+    ["Iya, lebih semangat", "Yes, more motivated", "Yes mor mo-ti-veit-ed"],
+    ["Kamu punya target olahraga?", "Do you have a fitness goal?", "Du yu hev a fit-nes gol?"],
+    ["Iya, ingin lebih sehat", "Yes, I want to be healthier", "Yes ai want tu bi hel-ti-er"],
+    ["Kamu diet juga?", "Do you diet too?", "Du yu dai-et tu?"],
+    ["Sedikit menjaga makan", "I try to eat healthy", "Ai trai tu it hel-ti"],
+    ["Makanan penting untuk olahraga", "Food is important for exercise", "Fud iz im-por-tent for ek-ser-saiz"],
+    ["Iya, benar", "Yes, that's true", "Yes dets tru"],
+    ["Kamu minum protein?", "Do you drink protein?", "Du yu dringk pro-tin?"],
+    ["Kadang-kadang", "Sometimes", "Sam-taims"],
+    ["Kamu suka olahraga ringan atau berat?", "Do you like light or heavy exercise?", "Du yu laik lait or he-vi ek-ser-saiz?"],
+    ["Aku suka yang ringan", "I like light exercise", "Ai laik lait ek-ser-saiz"],
+    ["Yang penting konsisten", "The important thing is consistency", "De im-por-tent ting iz kon-sis-ten-si"],
+    ["Iya, itu kunci", "Yes, that's the key", "Yes dets de ki"]
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let timerInterval;
+
+function startApp() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-app").classList.remove("hidden");
+    document.getElementById("instruction").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (currentIndex >= data.length) {
+        alert("Latihan Olahraga Selesai! Pertahankan tubuh sehatmu.");
+        location.reload();
+        return;
+    }
+
+    document.getElementById("answer-box").classList.add("hidden");
+    document.getElementById("btn-reveal").classList.remove("hidden");
+    document.getElementById("btn-next").classList.add("hidden");
+    
+    const progress = ((currentIndex + 1) / data.length) * 100;
+    document.getElementById("progress-fill").style.width = progress + "%";
+    document.getElementById("progress-text").innerText = `${currentIndex + 1}/${data.length}`;
+
+    const item = data[currentIndex];
+    document.getElementById("display-indo").innerText = item[0];
+    document.getElementById("display-eng").innerText = item[1];
+    document.getElementById("display-phonetic").innerText = "(" + item[2] + ")";
+
+    speak(item[0], 'id');
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = parseInt(document.getElementById("think-timer").value);
+    const timerDisplay = document.getElementById("timer-display");
+    
+    timerInterval = setInterval(() => {
+        timerDisplay.innerText = `Sisa waktu: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            revealAnswer();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+function revealAnswer() {
+    clearInterval(timerInterval);
+    document.getElementById("timer-display").innerText = "";
+    document.getElementById("answer-box").classList.remove("hidden");
+    document.getElementById("btn-reveal").classList.add("hidden");
+    document.getElementById("btn-next").classList.remove("hidden");
+    
+    speak(data[currentIndex][1], 'en');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    loadQuestion();
+}
+
+function speak(text, lang) {
+    window.speechSynthesis.cancel();
+    let u = new SpeechSynthesisUtterance(text);
+    u.lang = (lang === "id") ? "id-ID" : "en-US";
+    u.volume = document.getElementById("volume").value / 100;
+    u.rate = document.getElementById("speed").value;
+    window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        if (!document.getElementById("screen-app").classList.contains("hidden")) {
+            if (document.getElementById("answer-box").classList.contains("hidden")) {
+                revealAnswer();
+            } else {
+                nextQuestion();
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
