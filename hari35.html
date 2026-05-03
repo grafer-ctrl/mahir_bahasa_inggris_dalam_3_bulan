@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards English Mastery V3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.8);
+      --primary: #818cf8;
+      --secondary: #c084fc;
+      --accent: #22d3ee;
+      --text: #f8fafc;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 100%, rgba(129, 140, 248, 0.2) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(192, 132, 252, 0.2) 0px, transparent 50%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .header-stats {
+      margin-bottom: 20px;
+    }
+
+    .stats-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #1e293b;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    #progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.4s ease;
+    }
+
+    .main-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 32px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .word-container {
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .label-idx {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .target-word {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(to bottom, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .meaning-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      min-height: 30px;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .meaning-box.reveal {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .meaning-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 14px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:active { transform: scale(0.95); }
+    button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* Navigasi Buttons */
+    .btn-nav { background: #334155; color: white; font-size: 14px; }
+    .btn-nav:hover { background: #475569; }
+
+    .btn-show { background: var(--primary); color: white; grid-column: span 1; }
+    .btn-audio { background: var(--accent); color: #0f172a; grid-column: span 1; }
+
+    #finish-screen { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div class="header-stats">
+    <div class="stats-label">
+      <span id="stat-count">Loading...</span>
+      <span id="stat-percent">0%</span>
+    </div>
+    <div class="progress-track">
+      <div id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="main-card">
+    <div id="quiz-view">
+      <div class="word-container">
+        <div class="label-idx" id="word-idx">CARD #1</div>
+        <div class="target-word" id="word-display">Ready?</div>
+        
+        <div class="meaning-box" id="meaning-box">
+          <div class="meaning-text" id="meaning-display">---</div>
+        </div>
+      </div>
+
+      <div class="action-grid">
+        <!-- Baris 1: Navigasi -->
+        <button class="btn-nav" id="btn-prev" onclick="prevWord()">⬅ Prev</button>
+        <button class="btn-nav" id="btn-next" onclick="nextWord()">Next ➡</button>
+        
+        <!-- Baris 2: Fitur -->
+        <button class="btn-show" onclick="revealAnswer()">💡 Cek Arti</button>
+        <button class="btn-audio" onclick="playVoice()">🔊 Suara</button>
+      </div>
+    </div>
+
+    <div id="finish-screen">
+      <h1 style="font-size: 50px; margin: 0;">🎉</h1>
+      <h2>Selesai!</h2>
+      <p>Kamu sudah melewati semua kata.</p>
+      <button class="btn-show" style="width: 100%" onclick="resetQuiz()">Ulangi Dari Awal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const fullList = [
+    {word: "Avoid", arti: "menghindari"}, {word: "Away", arti: "jauh"}, {word: "Around", arti: "di sekitar"},
+    {word: "Arrive", arti: "tiba"}, {word: "Article", arti: "artikel/tulisan"}, {word: "Ask", arti: "bertanya"},
+    {word: "Beautiful", arti: "cantik/indah"}, {word: "Because", arti: "karena"}, {word: "Become", arti: "menjadi"},
+    {word: "Bad", arti: "buruk"}, {word: "Before", arti: "sebelum"}, {word: "Begin", arti: "mulai"},
+    {word: "Behavior", arti: "tingkah laku"}, {word: "Behind", arti: "di belakang"}, {word: "Believe", arti: "memercayai"},
+    {word: "Benefit", arti: "manfaat"}, {word: "Baby", arti: "bayi/sayang"}, {word: "Back", arti: "kembali"},
+    {word: "Apply", arti: "menerapkan"}, {word: "Apple", arti: "apel"}, {word: "Area", arti: "lokasi"},
+    {word: "Argue", arti: "membantah"}, {word: "Arm", arti: "lengan"}, {word: "Always", arti: "selalu"},
+    {word: "American", arti: "warga Amerika"}, {word: "Among", arti: "di antara"}, {word: "Amount", arti: "jumlah"},
+    {word: "Animal", arti: "hewan"}, {word: "Attack", arti: "menyerang"}, {word: "Attention", arti: "perhatian"},
+    {word: "Audience", arti: "penonton"}, {word: "Author", arti: "pengarang"}, {word: "Authority", arti: "wewenang"},
+    {word: "Act", arti: "bertindak"}, {word: "Action", arti: "beraksi"}, {word: "Activity", arti: "aktivitas"},
+    {word: "Actually", arti: "sebenarnya"}, {word: "Add", arti: "menambah"}, {word: "Address", arti: "alamat"},
+    {word: "Administration", arti: "pendaftaran"}, {word: "Admit", arti: "mengaku"}, {word: "Adult", arti: "dewasa"},
+    {word: "Ability", arti: "kemampuan"}, {word: "Able", arti: "mampu"}, {word: "About", arti: "tentang"},
+    {word: "Accept", arti: "menerima"}, {word: "According", arti: "menurut"}, {word: "Account", arti: "akun"},
+    {word: "Ago", arti: "yang lalu"}, {word: "Agree", arti: "setuju"}, {word: "Agreement", arti: "persetujuan"},
+    {word: "Air", arti: "udara"}, {word: "All", arti: "semua"}, {word: "Allow", arti: "memperbolehkan"},
+    {word: "Almost", arti: "hampir"}, {word: "Alone", arti: "sendirian"}, {word: "Along", arti: "sepanjang"},
+    {word: "Already", arti: "sudah"}, {word: "Also", arti: "juga"}, {word: "Although", arti: "walaupun"},
+    {word: "Across", arti: "menyeberang"}, {word: "After", arti: "setelah"}, {word: "Again", arti: "lagi"}
+  ];
+
+  let shuffledPool = [];
+  let currentIndex = 0;
+
+  function initQuiz() {
+    // Kocak urutan di awal saja agar navigasi prev/next konsisten
+    shuffledPool = [...fullList].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    renderWord();
+  }
+
+  function renderWord() {
+    const total = shuffledPool.length;
+    const current = shuffledPool[currentIndex];
+
+    // Update Text
+    document.getElementById("word-display").innerText = current.word;
+    document.getElementById("word-idx").innerText = `KATA #${currentIndex + 1} DARI ${total}`;
+    document.getElementById("meaning-box").classList.remove("reveal");
+
+    // Update Stats
+    const percent = Math.floor(((currentIndex + 1) / total) * 100);
+    document.getElementById("stat-count").innerText = `${currentIndex + 1} / ${total}`;
+    document.getElementById("stat-percent").innerText = `${percent}%`;
+    document.getElementById("progress-fill").style.width = `${percent}%`;
+
+    // Update Button State
+    document.getElementById("btn-prev").disabled = (currentIndex === 0);
+  }
+
+  function nextWord() {
+    if (currentIndex < shuffledPool.length - 1) {
+      currentIndex++;
+      renderWord();
+    } else {
+      document.getElementById("quiz-view").style.display = "none";
+      document.getElementById("finish-screen").style.display = "block";
+    }
+  }
+
+  function prevWord() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderWord();
+    }
+  }
+
+  function revealAnswer() {
+    document.getElementById("meaning-display").innerText = shuffledPool[currentIndex].arti;
+    document.getElementById("meaning-box").classList.add("reveal");
+  }
+
+  function playVoice() {
+    const word = shuffledPool[currentIndex].word;
+    const speech = new SpeechSynthesisUtterance(word);
+    speech.lang = 'en-US';
+    speech.rate = 0.8;
+    window.speechSynthesis.speak(speech);
+  }
+
+  function resetQuiz() {
+    document.getElementById("quiz-view").style.display = "block";
+    document.getElementById("finish-screen").style.display = "none";
+    initQuiz();
+  }
+
+  // Jalankan aplikasi
+  initQuiz();
+</script>
+
+</body>
+</html>
