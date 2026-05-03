@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary Builder Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --secondary: #06b6d4;
+      --success: #10b981;
+      --accent: #f59e0b;
+      --bg: #0f172a;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .stats-container {
+      margin-bottom: 15px;
+    }
+
+    .stats-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    #progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--success));
+      transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 32px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .word-area {
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .word-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .word {
+      font-size: 42px;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .answer-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 16px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+
+    .answer-box.show {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .arti {
+      font-size: 20px;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:active { transform: scale(0.96); }
+
+    .btn-main {
+      grid-column: span 2;
+      background: var(--primary);
+      color: white;
+      font-size: 18px;
+      box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+    }
+
+    #finish-screen {
+      display: none;
+    }
+
+    .emoji { font-size: 50px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="stats-container">
+    <div class="stats-info">
+      <span id="progress-text">Terjawab: 0 / 0</span>
+      <span id="percent-text">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="quiz-screen">
+      <div class="word-area">
+        <div class="word-title">Kosakata</div>
+        <div class="word" id="display-word">Mulai Sekarang</div>
+        
+        <div class="answer-box" id="answer-box">
+          <div class="arti" id="display-arti">---</div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-main" onclick="nextWord()">Lanjut / Acak Kata ➔</button>
+        <button class="btn-secondary" onclick="showAnswer()">💡 Lihat Arti</button>
+        <button class="btn-accent" onclick="playAudio()">🔊 Suara</button>
+      </div>
+    </div>
+
+    <div id="finish-screen">
+      <div class="emoji">🎓</div>
+      <h2>Luar Biasa!</h2>
+      <p>Kamu telah mempelajari semua kosakata dalam daftar ini.</p>
+      <button class="btn-main" onclick="restart()">Ulangi Sesi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const rawWords = [
+    {word: "Require", arti: "memerlukan"}, {word: "Research", arti: "penelitian"}, {word: "Resource", arti: "sumber"},
+    {word: "Respond", arti: "menanggapi"}, {word: "Response", arti: "tanggapan"}, {word: "Responsibility", arti: "tanggung jawab"},
+    {word: "Rest", arti: "beristirahat"}, {word: "Result", arti: "hasil"}, {word: "Return", arti: "kembali"},
+    {word: "Reveal", arti: "mengungkapkan"}, {word: "Rich", arti: "kaya"}, {word: "Ride", arti: "naik"},
+    {word: "Rise", arti: "bangkit"}, {word: "Risk", arti: "risiko"}, {word: "Rock", arti: "batu"},
+    {word: "Roll", arti: "menggulung"}, {word: "Name", arti: "nama"}, {word: "Nation", arti: "bangsa"},
+    {word: "National", arti: "nasional"}, {word: "Natural", arti: "alami"}, {word: "Nature", arti: "alam"},
+    {word: "Near", arti: "dekat"}, {word: "Nearly", arti: "hampir"}, {word: "Necessary", arti: "perlu"},
+    {word: "Need", arti: "butuh"}, {word: "Network", arti: "jaringan"}, {word: "Never", arti: "tidak pernah"},
+    {word: "New", arti: "baru"}, {word: "Mother", arti: "ibu"}, {word: "Mouth", arti: "mulut"},
+    {word: "Move", arti: "pindah"}, {word: "Movement", arti: "gerakan"}, {word: "Movie", arti: "film"},
+    {word: "Mr.", arti: "bapak atau tuan"}, {word: "Mrs.", arti: "nyonya"}, {word: "Music", arti: "musik"},
+    {word: "Must", arti: "harus"}, {word: "News", arti: "berita"}, {word: "Newspaper", arti: "koran"},
+    {word: "Next", arti: "selanjutnya"}, {word: "Nice", arti: "bagus"}, {word: "Night", arti: "malam"},
+    {word: "No", arti: "tidak"}, {word: "Nor", arti: "maupun"}, {word: "North", arti: "utara"},
+    {word: "Officer", arti: "petugas"}, {word: "Official", arti: "resmi"}, {word: "Often", arti: "sering"},
+    {word: "Oil", arti: "minyak"}, {word: "Old", arti: "tua"}, {word: "Once", arti: "sekali"},
+    {word: "One", arti: "satu"}, {word: "Only", arti: "hanya"}, {word: "Not", arti: "tidak"},
+    {word: "Note", arti: "catatan"}, {word: "Nothing", arti: "tidak ada"}, {word: "Notice", arti: "memperhatikan"},
+    {word: "Now", arti: "sekarang"}, {word: "No way", arti: "tidak sama sekali"}, {word: "Number", arti: "nomor"},
+    {word: "Occur", arti: "terjadi"}, {word: "Of", arti: "dari"}, {word: "Offer", arti: "menawarkan"},
+    {word: "Office", arti: "kantor"}, {word: "Open", arti: "buka"}, {word: "Operation", arti: "operasi"},
+    {word: "Opportunity", arti: "kesempatan"}, {word: "Option", arti: "pilihan"}, {word: "Or", arti: "atau"},
+    {word: "Order", arti: "memesan"}, {word: "It", arti: "itu"}, {word: "Improve", arti: "memperbaiki"},
+    {word: "Include", arti: "termasuk"}, {word: "Innovation", arti: "inovasi"}, {word: "Infinity", arti: "tak terhingga"},
+    {word: "Indeed", arti: "memang"}, {word: "Industry", arti: "industri"}, {word: "Individual", arti: "individu"},
+    {word: "Justice", arti: "keadilan"}, {word: "Item", arti: "item"}, {word: "Job", arti: "pekerjaan"},
+    {word: "Join", arti: "ikut"}, {word: "Jogging", arti: "joging"}, {word: "Juice", arti: "jus"},
+    {word: "Late", arti: "telat"}, {word: "Laugh", arti: "tertawa"}, {word: "Law", arti: "hukum"},
+    {word: "Lawyer", arti: "pengacara"}, {word: "Lemon", arti: "lemon"}, {word: "Leader", arti: "pemimpin"},
+    {word: "Legend", arti: "legenda"}, {word: "Learn", arti: "belajar"}, {word: "Listen", arti: "mendengar"},
+    {word: "Just", arti: "hanya"}, {word: "Keep", arti: "tetap"}, {word: "Key", arti: "kunci"},
+    {word: "Live", arti: "hidup"}, {word: "List", arti: "daftar"}, {word: "Kind", arti: "jenis"},
+    {word: "Kitchen", arti: "dapur"}, {word: "Knowledge", arti: "pengetahuan"}, {word: "Location", arti: "lokasi"},
+    {word: "Language", arti: "bahasa"}, {word: "Large", arti: "besar"}, {word: "Last", arti: "terakhir"},
+    {word: "Leave", arti: "meninggalkan"}, {word: "Left", arti: "kiri"}, {word: "Light", arti: "cahaya"},
+    {word: "Long", arti: "panjang"}, {word: "Look", arti: "melihat"}, {word: "Loose", arti: "kalah/longgar"},
+    {word: "Lost", arti: "tersesat"}, {word: "Lot", arti: "banyak"}, {word: "Love", arti: "sayang"},
+    {word: "Low", arti: "rendah"}, {word: "Letter", arti: "surat"}, {word: "Level", arti: "tingkat"},
+    {word: "Lie", arti: "berbohong"}, {word: "Lifestyle", arti: "gaya hidup"}, {word: "Lifetime", arti: "masa"},
+    {word: "Like", arti: "suka"}, {word: "Likely", arti: "mungkin"}, {word: "Line", arti: "garis"},
+    {word: "Logic", arti: "logika"}, {word: "Lord", arti: "tuan"}, {word: "Little", arti: "sedikit"},
+    {word: "Life", arti: "hidup"}, {word: "Machine", arti: "mesin"}, {word: "Magazine", arti: "koran"},
+    {word: "Man", arti: "lelaki"}, {word: "Legal", arti: "sah"}, {word: "Less", arti: "kurang"},
+    {word: "Let", arti: "membiarkan"}, {word: "Manner", arti: "cara"}, {word: "Maintain", arti: "mempertahankan"},
+    {word: "Major", arti: "utama"}, {word: "Market", arti: "pasar"}, {word: "Make", arti: "membuat"},
+    {word: "Master", arti: "guru"}, {word: "Matter", arti: "masalah"}, {word: "Meal", arti: "makanan"},
+    {word: "Meat", arti: "daging"}, {word: "Many", arti: "banyak"}, {word: "Media", arti: "media"},
+    {word: "Marriage", arti: "pernikahan"}, {word: "Material", arti: "bahan"}, {word: "Meet", arti: "bertemu"},
+    {word: "Meeting", arti: "pertemuan"}, {word: "Member", arti: "anggota"}, {word: "Memory", arti: "memori"},
+    {word: "Message", arti: "pesan"}, {word: "Method", arti: "metode"}, {word: "Middle", arti: "tengah"},
+    {word: "Might", arti: "mungkin"}, {word: "Military", arti: "militer"}, {word: "Million", arti: "juta"},
+    {word: "Mind", arti: "pikiran"}, {word: "Minute", arti: "menit"}, {word: "Miss", arti: "rindu"},
+    {word: "Mission", arti: "misi"}, {word: "Model", arti: "model"}, {word: "May", arti: "mungkin"},
+    {word: "Maybe", arti: "mungkin"}, {word: "Mix up", arti: "mengacaukan"}, {word: "Medical", arti: "medis"},
+    {word: "Modern", arti: "modern"}, {word: "Moment", arti: "saat"}, {word: "Money", arti: "uang"},
+    {word: "Month", arti: "bulan"}, {word: "More", arti: "lebih"}, {word: "Morning", arti: "pagi"},
+    {word: "Most", arti: "paling"}, {word: "My", arti: "punya saya"}, {word: "Myself", arti: "diri sendiri"},
+    {word: "Handle", arti: "menangani"}, {word: "Have", arti: "mempunyai"}, {word: "Hate", arti: "membenci"},
+    {word: "Health", arti: "sehat"}, {word: "Here", arti: "di sini"}, {word: "High", arti: "tinggi"},
+    {word: "Hobby", arti: "hobi"}, {word: "Gas", arti: "gas"}, {word: "Hold", arti: "menahan"},
+    {word: "History", arti: "sejarah"}, {word: "Home", arti: "rumah"}, {word: "Holiday", arti: "liburan"},
+    {word: "Heavy", arti: "berat"}, {word: "Help", arti: "membantu"}, {word: "Hope", arti: "berharap"},
+    {word: "House", arti: "rumah"}, {word: "Hour", arti: "jam"}, {word: "Homework", arti: "PR"},
+    {word: "How", arti: "bagaimana"}, {word: "However", arti: "namun"}, {word: "Hurt", arti: "menyakiti"},
+    {word: "Human", arti: "manusia"}, {word: "Hundred", arti: "seratus"}, {word: "Husband", arti: "suami"},
+    {word: "Idea", arti: "ide"}, {word: "Identify", arti: "mengenali"}, {word: "If", arti: "jika"},
+    {word: "Illustration", arti: "ilustrasi"}, {word: "Important", arti: "penting"}, {word: "Income", arti: "pendapatan"},
+    {word: "Information", arti: "informasi"}, {word: "Inside", arti: "di dalam"}, {word: "Iron", arti: "besi"},
+    {word: "Island", arti: "pulau"}, {word: "Hospital", arti: "rumah sakit"}, {word: "Hot", arti: "panas"},
+    {word: "Half", arti: "setengah"}, {word: "Hero", arti: "pahlawan"}, {word: "Garden", arti: "taman"},
+    {word: "Hit", arti: "memukul"}
+  ];
+
+  // Membersihkan duplikat
+  const vocabData = Array.from(new Set(rawWords.map(a => a.word.toLowerCase())))
+    .map(w => rawWords.find(a => a.word.toLowerCase() === w));
+
+  let pool = [...vocabData];
+  let current = null;
+  let mastered = 0;
+
+  function updateProgress() {
+    const total = vocabData.length;
+    mastered = total - pool.length;
+    const percent = Math.floor((mastered / total) * 100);
+    
+    document.getElementById("progress-text").innerText = `Terjawab: ${mastered} / ${total}`;
+    document.getElementById("percent-text").innerText = `${percent}%`;
+    document.getElementById("progress-fill").style.width = `${percent}%`;
+  }
+
+  function nextWord() {
+    if (pool.length === 0) {
+      document.getElementById("quiz-screen").style.display = "none";
+      document.getElementById("finish-screen").style.display = "block";
+      return;
+    }
+
+    const idx = Math.floor(Math.random() * pool.length);
+    current = pool[idx];
+    pool.splice(idx, 1);
+
+    document.getElementById("display-word").innerText = current.word;
+    document.getElementById("answer-box").classList.remove("show");
+    updateProgress();
+  }
+
+  function showAnswer() {
+    if (!current) return;
+    document.getElementById("display-arti").innerText = current.arti;
+    document.getElementById("answer-box").classList.add("show");
+  }
+
+  function playAudio() {
+    if (!current) return;
+    const msg = new SpeechSynthesisUtterance(current.word);
+    msg.lang = 'en-US';
+    msg.rate = 0.8;
+    window.speechSynthesis.speak(msg);
+  }
+
+  function restart() {
+    pool = [...vocabData];
+    document.getElementById("quiz-screen").style.display = "block";
+    document.getElementById("finish-screen").style.display = "none";
+    nextWord();
+  }
+
+  // Jalankan pertama kali
+  updateProgress();
+</script>
+
+</body>
+</html>
