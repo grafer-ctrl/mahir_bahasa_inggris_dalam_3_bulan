@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Present Continuous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .setting-label { font-weight: 800; font-size: 20px; margin-bottom: 5px; }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 8px;
+            background: var(--primary-blue); border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--primary-blue); border-radius: 50%; cursor: pointer;
+        }
+
+        .slider-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
+
+        .btn-start {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen { display: none; height: 100%; flex-direction: column; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 13px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: #333; }
+
+        #answer-section { display: none; width: 100%; animation: fadeIn 0.5s ease-in; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en { font-size: 20px; font-weight: 900; color: #007bff; margin-bottom: 5px; cursor: pointer; }
+
+        .phonetic { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #555; font-style: italic; }
+
+        .explanation {
+            font-size: 13px; text-align: left; background: #f1f3ff;
+            padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+        }
+
+        /* --- NAVIGASI --- */
+        .bottom-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 50px; /* Disesuaikan agar tidak terlalu tinggi */
+            padding-top: 10px;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; background: #28a745; }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan Aktif Berbicara:<br>Present Continuous</h1>
+        <div class="slider-container">
+            <p class="setting-label">Seting Volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>Pelan</span><span>Keras</span></div>
+        </div>
+        <div class="slider-container">
+            <p class="setting-label">Seting Batas Waktu</p>
+            <input type="range" id="time-slider" min="5" max="120" value="15">
+            <div class="slider-labels"><span>5s</span><span>120s</span></div>
+        </div>
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-container">
+                <div class="timer-display" id="timer">00</div>
+                <div class="counter-display" id="counter">1/1</div>
+            </div>
+            <div class="instruction-blink">Terjemahkan & Ucapkan!</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px;">💬</div>
+            <div class="soal-text" id="teks-soal">...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">...</div>
+                <div class="phonetic" id="teks-phonetic">...</div>
+                <div class="explanation" id="teks-penjelasan">...</div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">Lihat Jawaban</button>
+            <div class="nav-group">
+                <button class="btn-action btn-home" onclick="location.reload()">🏠</button>
+                <button class="btn-action btn-nav" onclick="prevSoal()">Prev</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DATABASE SOAL PRESENT CONTINUOUS
+    const daftarSoal = [
+        // SET 1: Perasaan & Interaksi
+        { indo: "Aku sedang kangen kamu sekarang", eng: "I am missing you now", phonetic: "Ai em mi-sing yu nau", expl: "Present continuous: dipakai untuk menjelaskan perasaan yang sedang dirasakan saat ini." },
+        { indo: "Aku sedang memikirkan kamu", eng: "I am thinking about you", phonetic: "Ai em thing-king a-baut yu", expl: "Present continuous: dipakai untuk menjelaskan proses pikiran yang sedang terjadi sekarang." },
+        { indo: "Aku sedang menunggumu online", eng: "I am waiting for you online", phonetic: "Ai em wei-ting for yu on-lain", expl: "Present continuous: dipakai jika aktivitas menunggu sedang berlangsung." },
+        { indo: "Aku sedang melihat senyummu", eng: "I am looking at your smile", phonetic: "Ai em lu-king at yor smail", expl: "Present continuous: aktivitas melihat sedang dilakukan saat ini." },
+        { indo: "Aku sedang menikmati ngobrol ini", eng: "I am enjoying this chat", phonetic: "Ai em en-joi-ing dis chat", expl: "Present continuous: perasaan menikmati yang sedang berlangsung selama obrolan." },
+        { indo: "Aku sedang mencoba mengenal kamu", eng: "I am trying to know you", phonetic: "Ai em trai-ing tu no yu", expl: "Present continuous: menjelaskan proses usaha yang sedang terjadi." },
+        { indo: "Aku sedang memperhatikan kamu", eng: "I am paying attention to you", phonetic: "Ai em pei-ing a-ten-shen tu yu", expl: "Present continuous: fokus yang sedang diberikan saat ini." },
+        { indo: "Aku sedang jatuh hati sedikit", eng: "I am falling for you a little", phonetic: "Ai em fol-ling for yu e li-tel", expl: "Present continuous: menjelaskan perubahan perasaan yang sedang berkembang." },
+        { indo: "Aku sedang tersenyum karena kamu", eng: "I am smiling because of you", phonetic: "Ai em smail-ing bi-kos of yu", expl: "Present continuous: kejadian fisik (tersenyum) yang terjadi sekarang." },
+        { indo: "Aku sedang penasaran denganmu", eng: "I am getting curious about you", phonetic: "Ai em get-ing kyu-ri-es a-baut yu", expl: "Present continuous: perubahan kondisi perasaan yang sedang terjadi." },
+        { indo: "Aku sedang menikmati suaramu", eng: "I am enjoying your voice", phonetic: "Ai em en-joi-ing yor vois", expl: "Present continuous: aktivitas sedang berlangsung saat ini." },
+        { indo: "Aku sedang melihat matamu", eng: "I am looking into your eyes", phonetic: "Ai em lu-king in-tu yor ais", expl: "Present continuous: sedang terjadi tepat saat dibicarakan." },
+        { indo: "Aku sedang merasa nyaman", eng: "I am feeling comfortable", phonetic: "Ai em fi-ling kom-for-ta-bel", expl: "Present continuous: menjelaskan kondisi atau perasaan saat ini." },
+        { indo: "Aku sedang berharap kamu tetap di sini", eng: "I am hoping you stay here", phonetic: "Ai em ho-ping yu stei hir", expl: "Present continuous: harapan yang sedang dirasakan saat ini." },
+        { indo: "Aku sedang mencoba bikin kamu senyum", eng: "I am trying to make you smile", phonetic: "Ai em trai-ing tu mek yu smail", expl: "Present continuous: usaha yang sedang dilakukan sekarang." },
+        { indo: "Aku sedang memperhatikan detail tentangmu", eng: "I am noticing details about you", phonetic: "Ai em no-ti-sing di-teils a-baut yu", expl: "Present continuous: proses menyadari sesuatu yang sedang berlangsung." },
+        { indo: "Aku sedang mulai menyukai kamu", eng: "I am starting to like you", phonetic: "Ai em star-ting tu laik yu", expl: "Present continuous: perubahan perasaan yang mulai terjadi." },
+        { indo: "Aku sedang menikmati momen ini", eng: "I am enjoying this moment", phonetic: "Ai em en-joi-ing dis mo-men", expl: "Present continuous: sedang berlangsung sekarang." },
+        { indo: "Aku sedang ingin tahu lebih banyak", eng: "I am wanting to know more", phonetic: "Ai em won-ting tu no mor", expl: "Present continuous: keinginan yang sedang dirasakan saat ini." },
+        { indo: "Aku sedang melihat kamu terus", eng: "I am watching you", phonetic: "Ai em wo-ching yu", expl: "Present continuous: aktivitas melihat yang sedang berlangsung." },
+        { indo: "Aku sedang merasa ini spesial", eng: "I am feeling this is special", phonetic: "Ai em fi-ling dis is spe-sial", expl: "Present continuous: kondisi perasaan saat ini." },
+        { indo: "Aku sedang mencoba dekat denganmu", eng: "I am trying to get closer to you", phonetic: "Ai em trai-ing tu get klo-ser tu yu", expl: "Present continuous: usaha yang sedang dilakukan." },
+        { indo: "Aku sedang menikmati setiap detik", eng: "I am enjoying every second", phonetic: "Ai em en-joi-ing ev-ri se-kon", expl: "Present continuous: sedang berlangsung saat ini." },
+        { indo: "Aku sedang berharap kamu tidak skip", eng: "I am hoping you don’t skip", phonetic: "Ai em ho-ping yu dont skip", expl: "Present continuous: harapan saat ini." },
+        { indo: "Aku sedang serius ngobrol sama kamu", eng: "I am seriously talking to you", phonetic: "Ai em si-ri-es-li tok-ing tu yu", expl: "Present continuous: aktivitas berbicara yang sedang berlangsung." },
+
+        // SET 2: Aktivitas Umum
+        { indo: "Aku sedang ngobrol sama kamu sekarang", eng: "I am chatting with you now", phonetic: "Ai em chat-ing with yu nau", expl: "Present continuous: sedang berlangsung (ditandai kata 'now')." },
+        { indo: "Aku sedang minum kopi", eng: "I am drinking coffee", phonetic: "Ai em dring-king ko-fi", expl: "Present continuous: aktivitas fisik yang sedang dilakukan." },
+        { indo: "Aku sedang duduk santai", eng: "I am sitting and relaxing", phonetic: "Ai em si-ting end ri-lak-sing", expl: "Present continuous: sedang dilakukan sekarang." },
+        { indo: "Aku sedang menunggu kamu", eng: "I am waiting for you", phonetic: "Ai em wei-ting for yu", expl: "Present continuous: proses menunggu sedang berlangsung." },
+        { indo: "Aku sedang mencoba belajar Inggris", eng: "I am trying to learn English", phonetic: "Ai em trai-ing tu lern ing-glish", expl: "Present continuous: usaha yang sedang terjadi." },
+        { indo: "Aku sedang mencari teman baru", eng: "I am looking for new friends", phonetic: "Ai em lu-king for nyu frens", expl: "Present continuous: aktivitas mencari yang sedang dilakukan." },
+        { indo: "Aku sedang mendengarkan kamu", eng: "I am listening to you", phonetic: "Ai em lis-en-ing tu yu", expl: "Present continuous: sedang berlangsung saat ini." },
+        { indo: "Aku sedang tersenyum sekarang", eng: "I am smiling now", phonetic: "Ai em smail-ing nau", expl: "Present continuous: terjadi saat ini." },
+        { indo: "Aku sedang berdiri di sini", eng: "I am standing here", phonetic: "Ai em sten-ding hir", expl: "Present continuous: posisi/kondisi saat ini." },
+        { indo: "Aku sedang membuka aplikasi ini", eng: "I am opening this app", phonetic: "Ai em o-pen-ing dis ep", expl: "Present continuous: proses yang sedang berjalan." },
+        { indo: "Aku sedang berbicara denganmu", eng: "I am talking to you", phonetic: "Ai em tok-ing tu yu", expl: "Present continuous: sedang terjadi saat bicara." },
+        { indo: "Aku sedang melihat kamu", eng: "I am looking at you", phonetic: "Ai em lu-king at yu", expl: "Present continuous: aktivitas melihat saat ini." },
+        { indo: "Aku sedang memikirkan sesuatu", eng: "I am thinking about something", phonetic: "Ai em thing-king a-baut sam-thing", expl: "Present continuous: proses pikiran yang sedang jalan." },
+        { indo: "Aku sedang menikmati waktu ini", eng: "I am enjoying this moment", phonetic: "Ai em en-joi-ing dis mo-men", expl: "Present continuous: sedang berlangsung." },
+        { indo: "Aku sedang belajar pelan-pelan", eng: "I am learning slowly", phonetic: "Ai em ler-ning slo-li", expl: "Present continuous: proses perkembangan yang sedang terjadi." },
+        { indo: "Aku sedang mencoba fokus", eng: "I am trying to focus", phonetic: "Ai em trai-ing tu fo-kes", expl: "Present continuous: usaha saat ini." },
+        { indo: "Aku sedang melihat layar", eng: "I am watching the screen", phonetic: "Ai em wo-ching de skrin", expl: "Present continuous: aktivitas menonton sekarang." },
+        { indo: "Aku sedang mendengar suara", eng: "I am hearing a sound", phonetic: "Ai em hi-ring e saund", expl: "Present continuous: kejadian yang tertangkap indra sekarang." },
+        { indo: "Aku sedang mengetik sekarang", eng: "I am typing now", phonetic: "Ai em tai-ping nau", expl: "Present continuous: sedang berlangsung." },
+        { indo: "Aku sedang membaca chat kamu", eng: "I am reading your message", phonetic: "Ai em ri-ding yor me-sij", expl: "Present continuous: aktivitas membaca sekarang." },
+        { indo: "Aku sedang mengerti sedikit-sedikit", eng: "I am understanding little by little", phonetic: "Ai em un-der-sten-ding li-tel bai li-tel", expl: "Present continuous: proses pemahaman yang sedang berkembang." },
+        { indo: "Aku sedang memperhatikan kamu", eng: "I am paying attention to you", phonetic: "Ai em pei-ing a-ten-shen tu yu", expl: "Present continuous: sedang terjadi." },
+        { indo: "Aku sedang menatap layar", eng: "I am staring at the screen", phonetic: "Ai em ste-ring at de skrin", expl: "Present continuous: aktivitas menatap sekarang." },
+        { indo: "Aku sedang merasa senang", eng: "I am feeling happy", phonetic: "Ai em fi-ling he-pi", expl: "Present continuous: kondisi perasaan saat ini." },
+        { indo: "Aku sedang mencoba santai", eng: "I am trying to relax", phonetic: "Ai em trai-ing tu ri-laks", expl: "Present continuous: usaha yang sedang dilakukan." },
+
+        // SET 3: Kegiatan Sehari-hari
+        { indo: "Aku sedang makan nasi sekarang", eng: "I am eating rice now", phonetic: "Ai em ii-ting rais nau", expl: "Present continuous: sedang berlangsung sekarang (now)." },
+        { indo: "Dia sedang belajar di kamar", eng: "She is studying in the room", phonetic: "Syi is sta-di-ing in de rum", expl: "Present continuous: aktivitas subjek (dia perempuan) sedang terjadi." },
+        { indo: "Mereka sedang bermain bola", eng: "They are playing football", phonetic: "Dei ar plei-ing fut-bol", expl: "Present continuous: kegiatan kelompok yang sedang dilakukan." },
+        { indo: "Aku sedang menonton TV", eng: "I am watching TV", phonetic: "Ai em wo-ching ti-vi", expl: "Present continuous: sedang dilakukan sekarang." },
+        { indo: "Kamu sedang menulis pesan", eng: "You are writing a message", phonetic: "Yu ar rai-ting e me-sij", expl: "Present continuous: proses menulis sedang berlangsung." },
+        { indo: "Ibu sedang memasak di dapur", eng: "Mother is cooking in the kitchen", phonetic: "Ma-der is ku-king in de ki-chen", expl: "Present continuous: aktivitas subjek sedang dilakukan saat ini." },
+        { indo: "Ayah sedang bekerja", eng: "Father is working", phonetic: "Fa-der is wor-king", expl: "Present continuous: pekerjaan yang sedang berlangsung." },
+        { indo: "Aku sedang mendengarkan musik", eng: "I am listening to music", phonetic: "Ai em lis-en-ing tu myu-zik", expl: "Present continuous: aktivitas mendengar yang sedang dilakukan." },
+        { indo: "Dia sedang membaca buku", eng: "He is reading a book", phonetic: "Hi is ri-ding e buk", expl: "Present continuous: sedang terjadi (dia laki-laki)." },
+        { indo: "Kami sedang berjalan ke sekolah", eng: "We are walking to school", phonetic: "Wi ar wo-king tu skul", expl: "Present continuous: proses perpindahan tempat yang sedang berlangsung." }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuSisa;
+    let waktuAwal;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        waktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+
+        loadSoal();
+    }
+
+    function loadSoal() {
+        clearInterval(timerInterval);
+        waktuSisa = waktuAwal;
+        
+        const data = daftarSoal[currentIndex];
+        document.getElementById('teks-soal').innerText = data.indo;
+        document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
+        document.getElementById('teks-phonetic').innerText = "(" + data.phonetic + ")";
+        document.getElementById('teks-penjelasan').innerHTML = `<strong>Alasan Present Continuous:</strong><br>${data.expl}`;
+        
+        document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+
+        startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < daftarSoal.length - 1) {
+            currentIndex++;
+            loadSoal();
+        } else {
+            alert("Latihan Selesai! Semua kalimat Present Continuous telah dipelajari.");
+            location.reload();
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].indo);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].eng);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
