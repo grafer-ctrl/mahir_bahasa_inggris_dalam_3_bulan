@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Anti Scroll */
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .setting-label { font-weight: 800; font-size: 20px; margin-bottom: 5px; }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 8px;
+            background: var(--primary-blue); border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--primary-blue); border-radius: 50%; cursor: pointer;
+        }
+
+        .slider-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
+
+        .btn-start {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen { display: none; height: 100%; flex-direction: column; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 13px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto; /* Untuk penjelasan panjang */
+        }
+
+        .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 20px; }
+
+        #answer-section { display: none; width: 100%; animation: fadeIn 0.5s ease-in; padding-bottom: 20px; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 5px; cursor: pointer; }
+
+        .phonetic { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #444; }
+
+        .explanation {
+            font-size: 12px; text-align: left; background: #f1f3ff;
+            padding: 15px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+        }
+
+        /* --- NAVIGASI --- */
+        .bottom-nav {
+            display: flex;
+            gap: 8px;
+            padding-bottom: 20px;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan aktif berbicara bahasa inggris</h1>
+        <div class="slider-container">
+            <p class="setting-label">seting volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>0</span><span>200</span></div>
+        </div>
+        <div class="slider-container">
+            <p class="setting-label">seting batas waktu</p>
+            <input type="range" id="time-slider" min="0" max="120" value="60">
+            <div class="slider-labels"><span>0</span><span>120 s</span></div>
+        </div>
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-container">
+                <div class="timer-display" id="timer">00</div>
+                <div class="counter-display" id="counter">1/1</div>
+            </div>
+            <div class="instruction-blink">Terjemahkan dan Ucapkan dalam B Inggris</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px;">🔊</div>
+            <div class="soal-text" id="teks-soal">...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">...</div>
+                <div class="phonetic" id="teks-phonetic">...</div>
+                <div class="explanation" id="teks-penjelasan">...</div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">lihat Jawaban</button>
+            <div class="nav-group">
+                <a href="index.html" class="btn-action btn-home">🏠</a>
+                <button class="btn-action btn-nav" onclick="prevSoal()">prev</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">nex</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DATABASE SOAL LENGKAP
+    const daftarSoal = [
+        { indo: "Saya adalah seorang guru", eng: "I am a teacher", phonetic: "Ai em e ti-cher", expl: "Alasan: pakai am karena subjeknya “I”" },
+        { indo: "Dia sedang di rumah", eng: "She is at home", phonetic: "Shi iz et houm", expl: "Alasan: pakai is karena subjek “she” (tunggal)" },
+        { indo: "Mereka adalah teman saya", eng: "They are my friends", phonetic: "Dhei ar mai frends", expl: "Alasan: pakai are karena subjek jamak “they”" },
+        { indo: "Saya kemarin sakit", eng: "I was sick yesterday", phonetic: "Ai wos sik yes-ter-dei", expl: "Alasan: pakai was karena past (kemarin) + subjek I" },
+        { indo: "Kami dulu bahagia", eng: "We were happy", phonetic: "Wi wer ha-pi", expl: "Alasan: pakai were karena past + subjek jamak “we”" },
+        { indo: "Saya tidak makan nasi", eng: "I do not eat rice", phonetic: "Ai du not iit rais", expl: "Alasan: pakai do untuk kalimat negatif present" },
+        { indo: "Dia mengerjakan tugas", eng: "He does his homework", phonetic: "Hi das hiz hom-wok", expl: "Alasan: pakai does karena subjek he/she/it" },
+        { indo: "Saya punya mobil", eng: "I have a car", phonetic: "Ai hev e kar", expl: "Alasan: pakai have untuk kepemilikan" },
+        { indo: "Dia punya banyak teman", eng: "She has many friends", phonetic: "Shi hez me-ni frends", expl: "Alasan: pakai has karena subjek tunggal" },
+        { indo: "Saya akan datang besok", eng: "I will come tomorrow", phonetic: "Ai wil kam to-mo-row", expl: "Alasan: pakai will untuk masa depan" },
+        { indo: "Saya pergi ke sekolah", eng: "I go to school", phonetic: "Ai gou tu skul", expl: "Alasan: pakai go untuk kebiasaan" },
+        { indo: "Saya melihat burung itu", eng: "I see the bird", phonetic: "Ai sii de berd", expl: "Alasan: pakai see untuk present (melihat sekarang)" },
+        { indo: "Dia terlihat lelah", eng: "He seems tired", phonetic: "Hi siims tai-erd", expl: "Alasan: pakai seems karena makna “terlihat”" },
+        { indo: "Saya memberi dia hadiah", eng: "I give him a gift", phonetic: "Ai giv him e gift", expl: "Alasan: pakai give untuk memberi" },
+        { indo: "Saya mengambil buku itu", eng: "I take the book", phonetic: "Ai teik de buk", expl: "Alasan: pakai take untuk mengambil" },
+        { indo: "Saya menjaga rahasia", eng: "I keep a secret", phonetic: "Ai kiip e si-kret", expl: "Alasan: pakai keep untuk menyimpan/menjaga" },
+        { indo: "Saya membuat kue", eng: "I make a cake", phonetic: "Ai meik e keik", expl: "Alasan: pakai make untuk membuat" },
+        { indo: "Saya menaruh tas di meja", eng: "I put the bag on the table", phonetic: "Ai put de beg on de te-bel", expl: "Alasan: pakai put untuk meletakkan" },
+        { indo: "Saya mengirim pesan", eng: "I send a message", phonetic: "Ai send e me-sej", expl: "Alasan: pakai send untuk mengirim" },
+        { indo: "Dia berkata sesuatu", eng: "He says something", phonetic: "Hi sez sam-thing", expl: "Alasan: pakai says karena subjek tunggal" },
+        { indo: "Biarkan dia pergi", eng: "Let him go", phonetic: "Let him gou", expl: "Alasan: pakai let untuk memberi izin" },
+        { indo: "Saya mendapatkan uang", eng: "I get money", phonetic: "Ai get ma-ni", expl: "Alasan: pakai get untuk mendapatkan" },
+        { indo: "Saya bisa berenang", eng: "I can swim", phonetic: "Ai ken swim", expl: "Alasan: pakai can untuk kemampuan" },
+        { indo: "Dia mungkin datang", eng: "She may come", phonetic: "Shi mei kam", expl: "Alasan: pakai may untuk kemungkinan" },
+        { indo: "Kamu harus belajar", eng: "You must study", phonetic: "Yu mast sta-di", expl: "Alasan: pakai must untuk kewajiban kuat" },
+        { indo: "Saya akan membantu kamu", eng: "I will help you", phonetic: "Ai wil help yu", expl: "Alasan: pakai will untuk menyatakan masa depan" },
+        { indo: "Dia sedang belajar sekarang", eng: "She is studying now", phonetic: "Shi iz sta-di-ing nau", expl: "Alasan: pakai is + verb-ing karena sedang terjadi" },
+        { indo: "Mereka sedang bermain", eng: "They are playing", phonetic: "Dhei ar plei-ing", expl: "Alasan: pakai are karena subjek jamak + aktivitas sekarang" },
+        { indo: "Saya dulu tinggal di sini", eng: "I was here before", phonetic: "Ai wos hir bi-for", expl: "Alasan: pakai was karena masa lampau" },
+        { indo: "Kami dulu berteman", eng: "We were friends", phonetic: "Wi wer frends", expl: "Alasan: pakai were karena subjek jamak di masa lalu" },
+        { indo: "Saya tidak suka kopi", eng: "I do not like coffee", phonetic: "Ai du not laik ko-fi", expl: "Alasan: pakai do not untuk kalimat negatif present" },
+        { indo: "Dia tidak pergi ke sekolah", eng: "He does not go to school", phonetic: "Hi das not gou tu skul", expl: "Alasan: pakai does not karena subjek he" },
+        { indo: "Saya punya waktu", eng: "I have time", phonetic: "Ai hev taim", expl: "Alasan: pakai have untuk menyatakan kepemilikan" },
+        { indo: "Dia punya ide bagus", eng: "She has a good idea", phonetic: "Shi hez e gud ai-di-a", expl: "Alasan: pakai has karena subjek tunggal" },
+        { indo: "Saya datang lebih awal", eng: "I come early", phonetic: "Ai kam er-li", expl: "Alasan: pakai come untuk kebiasaan/umum" },
+        { indo: "Saya pergi sekarang", eng: "I go now", phonetic: "Ai gou nau", expl: "Alasan: pakai go untuk aksi saat ini" },
+        { indo: "Saya melihat kamu tadi", eng: "I saw you", phonetic: "Ai so yu", expl: "Alasan: pakai saw (past dari see) karena sudah terjadi" },
+        { indo: "Dia terlihat senang", eng: "She seems happy", phonetic: "Shi siims ha-pi", expl: "Alasan: pakai seems untuk kesan/penilaian" },
+        { indo: "Saya memberi kamu kesempatan", eng: "I give you a chance", phonetic: "Ai giv yu e chens", expl: "Alasan: pakai give untuk memberi" },
+        { indo: "Saya mengambil air", eng: "I take water", phonetic: "Ai teik wo-ter", expl: "Alasan: pakai take untuk mengambil" },
+        { indo: "Saya tetap tenang", eng: "I keep calm", phonetic: "Ai kiip kam", expl: "Alasan: pakai keep untuk menjaga kondisi" },
+        { indo: "Saya membuat rencana", eng: "I make a plan", phonetic: "Ai meik e plen", expl: "Alasan: pakai make untuk membuat sesuatu" },
+        { indo: "Saya menaruh kunci di sini", eng: "I put the key here", phonetic: "Ai put de ki hir", expl: "Alasan: pakai put untuk meletakkan" },
+        { indo: "Saya mengirim email", eng: "I send an email", phonetic: "Ai send en i-mel", expl: "Alasan: pakai send untuk mengirim" },
+        { indo: "Dia mengatakan hal yang benar", eng: "He says the truth", phonetic: "Hi sez de trut", expl: "Alasan: pakai says karena subjek tunggal" },
+        { indo: "Biarkan saya mencoba", eng: "Let me try", phonetic: "Let mi trai", expl: "Alasan: pakai let untuk meminta izin" },
+        { indo: "Saya mendapatkan pengalaman", eng: "I get experience", phonetic: "Ai get eks-pi-ri-ens", expl: "Alasan: pakai get untuk memperoleh" },
+        { indo: "Saya bisa mengerti kamu", eng: "I can understand you", phonetic: "Ai ken un-der-stand yu", expl: "Alasan: pakai can untuk kemampuan" },
+        { indo: "Dia mungkin setuju", eng: "She may agree", phonetic: "Shi mei a-gri", expl: "Alasan: pakai may untuk kemungkinan" },
+        { indo: "Kita harus berangkat sekarang", eng: "We must go now", phonetic: "Wi mast gou nau", expl: "Alasan: pakai must untuk keharusan" },
+        { indo: "Saya akan menemui kamu nanti", eng: "I will meet you later", phonetic: "Ai wil miit yu lei-ter", expl: "Alasan: pakai will untuk masa depan" },
+        { indo: "Dia sedang memasak sekarang", eng: "She is cooking now", phonetic: "Shi iz kuk-ing nau", expl: "Alasan: pakai is + verb-ing untuk kejadian sekarang" },
+        { indo: "Mereka sedang menonton TV", eng: "They are watching TV", phonetic: "Dhei ar wo-ching ti-vi", expl: "Alasan: pakai are karena subjek jamak + aktivitas berlangsung" },
+        { indo: "Saya kemarin di pasar", eng: "I was at the market yesterday", phonetic: "Ai wos et de mar-ket yes-ter-dei", expl: "Alasan: pakai was karena masa lampau" },
+        { indo: "Kami dulu sibuk sekali", eng: "We were very busy", phonetic: "Wi wer ve-ri bi-zi", expl: "Alasan: pakai were untuk subjek jamak di masa lalu" },
+        { indo: "Saya tidak mengerti ini", eng: "I do not understand this", phonetic: "Ai du not un-der-stand dis", expl: "Alasan: pakai do not untuk negatif present" },
+        { indo: "Dia tidak suka hujan", eng: "He does not like rain", phonetic: "Hi das not laik rein", expl: "Alasan: pakai does not karena subjek tunggal" },
+        { indo: "Saya punya banyak waktu hari ini", eng: "I have a lot of time today", phonetic: "Ai hev e lot ov taim tu-dei", expl: "Alasan: pakai have untuk kepemilikan" },
+        { indo: "Dia punya rencana besar", eng: "She has a big plan", phonetic: "Shi hez e big plen", expl: "Alasan: pakai has karena subjek tunggal" },
+        { indo: "Saya datang ke acara itu", eng: "I come to the event", phonetic: "Ai kam tu di i-vent", expl: "Alasan: pakai come untuk kebiasaan/umum" },
+        { indo: "Saya pergi bersama teman", eng: "I go with friends", phonetic: "Ai gou with frends", expl: "Alasan: pakai go untuk aktivitas umum" },
+        { indo: "Saya melihat dia tadi pagi", eng: "I saw him this morning", phonetic: "Ai so him dis mor-ning", expl: "Alasan: pakai saw (past) karena sudah terjadi" },
+        { indo: "Dia terlihat bingung", eng: "He seems confused", phonetic: "Hi siims kon-fyuzd", expl: "Alasan: pakai seems untuk kesan" },
+        { indo: "Saya memberi dia bantuan", eng: "I give him help", phonetic: "Ai giv him help", expl: "Alasan: pakai give untuk memberi" },
+        { indo: "Saya mengambil kesempatan itu", eng: "I take that chance", phonetic: "Ai teik det chens", expl: "Alasan: pakai take untuk mengambil" },
+        { indo: "Saya tetap fokus", eng: "I keep focused", phonetic: "Ai kiip fo-kest", expl: "Alasan: pakai keep untuk menjaga kondisi" },
+        { indo: "Saya membuat keputusan", eng: "I make a decision", phonetic: "Ai meik e di-si-zhon", expl: "Alasan: pakai make untuk membuat" },
+        { indo: "Saya menaruh buku di tas", eng: "I put the book in the bag", phonetic: "Ai put de buk in de beg", expl: "Alasan: pakai put untuk meletakkan" },
+        { indo: "Saya mengirim hadiah", eng: "I send a gift", phonetic: "Ai send e gift", expl: "Alasan: pakai send untuk mengirim" },
+        { indo: "Dia mengatakan sesuatu padaku", eng: "He says something to me", phonetic: "Hi sez sam-thing tu mi", expl: "Alasan: pakai says karena subjek tunggal" },
+        { indo: "Biarkan mereka masuk", eng: "Let them in", phonetic: "Let dhem in", expl: "Alasan: pakai let untuk memberi izin" },
+        { indo: "Saya mendapatkan hasil bagus", eng: "I get good results", phonetic: "Ai get gud ri-zalts", expl: "Alasan: pakai get untuk memperoleh" },
+        { indo: "Saya bisa membantu kamu kapan saja", eng: "I can help you anytime", phonetic: "Ai ken help yu e-ni-taim", expl: "Alasan: pakai can untuk kemampuan" },
+        { indo: "Dia mungkin mengerti kamu", eng: "She may understand you", phonetic: "Shi mei un-der-stand yu", expl: "Alasan: pakai may untuk kemungkinan" },
+        { indo: "Kamu harus jujur", eng: "You must be honest", phonetic: "Yu mast bi on-est", expl: "Alasan: pakai must untuk keharusan kuat" },
+        { indo: "Kamu lagi ngapain?", eng: "What are you doing?", phonetic: "Wot ar yu du-ing", expl: "Alasan: pakai are + doing karena sedang berlangsung (present continuous)" },
+        { indo: "Kamu dari mana?", eng: "Where are you from?", phonetic: "Wer ar yu from", expl: "Alasan: pakai are karena tanya identitas/tempat asal" },
+        { indo: "Kamu lagi sendiri atau sama teman?", eng: "Are you alone or with friends?", phonetic: "Ar yu a-lon or with frends", expl: "Alasan: pakai are karena tanya kondisi" },
+        { indo: "Aku lagi santai aja", eng: "I am just relaxing", phonetic: "Ai em just ri-lak-sing", expl: "Alasan: pakai am + verb-ing karena sedang terjadi" },
+        { indo: "Kamu kelihatan capek", eng: "You seem tired", phonetic: "Yu siim tai-erd", expl: "Alasan: pakai seem untuk kesan/penilaian" },
+        { indo: "Aku nggak terlalu paham", eng: "I do not really understand", phonetic: "Ai du not ri-a-li un-der-stand", expl: "Alasan: pakai do not untuk negatif" },
+        { indo: "Kamu sering ke sini?", eng: "Do you come here often?", phonetic: "Du yu kam hir of-ten", expl: "Alasan: pakai do untuk pertanyaan present" },
+        { indo: "Aku baru aja sampai", eng: "I just came", phonetic: "Ai just keim", expl: "Alasan: pakai came (past) karena baru terjadi" },
+        { indo: "Kamu keliatan ramah banget", eng: "You are very friendly", phonetic: "Yu ar ve-ri frend-li", expl: "Alasan: pakai are untuk deskripsi sifat" },
+        { indo: "Aku punya pertanyaan nih", eng: "I have a question", phonetic: "Ai hev e kwes-chen", expl: "Alasan: pakai have untuk kepemilikan" },
+        { indo: "Kamu bisa ngomong bahasa Inggris?", eng: "Can you speak English?", phonetic: "Ken yu spiik ing-glish", expl: "Alasan: pakai can untuk kemampuan" },
+        { indo: "Aku mungkin bakal ke sana", eng: "I may go there", phonetic: "I mei gou der", expl: "Alasan: pakai may untuk kemungkinan" },
+        { indo: "Kamu harus coba ini", eng: "You should try this", phonetic: "Yu shud trai dis", expl: "Alasan: pakai should untuk saran" },
+        { indo: "Aku bakal kirim kamu pesan", eng: "I will send you a message", phonetic: "Ai wil send yu e me-sej", expl: "Alasan: pakai will untuk masa depan" },
+        { indo: "Tunggu bentar ya", eng: "Let me wait a moment", phonetic: "Let mi weit e mo-men", expl: "Alasan: pakai let untuk izin/permintaan halus" },
+        { indo: "Aku ngerti maksud kamu", eng: "I get your point", phonetic: "Ai get yor point", expl: "Alasan: pakai get untuk memahami" },
+        { indo: "Aku ambil minum dulu ya", eng: "I take a drink first", phonetic: "Ai teik e dringk fers", expl: "Alasan: pakai take untuk mengambil" },
+        { indo: "Aku bikin kamu ketawa ya", eng: "I make you laugh", phonetic: "Ai meik yu laf", expl: "Alasan: pakai make untuk menyebabkan sesuatu" },
+        { indo: "Aku simpan ini dulu", eng: "I keep this for now", phonetic: "Ai kiip dis for nau", expl: "Alasan: pakai keep untuk menyimpan" },
+        { indo: "Aku taruh di sini aja", eng: "I put it here", phonetic: "Ai put it hir", expl: "Alasan: pakai put untuk meletakkan" },
+        { indo: "Aku kasih kamu sesuatu", eng: "I give you something", phonetic: "Ai giv yu sam-thing", expl: "Alasan: pakai give untuk memberi" },
+        { indo: "Dia bilang kamu lucu", eng: "He says you are funny", phonetic: "Hi sez yu ar fa-ni", expl: "Alasan: pakai says karena subjek tunggal" },
+        { indo: "Kamu keliatan beda deh", eng: "You seem different", phonetic: "Yu siim dif-rent", expl: "Alasan: pakai seem untuk kesan" },
+        { indo: "Aku harus pergi sekarang", eng: "I must go now", phonetic: "Ai mast gou nau", expl: "Alasan: pakai must untuk keharusan" },
+        { indo: "Serius, kamu bikin aku penasaran", eng: "You make me curious", phonetic: "Yu meik mi kyu-ri-es", expl: "Alasan: pakai make untuk menyebabkan perasaan" }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuSisa;
+    let waktuAwal;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        waktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+
+        loadSoal();
+    }
+
+    function loadSoal() {
+        clearInterval(timerInterval);
+        waktuSisa = waktuAwal;
+        
+        const data = daftarSoal[currentIndex];
+        document.getElementById('teks-soal').innerText = data.indo;
+        document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
+        document.getElementById('teks-phonetic').innerText = data.phonetic;
+        document.getElementById('teks-penjelasan').innerHTML = `<strong>Penjelasan:</strong><br>${data.expl}`;
+        
+        document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+
+        startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < daftarSoal.length - 1) {
+            currentIndex++;
+            loadSoal();
+        } else {
+            alert("Latihan Selesai!");
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].indo);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].eng);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
