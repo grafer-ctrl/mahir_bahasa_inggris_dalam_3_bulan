@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Kosakata Inggris</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #10b981;
+      --accent: #f59e0b;
+      --bg: #0f172a;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #1e293b, #0f172a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      padding: 20px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #334155;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    #progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      border-radius: 10px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .word-display {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .word {
+      font-size: 38px;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(to bottom, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: 0.3s;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 15px;
+      background: rgba(0,0,0,0.3);
+      transform: translateY(10px);
+      opacity: 0;
+      transition: 0.3s;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    .result-box.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .arti {
+      font-size: 22px;
+      color: var(--secondary);
+      font-weight: 600;
+      display: block;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 14px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button:active { transform: scale(0.95); }
+
+    .btn-random { background: var(--primary); color: white; grid-column: span 2; font-size: 18px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+    .btn-answer { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.1); }
+    .btn-audio { background: var(--accent); color: white; }
+
+    #finished-msg {
+      display: none;
+      padding: 20px;
+    }
+
+    .confetti { color: var(--accent); font-size: 40px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="stats">
+    <span id="counterText">Memuat...</span>
+    <span id="percentText">0%</span>
+  </div>
+  <div class="progress-bar">
+    <div id="progress-fill"></div>
+  </div>
+
+  <div class="card">
+    <div id="quiz-content">
+      <div class="word-display">
+        <div class="word" id="word">Siap Belajar?</div>
+        <div class="result-box" id="resultBox">
+          <span class="arti" id="arti">---</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn-random" onclick="acakKata()">Kata Berikutnya ➔</button>
+        <button class="btn-answer" onclick="lihatJawaban()">💡 Cek Arti</button>
+        <button class="btn-audio" onclick="playAudio()">🔊 Suara</button>
+      </div>
+    </div>
+
+    <div id="finished-msg">
+      <div class="confetti">🎉</div>
+      <h2>Luar Biasa!</h2>
+      <p>Kamu telah menyelesaikan semua kosakata hari ini.</p>
+      <button class="btn-random" onclick="resetGame()">Ulangi Dari Awal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Data kosakata gabungan & unik
+  const rawData = [
+    { word: "Put", arti: "menaruh" }, { word: "Quality", arti: "kualitas" }, { word: "Question", arti: "pertanyaan" },
+    { word: "Quickly", arti: "segera" }, { word: "Quite", arti: "cukup / sungguh" }, { word: "Race", arti: "ras" },
+    { word: "Radio", arti: "radio" }, { word: "Raise", arti: "menaikkan" }, { word: "Range", arti: "jarak" },
+    { word: "Rate", arti: "menilai" }, { word: "Rather", arti: "agaknya" }, { word: "Reach", arti: "mencapai" },
+    { word: "Read", arti: "membaca" }, { word: "Ready", arti: "siap" }, { word: "Real", arti: "nyata" },
+    { word: "Recognize", arti: "mengenali" }, { word: "Record", arti: "merekam" }, { word: "Red", arti: "merah" },
+    { word: "Reduce", arti: "mengurangi" }, { word: "Reflect", arti: "mencerminkan" }, { word: "Region", arti: "wilayah" },
+    { word: "Relate", arti: "berhubungan" }, { word: "Relationship", arti: "hubungan" }, { word: "Reality", arti: "realitas" },
+    { word: "Realize", arti: "menyadari" }, { word: "Really", arti: "sungguh" }, { word: "Reason", arti: "alasan" },
+    { word: "Receive", arti: "menerima" }, { word: "Recent", arti: "baru / mutakhir" }, { word: "Recently", arti: "baru saja" },
+    { word: "Research", arti: "penelitian" }, { word: "Resource", arti: "sumber" }, { word: "Respond", arti: "menanggapi" },
+    { word: "Response", arti: "tanggapan" }, { word: "Responsibility", arti: "tanggung jawab" }, { word: "Rest", arti: "beristirahat" },
+    { word: "Result", arti: "hasil" }, { word: "Return", arti: "kembali" }, { word: "Reveal", arti: "mengungkapkan" },
+    { word: "Rich", arti: "kaya" }, { word: "Room", arti: "kamar" }, { word: "Rule", arti: "aturan" },
+    { word: "Run", arti: "lari" }, { word: "Safe", arti: "aman" }, { word: "Same", arti: "sama" },
+    { word: "Save", arti: "menyimpan" }, { word: "Say", arti: "mengatakan" }, { word: "Scene", arti: "tempat kejadian" },
+    { word: "School", arti: "sekolah" }, { word: "Science", arti: "ilmu" }, { word: "Scientist", arti: "ilmuwan" },
+    { word: "Score", arti: "skor" }, { word: "Sea", arti: "laut" }, { word: "Religious", arti: "keagamaan" },
+    { word: "Remain", arti: "tetap" }, { word: "Remember", arti: "ingat" }, { word: "Remove", arti: "menghapus" },
+    { word: "Report", arti: "melapor" }, { word: "Represent", arti: "mewakili" }, { word: "Road", arti: "jalan" },
+    { word: "Season", arti: "musim" }, { word: "Seat", arti: "kursi" }, { word: "Second", arti: "kedua" },
+    { word: "Section", arti: "bagian" }, { word: "Security", arti: "keamanan" }, { word: "See", arti: "melihat" },
+    { word: "Seek", arti: "mencari" }, { word: "Sell", arti: "menjual" }, { word: "Send", arti: "mengirim" },
+    { word: "Seven", arti: "tujuh" }, { word: "Several", arti: "beberapa" }, { word: "Sexual", arti: "seksual" },
+    { word: "Shake", arti: "menggoyangkan" }, { word: "Share", arti: "membagikan" }, { word: "She", arti: "dia (p)" },
+    { word: "Should", arti: "sebaiknya" }, { word: "Short", arti: "pendek" }, { word: "Senior", arti: "senior" },
+    { word: "Sense", arti: "merasakan" }, { word: "Serious", arti: "serius" }, { word: "Serve", arti: "melayani" },
+    { word: "Service", arti: "layanan" }, { word: "Set", arti: "menetapkan" }, { word: "Shoot", arti: "menembak" },
+    { word: "Shoulder", arti: "bahu" }, { word: "Show", arti: "menunjukkan" }, { word: "Side", arti: "sisi" },
+    { word: "Significant", arti: "signifikan" }, { word: "Someone", arti: "seseorang" }, { word: "Something", arti: "sesuatu" },
+    { word: "Sometimes", arti: "terkadang" }, { word: "Sun", arti: "matahari" }, { word: "Song", arti: "lagu" },
+    { word: "Soon", arti: "segera" }, { word: "Sort", arti: "menyortir" }, { word: "Sound", arti: "suara" },
+    { word: "Source", arti: "sumber" }, { word: "South", arti: "selatan" }, { word: "So much", arti: "sangat banyak" },
+    { word: "Space", arti: "ruang" }, { word: "Speak", arti: "berbicara" }, { word: "Special", arti: "khusus" },
+    { word: "Specific", arti: "spesifik" }, { word: "Speech", arti: "pidato" }, { word: "Spend", arti: "menghabiskan" },
+    { word: "Six", arti: "enam" }, { word: "Size", arti: "ukuran" }, { word: "Skill", arti: "keterampilan" },
+    { word: "Skin", arti: "kulit" }, { word: "Small", arti: "kecil" }, { word: "Smile", arti: "tersenyum" },
+    { word: "Social", arti: "sosial" }, { word: "Society", arti: "masyarakat" }, { word: "Soldier", arti: "tentara" },
+    { word: "Some", arti: "beberapa" }, { word: "Somebody", arti: "seseorang" }, { word: "Similar", arti: "serupa" },
+    { word: "Simple", arti: "sederhana" }, { word: "Simply", arti: "secara sederhana" }, { word: "Since", arti: "sejak" },
+    { word: "Sing", arti: "bernyanyi" }, { word: "Single", arti: "tunggal" }, { word: "Sister", arti: "saudari" },
+    { word: "Sit", arti: "duduk" }, { word: "Sight", arti: "penglihatan" }, { word: "Situation", arti: "situasi" },
+    { word: "Organization", arti: "organisasi" }, { word: "Other", arti: "yang lain" }, { word: "Otherwise", arti: "sebaliknya" },
+    { word: "Our", arti: "kami" }, { word: "Out", arti: "di luar" }, { word: "Outside", arti: "di luar" },
+    { word: "Party", arti: "pesta" }, { word: "Pass", arti: "lulus" }, { word: "Past", arti: "lampau" },
+    { word: "Patient", arti: "sabar" }, { word: "Pattern", arti: "pola" }, { word: "Pay", arti: "membayar" },
+    { word: "Peace", arti: "perdamaian" }, { word: "People", arti: "orang-orang" }, { word: "Pocket", arti: "saku" },
+    { word: "Perform", arti: "melakukan" }, { word: "Performance", arti: "kinerja" }, { word: "Perhaps", arti: "mungkin" },
+    { word: "Period", arti: "masa" }, { word: "Over", arti: "lebih" }, { word: "Own", arti: "milik sendiri" },
+    { word: "Owner", arti: "pemilik" }, { word: "Page", arti: "halaman" }, { word: "Paint", arti: "cat" },
+    { word: "Pain", arti: "rasa sakit" }, { word: "Painting", arti: "lukisan" }, { word: "Paper", arti: "kertas" },
+    { word: "Parent", arti: "orang tua" }, { word: "Part", arti: "bagian" }, { word: "Participant", arti: "peserta" },
+    { word: "Particular", arti: "khusus" }, { word: "Partner", arti: "pasangan" }, { word: "Person", arti: "orang" },
+    { word: "Personal", arti: "pribadi" }, { word: "Phone", arti: "telepon" }, { word: "Physical", arti: "fisik" },
+    { word: "Physics", arti: "fisika" }, { word: "Peak", arti: "puncak" }, { word: "Picture", arti: "gambar" },
+    { word: "Place", arti: "tempat" }, { word: "Play", arti: "bermain" }, { word: "Plan", arti: "rencana" },
+    { word: "Plant", arti: "tanaman" }, { word: "Prevent", arti: "mencegah" }, { word: "Price", arti: "harga" },
+    { word: "Private", arti: "pribadi" }, { word: "Probably", arti: "mungkin" }, { word: "Problem", arti: "masalah" },
+    { word: "Process", arti: "proses" }, { word: "Produce", arti: "menghasilkan" }, { word: "Product", arti: "produk" },
+    { word: "Production", arti: "produksi" }, { word: "Professional", arti: "profesional" }, { word: "Professor", arti: "profesor" },
+    { word: "Program", arti: "program" }, { word: "Project", arti: "proyek" }, { word: "Property", arti: "properti" },
+    { word: "Protect", arti: "melindungi" }, { word: "Prove", arti: "membuktikan" }, { word: "Player", arti: "pemain" },
+    { word: "Payoff", arti: "hasil" }, { word: "Point", arti: "titik" }, { word: "Police", arti: "polisi" },
+    { word: "Policy", arti: "kebijakan" }, { word: "Point of view", arti: "sudut pandang" }, { word: "Politics", arti: "politik" },
+    { word: "Poor", arti: "miskin" }, { word: "Popular", arti: "populer" }, { word: "Population", arti: "populasi" },
+    { word: "Position", arti: "posisi" }, { word: "Positive", arti: "positif" }, { word: "Possible", arti: "mungkin" },
+    { word: "Power", arti: "kekuatan" }, { word: "Practice", arti: "praktik" }, { word: "Prepare", arti: "persiapan" },
+    { word: "Present", arti: "menyajikan" }, { word: "President", arti: "presiden" }, { word: "Pressure", arti: "tekanan" },
+    { word: "Pretty", arti: "cantik" }, { word: "Provide", arti: "menyediakan" }, { word: "Public", arti: "publik" },
+    { word: "Pool", arti: "kolam" }, { word: "Purpose", arti: "tujuan" }, { word: "Push", arti: "dorong" },
+    { word: "Pray", arti: "berdoa" }
+  ];
+
+  // Menghapus duplikat berdasarkan kata (Case Insensitive)
+  const fullData = Array.from(new Set(rawData.map(a => a.word.toLowerCase())))
+    .map(w => rawData.find(a => a.word.toLowerCase() === w));
+
+  let availableWords = [...fullData];
+  let currentWord = null;
+
+  function updateProgress() {
+    const total = fullData.length;
+    const remaining = availableWords.length;
+    const mastered = total - remaining;
+    const percent = Math.floor((mastered / total) * 100);
+
+    document.getElementById("counterText").innerText = `Terjawab: ${mastered} / ${total}`;
+    document.getElementById("percentText").innerText = `${percent}%`;
+    document.getElementById("progress-fill").style.width = `${percent}%`;
+  }
+
+  function acakKata() {
+    if (availableWords.length === 0) {
+      document.getElementById("quiz-content").style.display = "none";
+      document.getElementById("finished-msg").style.display = "block";
+      updateProgress();
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableWords.length);
+    currentWord = availableWords[randomIndex];
+    
+    // Hapus dari antrian
+    availableWords.splice(randomIndex, 1);
+
+    // Update UI
+    const wordEl = document.getElementById("word");
+    wordEl.innerText = currentWord.word;
+    document.getElementById("resultBox").classList.remove("show");
+    
+    updateProgress();
+  }
+
+  function lihatJawaban() {
+    if (!currentWord) return;
+    document.getElementById("arti").innerText = currentWord.arti;
+    document.getElementById("resultBox").classList.add("show");
+  }
+
+  function playAudio() {
+    if (!currentWord) return;
+    const utterance = new SpeechSynthesisUtterance(currentWord.word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function resetGame() {
+    availableWords = [...fullData];
+    document.getElementById("quiz-content").style.display = "block";
+    document.getElementById("finished-msg").style.display = "none";
+    acakKata();
+  }
+
+  // Inisialisasi awal
+  updateProgress();
+</script>
+
+</body>
+</html>
