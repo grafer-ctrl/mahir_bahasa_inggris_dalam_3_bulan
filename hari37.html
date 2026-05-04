@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering 12 Tenses</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --present: #10b981;
+            --past: #f59e0b;
+            --future: #3b82f6;
+            --bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Accordion Style */
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .category-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .category-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-header svg {
+            width: 20px;
+            transform: rotate(0deg);
+        }
+
+        .active .category-header svg {
+            transform: rotate(180deg);
+        }
+
+        /* Colors for Categories */
+        .present { border-left: 6px solid var(--present); }
+        .past { border-left: 6px solid var(--past); }
+        .future { border-left: 6px solid var(--future); }
+
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .active .category-content {
+            max-height: 2000px; /* Large enough to fit content */
+            padding-bottom: 20px;
+        }
+
+        /* Tense Item Style */
+        .tense-item {
+            margin: 15px 25px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tense-name {
+            display: block;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .formula {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 8px 0;
+        }
+
+        .description {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .example {
+            font-style: italic;
+            color: #334155;
+            padding-left: 10px;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .example b { color: #000; }
+
+        @media (max-width: 600px) {
+            body { padding: 20px 10px; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>12 English Tenses</h1>
+        <p>Panduan lengkap rumus dan contoh penggunaan</p>
+    </header>
+
+    <!-- PRESENT -->
+    <div class="category-card present">
+        <div class="category-header" onclick="toggleAccordion(this)">
+            <h2><span style="color: var(--present)">●</span> Present Tenses</h2>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <div class="category-content">
+            <div class="tense-item">
+                <span class="tense-name">Simple Present Tense</span>
+                <span class="description">Menyatakan fakta, kebiasaan, atau kejadian umum.</span>
+                <div class="formula">S + V1 (s/es) + O</div>
+                <div class="example">"She <b>drinks</b> coffee every morning."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Present Continuous Tense</span>
+                <span class="description">Sedang berlangsung sekarang atau di sekitar waktu pembicaraan.</span>
+                <div class="formula">S + am/is/are + V-ing</div>
+                <div class="example">"They <b>are playing</b> football right now."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Present Perfect Tense</span>
+                <span class="description">Aktivitas yang sudah selesai atau masih ada hubungannya dengan sekarang.</span>
+                <div class="formula">S + have/has + V3</div>
+                <div class="example">"I <b>have finished</b> my homework."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Present Perfect Continuous</span>
+                <span class="description">Aksi yang dimulai di masa lalu dan masih berlanjut sampai sekarang.</span>
+                <div class="formula">S + have/has + been + V-ing</div>
+                <div class="example">"We <b>have been waiting</b> for two hours."</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAST -->
+    <div class="category-card past">
+        <div class="category-header" onclick="toggleAccordion(this)">
+            <h2><span style="color: var(--past)">●</span> Past Tenses</h2>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <div class="category-content">
+            <div class="tense-item">
+                <span class="tense-name">Simple Past Tense</span>
+                <span class="description">Kejadian yang dimulai dan berakhir di masa lampau.</span>
+                <div class="formula">S + V2 + O</div>
+                <div class="example">"I <b>visited</b> Bali last year."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Past Continuous Tense</span>
+                <span class="description">Kejadian yang sedang berlangsung pada waktu spesifik di masa lalu.</span>
+                <div class="formula">S + was/were + V-ing</div>
+                <div class="example">"I <b>was sleeping</b> when you called."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Past Perfect Tense</span>
+                <span class="description">Kejadian yang selesai sebelum kejadian lain di masa lalu.</span>
+                <div class="formula">S + had + V3</div>
+                <div class="example">"He <b>had left</b> before I arrived."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Past Perfect Continuous</span>
+                <span class="description">Durasi aksi yang terjadi sebelum aksi lain di masa lalu.</span>
+                <div class="formula">S + had + been + V-ing</div>
+                <div class="example">"They <b>had been playing</b> for an hour before it rained."</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUTURE -->
+    <div class="category-card future">
+        <div class="category-header" onclick="toggleAccordion(this)">
+            <h2><span style="color: var(--future)">●</span> Future Tenses</h2>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <div class="category-content">
+            <div class="tense-item">
+                <span class="tense-name">Simple Future Tense</span>
+                <span class="description">Aksi yang akan dilakukan di masa depan.</span>
+                <div class="formula">S + will + V1</div>
+                <div class="example">"I <b>will call</b> you later."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Future Continuous Tense</span>
+                <span class="description">Aksi yang akan sedang berlangsung di masa depan.</span>
+                <div class="formula">S + will + be + V-ing</div>
+                <div class="example">"Tomorrow at 9, I <b>will be working</b>."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Future Perfect Tense</span>
+                <span class="description">Aksi yang akan sudah selesai pada waktu tertentu di masa depan.</span>
+                <div class="formula">S + will + have + V3</div>
+                <div class="example">"By next month, I <b>will have graduated</b>."</div>
+            </div>
+            <div class="tense-item">
+                <span class="tense-name">Future Perfect Continuous</span>
+                <span class="description">Durasi aksi yang akan terus berlangsung sampai waktu tertentu di masa depan.</span>
+                <div class="formula">S + will + have + been + V-ing</div>
+                <div class="example">"In December, I <b>will have been living</b> here for a year."</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAccordion(element) {
+        const parent = element.parentElement;
+        const isActive = parent.classList.contains('active');
+        
+        // Tutup semua accordion yang sedang terbuka (opsional)
+        // document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+
+        // Toggle state saat ini
+        if (!isActive) {
+            parent.classList.add('active');
+        } else {
+            parent.classList.remove('active');
+        }
+    }
+</script>
+
+</body>
+</html>
