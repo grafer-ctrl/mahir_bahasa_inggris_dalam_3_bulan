@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris - Present Perfect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .setting-label { font-weight: 800; font-size: 18px; margin-bottom: 5px; }
+
+        .slider-container { margin-bottom: 30px; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 8px;
+            background: #ddd; border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--primary-blue); border-radius: 50%; cursor: pointer;
+        }
+
+        .slider-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
+
+        .btn-start {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen { display: none; height: 100%; flex-direction: column; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 12px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 15px; color: #333; }
+
+        #answer-section { display: none; width: 100%; animation: fadeIn 0.4s ease-in; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .answer-en { font-size: 20px; font-weight: 900; color: var(--primary-blue); margin-bottom: 5px; cursor: pointer; }
+
+        .phonetic { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: #666; font-style: italic; }
+
+        .explanation {
+            font-size: 12px; text-align: left; background: #f8f9fa;
+            padding: 12px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+        }
+
+        /* --- NAVIGASI POSISI 225PX DARI BAWAH --- */
+        .bottom-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 225px; /* Dinaikkan menjadi 225px dari bawah */
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 14px; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-lihat { font-size: 18px; width: 100%; }
+        .nav-group { display: flex; gap: 8px; width: 100%; }
+        .btn-nav { flex: 1; font-size: 14px; background: #444; }
+        .btn-home { background: #000; flex: 0.5; font-size: 20px; }
+
+        .key-note {
+            background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px;
+            font-size: 11px; font-weight: 800; border: 1px dashed #ffeeba; margin-top: 10px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan Aktif<br>Present Perfect</h1>
+        <div class="slider-container">
+            <p class="setting-label">Seting Volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>Pelan</span><span>Keras</span></div>
+        </div>
+        <div class="slider-container">
+            <p class="setting-label">Batas Waktu</p>
+            <input type="range" id="time-slider" min="5" max="120" value="20">
+            <div class="slider-labels"><span>5s</span><span>120s</span></div>
+        </div>
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-container">
+                <div class="timer-display" id="timer">00</div>
+                <div class="counter-display" id="counter">1/1</div>
+            </div>
+            <div class="instruction-blink">TERJEMAHKAN & UCAPKAN!</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 35px; margin-bottom: 5px;">🔊</div>
+            <div class="soal-text" id="teks-soal">...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">...</div>
+                <div class="phonetic" id="teks-phonetic">...</div>
+                <div class="explanation" id="teks-penjelasan">...</div>
+                <div class="key-note">
+                    💡 KUNCI: SUDAH / PERNAH (Tanpa waktu jelas)
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" id="btn-lihat-id" onclick="tampilJawaban()">LIHAT JAWABAN</button>
+            <div class="nav-group">
+                <a href="#" class="btn-action btn-home" onclick="location.reload()">🏠</a>
+                <button class="btn-action btn-nav" onclick="prevSoal()">PREV</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">NEXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const daftarSoal = [
+        { indo: "Aku sudah mencoba memahami perasaanmu", eng: "I have tried to understand your feelings", phonetic: "(Ai hev traid tu an-der-stend yor fii-lings)", expl: "Present perfect: usaha sudah dilakukan." },
+        { indo: "Aku sudah melihat sisi lain darimu", eng: "I have seen another side of you", phonetic: "(Ai hev siin a-na-der said ov yu)", expl: "Present perfect: pengalaman." },
+        { indo: "Aku sudah memikirkan masa depan kita", eng: "I have thought about our future", phonetic: "(Ai hev thot a-baut aur fyu-cher)", expl: "Present perfect: pemikiran sudah terjadi." },
+        { indo: "Aku sudah menunggumu sepanjang hari", eng: "I have waited for you all day", phonetic: "(Ai hev wei-ted for yu ol dei)", expl: "Present perfect: durasi sampai sekarang." },
+        { indo: "Aku sudah mencoba bersikap sabar", eng: "I have tried to be patient", phonetic: "(Ai hev traid tu bi pei-shent)", expl: "Present perfect: usaha sudah dilakukan." },
+        { indo: "Aku sudah mendengar namamu sebelumnya", eng: "I have heard your name before", phonetic: "(Ai hev herd yor neim bi-for)", expl: "Present perfect: pengalaman." },
+        { indo: "Aku sudah mengingat wajahmu", eng: "I have remembered your face", phonetic: "(Ai hev ri-mem-berd yor feis)", expl: "Present perfect: hasil ingatan." },
+        { indo: "Aku sudah memperhatikan caramu berbicara", eng: "I have noticed the way you talk", phonetic: "(Ai hev no-tist dhe wei yu tok)", expl: "Present perfect: hasil pengamatan." },
+        { indo: "Aku sudah mencoba jujur padamu", eng: "I have tried to be honest with you", phonetic: "(Ai hev traid tu bi o-nest with yu)", expl: "Present perfect: usaha." },
+        { indo: "Aku sudah melihat potensi dalam dirimu", eng: "I have seen your potential", phonetic: "(Ai hev siin yor po-ten-shal)", expl: "Present perfect: hasil pengamatan." },
+        { indo: "Aku sudah menjaga kata-kataku", eng: "I have kept my words", phonetic: "(Ai hev kept mai words)", expl: "Present perfect: aksi selesai dan masih berlaku." },
+        { indo: "Aku sudah mencoba tetap tenang", eng: "I have tried to stay calm", phonetic: "(Ai hev traid tu stei kam)", expl: "Present perfect: usaha." },
+        { indo: "Aku sudah mengikuti kata hatiku", eng: "I have followed my heart", phonetic: "(Ai hev fo-lo-d mai hart)", expl: "Present perfect: keputusan sudah diambil." },
+        { indo: "Aku sudah memikirkan semuanya dengan matang", eng: "I have thought everything through", phonetic: "(Ai hev thot ev-ri-thing thru)", expl: "Present perfect: proses selesai." },
+        { indo: "Aku sudah menyadari sesuatu tentangmu", eng: "I have realized something about you", phonetic: "(Ai hev ri-a-laizd sam-thing a-baut yu)", expl: "Present perfect: kesadaran baru." },
+        { indo: "Aku sudah mencoba mengerti situasimu", eng: "I have tried to understand your situation", phonetic: "(Ai hev traid tu an-der-stend yor si-tu-ei-shon)", expl: "Present perfect: usaha." },
+        { indo: "Aku sudah melihat perubahan besar", eng: "I have seen a big change", phonetic: "(Ai hev siin a big cheinj)", expl: "Present perfect: hasil terlihat." },
+        { indo: "Aku sudah mengumpulkan keberanian", eng: "I have gathered my courage", phonetic: "(Ai hev ga-dherd mai ko-rij)", expl: "Present perfect: proses mental selesai." },
+        { indo: "Aku sudah mengatakan yang sebenarnya", eng: "I have told the truth", phonetic: "(Ai hev told dhe truth)", expl: "Present perfect: aksi selesai." },
+        { indo: "Aku sudah mencoba tetap kuat", eng: "I have tried to stay strong", phonetic: "(Ai hev traid tu stei strong)", expl: "Present perfect: usaha." },
+        { indo: "Aku sudah menyimpan kenangan itu", eng: "I have kept that memory", phonetic: "(Ai hev kept det me-mo-ri)", expl: "Present perfect: masih tersimpan." },
+        { indo: "Aku sudah memikirkan keputusan ini", eng: "I have thought about this decision", phonetic: "(Ai hev thot a-baut dhis di-si-zhon)", expl: "Present perfect: proses berpikir selesai." },
+        { indo: "Aku sudah melihat banyak hal", eng: "I have seen many things", phonetic: "(Ai hev siin me-ni things)", expl: "Present perfect: pengalaman." },
+        { indo: "Aku sudah mencoba memperbaiki semuanya", eng: "I have tried to fix everything", phonetic: "(Ai hev traid tu fiks ev-ri-thing)", expl: "Present perfect: usaha." },
+        { indo: "Aku sudah memilih untuk tetap di sini", eng: "I have chosen to stay here", phonetic: "(Ai hev cho-zen tu stei hir)", expl: "Present perfect: keputusan sudah dibuat." },
+        { indo: "Aku sudah menunggumu cukup lama", eng: "I have waited for you long enough", phonetic: "(Ai hev wei-ted for yu long i-naf)", expl: "Present perfect: durasi dari masa lalu sampai sekarang." },
+        { indo: "Aku sudah memikirkan ini dengan serius", eng: "I have thought about this seriously", phonetic: "(Ai hev thot a-baut dhis si-ri-us-li)", expl: "Present perfect: proses berpikir sudah terjadi." },
+        { indo: "Aku sudah melihat perubahanmu", eng: "I have seen your change", phonetic: "(Ai hev siin yor cheinj)", expl: "Present perfect: hasil terlihat sekarang." },
+        { indo: "Aku sudah mencoba menjadi lebih baik", eng: "I have tried to be better", phonetic: "(Ai hev traid tu bi be-ter)", expl: "Present perfect: usaha sudah dilakukan." },
+        { indo: "Aku sudah menyimpan rahasiamu", eng: "I have kept your secret", phonetic: "(Ai hev kept yor si-kret)", expl: "Present perfect: aksi selesai dan masih berlaku." },
+        { indo: "Aku sudah mengingat semua tentangmu", eng: "I have remembered everything about you", phonetic: "(Ai hev ri-mem-berd ev-ri-thing a-baut yu)", expl: "Present perfect: hasil ingatan masih ada." },
+        { indo: "Aku sudah mempercayaimu", eng: "I have trusted you", phonetic: "(Ai hev tras-ted yu)", expl: "Present perfect: kepercayaan sudah diberikan." },
+        { indo: "Aku sudah menghapus pesan itu", eng: "I have deleted that message", phonetic: "(Ai hev di-li-ted det me-sij)", expl: "Present perfect: aksi selesai." },
+        { indo: "Aku sudah memulai percakapan ini", eng: "I have started this conversation", phonetic: "(Ai hev star-ted dhis kon-ver-sei-shon)", expl: "Present perfect: aksi baru saja terjadi." },
+        { indo: "Aku sudah mendengarmu dengan jelas", eng: "I have heard you clearly", phonetic: "(Ai hev herd yu kli-er-li)", expl: "Present perfect: hasil mendengar." },
+        { indo: "Aku sudah melihat senyummu", eng: "I have seen your smile", phonetic: "(Ai hev siin yor smail)", expl: "Present perfect: pengalaman." },
+        { indo: "Aku sudah menyiapkan semuanya", eng: "I have prepared everything", phonetic: "(Ai hev pri-perd ev-ri-thing)", expl: "Present perfect: sudah siap sekarang." },
+        { indo: "Aku sudah menemukan caranya", eng: "I have found the way", phonetic: "(Ai hev fa-und dhe wei)", expl: "Present perfect: solusi sudah ada." },
+        { indo: "Aku sudah mencoba menghubungimu", eng: "I have tried to contact you", phonetic: "(Ai hev traid tu kon-tek yu)", expl: "Present perfect: usaha sudah dilakukan." },
+        { indo: "Aku sudah mengikuti kamu", eng: "I have followed you", phonetic: "(Ai hev fo-lo-d yu)", expl: "Present perfect: aksi selesai." },
+        { indo: "Aku sudah memperhatikan perubahan itu", eng: "I have noticed that change", phonetic: "(Ai hev no-tist det cheinj)", expl: "Present perfect: hasil pengamatan." },
+        { indo: "Aku sudah menunggu momen ini", eng: "I have waited for this moment", phonetic: "(Ai hev wei-ted for dhis mo-ment)", expl: "Present perfect: dari dulu sampai sekarang." },
+        { indo: "Aku sudah menghabiskan waktuku", eng: "I have spent my time", phonetic: "(Ai hev spent mai taim)", expl: "Present perfect: waktu sudah digunakan." },
+        { indo: "Aku sudah memahami situasinya", eng: "I have understood the situation", phonetic: "(Ai hev an-der-stud dhe si-tu-ei-shon)", expl: "Present perfect: hasil pemahaman." },
+        { indo: "Aku sudah mengubah pikiranku", eng: "I have changed my mind", phonetic: "(Ai hev cheinjd mai maind)", expl: "Present perfect: perubahan terjadi." },
+        { indo: "Aku sudah mempelajari ini sebelumnya", eng: "I have studied this before", phonetic: "(Ai hev sta-di dhis bi-for)", expl: "Present perfect: pengalaman." },
+        { indo: "Aku sudah mencoba berbicara denganmu", eng: "I have tried to talk to you", phonetic: "(Ai hev traid tu tok tu yu)", expl: "Present perfect: usaha komunikasi." },
+        { indo: "Aku sudah melihat semuanya", eng: "I have seen everything", phonetic: "(Ai hev siin ev-ri-thing)", expl: "Present perfect: pengalaman lengkap." },
+        { indo: "Aku sudah kehilangan kesempatan itu", eng: "I have lost that chance", phonetic: "(Ai hev lost det chens)", expl: "Present perfect: dampak masih terasa." },
+        { indo: "Aku sudah memilih jalan ini", eng: "I have chosen this path", phonetic: "(Ai hev cho-zen dhis path)", expl: "Present perfect: keputusan sudah dibuat." },
+        { indo: "Aku sudah makan", eng: "I have eaten", phonetic: "(Ai hev ii-ten)", expl: "Aksi sudah selesai, hasilnya terasa sekarang." },
+        { indo: "Aku sudah melihat kamu sebelumnya", eng: "I have seen you before", phonetic: "(Ai hev siin yu bi-for)", expl: "Pengalaman di masa lalu tanpa waktu spesifik." },
+        { indo: "Aku sudah belajar bahasa Inggris", eng: "I have learned English", phonetic: "(Ai hev lernd ing-glish)", expl: "Sudah terjadi dan masih relevan." },
+        { indo: "Aku sudah mengirim pesan itu", eng: "I have sent that message", phonetic: "(Ai hev sent det me-sij)", expl: "Aksi sudah selesai." },
+        { indo: "Aku sudah mencoba memahami kamu", eng: "I have tried to understand you", phonetic: "(Ai hev traid tu an-der-stend yu)", expl: "Usaha yang sudah dilakukan." },
+        { indo: "Aku sudah menunggu kamu", eng: "I have waited for you", phonetic: "(Ai hev wei-ted for yu)", expl: "Aksi dimulai di masa lalu dan efeknya masih ada." },
+        { indo: "Aku sudah mendengar cerita itu", eng: "I have heard that story", phonetic: "(Ai hev herd det sto-ri)", expl: "Pengalaman." },
+        { indo: "Aku sudah membuat keputusan", eng: "I have made a decision", phonetic: "(Ai hev meid a di-si-zhon)", expl: "Hasil sudah ada." },
+        { indo: "Aku sudah kehilangan kunciku", eng: "I have lost my key", phonetic: "(Ai hev lost mai kii)", expl: "Efek masih terasa sekarang." },
+        { indo: "Aku sudah menemukan jawabannya", eng: "I have found the answer", phonetic: "(Ai hev fa-und dhi an-ser)", expl: "Hasil sudah ditemukan." },
+        { indo: "Aku sudah menghubungimu", eng: "I have contacted you", phonetic: "(Ai hev kon-tek-ted yu)", expl: "Aksi selesai." },
+        { indo: "Aku sudah menyelesaikan tugas itu", eng: "I have finished that task", phonetic: "(Ai hev fi-nish-t det task)", expl: "Sudah selesai." },
+        { indo: "Aku sudah mengunjungi tempat itu", eng: "I have visited that place", phonetic: "(Ai hev vi-zi-ted det pleis)", expl: "Pengalaman." },
+        { indo: "Aku sudah mengenalmu cukup lama", eng: "I have known you for a long time", phonetic: "(Ai hev noun yu for a long taim)", expl: "Durasi dari masa lalu sampai sekarang." },
+        { indo: "Aku sudah berubah", eng: "I have changed", phonetic: "(Ai hev cheinjd)", expl: "Perubahan terjadi dan masih berlaku." },
+        { indo: "Aku sudah membaca buku itu", eng: "I have read that book", phonetic: "(Ai hev red det buk)", expl: "Sudah dilakukan." },
+        { indo: "Aku sudah memperhatikanmu", eng: "I have noticed you", phonetic: "(Ai hev no-tist yu)", expl: "Hasil dari pengamatan." },
+        { indo: "Aku sudah memikirkan tentang kamu", eng: "I have thought about you", phonetic: "(Ai hev thot a-baut yu)", expl: "Aksi mental sudah terjadi." },
+        { indo: "Aku sudah mencoba lagi", eng: "I have tried again", phonetic: "(Ai hev traid a-gen)", expl: "Pengulangan aksi." },
+        { indo: "Aku sudah mendengarkan kamu", eng: "I have listened to you", phonetic: "(Ai hev li-sen tu yu)", expl: "Aksi selesai." },
+        { indo: "Aku sudah mengerti maksudmu", eng: "I have understood you", phonetic: "(Ai hev an-der-stud yu)", expl: "Hasil pemahaman." },
+        { indo: "Aku sudah memperbaiki kesalahan itu", eng: "I have fixed that mistake", phonetic: "(Ai hev fikst det mis-teik)", expl: "Sudah diperbaiki." },
+        { indo: "Aku sudah memulai sesuatu yang baru", eng: "I have started something new", phonetic: "(Ai hev star-ted sam-thing nyu)", expl: "Aksi baru dimulai." },
+        { indo: "Aku sudah menjaga perasaanku", eng: "I have kept my feelings", phonetic: "(Ai hev kept mai fii-lings)", expl: "Kondisi masih berlanjut." },
+        { indo: "Aku sudah memilih kamu", eng: "I have chosen you", phonetic: "(Ai hev cho-zen yu)", expl: "Keputusan sudah dibuat." }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuSisa;
+    let waktuAwal;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        waktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+        loadSoal();
+    }
+
+    function loadSoal() {
+        clearInterval(timerInterval);
+        waktuSisa = waktuAwal;
+        const data = daftarSoal[currentIndex];
+        document.getElementById('teks-soal').innerText = data.indo;
+        document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
+        document.getElementById('teks-phonetic').innerText = data.phonetic;
+        document.getElementById('teks-penjelasan').innerHTML = `<strong>Penjelasan:</strong><br>${data.expl}`;
+        document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+        document.getElementById('btn-lihat-id').style.display = 'block';
+        startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        document.getElementById('btn-lihat-id').style.display = 'none';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < daftarSoal.length - 1) {
+            currentIndex++;
+            loadSoal();
+        } else {
+            alert("Latihan Selesai!");
+            location.reload();
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].indo);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].eng);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
