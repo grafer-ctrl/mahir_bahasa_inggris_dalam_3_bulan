@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Percakapan Aktif Bahasa Inggris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-main: #ff1a75;
+            --light-blue: #dee4ff;
+            --dark-text: #2d3436;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html { 
+            height: 100%; width: 100%; overflow: hidden; background: #ffffff; color: var(--dark-text);
+        }
+
+        /* --- SCREEN 1: PENGATURAN MODERN --- */
+        #settings-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 25px;
+            height: 100vh;
+            justify-content: center;
+        }
+
+        .hero-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        .info-card {
+            background: var(--light-blue);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 15px rgba(81, 84, 216, 0.1);
+            color: #3e44a1;
+        }
+
+        .control-group { width: 100%; max-width: 350px; margin-bottom: 20px; }
+        .control-group label { font-size: 13px; font-weight: 700; color: #636e72; margin-bottom: 8px; display: block; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 10px;
+            background: #dfe6e9; border-radius: 5px; outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--pink-main); border-radius: 50%; cursor: pointer;
+            border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-start-container {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-start-container:active { transform: scale(0.95); }
+
+        .play-button-outer {
+            width: 80px; height: 80px;
+            background: #ff0000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        .play-triangle {
+            width: 0; height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 25px solid white;
+            margin-left: 5px;
+        }
+        .mulai-text { font-weight: 900; font-size: 22px; color: var(--dark-text); }
+
+        /* --- SCREEN 2: LATIHAN UTAMA --- */
+        #main-screen { display: none; flex-direction: column; height: 100vh; padding: 20px; }
+
+        .top-status { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .timer-pill {
+            background: #f1f2f6; padding: 12px 18px; border-radius: 15px;
+            font-weight: 900; font-size: 26px; color: var(--primary-blue);
+        }
+        .instruction-badge {
+            background: #ffeaa7; color: #d63031; padding: 10px; border-radius: 12px;
+            font-weight: 800; font-size: 13px; flex: 1; text-align: center;
+        }
+
+        .content-area { flex: 1; display: flex; flex-direction: column; align-items: center; overflow-y: auto; padding-bottom: 180px; }
+        .speaker-btn {
+            font-size: 50px; background: none; border: none; cursor: pointer;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); margin-bottom: 15px;
+        }
+        .soal-indo { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; color: #2d3436; }
+
+        #answer-box { display: none; width: 100%; text-align: center; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .en-main { font-size: 22px; font-weight: 900; color: #000; margin-bottom: 8px; }
+        .en-phonetic {
+            display: inline-block; background: #f1f2f6; padding: 8px 15px; border-radius: 10px;
+            font-weight: 700; color: #2d3436; cursor: pointer; border: 1px solid #dfe6e9; font-size: 14px;
+        }
+        .explanation-card {
+            margin-top: 15px; background: #f9f9f9; padding: 15px; border-radius: 15px;
+            border-left: 5px solid var(--primary-blue); text-align: left; font-size: 13px;
+        }
+        .grammar-note {
+            margin-top: 10px; font-size: 12px; font-weight: 800; color: #d63031;
+            background: #fff0f0; padding: 8px; border-radius: 8px; display: block;
+        }
+
+        /* Navigasi */
+        .bottom-nav-fixed {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px 20px; border-radius: 12px; font-weight: 700; font-size: 16px;
+            box-shadow: 0 4px 10px rgba(81, 84, 216, 0.3); width: 100%;
+        }
+        .nav-controls { display: flex; gap: 10px; justify-content: center; }
+        .btn-nav {
+            background: #444; color: white; border: none; flex: 1; height: 50px;
+            border-radius: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-nav:disabled { opacity: 0.3; }
+    </style>
+</head>
+<body>
+
+<!-- SCREEN 1 -->
+<div id="settings-screen">
+    <h1 class="hero-title">PELATIHAN<br>AKTIF BERBICARA</h1>
+    
+    <div class="info-card">
+        Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+    </div>
+
+    <div class="control-group">
+        <label>Seting Volume suara (Max 300)</label>
+        <input type="range" id="vol-range" min="0" max="300" value="100">
+    </div>
+    
+    <div class="control-group">
+        <label>Seting kecepatan suara</label>
+        <input type="range" id="speed-range" min="0.5" max="1.5" step="0.1" value="1">
+    </div>
+
+    <div class="control-group">
+        <label>Seting jeda kunci jawaban (Max 120s)</label>
+        <input type="range" id="delay-range" min="5" max="120" value="10">
+    </div>
+
+    <div class="btn-start-container" onclick="startExercise()">
+        <div class="play-button-outer">
+            <div class="play-triangle"></div>
+        </div>
+        <div class="mulai-text">MULAI</div>
+    </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div id="main-screen">
+    <div class="top-status">
+        <div class="timer-pill" id="timer-val">00</div>
+        <div class="instruction-badge">TERJEMAHKAN DAN UCAPKAN DALAM B INGGRIS</div>
+    </div>
+
+    <div class="content-area">
+        <button class="speaker-btn" onclick="speakIndo()">🔊</button>
+        <div class="soal-indo" id="teks-soal">...</div>
+
+        <div id="answer-box">
+            <div class="en-main" id="teks-en">...</div>
+            <div class="en-phonetic" id="teks-phonetic" onclick="speakEnglish()">... 🔊</div>
+            <div class="explanation-card">
+                <strong>Penjelasan:</strong> <span id="teks-expl">...</span>
+                <div class="grammar-note">Present Perfect di pakai kejadian MASA LALU → MASIH NYAMBUNG SEKARANG</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav-fixed">
+        <button class="btn-action" onclick="showAnswer()">Lihat Jawaban</button>
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="location.reload()">🏠</button>
+            <button class="btn-nav" id="btn-prev" onclick="changeQuestion(-1)">PREV</button>
+            <button class="btn-nav" id="btn-next" onclick="changeQuestion(1)">NEXT</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const database = [
+        { indo: "Aku sudah sering ngobrol di sini", en: "I have chatted here many times", phonetic: "Ai hev chat-ted hir me-ni taimz", explanation: "Pengalaman berulang" },
+        { indo: "Aku sudah ketemu banyak orang menarik", en: "I have met many interesting people", phonetic: "Ai hev met me-ni in-te-res-ting pi-pol", explanation: "Pengalaman" },
+        { indo: "Aku sudah pakai aplikasi ini cukup lama", en: "I have used this app for a long time", phonetic: "Ai hev yusd dis ap for e long taim", explanation: "Durasi sampai sekarang" },
+        { indo: "Aku sudah lihat banyak wajah baru hari ini", en: "I have seen many new faces today", phonetic: "Ai hev siin me-ni nyu fei-siz tu-dei", explanation: "Waktu masih relevan (today)" },
+        { indo: "Aku sudah ngobrol sama orang dari banyak negara", en: "I have talked to people from many countries", phonetic: "Ai hev tok-t tu pi-pol from me-ni kan-triz", explanation: "Pengalaman" },
+        { indo: "Aku sudah menunggu koneksi yang bagus", en: "I have waited for a good connection", phonetic: "Ai hev wei-ted for e gud ko-nek-shen", explanation: "Hasil yang diharapkan" },
+        { indo: "Aku sudah skip beberapa orang tadi", en: "I have skipped some people earlier", phonetic: "Ai hev skipt sam pi-pol er-li-er", explanation: "Aksi baru saja terjadi" },
+        { indo: "Aku sudah menemukan kamu akhirnya", en: "I have finally found you", phonetic: "Ai hev fai-na-li faund yu", explanation: "Hasil ditemukan sekarang" },
+        { indo: "Aku sudah mencari seseorang untuk diajak ngobrol", en: "I have looked for someone to talk to", phonetic: "Ai hev lukt for sam-wan tu tok tu", explanation: "Usaha" },
+        { indo: "Aku sudah melihat banyak hal aneh di sini", en: "I have seen many weird things here", phonetic: "Ai hev siin me-ni wird things hir", explanation: "Pengalaman" },
+        { indo: "Aku sudah mencoba tetap di sini lebih lama", en: "I have tried to stay here longer", phonetic: "Ai hev traid tu stei hir long-ger", explanation: "Usaha" },
+        { indo: "Aku sudah ketawa berkali-kali hari ini", en: "I have laughed many times today", phonetic: "Ai hev laft me-ni taimz tu-dei", explanation: "Pengalaman hari ini" },
+        { indo: "Aku sudah merasa bosan sebelumnya", en: "I have felt bored before", phonetic: "Ai hev felt bord bi-for", explanation: "Pengalaman" },
+        { indo: "Aku sudah mencari teman baru", en: "I have looked for new friends", phonetic: "Ai hev lukt for nyu frenz", explanation: "Tujuan/aktivitas" },
+        { indo: "Aku sudah ngobrol dengan orang yang random", en: "I have talked to random people", phonetic: "Ai hev tok-t tu ran-dom pi-pol", explanation: "Pengalaman" },
+        { indo: "Aku sudah melihat banyak gaya ngobrol berbeda", en: "I have seen many different styles", phonetic: "Ai hev siin me-ni di-fe-rent stailz", explanation: "Pengalaman" },
+        { indo: "Aku sudah mencoba jadi lebih percaya diri", en: "I have tried to be more confident", phonetic: "Ai hev traid tu bi mor kon-fi-dent", explanation: "Usaha" },
+        { indo: "Aku sudah menemukan beberapa teman baik di sini", en: "I have found some good friends here", phonetic: "Ai hev faund sam gud frenz hir", explanation: "Hasil" },
+        { indo: "Aku sudah ngobrol cukup lama hari ini", en: "I have talked for quite a long time today", phonetic: "Ai hev tok-t for kwait e long taim tu-dei", explanation: "Durasi hari ini" },
+        { indo: "Aku sudah mencoba tidak terlalu sering skip", en: "I have tried not to skip too much", phonetic: "Ai hev traid not tu skip tu mach", explanation: "Usaha" },
+        { indo: "Aku sudah melihat banyak ekspresi lucu", en: "I have seen many funny expressions", phonetic: "Ai hev siin me-ni fa-ni eks-pre-shens", explanation: "Pengalaman" },
+        { indo: "Aku sudah menemukan orang yang asik diajak ngobrol", en: "I have found some-wan fan tu tok tu", phonetic: "Ai hev faund sam-wan fan tu tok tu", explanation: "Hasil" },
+        { indo: "Aku sudah mencoba membuka obrolan duluan", en: "I have tried to start conversations first", phonetic: "Ai hev traid tu start kon-ver-sei-shens ferst", explanation: "Usaha" },
+        { indo: "Aku sudah belajar banyak dari obrolan di sini", en: "I have learned a lot from chats here", phonetic: "Ai hev lernd e lot from chats hir", explanation: "Hasil belajar" },
+        { indo: "Aku sudah menikmati waktu di sini", en: "I have enjoyed my time here", phonetic: "Ai hev en-joid mai taim hir", explanation: "Pengalaman + perasaan" },
+        { indo: "Aku sudah memikirkanmu seharian", en: "I have been thinking about you all day", phonetic: "Ai hev bin thing-king a-baut yu ol dei", explanation: "Aktivitas terjadi dan masih terasa sekarang" },
+        { indo: "Aku sudah menunggumu dari tadi", en: "I have been waiting for you", phonetic: "Ai hev bin wei-ting for yu", explanation: "Durasi sampai sekarang" },
+        { indo: "Aku sudah mencoba jujur padamu", en: "I have tried to be honest with you", phonetic: "Ai hev traid tu bi on-est with yu", explanation: "Usaha sudah dilakukan" },
+        { indo: "Aku sudah melihat caramu tersenyum", en: "I have seen your smile", phonetic: "Ai hev siin yor smail", explanation: "Pengalaman yang berkesan" },
+        { indo: "Aku sudah memikirkan apa yang kamu bilang", en: "I have thought about what you said", phonetic: "Ai hev thot a-baut wot yu sed", explanation: "Refleksi masih relevan" },
+        { indo: "Aku sudah mulai menyukaimu", en: "I have started to like you", phonetic: "Ai hev star-ted tu laik yu", explanation: "Perubahan perasaan" },
+        { indo: "Aku sudah jatuh hati padamu", en: "I have fallen for you", phonetic: "Ai hev fo-len for yu", explanation: "Hasil perasaan sekarang" },
+        { indo: "Aku sudah mencoba melupakan, tapi gagal", en: "I have tried to forget, but I failed", phonetic: "Ai hev traid tu for-get, bat ai feild", explanation: "Usaha + hasil" },
+        { indo: "Aku sudah terbiasa memikirkanmu", en: "I have gotten used to thinking about you", phonetic: "Ai hev got-en yust tu thing-king a-baut yu", explanation: "Kebiasaan terbentuk" },
+        { indo: "Aku sudah memperhatikanmu sejak tadi", en: "I have noticed you since earlier", phonetic: "Ai hev no-tist yu sins er-li-er", explanation: "Dari waktu tertentu sampai sekarang" },
+        { indo: "Aku sudah menunggu momen ini", en: "I have waited for this moment", phonetic: "Ai hev wei-ted for dis mo-ment", explanation: "Hasil penantian" },
+        { indo: "Aku sudah melihatmu berkali-kali di sini", en: "I have seen you here many times", phonetic: "Ai hev siin yu hir me-ni taimz", explanation: "Pengalaman berulang" },
+        { indo: "Aku sudah mencoba memahami kamu", en: "I have tried to understand you", phonetic: "Ai hev traid tu un-der-stand yu", explanation: "Usaha berulang" },
+        { indo: "Aku sudah merasa nyaman denganmu", en: "I have felt comfortable with you", phonetic: "Ai hev felt kom-for-ta-bel with yu", explanation: "Kondisi sekarang hasil masa lalu" },
+        { indo: "Aku sudah mendengar suaramu sebelumnya", en: "I have heard your voice before", phonetic: "Ai hev herd yor vois bi-for", explanation: "Pengalaman" },
+        { indo: "Aku sudah menyimpan semua kenangan itu", en: "I have kept all those memories", phonetic: "Ai hev kept ol doz me-mo-ris", explanation: "Hasil masih ada" },
+        { indo: "Aku sudah menunggu kamu menyadarinya", en: "I have waited for you to realize it", phonetic: "Ai hev wei-ted for yu tu ri-a-laiz it", explanation: "Durasi sampai sekarang" },
+        { indo: "Aku sudah mencoba mendekatimu", en: "I have tried to get closer to you", phonetic: "Ai hev traid tu get klo-ser tu yu", explanation: "Usaha sudah terjadi" },
+        { indo: "Aku sudah melihat sisi terbaikmu", en: "I have seen your best side", phonetic: "Ai hev siin yor best said", explanation: "Pengalaman" },
+        { indo: "Aku sudah memilih untuk tetap di sini bersamamu", en: "I have chosen to stay here with you", phonetic: "Ai hev cho-zen tu stei hir with yu", explanation: "Keputusan penting" },
+        { indo: "Aku sudah menunggumu terlalu lama", en: "I have waited too long for you", phonetic: "Ai hev wei-ted tu long for yu", explanation: "Durasi panjang" },
+        { indo: "Aku sudah menyadari betapa pentingnya kamu", en: "I have realized how important you are", phonetic: "Ai hev ri-a-laizd hau im-por-tent yu ar", explanation: "Kesadaran sekarang" },
+        { indo: "Aku sudah mencoba mengerti perasaanmu", en: "I have tried to understand your feelings", phonetic: "Ai hev traid tu un-der-stand yor fi-lings", explanation: "Usaha berulang" },
+        { indo: "Aku sudah melihat tanda-tandanya", en: "I have seen the signs", phonetic: "Ai hev siin de sainz", explanation: "Bukti sudah terlihat" },
+        { indo: "Aku sudah memutuskan untuk jujur padamu", en: "I have decided to be honest with you", phonetic: "Ai hev di-sai-ded tu bi on-est with yu", explanation: "Keputusan baru dibuat" },
+        { indo: "Aku sudah menyelesaikan tugas itu", en: "I have finished that task", phonetic: "Ai hev fi-nisht det task", explanation: "Aksi sudah selesai, hasilnya terasa sekarang" },
+        { indo: "Aku sudah makan", en: "I have eaten", phonetic: "Ai hev ii-ten", explanation: "Aksi selesai, fokus hasil (tidak lapar)" },
+        { indo: "Aku sudah mengirim pesan", en: "I have sent the message", phonetic: "Ai hev sent de me-sij", explanation: "Aksi baru saja selesai" }
+    ];
+
+    let currentIndex = 0;
+    let timer;
+    let countdown;
+    let appSettings = { vol: 1, speed: 1, delay: 10 };
+
+    function startExercise() {
+        appSettings.vol = document.getElementById('vol-range').value / 100;
+        appSettings.speed = document.getElementById('speed-range').value;
+        appSettings.delay = parseInt(document.getElementById('delay-range').value);
+
+        document.getElementById('settings-screen').style.display = 'none';
+        document.getElementById('main-screen').style.display = 'flex';
+
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const item = database[currentIndex];
+        document.getElementById('teks-soal').innerText = item.indo;
+        document.getElementById('teks-en').innerText = item.en;
+        document.getElementById('teks-phonetic').innerText = item.phonetic + " 🔊";
+        document.getElementById('teks-expl').innerText = item.explanation;
+        
+        document.getElementById('answer-box').style.display = 'none';
+        
+        // Update Nav Buttons
+        document.getElementById('btn-prev').disabled = currentIndex === 0;
+        document.getElementById('btn-next').disabled = currentIndex === database.length - 1;
+
+        initTimer();
+        setTimeout(speakIndo, 500);
+    }
+
+    function initTimer() {
+        clearInterval(timer);
+        countdown = appSettings.delay;
+        updateTimerUI();
+        
+        timer = setInterval(() => {
+            countdown--;
+            updateTimerUI();
+            if(countdown <= 0) {
+                clearInterval(timer);
+                showAnswer();
+            }
+        }, 1000);
+    }
+
+    function updateTimerUI() {
+        document.getElementById('timer-val').innerText = countdown < 10 ? '0' + countdown : countdown;
+    }
+
+    function speakIndo() {
+        window.speechSynthesis.cancel();
+        const text = database[currentIndex].indo;
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'id-ID';
+        msg.rate = appSettings.speed;
+        msg.volume = Math.min(appSettings.vol, 1);
+        window.speechSynthesis.speak(msg);
+    }
+
+    function speakEnglish() {
+        window.speechSynthesis.cancel();
+        const text = database[currentIndex].en;
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'en-US';
+        msg.rate = appSettings.speed;
+        msg.volume = Math.min(appSettings.vol, 1);
+        window.speechSynthesis.speak(msg);
+    }
+
+    function showAnswer() {
+        document.getElementById('answer-box').style.display = 'block';
+        clearInterval(timer);
+        speakEnglish();
+    }
+
+    function changeQuestion(dir) {
+        let newIndex = currentIndex + dir;
+        if(newIndex >= 0 && newIndex < database.length) {
+            currentIndex = newIndex;
+            loadQuestion();
+        }
+    }
+</script>
+
+</body>
+</html>
