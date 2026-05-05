@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan Aktif Inggris - Tense Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --yellow-main: #ffeb3b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SCREEN 1: INTRO --- */
+        #intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title-blue {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .setting-label { font-weight: 800; font-size: 20px; margin-bottom: 5px; }
+
+        .slider-container { margin-bottom: 40px; }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; height: 8px;
+            background: var(--primary-blue); border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 22px; height: 22px;
+            background: var(--primary-blue); border-radius: 50%; cursor: pointer;
+        }
+
+        .slider-labels { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; margin-top: 8px; }
+
+        .btn-start {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer;
+        }
+
+        /* --- SCREEN 2: SOAL --- */
+        #soal-screen { display: none; height: 100%; flex-direction: column; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .counter-display {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .instruction-blink {
+            background: var(--yellow-main);
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 13px;
+            flex-grow: 1;
+            text-align: center;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: auto;
+            padding-bottom: 220px; /* Agar tidak tertutup nav yang dinaikkan */
+        }
+
+        .soal-text { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: #222; }
+
+        #answer-section { display: none; width: 100%; animation: fadeIn 0.5s ease-in; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .answer-en { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 5px; cursor: pointer; }
+
+        .phonetic { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: #444; font-style: italic; }
+
+        .explanation {
+            font-size: 12px; text-align: left; background: #f1f3ff;
+            padding: 12px; border-radius: 10px; border-left: 5px solid var(--primary-blue); line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        /* NOTE KHUSUS */
+        .special-note {
+            background: #fff3cd;
+            color: #856404;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #ffeeba;
+            margin-top: 5px;
+        }
+
+        /* --- NAVIGASI DINAIKKAN 150PX --- */
+        .bottom-nav {
+            position: absolute;
+            bottom: 150px; /* Posisi naik 150px dari bawah */
+            left: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: white;
+            padding-top: 10px;
+        }
+
+        .btn-action {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-lihat { flex: 2; font-size: 16px; box-shadow: 0 4px 10px rgba(0,123,255,0.3); }
+        .nav-group { display: flex; gap: 5px; flex: 2; }
+        .btn-nav { flex: 1; font-size: 13px; }
+        .btn-home { background: #333; flex: 0.6; font-size: 18px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LAYAR PENGATURAN -->
+    <div id="intro-screen">
+        <h1 class="title-blue">Latihan Aktif Berbicara:<br>Present Perfect Continuous</h1>
+        <div class="slider-container">
+            <p class="setting-label">seting volume</p>
+            <input type="range" id="vol-slider" min="0" max="200" value="100">
+            <div class="slider-labels"><span>0</span><span>200</span></div>
+        </div>
+        <div class="slider-container">
+            <p class="setting-label">seting batas waktu</p>
+            <input type="range" id="time-slider" min="0" max="120" value="15">
+            <div class="slider-labels"><span>0</span><span>120 s</span></div>
+        </div>
+        <button class="btn-start" onclick="mulaiLatihan()">MULAI LATIHAN</button>
+    </div>
+
+    <!-- LAYAR SOAL -->
+    <div id="soal-screen">
+        <div class="top-bar">
+            <div class="timer-container">
+                <div class="timer-display" id="timer">00</div>
+                <div class="counter-display" id="counter">1/1</div>
+            </div>
+            <div class="instruction-blink">Terjemahkan & Ucapkan</div>
+        </div>
+
+        <div class="main-content">
+            <div style="font-size: 40px; margin-bottom: 10px;">🔊</div>
+            <div class="soal-text" id="teks-soal">...</div>
+
+            <div id="answer-section">
+                <div class="answer-en" id="teks-inggris" onclick="suaraInggris()">...</div>
+                <div class="phonetic" id="teks-phonetic">...</div>
+                <div class="explanation" id="teks-penjelasan">...</div>
+                <div class="special-note">📌 Sudah mulai dari dulu, dan MASIH berlangsung sampai sekarang.</div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="btn-action btn-lihat" onclick="tampilJawaban()">lihat Jawaban</button>
+            <div class="nav-group">
+                <a href="#" class="btn-action btn-home" onclick="location.reload()">🏠</a>
+                <button class="btn-action btn-nav" onclick="prevSoal()">prev</button>
+                <button class="btn-action btn-nav" onclick="nextSoal()">nex</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const daftarSoal = [
+        { indo: "Aku sudah jatuh hati pelan-pelan sama kamu", eng: "I have been falling for you slowly", phonetic: "Ai hev bin fo-ling for yu slo-li", expl: "Alasan: Proses perasaan yang berkembang dan masih berlangsung." },
+        { indo: "Aku sudah memperhatikan kamu lebih dari yang kamu kira", eng: "I have been noticing you more than you think", phonetic: "Ai hev bin no-ti-sing yu mor dhen yu thingk", expl: "Alasan: Aksi pengamatan berkelanjutan." },
+        { indo: "Aku sudah mencoba menahan rasa ini", eng: "I have been trying to hold this feeling", phonetic: "Ai hev bin trai-ing tu hold dhis fi-ling", expl: "Alasan: Usaha yang terus berlangsung." },
+        { indo: "Aku sudah memikirkan kamu sebelum tidur", eng: "I have been thinking about you before I sleep", phonetic: "Ai hev bin thing-king a-baut yu bi-for ai sliip", expl: "Alasan: Kebiasaan yang masih terjadi." },
+        { indo: "Aku sudah berharap bisa ngobrol lebih lama sama kamu", eng: "I have been hoping to talk longer with you", phonetic: "Ai hev bin ho-ping tu tok long-ger with yu", expl: "Alasan: Harapan berkelanjutan." },
+        { indo: "Aku sudah mencoba jadi orang yang kamu suka", eng: "I have been trying to be someone you like", phonetic: "Ai hev bin trai-ing tu bi sam-wan yu laik", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah menunggu momen ini dari tadi", eng: "I have been waiting for this moment", phonetic: "Ai hev bin wei-ting for dhis mo-ment", expl: "Alasan: Aksi menunggu masih berlangsung." },
+        { indo: "Aku sudah menikmati setiap kata darimu", eng: "I have been enjoying every word from you", phonetic: "Ai hev bin en-joy-ing ev-ri werd from yu", expl: "Alasan: Aktivitas yang masih berjalan." },
+        { indo: "Aku sudah tersenyum sendiri karena kamu", eng: "I have been smiling to myself because of you", phonetic: "Ai hev bin smail-ing tu mai-self bi-kos ov yu", expl: "Alasan: Efek yang masih berlangsung." },
+        { indo: "Aku sudah mencoba mendekat pelan-pelan", eng: "I have been trying to get closer slowly", phonetic: "Ai hev bin trai-ing tu get klo-ser slo-li", expl: "Alasan: Proses bertahap." },
+        { indo: "Aku sudah memikirkan kamu tanpa alasan", eng: "I have been thinking about you for no reason", phonetic: "Ai hev bin thing-king a-baut yu for no ri-zon", expl: "Alasan: Aktivitas mental berulang." },
+        { indo: "Aku sudah berharap kamu juga merasakan hal yang sama", eng: "I have been hoping you feel the same", phonetic: "Ai hev bin ho-ping yu fiil dhe seim", expl: "Alasan: Harapan yang masih berlangsung." },
+        { indo: "Aku sudah menikmati vibe kamu dari awal", eng: "I have been enjoying your vibe since the start", phonetic: "Ai hev bin en-joy-ing yor vaib sins dhe start", expl: "Alasan: Aktivitas sejak masa lalu." },
+        { indo: "Aku sudah mencoba membaca perasaanmu", eng: "I have been trying to read your feelings", phonetic: "Ai hev bin trai-ing tu riid yor fi-lings", expl: "Alasan: Usaha yang belum selesai." },
+        { indo: "Aku sudah memperhatikan cara kamu tersenyum", eng: "I have been noticing the way you smile", phonetic: "Ai hev bin no-ti-sing dhe wei yu smail", expl: "Alasan: Pengamatan berkelanjutan." },
+        { indo: "Aku sudah berharap kamu tidak skip aku", eng: "I have been hoping you do not skip me", phonetic: "Ai hev bin ho-ping yu du not skip mi", expl: "Alasan: Harapan saat ini." },
+        { indo: "Aku sudah mencoba bikin kamu nyaman", eng: "I have been trying to make you comfortable", phonetic: "Ai hev bin trai-ing tu meik yu kom-for-te-bel", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah menikmati momen ini bersamamu", eng: "I have been enjoying this moment with you", phonetic: "Ai hev bin en-joy-ing dhis mo-ment with yu", expl: "Alasan: Aktivitas berlangsung." },
+        { indo: "Aku sudah berharap ini bukan pertemuan terakhir", eng: "I have been hoping this is not the last time", phonetic: "Ai hev bin ho-ping dhis iz not dhe last taim", expl: "Alasan: Harapan masih berlangsung." },
+        { indo: "Aku sudah mencoba jujur dengan perasaanku", eng: "I have been trying to be honest with my feelings", phonetic: "Ai hev bin trai-ing tu bi ho-nest with mai fi-lings", expl: "Alasan: Usaha emosional berkelanjutan." },
+        { indo: "Aku sudah menunggu seseorang seperti kamu", eng: "I have been waiting for someone like you", phonetic: "Ai hev bin wei-ting for sam-wan laik yu", expl: "Alasan: Durasi panjang sampai sekarang." },
+        { indo: "Aku sudah memperhatikan kamu beda dari yang lain", eng: "I have been noticing you are different", phonetic: "Ai hev bin no-ti-sing yu ar di-fe-rent", expl: "Alasan: Pengamatan berlanjut." },
+        { indo: "Aku sudah mencoba tidak terlalu berharap, tapi sulit", eng: "I have been trying not to expect too much", phonetic: "Ai hev bin trai-ing not tu eks-pekt tu mach", expl: "Alasan: Usaha mental yang masih berjalan." },
+        { indo: "Aku sudah menikmati setiap detik ngobrol ini", eng: "I have been enjoying every second of this chat", phonetic: "Ai hev bin en-joy-ing ev-ri se-kond ov dhis chat", expl: "Alasan: Aktivitas berlangsung terus." },
+        { indo: "Aku sudah berharap kamu tidak cepat pergi", eng: "I have been hoping you do not leave soon", phonetic: "Ai hev bin ho-ping yu du not liiv sun", expl: "Alasan: Harapan saat ini." },
+        { indo: "Aku sudah memperhatikan senyummu dari tadi", eng: "I have been noticing your smile", phonetic: "Ai hev bin no-ti-sing yor smail", expl: "Alasan: Aksi pengamatan dari tadi sampai sekarang." },
+        { indo: "Aku sudah memikirkan kamu terus", eng: "I have been thinking about you", phonetic: "Ai hev bin thing-king a-baut yu", expl: "Alasan: Pikiran berulang dan masih berlangsung." },
+        { indo: "Aku sudah menunggu kamu online", eng: "I have been waiting for you to come online", phonetic: "Ai hev bin wei-ting for yu tu kam on-lain", expl: "Alasan: Aksi menunggu belum selesai." },
+        { indo: "Aku sudah mengecek chat ini berkali-kali", eng: "I have been checking this chat many times", phonetic: "Ai hev bin cek-ing dhis chat me-ni taims", expl: "Alasan: Aksi berulang dari masa lalu." },
+        { indo: "Aku sudah mencoba menarik perhatianmu", eng: "I have been trying to get your attention", phonetic: "Ai hev bin trai-ing tu get yor a-ten-shen", expl: "Alasan: Usaha yang terus dilakukan." },
+        { indo: "Aku sudah tersenyum sejak ngobrol denganmu", eng: "I have been smiling since I talked to you", phonetic: "Ai hev bin smail-ing sins ai tok tu yu", expl: "Alasan: Efek yang masih berlangsung." },
+        { indo: "Aku sudah menikmati obrolan ini", eng: "I have been enjoying this conversation", phonetic: "Ai hev bin en-joy-ing dhis kon-ver-se-shen", expl: "Alasan: Aktivitas yang masih berjalan." },
+        { indo: "Aku sudah mencari topik biar kamu nyaman", eng: "I have been looking for topics to make you comfortable", phonetic: "Ai hev bin lu-king for to-piks tu meik yu kom-for-te-bel", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah mencoba bikin kamu ketawa", eng: "I have been trying to make you laugh", phonetic: "Ai hev bin trai-ing tu meik yu laf", expl: "Alasan: Aksi berulang belum selesai." },
+        { indo: "Aku sudah mendengarkan kamu dengan serius", eng: "I have been listening to you carefully", phonetic: "Ai hev bin lis-en-ing tu yu ker-ful-li", expl: "Alasan: Aktivitas masih berlangsung." },
+        { indo: "Aku sudah memperhatikan cara kamu bicara", eng: "I have been noticing the way you speak", phonetic: "Ai hev bin no-ti-sing dhe wei yu spiik", expl: "Alasan: Pengamatan terus berlangsung." },
+        { indo: "Aku sudah menunggumu balas chat", eng: "I have been waiting for your reply", phonetic: "Ai hev bin wei-ting for yor ri-plai", expl: "Alasan: Menunggu belum selesai." },
+        { indo: "Aku sudah mencoba jadi orang yang menarik", eng: "I have been trying to be interesting", phonetic: "Ai hev bin trai-ing tu bi in-tres-ting", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah memikirkan cara buat bikin kamu senang", eng: "I have been thinking about how to make you happy", phonetic: "Ai hev bin thing-king a-baut hau tu meik yu ha-pi", expl: "Alasan: Proses berpikir terus berjalan." },
+        { indo: "Aku sudah berharap kamu tetap di sini", eng: "I have been hoping you stay here", phonetic: "Ai hev bin ho-ping yu stei hir", expl: "Alasan: Harapan yang masih berlangsung." },
+        { indo: "Aku sudah memperhatikan kamu sejak awal", eng: "I have been noticing you since the beginning", phonetic: "Ai hev bin no-ti-sing yu sins dhe be-gin-ing", expl: "Alasan: Aksi sejak masa lalu sampai sekarang." },
+        { indo: "Aku sudah mencoba jadi versi terbaikku", eng: "I have been trying to be my best version", phonetic: "Ai hev bin trai-ing tu bi mai best ver-shen", expl: "Alasan: Usaha yang masih berjalan." },
+        { indo: "Aku sudah menikmati setiap detik ini", eng: "I have been enjoying every moment", phonetic: "Ai hev bin en-joy-ing ev-ri mo-ment", expl: "Alasan: Aktivitas berlangsung terus." },
+        { indo: "Aku sudah membayangkan ngobrol lama denganmu", eng: "I have been imagining talking with you for long", phonetic: "Ai hev bin i-ma-ji-ning to-king with yu for long", expl: "Alasan: Imajinasi berkelanjutan." },
+        { indo: "Aku sudah memperhatikan vibe kamu", eng: "I have been noticing your vibe", phonetic: "Ai hev bin no-ti-sing yor vaib", expl: "Alasan: Pengamatan masih berlangsung." },
+        { indo: "Aku sudah mencoba tetap fokus ke kamu", eng: "I have been trying to stay focused on you", phonetic: "Ai hev bin trai-ing tu stei fo-kust on yu", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah menunggumu tanpa bosan", eng: "I have been waiting for you patiently", phonetic: "Ai hev bin wei-ting for yu pei-shent-li", expl: "Alasan: Durasi + sikap berlanjut." },
+        { indo: "Aku sudah menikmati waktu bersamamu", eng: "I have been enjoying my time with you", phonetic: "Ai hev bin en-joy-ing mai taim with yu", expl: "Alasan: Aktivitas masih berjalan." },
+        { indo: "Aku sudah mencoba mengenal kamu lebih dalam", eng: "I have been trying to know you better", phonetic: "Ai hev bin trai-ing tu nou yu be-ter", expl: "Alasan: Proses yang belum selesai." },
+        { indo: "Aku sudah berharap obrolan ini tidak cepat selesai", eng: "I have been hoping this chat does not end soon", phonetic: "Ai hev bin ho-ping dhis chat daz not end sun", expl: "Alasan: Harapan yang masih berlangsung." },
+        { indo: "Aku sudah belajar bahasa Inggris selama 2 jam", eng: "I have been studying English for 2 hours", phonetic: "Ai hev bin sta-di-ing ing-glish for tu auerz", expl: "Alasan: Aksi dimulai di masa lalu dan masih berlangsung (durasi jelas)." },
+        { indo: "Aku sudah menunggumu sejak pagi", eng: "I have been waiting for you since morning", phonetic: "Ai hev bin wei-ting for yu sins mor-ning", expl: "Alasan: Aksi dimulai di masa lalu dan masih berlanjut (since)." },
+        { indo: "Aku sudah bekerja di sini sejak 2020", eng: "I have been working here since 2020", phonetic: "Ai hev bin wer-king hir sins tu-zen-ti tu-en-ti", expl: "Alasan: Aktivitas jangka panjang yang masih berlangsung." },
+        { indo: "Aku sudah mencoba menghubungimu berkali-kali", eng: "I have been trying to contact you many times", phonetic: "Ai hev bin trai-ing tu kon-tak yu me-ni taims", expl: "Alasan: Usaha berulang dari masa lalu sampai sekarang." },
+        { indo: "Aku sudah memikirkan tentangmu sepanjang hari", eng: "I have been thinking about you all day", phonetic: "Ai hev bin thing-king a-baut yu ol dei", expl: "Alasan: Aktivitas mental yang terus berlangsung." },
+        { indo: "Aku sudah berlari selama 30 menit", eng: "I have been running for 30 minutes", phonetic: "Ai hev bin ran-ing for thir-ti mi-nits", expl: "Alasan: Durasi aktivitas fisik." },
+        { indo: "Aku sudah menonton video itu sejak tadi", eng: "I have been watching that video", phonetic: "Ai hev bin woc-ing dhat vi-di-o", expl: "Alasan: Aktivitas yang masih berlangsung." },
+        { indo: "Aku sudah berbicara dengannya sejak tadi", eng: "I have been talking to her", phonetic: "Ai hev bin to-king tu her", expl: "Alasan: Aksi komunikasi berlanjut." },
+        { indo: "Aku sudah mencari kamu kemana-mana", eng: "I have been looking for you everywhere", phonetic: "Ai hev bin lu-king for yu ev-ri-wer", expl: "Alasan: Aksi pencarian terus berlangsung." },
+        { indo: "Aku sudah menunggu jawabanmu lama sekali", eng: "I have been waiting for your answer for a long time", phonetic: "Ai hev bin wei-ting for yor an-ser for a long taim", expl: "Alasan: Durasi panjang yang masih berjalan." },
+        { indo: "Aku sudah belajar setiap hari akhir-akhir ini", eng: "I have been studying every day lately", phonetic: "Ai hev bin sta-di-ing ev-ri dei leit-li", expl: "Alasan: Kebiasaan sementara." },
+        { indo: "Aku sudah memperbaiki diriku akhir-akhir ini", eng: "I have been improving myself lately", phonetic: "Ai hev bin im-pru-ving mai-self leit-li", expl: "Alasan: Perubahan bertahap." },
+        { indo: "Aku sudah bekerja keras akhir-akhir ini", eng: "I have been working hard lately", phonetic: "Ai hev bin wer-king hard leit-li", expl: "Alasan: Usaha berkelanjutan." },
+        { indo: "Aku sudah bermain game sepanjang malam", eng: "I have been playing games all night", phonetic: "Ai hev bin plei-ing geims ol nait", expl: "Alasan: Aktivitas terus menerus." },
+        { indo: "Aku sudah mendengarkan musik sejak tadi", eng: "I have been listening to music", phonetic: "Ai hev bin lis-en-ing tu myu-zik", expl: "Alasan: Aktivitas masih berjalan." },
+        { indo: "Aku sudah menulis buku ini selama sebulan", eng: "I have been writing this book for a month", phonetic: "Ai hev bin rai-ting dhis buk for a manth", expl: "Alasan: Proyek jangka waktu tertentu." },
+        { indo: "Aku sudah berlatih berbicara setiap hari", eng: "I have been practicing speaking every day", phonetic: "Ai hev bin prak-tis-ing spi-king ev-ri dei", expl: "Alasan: Latihan rutin sementara." },
+        { indo: "Aku sudah mengerjakan tugas ini sejak kemarin", eng: "I have been doing this task since yesterday", phonetic: "Ai hev bin du-ing dhis task sins yes-ter-dei", expl: "Alasan: Aksi belum selesai." },
+        { indo: "Aku sudah memikirkan keputusan ini lama", eng: "I have been thinking about this decision for a long time", phonetic: "Ai hev bin thing-king a-baut dhis di-si-zen for a long taim", expl: "Alasan: Proses berpikir berkelanjutan." },
+        { indo: "Aku sudah menabung uang sejak lama", eng: "I have been saving money for a long time", phonetic: "Ai hev bin sei-ving ma-ni for a long taim", expl: "Alasan: Kebiasaan berkelanjutan." },
+        { indo: "Aku sudah menjaga kesehatan akhir-akhir ini", eng: "I have been taking care of my health lately", phonetic: "Ai hev bin tei-king ker ov mai helth leit-li", expl: "Alasan: Perubahan gaya hidup." },
+        { indo: "Aku sudah membaca buku ini selama seminggu", eng: "I have been reading this book for a week", phonetic: "Ai hev bin ri-ding dhis buk for a wik", expl: "Alasan: Aktivitas belum selesai." },
+        { indo: "Aku sudah belajar dari kesalahan", eng: "I have been learning from my mistakes", phonetic: "Ai hev bin ler-ning from mai mis-teiks", expl: "Alasan: Proses belajar berkelanjutan." },
+        { indo: "Aku sudah mencoba jadi lebih baik", eng: "I have been trying to be better", phonetic: "Ai hev bin trai-ing tu bi be-ter", expl: "Alasan: Usaha terus berjalan." },
+        { indo: "Aku sudah memperhatikanmu sejak tadi", eng: "I have been noticing you", phonetic: "Ai hev bin no-ti-sing yu", expl: "Alasan: Perhatian yang masih berlangsung." }
+    ];
+
+    let currentIndex = 0;
+    let timerInterval;
+    let waktuSisa;
+    let waktuAwal;
+    let volumeLevel = 0.5;
+
+    function mulaiLatihan() {
+        waktuAwal = parseInt(document.getElementById('time-slider').value);
+        volumeLevel = document.getElementById('vol-slider').value / 200;
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('soal-screen').style.display = 'flex';
+
+        loadSoal();
+    }
+
+    function loadSoal() {
+        clearInterval(timerInterval);
+        waktuSisa = waktuAwal;
+        
+        const data = daftarSoal[currentIndex];
+        document.getElementById('teks-soal').innerText = data.indo;
+        document.getElementById('teks-inggris').innerText = data.eng + " 🔊";
+        document.getElementById('teks-phonetic').innerText = data.phonetic;
+        document.getElementById('teks-penjelasan').innerHTML = `<strong>Penjelasan:</strong><br>${data.expl}`;
+        
+        document.getElementById('counter').innerText = `${currentIndex + 1}/${daftarSoal.length}`;
+        document.getElementById('answer-section').style.display = 'none';
+
+        startTimer();
+        setTimeout(suaraIndo, 500);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            waktuSisa--;
+            updateTimerDisplay();
+            if (waktuSisa <= 0) {
+                clearInterval(timerInterval);
+                tampilJawaban();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        document.getElementById('timer').innerText = waktuSisa < 10 ? '0' + waktuSisa : waktuSisa;
+    }
+
+    function tampilJawaban() {
+        clearInterval(timerInterval);
+        document.getElementById('answer-section').style.display = 'block';
+        suaraInggris();
+    }
+
+    function nextSoal() {
+        if (currentIndex < daftarSoal.length - 1) {
+            currentIndex++;
+            loadSoal();
+        } else {
+            alert("Latihan Selesai!");
+        }
+    }
+
+    function prevSoal() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadSoal();
+        }
+    }
+
+    function suaraIndo() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].indo);
+        msg.lang = 'id-ID';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function suaraInggris() {
+        const msg = new SpeechSynthesisUtterance(daftarSoal[currentIndex].eng);
+        msg.lang = 'en-US';
+        msg.volume = volumeLevel;
+        window.speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
