@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - Future Tense</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 60px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        
+        .edu-box { 
+            background: #f8f9fa; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border-left: 5px solid var(--pink-accent); 
+            font-size: 0.85rem; 
+        }
+
+        .mnemonic-note {
+            margin-top: 10px;
+            background: #fff3f8;
+            padding: 10px;
+            border-radius: 8px;
+            color: #d63031;
+            font-weight: 700;
+            text-align: center;
+            border: 1px solid #ffccd5;
+            font-size: 0.9rem;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="app-title">English Speaking Trainer</div>
+    </header>
+
+    <!-- Settings -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Timer Jeda: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Exercise -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 60</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <span id="text-explanation">--</span>
+                </div>
+                <div class="mnemonic-note">
+                    💡 WILL = AKAN + VERB 1
+                </div>
+            </div>
+        </div>
+        <div style="height: 150px;"></div>
+    </div>
+
+    <!-- Nav -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku akan mencoba menyapa orang baru nanti", en: "I will try to greet a new person later", phonetic: "Ai wil trai tu grit e nyu per-sen lei-ter", explanation: "Alasan Simple Future Tense: rencana yang akan dilakukan di masa depan" },
+            { indo: "Aku akan menyiapkan topik sebelum mulai ngobrol", en: "I will prepare a topic before starting the chat", phonetic: "Ai wil pri-per e to-pik bi-for star-ting de chat", explanation: "Alasan Simple Future Tense: aksi yang direncanakan ke depan" },
+            { indo: "Aku akan mencari teman ngobrol yang seru malam ini", en: "I will look for a fun person to talk to tonight", phonetic: "Ai wil luk for e fan per-sen tu tok tu tu-nait", explanation: "Alasan Simple Future Tense: keputusan untuk masa depan" },
+            { indo: "Aku akan memperbaiki cara bicara bahasa Inggrisku", en: "I will improve my English speaking", phonetic: "Ai wil im-pruv mai ing-glis spi-king", explanation: "Alasan Simple Future Tense: niat atau tujuan ke depan" },
+            { indo: "Aku akan lebih percaya diri saat berbicara", en: "I will be more confident when speaking", phonetic: "Ai wil bi mor kon-fi-dent wen spi-king", explanation: "Alasan Simple Future Tense: harapan di masa depan" },
+            { indo: "Aku akan mencoba tidak gugup saat bertemu orang baru", en: "I will try not to be nervous when meeting new people", phonetic: "Ai wil trai not tu bi ner-ves wen mi-ting nyu pi-pol", explanation: "Alasan Simple Future Tense: usaha yang akan dilakukan" },
+            { indo: "Aku akan bertanya hal menarik nanti", en: "I will ask interesting questions later", phonetic: "Ai wil ask in-te-res-ting kwes-cen lei-ter", explanation: "Alasan Simple Future Tense: aksi yang akan terjadi" },
+            { indo: "Aku akan melanjutkan obrolan jika cocok", en: "I will continue the conversation if it feels right", phonetic: "Ai wil kon-ti-nyu de kon-ver-sei-syen if it fils rait", explanation: "Alasan Simple Future Tense: kemungkinan di masa depan" },
+            { indo: "Aku akan belajar dari setiap percakapan", en: "I will learn from every conversation", phonetic: "Ai wil lern from ev-ri kon-ver-sei-syen", explanation: "Alasan Simple Future Tense: rencana kebiasaan ke depan" },
+            { indo: "Aku akan mencoba berbicara lebih lama", en: "I will try to talk longer", phonetic: "Ai wil trai tu tok long-ger", explanation: "Alasan Simple Future Tense: niat untuk masa depan" },
+            { indo: "Aku akan tersenyum saat memulai obrolan", en: "I will smile when starting the chat", phonetic: "Ai wil smail wen star-ting de chat", explanation: "Alasan Simple Future Tense: aksi yang akan dilakukan" },
+            { indo: "Aku akan memilih kata-kata yang lebih baik", en: "I will choose better words", phonetic: "Ai wil chuz be-ter wods", explanation: "Alasan Simple Future Tense: keputusan ke depan" },
+            { indo: "Aku akan mencoba memahami lawan bicara", en: "I will try to understand the other person", phonetic: "Ai wil trai tu un-der-stend di a-der per-sen", explanation: "Alasan Simple Future Tense: usaha di masa depan" },
+            { indo: "Aku akan tetap santai saat ngobrol", en: "I will stay relaxed during the chat", phonetic: "Ai wil stei ri-laks dur-ing de chat", explanation: "Alasan Simple Future Tense: kondisi yang diharapkan" },
+            { indo: "Aku akan menghindari topik yang membosankan", en: "I will avoid boring topics", phonetic: "Ai wil e-void bo-ring to-piks", explanation: "Alasan Simple Future Tense: rencana tindakan" },
+            { indo: "Aku akan mencoba bercanda agar suasana enak", en: "I will try to joke to make the mood better", phonetic: "Ai wil trai tu jok tu meik de mud be-ter", explanation: "Alasan Simple Future Tense: aksi untuk hasil di masa depan" },
+            { indo: "Aku akan mengakhiri obrolan dengan sopan", en: "I will end the chat politely", phonetic: "Ai wil end de chat po-lait-li", explanation: "Alasan Simple Future Tense: tindakan yang akan dilakukan" },
+            { indo: "Aku akan kembali mencoba jika gagal", en: "I will try again if I fail", phonetic: "Ai wil trai a-gen if ai feil", explanation: "Alasan Simple Future Tense: kemungkinan di masa depan" },
+            { indo: "Aku akan membuat obrolan jadi lebih menarik", en: "I will make the conversation more interesting", phonetic: "Ai wil meik de kon-ver-sei-syen mor in-te-res-ting", explanation: "Alasan Simple Future Tense: tujuan ke depan" },
+            { indo: "Aku akan menikmati setiap momen ngobrol", en: "I will enjoy every moment of the conversation", phonetic: "Ai wil en-joy ev-ri mo-ment of de kon-ver-sei-syen", explanation: "Alasan Simple Future Tense: harapan di masa depan" },
+            { indo: "Aku akan mencoba membuka obrolan dengan pertanyaan sederhana", en: "I will try to start the chat with a simple question", phonetic: "Ai wil trai tu start de chat wit e sim-pel kwes-cen", explanation: "Alasan Simple Future Tense: rencana aksi di masa depan" },
+            { indo: "Aku akan mencari waktu yang tepat untuk berbicara", en: "I will look for the right time to talk", phonetic: "Ai wil luk for de rait taim tu tok", explanation: "Alasan Simple Future Tense: keputusan untuk masa depan" },
+            { indo: "Aku akan memperkenalkan diriku dengan santai", en: "I will introduce myself casually", phonetic: "Ai wil in-tro-dus mai-self ka-zu-al-li", explanation: "Alasan Simple Future Tense: aksi yang akan dilakukan" },
+            { indo: "Aku akan mencoba memahami aksen orang lain", en: "I will try to understand other accents", phonetic: "Ai wil trai tu un-der-stend a-der ak-sents", explanation: "Alasan Simple Future Tense: usaha ke depan" },
+            { indo: "Aku akan menjaga energi positif saat ngobrol", en: "I will keep positive energy during the chat", phonetic: "Ai wil kip po-si-tiv e-ner-gi dur-ing de chat", explanation: "Alasan Simple Future Tense: niat di masa depan" },
+            { indo: "Aku akan mendengarkan dengan lebih baik", en: "I will listen more carefully", phonetic: "Ai wil lis-en mor ker-ful-li", explanation: "Alasan Simple Future Tense: rencana perbaikan" },
+            { indo: "Aku akan mencoba menjawab dengan jelas", en: "I will try to answer clearly", phonetic: "Ai wil trai tu an-ser kli-ar-li", explanation: "Alasan Simple Future Tense: aksi yang direncanakan" },
+            { indo: "Aku akan membuat suasana jadi lebih nyaman", en: "I will make the atmosphere more comfortable", phonetic: "Ai wil meik di at-mos-fer mor kom-for-ta-bel", explanation: "Alasan Simple Future Tense: tujuan di masa depan" },
+            { indo: "Aku akan mencoba tidak terlalu cepat berbicara", en: "I will try not to speak too fast", phonetic: "Ai wil trai not tu spik tu fast", explanation: "Alasan Simple Future Tense: usaha di masa depan" },
+            { indo: "Aku akan menanyakan hobi lawan bicara", en: "I will ask about the other person's hobbies", phonetic: "Ai wil ask a-baut di a-der per-sens ho-bis", explanation: "Alasan Simple Future Tense: aksi yang akan dilakukan" },
+            { indo: "Aku akan mencoba tetap fokus saat berbicara", en: "I will try to stay focused while talking", phonetic: "Ai wil trai tu stei fo-kusd wail tok-ing", explanation: "Alasan Simple Future Tense: rencana ke depan" },
+            { indo: "Aku akan mengulang jika tidak dipahami", en: "I will repeat if I am not understood", phonetic: "Ai wil ri-pit if ai em not un-der-stud", explanation: "Alasan Simple Future Tense: kemungkinan aksi" },
+            { indo: "Aku akan mencoba lebih ekspresif saat ngobrol", en: "I will try to be more expressive while chatting", phonetic: "Ai wil trai tu bi mor eks-pre-siv wail chat-ting", explanation: "Alasan Simple Future Tense: niat di masa depan" },
+            { indo: "Aku akan memperbaiki kesalahan yang aku buat", en: "I will fix the mistakes I make", phonetic: "Ai wil fiks de mis-teiks ai meik", explanation: "Alasan Simple Future Tense: rencana perbaikan" },
+            { indo: "Aku akan tetap sopan dalam setiap percakapan", en: "I will stay polite in every conversation", phonetic: "Ai wil stei po-lait in ev-ri kon-ver-sei-syen", explanation: "Alasan Simple Future Tense: prinsip di masa depan" },
+            { indo: "Aku akan mencoba membuat orang lain nyaman", en: "I will try to make others feel comfortable", phonetic: "Ai wil trai tu meik a-ders fil kom-for-ta-bel", explanation: "Alasan Simple Future Tense: tujuan tindakan" },
+            { indo: "Aku akan mengakhiri obrolan dengan kesan baik", en: "I will end the chat with a good impression", phonetic: "Ai wil end de chat wit e gud im-pres-sion", explanation: "Alasan Simple Future Tense: hasil yang diharapkan" },
+            { indo: "Aku akan belajar kata baru dari setiap obrolan", en: "I will learn new words from every chat", phonetic: "Ai wil lern nyu wods from ev-ri chat", explanation: "Alasan Simple Future Tense: kebiasaan ke depan" },
+            { indo: "Aku akan mencoba tetap tenang saat diam sejenak", en: "I will try to stay calm during silent moments", phonetic: "Ai wil trai tu stei kam dur-ing sai-lent mo-ments", explanation: "Alasan Simple Future Tense: usaha di masa depan" },
+            { indo: "Aku akan terus berlatih agar lebih lancar", en: "I will keep practicing to be more fluent", phonetic: "Ai wil kip prak-ti-sing tu bi mor flu-ent", explanation: "Alasan Simple Future Tense: komitmen di masa depan" },
+            { indo: "Aku akan mencoba memulai obrolan tanpa ragu", en: "I will try to start the chat without hesitation", phonetic: "Ai wil trai tu start de chat wi-daut he-si-tei-syen", explanation: "Alasan Simple Future Tense: aksi yang akan dilakukan di masa depan" },
+            { indo: "Aku akan bertanya dari mana dia berasal", en: "I will ask where they come from", phonetic: "Ai wil ask wer dei kam from", explanation: "Alasan Simple Future Tense: rencana percakapan" },
+            { indo: "Aku akan mencoba membuat obrolan lebih hidup", en: "I will try to make the chat more lively", phonetic: "Ai wil trai tu meik de chat mor laiv-li", explanation: "Alasan Simple Future Tense: tujuan di masa depan" },
+            { indo: "Aku akan menanggapi dengan cepat dan jelas", en: "I will respond quickly and clearly", phonetic: "Ai wil ri-spond kwik-li end kli-ar-li", explanation: "Alasan Simple Future Tense: aksi yang direncanakan" },
+            { indo: "Aku akan mencoba menggunakan kata-kata baru", en: "I will try to use new words", phonetic: "Ai wil trai tu yus nyu wods", explanation: "Alasan Simple Future Tense: usaha belajar ke depan" },
+            { indo: "Aku akan tetap tersenyum saat berbicara", en: "I will keep smiling while talking", phonetic: "Ai wil kip smail-ing wail tok-ing", explanation: "Alasan Simple Future Tense: kondisi yang diharapkan" },
+            { indo: "Aku akan mencoba menjaga kontak mata", en: "I will try to keep eye contact", phonetic: "Ai wil trai tu kip ai kon-tak", explanation: "Alasan Simple Future Tense: rencana tindakan" },
+            { indo: "Aku akan mencoba memahami maksud lawan bicara", en: "I will try to understand their meaning", phonetic: "Ai wil trai tu un-der-stend der mi-ning", explanation: "Alasan Simple Future Tense: usaha di masa depan" },
+            { indo: "Aku akan mengajukan pertanyaan lanjutan", en: "I will ask follow-up questions", phonetic: "Ai wil ask fo-lo ap kwes-cens", explanation: "Alasan Simple Future Tense: aksi yang akan terjadi" },
+            { indo: "Aku akan mencoba membuat lawan bicara tertawa", en: "I will try to make them laugh", phonetic: "Ai wil trai tu meik dem laf", explanation: "Alasan Simple Future Tense: tujuan percakapan" },
+            { indo: "Aku akan memperhatikan respon mereka", en: "I will pay attention to their response", phonetic: "Ai wil pei a-ten-syen tu der ri-spons", explanation: "Alasan Simple Future Tense: aksi yang direncanakan" },
+            { indo: "Aku akan mencoba tidak mengulang kesalahan", en: "I will try not to repeat mistakes", phonetic: "Ai wil trai not tu ri-pit mis-teiks", explanation: "Alasan Simple Future Tense: usaha perbaikan" },
+            { indo: "Aku akan berbicara lebih pelan agar jelas", en: "I will speak more slowly to be clear", phonetic: "Ai wil spik mor slo-li tu bi kli-ar", explanation: "Alasan Simple Future Tense: rencana komunikasi" },
+            { indo: "Aku akan mencoba tetap percaya diri", en: "I will try to stay confident", phonetic: "Ai wil trai tu stei kon-fi-dent", explanation: "Alasan Simple Future Tense: niat ke depan" },
+            { indo: "Aku akan mengubah topik jika obrolan sepi", en: "I will change the topic if the chat gets quiet", phonetic: "Ai wil chenj de to-pik if de chat gets kwai-et", explanation: "Alasan Simple Future Tense: kemungkinan di masa depan" },
+            { indo: "Aku akan mencoba berbicara lebih natural", en: "I will try to speak more naturally", phonetic: "Ai wil trai tu spik mor na-tu-ra-li", explanation: "Alasan Simple Future Tense: tujuan belajar" },
+            { indo: "Aku akan menghargai setiap lawan bicara", en: "I will respect every person I talk to", phonetic: "Ai wil ri-spek ev-ri per-sen ai tok tu", explanation: "Alasan Simple Future Tense: prinsip di masa depan" },
+            { indo: "Aku akan mencoba tetap fokus sampai akhir", en: "I will try to stay focused until the end", phonetic: "Ai wil trai tu stei fo-kusd un-til di end", explanation: "Alasan Simple Future Tense: rencana tindakan" },
+            { indo: "Aku akan mengucapkan terima kasih di akhir obrolan", en: "I will say thank you at the end of the chat", phonetic: "Ai wil sei teng-kyu at di end of de chat", explanation: "Alasan Simple Future Tense: aksi yang akan dilakukan" },
+            { indo: "Aku akan terus mencoba sampai berhasil", en: "I will keep trying until I succeed", phonetic: "Ai wil kip trai-ing un-til ai sak-sid", explanation: "Alasan Simple Future Tense: komitmen di masa depan" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            const data = database[currentIndex];
+            
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            setTimeout(() => { speak(data.en, 'en-US'); }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            synth.speak(utter);
+        }
+    </script>
+</body>
+</html>
