@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - Future Perfect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 60px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+            animation: slideUp 0.3s ease;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        
+        .edu-box { 
+            background: #f8f9fa; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border-left: 5px solid var(--pink-accent); 
+            font-size: 0.85rem; 
+            margin-bottom: 10px;
+        }
+
+        .key-note {
+            background: #fff9db;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #fab005;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #856404;
+            text-align: center;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </button>
+        <div class="app-title">Future Perfect Trainer</div>
+    </header>
+
+    <!-- Settings -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Timer Jeda: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Exercise -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 80</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box" id="text-explanation">--</div>
+                <div class="key-note">Kunci utama: “AKAN SUDAH” -> S + will have + V3</div>
+            </div>
+        </div>
+        <div style="height: 150px;"></div>
+    </div>
+
+    <!-- Nav -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku akan sudah menyapa beberapa orang sebelum kamu datang", en: "I will have greeted several people before you arrive", phonetic: "Ai wil hev gri-ted sev-ral pi-pol bi-for yu e-raiv", explanation: "Alasan Future Perfect Tense: aksi akan sudah selesai sebelum waktu tertentu di masa depan" },
+            { indo: "Aku akan sudah menemukan teman ngobrol yang seru malam ini", en: "I will have found an interesting person to talk to tonight", phonetic: "Ai wil hev faund en in-tres-ting per-sen tu tok tu tu-nait", explanation: "Alasan Future Perfect Tense: aksi akan selesai pada waktu tertentu di masa depan" },
+            { indo: "Aku akan sudah menyiapkan topik sebelum obrolan dimulai", en: "I will have prepared a topic before the chat starts", phonetic: "Ai wil hev pri-perd e to-pik bi-for de chat starts", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum aksi lain di masa depan" },
+            { indo: "Aku akan sudah mencoba beberapa kali sebelum berhasil", en: "I will have tried several times before succeeding", phonetic: "Ai wil hev traid sev-ral taimz bi-for sak-sid-ing", explanation: "Alasan Future Perfect Tense: aksi akan selesai sebelum hasil di masa depan" },
+            { indo: "Aku akan sudah berbicara dengan banyak orang hari ini", en: "I will have talked to many people today", phonetic: "Ai wil hev tokt tu me-ni pi-pol tu-dei", explanation: "Alasan Future Perfect Tense: aksi selesai dalam batas waktu masa depan" },
+            { indo: "Aku akan sudah memperbaiki cara ngobrolku besok", en: "I will have improved my conversation skills by tomorrow", phonetic: "Ai wil hev im-provd mai kon-ver-sei-shen skilz bai tu-mo-ro", explanation: "Alasan Future Perfect Tense: aksi selesai pada waktu tertentu" },
+            { indo: "Aku akan sudah menemukan orang yang cocok sebelum kamu masuk", en: "I will have found someone suitable before you join", phonetic: "Ai wil hev faund sam-wan su-ta-bel bi-for yu join", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum aksi lain" },
+            { indo: "Aku akan sudah belajar dari kesalahan sebelumnya", en: "I will have learned from my previous mistakes", phonetic: "Ai wil hev lernd from mai pri-vi-es mis-teiks", explanation: "Alasan Future Perfect Tense: aksi sudah selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah mengakhiri beberapa obrolan sebelum istirahat", en: "I will have ended several chats before taking a break", phonetic: "Ai wil hev en-ded sev-ral chats bi-for te-king e breik", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum aksi berikutnya" },
+            { indo: "Aku akan sudah merasa lebih percaya diri nanti", en: "I will have felt more confident later", phonetic: "Ai wil hev felt mor kon-fi-dent lei-ter", explanation: "Alasan Future Perfect Tense: hasil akan sudah tercapai di masa depan" },
+            { indo: "Aku akan sudah mendapatkan pengalaman baru malam ini", en: "I will have gained new experiences tonight", phonetic: "Ai wil hev geind nyu eks-pi-ri-en-ses tu-nait", explanation: "Alasan Future Perfect Tense: pengalaman selesai dalam waktu tertentu" },
+            { indo: "Aku akan sudah berbagi cerita sebelum koneksi terputus", en: "I will have shared stories before the connection drops", phonetic: "Ai wil hev sher-d sto-ris bi-for de ko-nek-shen drops", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum kejadian lain" },
+            { indo: "Aku akan sudah mengatasi rasa gugupku", en: "I will have overcome my nervousness", phonetic: "Ai wil hev o-ver-kam mai ner-ves-nes", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah tertawa dengan beberapa orang", en: "I will have laughed with several people", phonetic: "Ai wil hev laft wit sev-ral pi-pol", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu" },
+            { indo: "Aku akan sudah mencoba gaya ngobrol baru", en: "I will have tried a new way of talking", phonetic: "Ai wil hev traid e nyu wei ov tok-ing", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah mengenal beberapa budaya baru", en: "I will have learned about different cultures", phonetic: "Ai wil hev lernd a-baut dif-rent kal-cherz", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan tertentu" },
+            { indo: "Aku akan sudah memperkenalkan diriku berkali-kali", en: "I will have introduced myself many times", phonetic: "Ai wil hev in-tro-dyusd mai-self me-ni taimz", explanation: "Alasan Future Perfect Tense: aksi selesai dalam durasi masa depan" },
+            { indo: "Aku akan sudah menutup obrolan dengan baik", en: "I will have closed the chats nicely", phonetic: "Ai wil hev klozd de chats nais-li", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum akhir waktu" },
+            { indo: "Aku akan sudah menemukan cara membuat orang nyaman", en: "I will have found ways to make people comfortable", phonetic: "Ai wil hev faund weiz tu meik pi-pol kam-fer-ta-bel", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah meningkatkan skill bahasa Inggrisku", en: "I will have improved my English skills", phonetic: "Ai wil hev im-provd mai ing-glish skilz", explanation: "Alasan Future Perfect Tense: hasil akan sudah tercapai" },
+            { indo: "Aku akan sudah mencoba banyak topik obrolan", en: "I will have tried many conversation topics", phonetic: "Ai wil hev traid me-ni kon-ver-sei-shen to-piks", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah menemukan cara membuka obrolan", en: "I will have found ways to start conversations", phonetic: "Ai wil hev faund weiz tu start kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah mendengarkan banyak cerita orang", en: "I will have listened to many people's stories", phonetic: "Ai wil hev lis-end tu me-ni pi-pol storis", explanation: "Alasan Future Perfect Tense: aksi selesai dalam waktu tertentu" },
+            { indo: "Aku akan sudah memperbaiki kesalahan pengucapan", en: "I will have corrected my pronunciation mistakes", phonetic: "Ai wil hev ko-rek-ted mai pro-nan-si-ei-shen mis-teiks", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah mendapatkan teman baru", en: "I will have made new friends", phonetic: "Ai wil hev meid nyu frenz", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah menghabiskan waktu berjam-jam ngobrol", en: "I will have spent hours chatting", phonetic: "Ai wil hev spent au-erz chat-ing", explanation: "Alasan Future Perfect Tense: aksi selesai dalam durasi tertentu" },
+            { indo: "Aku akan sudah mencoba untuk lebih santai", en: "I will have tried to be more relaxed", phonetic: "Ai wil hev traid tu bi mor ri-lakst", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah menyelesaikan sesi OmeTV malam ini", en: "I will have finished my OmeTV session tonight", phonetic: "Ai wil hev fi-nisht mai o-metivi sesh-en tu-nait", explanation: "Alasan Future Perfect Tense: aksi selesai pada waktu tertentu" },
+            { indo: "Aku akan sudah memahami cara menarik perhatian", en: "I will have understood how to get attention", phonetic: "Ai wil hev an-der-stud hau tu get a-ten-shen", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah melewati banyak koneksi acak", en: "I will have gone through many random connections", phonetic: "Ai wil hev gon thru me-ni ran-dom ko-nek-shens", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu" },
+            { indo: "Aku akan sudah belajar dari setiap obrolan", en: "I will have learned from every conversation", phonetic: "Ai wil hev lernd from ev-ri kon-ver-sei-shen", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah meningkatkan kepercayaan diriku", en: "I will have boosted my confidence", phonetic: "Ai wil hev bust-ed mai kon-fi-dens", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah menguasai beberapa ekspresi baru", en: "I will have mastered some new expressions", phonetic: "Ai wil hev mas-terd sam nyu eks-pre-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah beradaptasi dengan berbagai orang", en: "I will have adapted to different people", phonetic: "Ai wil hev a-dap-ted tu dif-rent pi-pol", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah menikmati banyak momen seru", en: "I will have enjoyed many fun moments", phonetic: "Ai wil hev en-joid me-ni fan mo-ments", explanation: "Alasan Future Perfect Tense: aksi selesai dalam waktu tertentu" },
+            { indo: "Aku akan sudah menyelesaikan banyak percakapan", en: "I will have completed many conversations", phonetic: "Ai wil hev kom-plit-ed me-ni kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah memahami tipe orang yang berbeda", en: "I will have understood different types of people", phonetic: "Ai wil hev an-der-stud dif-rent taips ov pi-pol", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah membangun koneksi yang menyenangkan", en: "I will have built enjoyable connections", phonetic: "Ai wil hev bilt en-jo-ya-bel ko-nek-shens", explanation: "Alasan Future Perfect Tense: hasil selesai pada waktu tertentu" },
+            { indo: "Aku akan sudah mencoba untuk tetap positif", en: "I will have tried to stay positive", phonetic: "Ai wil hev traid tu stei po-si-tiv", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah mengakhiri hari dengan pengalaman baru", en: "I will have ended the day with new experiences", phonetic: "Ai wil hev en-ded de dei wit nyu eks-pi-ri-en-ses", explanation: "Alasan Future Perfect Tense: aksi selesai pada akhir waktu tertentu" },
+            { indo: "Aku akan sudah membuka banyak obrolan sebelum malam berakhir", en: "I will have started many conversations before the night ends", phonetic: "Ai wil hev star-ted me-ni kon-ver-sei-shens bi-for de nait ends", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu di masa depan" },
+            { indo: "Aku akan sudah menyapa orang dari berbagai negara", en: "I will have greeted people from different countries", phonetic: "Ai wil hev gri-ted pi-pol from dif-rent kan-triz", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu masa depan" },
+            { indo: "Aku akan sudah mencoba untuk lebih ramah", en: "I will have tried to be more friendly", phonetic: "Ai wil hev traid tu bi mor frend-li", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah mengurangi rasa malu saat ngobrol", en: "I will have reduced my shyness while chatting", phonetic: "Ai wil hev ri-dyusd mai shai-nes wail chat-ing", explanation: "Alasan Future Perfect Tense: hasil sudah tercapai di masa depan" },
+            { indo: "Aku akan sudah menemukan gaya ngobrol yang cocok", en: "I will have found a suitable talking style", phonetic: "Ai wil hev faund e su-ta-bel tok-ing stail", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah memperbaiki cara bertanya", en: "I will have improved the way I ask questions", phonetic: "Ai wil hev im-provd de wei ai ask kwes-chens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah memahami respon orang lain", en: "I will have understood other people's responses", phonetic: "Ai wil hev an-der-stud a-der pi-pol ri-spon-ses", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan tertentu" },
+            { indo: "Aku akan sudah berbicara lebih lancar", en: "I will have spoken more fluently", phonetic: "Ai wil hev spo-ken mor flu-ent-li", explanation: "Alasan Future Perfect Tense: hasil akan sudah tercapai" },
+            { indo: "Aku akan sudah mencoba berbagai cara memulai obrolan", en: "I will have tried different ways to start conversations", phonetic: "Ai wil hev traid dif-rent weiz tu start kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai dalam waktu tertentu" },
+            { indo: "Aku akan sudah mendapatkan banyak pelajaran dari obrolan", en: "I will have gained many lessons from conversations", phonetic: "Ai wil hev geind me-ni les-ens from kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah menghindari kesalahan yang sama", en: "I will have avoided the same mistakes", phonetic: "Ai wil hev a-void-ed de seim mis-teiks", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah menemukan topik yang menarik", en: "I will have found interesting topics", phonetic: "Ai wil hev faund in-tres-ting to-piks", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah mengembangkan kemampuan berbicara", en: "I will have developed my speaking skills", phonetic: "Ai wil hev di-ve-lopt mai spi-king skilz", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah membangun kepercayaan diri lebih tinggi", en: "I will have built higher confidence", phonetic: "Ai wil hev bilt hai-er kon-fi-dens", explanation: "Alasan Future Perfect Tense: hasil sudah tercapai" },
+            { indo: "Aku akan sudah membuat orang lain merasa nyaman", en: "I will have made others feel comfortable", phonetic: "Ai wil hev meid a-ders fil kam-fer-ta-bel", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah mencoba berbicara tanpa ragu", en: "I will have tried to speak without hesitation", phonetic: "Ai wil hev traid tu spik wit-aut he-si-tei-shen", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah menikmati setiap percakapan", en: "I will have enjoyed every conversation", phonetic: "Ai wil hev en-joid ev-ri kon-ver-sei-shen", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu" },
+            { indo: "Aku akan sudah memahami cara menjaga obrolan tetap hidup", en: "I will have understood how to keep conversations going", phonetic: "Ai wil hev an-der-stud hau tu kip kon-ver-sei-shens go-ing", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah mencoba untuk lebih percaya diri", en: "I will have tried to be more confident", phonetic: "Ai wil hev traid tu bi mor kon-fi-dent", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah menutup semua obrolan dengan baik", en: "I will have closed all conversations nicely", phonetic: "Ai wil hev klozd ol kon-ver-sei-shens nais-li", explanation: "Alasan Future Perfect Tense: aksi selesai pada akhir waktu tertentu" },
+            { indo: "Aku akan sudah menyapa orang pertama sebelum kamu online", en: "I will have greeted the first person before you come online", phonetic: "Ai wil hev gri-ted de fers per-sen bi-for yu kam on-lain", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum aksi lain di masa depan" },
+            { indo: "Aku akan sudah mencoba membuka obrolan dengan percaya diri", en: "I will have tried to start conversations confidently", phonetic: "Ai wil hev traid tu start kon-ver-sei-shens kon-fi-dent-li", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah berbicara dengan orang yang berbeda-beda", en: "I will have talked to different people", phonetic: "Ai wil hev tokt tu dif-rent pi-pol", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu masa depan" },
+            { indo: "Aku akan sudah meningkatkan cara menyapa orang", en: "I will have improved the way I greet people", phonetic: "Ai wil hev im-provd de wei ai grit pi-pol", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah menemukan cara membuat obrolan lebih hidup", en: "I will have found ways to make conversations more lively", phonetic: "Ai wil hev faund weiz tu meik kon-ver-sei-shens mor laiv-li", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah belajar banyak dari interaksi singkat", en: "I will have learned a lot from short interactions", phonetic: "Ai wil hev lernd e lot from short in-ter-ak-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan tertentu" },
+            { indo: "Aku akan sudah mencoba berbagai gaya komunikasi", en: "I will have tried various communication styles", phonetic: "Ai wil hev traid ve-ri-es ko-myuni-kei-shen stailz", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah memahami kapan harus melanjutkan obrolan", en: "I will have understood when to continue a conversation", phonetic: "Ai wil hev an-der-stud wen tu kon-ti-nyu e kon-ver-sei-shen", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum aksi lain" },
+            { indo: "Aku akan sudah mengakhiri obrolan yang tidak cocok", en: "I will have ended unsuitable conversations", phonetic: "Ai wil hev en-ded an-su-ta-bel kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah membangun kebiasaan ngobrol setiap hari", en: "I will have built a habit of chatting every day", phonetic: "Ai wil hev bilt e ha-bit ov chat-ing ev-ri dei", explanation: "Alasan Future Perfect Tense: aksi selesai dalam periode waktu masa depan" },
+            { indo: "Aku akan sudah memperbaiki intonasi saat berbicara", en: "I will have improved my intonation while speaking", phonetic: "Ai wil hev im-provd mai in-to-nei-shen wail spi-king", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah mencoba untuk lebih aktif bertanya", en: "I will have tried to ask more actively", phonetic: "Ai wil hev traid tu ask mor ak-tiv-li", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah memahami cara menjaga energi saat ngobrol", en: "I will have understood how to maintain energy while chatting", phonetic: "Ai wil hev an-der-stud hau tu main-tein e-ner-gi wail chat-ing", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah menemukan pola obrolan yang efektif", en: "I will have found effective conversation patterns", phonetic: "Ai wil hev faund i-fek-tiv kon-ver-sei-shen pat-erns", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan" },
+            { indo: "Aku akan sudah meningkatkan kecepatan berpikir saat berbicara", en: "I will have improved my thinking speed while speaking", phonetic: "Ai wil hev im-provd mai thing-king spid wail spi-king", explanation: "Alasan Future Perfect Tense: hasil selesai di masa depan" },
+            { indo: "Aku akan sudah mencoba untuk tetap fokus dalam obrolan", en: "I will have tried to stay focused in conversations", phonetic: "Ai wil hev traid tu stei fo-kust in kon-ver-sei-shens", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah belajar mengontrol emosi saat ngobrol", en: "I will have learned to control my emotions while chatting", phonetic: "Ai wil hev lernd tu kon-trol mai i-mo-shens wail chat-ing", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum masa depan tertentu" },
+            { indo: "Aku akan sudah mengembangkan cara berpikir cepat saat respon", en: "I will have developed quick thinking when responding", phonetic: "Ai wil hev di-ve-lopt kwik thing-king wen ri-spon-ding", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum waktu tertentu" },
+            { indo: "Aku akan sudah memahami cara membuat kesan pertama yang baik", en: "I will have understood how to make a good first impression", phonetic: "Ai wil hev an-der-stud hau tu meik e gud fers im-pres-shen", explanation: "Alasan Future Perfect Tense: aksi selesai sebelum titik waktu" },
+            { indo: "Aku akan sudah menyelesaikan banyak percakapan dengan positif", en: "I will have finished many conversations positively", phonetic: "Ai wil hev fi-nisht me-ni kon-ver-sei-shens po-si-tiv-li", explanation: "Alasan Future Perfect Tense: aksi selesai pada waktu tertentu di masa depan" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+            updateQuestionUI();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+                document.getElementById('timer-display').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            const data = database[currentIndex];
+            
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            setTimeout(() => { speak(data.en, 'en-US'); }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            synth.speak(utter);
+        }
+
+        function updateQuestionUI() {
+            document.getElementById('text-indo').innerText = database[currentIndex].indo;
+        }
+    </script>
+</body>
+</html>
