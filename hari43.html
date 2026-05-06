@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - Simple Past Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 50px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.4rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        .edu-box { background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+        .form-group { text-align: left; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="app-title">Simple Past Trainer</div>
+    </header>
+
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan Sesi</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Waktu Berpikir: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 80</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong><br><br>
+                    <small id="footer-note">💡 Kalau kejadian sudah terjadi dan selesai, langsung pakai Simple Past.</small>
+                </div>
+            </div>
+        </div>
+        <div style="height: 150px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku pergi ke pasar kemarin", en: "I went to the market yesterday", phonetic: "Ai went tu de mar-ket yes-ter-dei", explanation: "Alasan simple past: kejadian selesai di masa lalu (kemarin)" },
+            { indo: "Aku bertemu dia tadi pagi", en: "I met her this morning", phonetic: "Ai met her dis mor-ning", explanation: "Alasan simple past: kejadian selesai (tadi pagi)" },
+            { indo: "Aku menonton film tadi malam", en: "I watched a movie last night", phonetic: "Ai woch-ed a mu-vi last nait", explanation: "Alasan simple past: waktu spesifik di masa lalu" },
+            { indo: "Aku makan nasi tadi siang", en: "I ate rice this afternoon", phonetic: "Ai eit rais dis af-ter-nun", explanation: "Alasan simple past: kejadian sudah selesai" },
+            { indo: "Aku belajar bahasa Inggris kemarin", en: "I studied English yesterday", phonetic: "Ai sta-diid ing-glish yes-ter-dei", explanation: "Alasan simple past: aktivitas selesai" },
+            { indo: "Aku berbicara dengan dia tadi malam", en: "I talked to him last night", phonetic: "Ai tok tu him last nait", explanation: "Alasan simple past: percakapan sudah selesai" },
+            { indo: "Aku membeli buku minggu lalu", en: "I bought a book last week", phonetic: "Ai bot a buk last wik", explanation: "Alasan simple past: waktu lampau jelas" },
+            { indo: "Aku bermain game tadi sore", en: "I played a game this evening", phonetic: "Ai pleid a geim dis i-ve-ning", explanation: "Alasan simple past: kegiatan selesai" },
+            { indo: "Aku bangun pagi tadi", en: "I woke up early this morning", phonetic: "Ai wok ap er-li dis mor-ning", explanation: "Alasan simple past: kejadian sudah terjadi" },
+            { indo: "Aku menulis pesan kemarin", en: "I wrote a message yesterday", phonetic: "Ai rout a mes-saj yes-ter-dei", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku pergi ke sekolah kemarin", en: "I went to school yesterday", phonetic: "Ai went tu skul yes-ter-dei", explanation: "Alasan simple past: kejadian masa lalu" },
+            { indo: "Aku melihat dia di jalan tadi", en: "I saw him on the street earlier", phonetic: "Ai so him on de strit er-li-er", explanation: "Alasan simple past: kejadian sudah lewat" },
+            { indo: "Aku membuka pintu tadi", en: "I opened the door earlier", phonetic: "Ai o-pened de dor er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku membantu teman kemarin", en: "I helped my friend yesterday", phonetic: "Ai helpt mai frend yes-ter-dei", explanation: "Alasan simple past: aktivitas selesai" },
+            { indo: "Aku mencuci tangan tadi", en: "I washed my hands earlier", phonetic: "Ai woshd mai hands er-li-er", explanation: "Alasan simple past: tindakan selesai" },
+            { indo: "Aku menutup jendela tadi malam", en: "I closed the window last night", phonetic: "Ai klozd de win-dow last nait", explanation: "Alasan simple past: waktu lampau jelas" },
+            { indo: "Aku mendengarkan musik tadi", en: "I listened to music earlier", phonetic: "Ai lis-end tu mu-sik er-li-er", explanation: "Alasan simple past: kegiatan selesai" },
+            { indo: "Aku mengerjakan tugas kemarin", en: "I did my homework yesterday", phonetic: "Ai did mai home-work yes-ter-dei", explanation: "Alasan simple past: pekerjaan selesai" },
+            { indo: "Aku mengirim pesan tadi pagi", en: "I sent a message this morning", phonetic: "Ai sent a mes-saj dis mor-ning", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku pulang lebih awal kemarin", en: "I went home early yesterday", phonetic: "Ai went hom er-li yes-ter-dei", explanation: "Alasan simple past: kejadian selesai di masa lalu" },
+            { indo: "Aku ngobrol dengan orang asing tadi malam", en: "I talked to a stranger last night", phonetic: "Ai tok tu a stren-jer last nait", explanation: "Alasan simple past: percakapan selesai di masa lalu" },
+            { indo: "Aku tertawa karena kamu tadi", en: "I laughed because of you earlier", phonetic: "Ai laft bi-kos ov yu er-li-er", explanation: "Alasan simple past: kejadian sudah terjadi" },
+            { indo: "Aku merasa senang kemarin", en: "I felt happy yesterday", phonetic: "Ai felt ha-pi yes-ter-dei", explanation: "Alasan simple past: perasaan di masa lalu" },
+            { indo: "Aku mencoba menelepon kamu tadi", en: "I tried to call you earlier", phonetic: "Ai traid tu kol yu er-li-er", explanation: "Alasan simple past: usaha sudah selesai" },
+            { indo: "Aku membuka aplikasi itu tadi", en: "I opened that app earlier", phonetic: "Ai o-pened dat ap er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku melihat profilmu tadi", en: "I checked your profile earlier", phonetic: "Ai cekd yor pro-fail er-li-er", explanation: "Alasan simple past: aktivitas selesai" },
+            { indo: "Aku menyukai senyummu tadi", en: "I liked your smile earlier", phonetic: "Ai laikt yor smail er-li-er", explanation: "Alasan simple past: perasaan di masa lalu" },
+            { indo: "Aku berhenti berbicara tadi", en: "I stopped talking earlier", phonetic: "Ai stopt to-king er-li-er", explanation: "Alasan simple past: aksi berhenti di masa lalu" },
+            { indo: "Aku mulai belajar kemarin", en: "I started studying yesterday", phonetic: "Ai star-ted sta-di-ing yes-ter-dei", explanation: "Alasan simple past: awal kejadian di masa lalu" },
+            { indo: "Aku selesai lebih cepat tadi", en: "I finished earlier", phonetic: "Ai fi-nisht er-li-er", explanation: "Alasan simple past: kegiatan sudah selesai" },
+            { indo: "Aku menghapus pesan itu tadi", en: "I deleted that message earlier", phonetic: "Ai di-lit-ed dat mes-saj er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku menunggu kamu tadi", en: "I waited for you earlier", phonetic: "Ai wei-ted for yu er-li-er", explanation: "Alasan simple past: aktivitas selesai" },
+            { indo: "Aku kehilangan kunciku kemarin", en: "I lost my key yesterday", phonetic: "Ai lost mai ki yes-ter-dei", explanation: "Alasan simple past: kejadian lampau" },
+            { indo: "Aku menemukan sesuatu menarik tadi", en: "I found something interesting earlier", phonetic: "Ai fa-und sam-thing in-te-res-ting er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku memilih untuk diam tadi", en: "I chose to stay quiet earlier", phonetic: "Ai choz tu stei kwai-et er-li-er", explanation: "Alasan simple past: keputusan selesai" },
+            { indo: "Aku mendengar suaramu tadi", en: "I heard your voice earlier", phonetic: "Ai herd yor vois er-li-er", explanation: "Alasan simple past: kejadian sudah lewat" },
+            { indo: "Aku mengirim foto tadi", en: "I sent a photo earlier", phonetic: "Ai sent a fo-to er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku duduk di sini tadi", en: "I sat here earlier", phonetic: "Ai sat hir er-li-er", explanation: "Alasan simple past: posisi di masa lalu" },
+            { indo: "Aku berdiri di depan tadi", en: "I stood in front earlier", phonetic: "Ai stud in front er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku pergi tanpa bilang tadi", en: "I left without saying anything earlier", phonetic: "Ai left wi-daut sei-ing e-ni-thing er-li-er", explanation: "Alasan simple past: aksi selesai di masa lalu" },
+            { indo: "Aku melihatmu tadi dan langsung tersenyum", en: "I saw you earlier and smiled right away", phonetic: "Ai so yu er-li-er end smaild rait a-wei", explanation: "Alasan simple past: dua kejadian selesai di masa lalu" },
+            { indo: "Aku pikir kamu menarik tadi", en: "I thought you were interesting earlier", phonetic: "Ai thot yu wer in-te-res-ting er-li-er", explanation: "Alasan simple past: pikiran di masa lalu" },
+            { indo: "Aku sempat ragu tadi", en: "I doubted for a moment earlier", phonetic: "Ai dau-ted for a mo-ment er-li-er", explanation: "Alasan simple past: perasaan sementara di masa lalu" },
+            { indo: "Aku mendekat tadi tapi kamu pergi", en: "I came closer earlier but you left", phonetic: "Ai keim klo-ser er-li-er bat yu left", explanation: "Alasan simple past: dua aksi selesai" },
+            { indo: "Aku menunggu responmu tadi", en: "I waited for your response earlier", phonetic: "Ai wei-ted for yor res-pons er-li-er", explanation: "Alasan simple past: kegiatan selesai" },
+            { indo: "Aku mencoba membuatmu tertawa tadi", en: "I tried to make you laugh earlier", phonetic: "Ai traid tu meik yu laf er-li-er", explanation: "Alasan simple past: usaha selesai" },
+            { indo: "Aku kehilangan koneksi tadi", en: "I lost connection earlier", phonetic: "Ai lost ko-nek-shon er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku kembali lagi tadi", en: "I came back earlier", phonetic: "Ai keim bek er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku memperhatikan matamu tadi", en: "I noticed your eyes earlier", phonetic: "Ai no-tis-t yor ais er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku merasa nyaman ngobrol tadi", en: "I felt comfortable talking earlier", phonetic: "Ai felt kom-for-ta-bel to-king er-li-er", explanation: "Alasan simple past: perasaan di masa lalu" },
+            { indo: "Aku salah bicara tadi", en: "I misspoke earlier", phonetic: "Ai mis-spok er-li-er", explanation: "Alasan simple past: kejadian sudah terjadi" },
+            { indo: "Aku tertarik padamu tadi", en: "I got interested in you earlier", phonetic: "Ai got in-te-res-ted in yu er-li-er", explanation: "Alasan simple past: perubahan perasaan di masa lalu" },
+            { indo: "Aku mengakhiri obrolan tadi", en: "I ended the chat earlier", phonetic: "Ai en-ded de chat er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku berharap kamu tinggal tadi", en: "I hoped you stayed earlier", phonetic: "Ai hopd yu steid er-li-er", explanation: "Alasan simple past: harapan di masa lalu" },
+            { indo: "Aku menatap layar terlalu lama tadi", en: "I stared at the screen too long earlier", phonetic: "Ai sterd et de skrin tu long er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku hampir mengatakan sesuatu tadi", en: "I almost said something earlier", phonetic: "Ai ol-most sed sam-thing er-li-er", explanation: "Alasan simple past: kejadian tidak jadi tapi terjadi di masa lalu" },
+            { indo: "Aku mengingat wajahmu tadi", en: "I remembered your face earlier", phonetic: "Ai ri-mem-berd yor feis er-li-er", explanation: "Alasan simple past: ingatan di masa lalu" },
+            { indo: "Aku tersipu tadi", en: "I blushed earlier", phonetic: "Ai blasht er-li-er", explanation: "Alasan simple past: reaksi selesai" },
+            { indo: "Aku mengabaikan pesan itu tadi", en: "I ignored that message earlier", phonetic: "Ai ig-nord dat mes-saj er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku menutup aplikasi tadi", en: "I closed the app earlier", phonetic: "Ai klozd de ap er-li-er", explanation: "Alasan simple past: kejadian selesai di masa lalu" },
+            { indo: "Aku langsung tertarik padamu tadi", en: "I got attracted to you earlier", phonetic: "Ai got at-trak-ted tu yu er-li-er", explanation: "Alasan simple past: perasaan muncul dan selesai di masa lalu" },
+            { indo: "Aku tidak bisa berhenti melihatmu tadi", en: "I couldn’t stop looking at you earlier", phonetic: "Ai ku-dent stop lu-king at yu er-li-er", explanation: "Alasan simple past: kondisi terjadi di masa lalu" },
+            { indo: "Aku jatuh hati sedikit tadi", en: "I fell for you a little earlier", phonetic: "Ai fel for yu a li-tel er-li-er", explanation: "Alasan simple past: perasaan terjadi di masa lalu" },
+            { indo: "Aku hampir jatuh cinta tadi", en: "I almost fell in love earlier", phonetic: "Ai ol-most fel in lav er-li-er", explanation: "Alasan simple past: kejadian hampir terjadi" },
+            { indo: "Aku menikmati obrolan kita tadi", en: "I enjoyed our conversation earlier", phonetic: "Ai en-joid aur kon-ver-se-shon er-li-er", explanation: "Alasan simple past: pengalaman selesai" },
+            { indo: "Aku merasa waktu berjalan cepat tadi", en: "I felt time went fast earlier", phonetic: "Ai felt taim went fast er-li-er", explanation: "Alasan simple past: perasaan di masa lalu" },
+            { indo: "Aku berharap kamu tidak pergi tadi", en: "I hoped you didn’t leave earlier", phonetic: "Ai hopd yu di-dent liv er-li-er", explanation: "Alasan simple past: harapan di masa lalu" },
+            { indo: "Aku ingin berbicara lebih lama tadi", en: "I wanted to talk longer earlier", phonetic: "Ai won-ted tu tok long-ger er-li-er", explanation: "Alasan simple past: keinginan di masa lalu" },
+            { indo: "Aku merindukanmu setelah kamu pergi tadi", en: "I missed you after you left earlier", phonetic: "Ai mist yu af-ter yu left er-li-er", explanation: "Alasan simple past: dua kejadian selesai" },
+            { indo: "Aku tersenyum sendiri setelah itu tadi", en: "I smiled to myself after that earlier", phonetic: "Ai smaild tu mai-self af-ter dat er-li-er", explanation: "Alasan simple past: aksi selesai" },
+            { indo: "Aku merasa kamu berbeda tadi", en: "I felt you were different earlier", phonetic: "Ai felt yu wer dif-rent er-li-er", explanation: "Alasan simple past: penilaian di masa lalu" },
+            { indo: "Aku mempercayaimu tadi", en: "I trusted you earlier", phonetic: "Ai tras-ted yu er-li-er", explanation: "Alasan simple past: perasaan selesai" },
+            { indo: "Aku membuka hatiku sedikit tadi", en: "I opened my heart a little earlier", phonetic: "Ai o-pened mai hart a li-tel er-li-er", explanation: "Alasan simple past: aksi emosional selesai" },
+            { indo: "Aku menikmati suaramu tadi", en: "I enjoyed your voice earlier", phonetic: "Ai en-joid yor vois er-li-er", explanation: "Alasan simple past: pengalaman selesai" },
+            { indo: "Aku terdiam saat melihatmu tadi", en: "I went silent when I saw you earlier", phonetic: "Ai went sai-lent wen ai so yu er-li-er", explanation: "Alasan simple past: reaksi di masa lalu" },
+            { indo: "Aku kehilangan kata-kata tadi", en: "I lost my words earlier", phonetic: "Ai lost mai words er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku mencoba bersikap santai tadi", en: "I tried to act cool earlier", phonetic: "Ai traid tu akt kul er-li-er", explanation: "Alasan simple past: usaha di masa lalu" },
+            { indo: "Aku gagal bersikap biasa saja tadi", en: "I failed to act normal earlier", phonetic: "Ai feild tu akt nor-mal er-li-er", explanation: "Alasan simple past: hasil usaha di masa lalu" },
+            { indo: "Aku memperhatikan setiap detail tadi", en: "I noticed every detail earlier", phonetic: "Ai no-tist ev-ri di-teil er-li-er", explanation: "Alasan simple past: kejadian selesai" },
+            { indo: "Aku tidak melupakanmu setelah itu tadi", en: "I didn’t forget you after that earlier", phonetic: "Ai di-dent for-get yu af-ter dat er-li-er", explanation: "Alasan simple past: kejadian di masa lalu" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+            updateQuestionUI();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+                document.getElementById('timer-display').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            const data = database[currentIndex];
+            
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            setTimeout(() => { speak(data.en, 'en-US'); }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            synth.speak(utter);
+        }
+
+        function updateQuestionUI() {
+            document.getElementById('text-indo').innerText = database[currentIndex].indo;
+        }
+    </script>
+</body>
+</html>
