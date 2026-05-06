@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - Conversation Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .challenge-box {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 60px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        .edu-box { background: #fff4f8; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; margin-bottom: 10px; }
+        
+        .tense-note {
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: #333;
+            border: 1px solid #d1d8ff;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Floating Nav - RAISED 250PX as requested */
+        .bottom-nav {
+            position: fixed;
+            bottom: 250px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></button>
+        <div class="app-title">English Speaking Trainer</div>
+    </header>
+
+    <!-- Screen Settings -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan Latihan</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Timer Jeda (detik): <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+                MULAI LATIHAN SEKARANG
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen Exercise -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 60</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong>
+                </div>
+                <div class="tense-note">
+                    Past Continuous Tense: Kejadian yang sedang berlangsung pada waktu spesifik di masa lalu.
+                </div>
+            </div>
+        </div>
+        <div style="height: 350px;"></div> <!-- Spacer for raised nav -->
+    </div>
+
+    <!-- Floating Nav -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku sudah mulai menikmati obrolan kita", en: "I have started enjoying our conversation", phonetic: "Ai hev star-ted en-joy-ing aur kon-ver-sei-syen", explanation: "Alasan: hasil untuk Past Continuous Tense (proses menikmati sedang berlangsung di masa lalu)" },
+            { indo: "Aku sudah merasa nyaman berbicara denganmu", en: "I have felt comfortable talking to you", phonetic: "Ai hev felt kam-for-ta-bel tok-ing tu yu", explanation: "Alasan: hasil dari perasaan yang berkembang saat sedang berbicara di masa lalu" },
+            { indo: "Aku sudah menemukan topik yang menarik untuk kita bahas", en: "I have found an interesting topic for us to discuss", phonetic: "Ai hev faund an in-te-res-ting top-ik for as tu dis-kas", explanation: "Alasan: hasil dari proses mencari topik saat percakapan berlangsung" },
+            { indo: "Aku sudah mulai tertawa sejak tadi", en: "I have started laughing since earlier", phonetic: "Ai hev star-ted laf-ing sins er-li-er", explanation: "Alasan: hasil dari kejadian yang sedang terjadi di masa lalu" },
+            { indo: "Aku sudah menikmati momen ini sejak awal", en: "I have enjoyed this moment since the beginning", phonetic: "Ai hev en-joid dis mo-men sins de bi-gin-ing", explanation: "Alasan: hasil dari proses yang berlangsung terus di masa lalu" },
+            { indo: "Aku sudah merasa kita nyambung saat ngobrol tadi", en: "I have felt we connected while talking earlier", phonetic: "Ai hev felt wi ko-nek-ted wail tok-ing er-li-er", explanation: "Alasan: hasil dari interaksi yang sedang terjadi di masa lalu" },
+            { indo: "Aku sudah menyadari kamu orang yang seru", en: "I have realized you are a fun person", phonetic: "Ai hev ri-a-laizd yu ar a fan per-son", explanation: "Alasan: hasil dari pengamatan saat percakapan berlangsung" },
+            { indo: "Aku sudah mulai menyukaimu sejak kita ngobrol tadi", en: "I have started liking you since we talked earlier", phonetic: "I have started liking you since we talked earlier", explanation: "Alasan: hasil dari perasaan yang berkembang saat kejadian berlangsung" },
+            { indo: "Aku sudah merasa waktu berjalan cepat saat ngobrol tadi", en: "I have felt time went fast while we were talking", phonetic: "Ai hev felt taim went fast wail wi wer tok-ing", explanation: "Alasan: hasil dari pengalaman selama proses berlangsung" },
+            { indo: "Aku sudah menemukan alasan untuk tetap ngobrol", en: "I have found a reason to keep talking", phonetic: "Ai hev faund a ri-zen tu kiip tok-ing", explanation: "Alasan: hasil dari proses berpikir saat percakapan berlangsung" },
+            { indo: "Aku sudah merasa lebih santai saat ngobrol tadi", en: "I have felt more relaxed while we were talking", phonetic: "Ai hev felt mor ri-lakst wail wi wer tok-ing", explanation: "Alasan: hasil dari kondisi saat proses berlangsung" },
+            { indo: "Aku sudah mulai terbuka padamu", en: "I have started opening up to you", phonetic: "Ai hev star-ted ou-pe-ning ap tu yu", explanation: "Alasan: hasil dari proses interaksi di masa lalu" },
+            { indo: "Aku sudah menikmati cara kamu berbicara", en: "I have enjoyed the way you talk", phonetic: "Ai hev en-joid de wei yu tok", explanation: "Alasan: hasil dari pengamatan saat kejadian berlangsung" },
+            { indo: "Aku sudah merasa kita punya vibe yang sama", en: "I have felt we have the same vibe", phonetic: "Ai hev felt wi hev de sem vaib", explanation: "Alasan: hasil dari interaksi yang terjadi selama ngobrol" },
+            { indo: "Aku sudah mulai penasaran denganmu", en: "I have started getting curious about you", phonetic: "Ai hev star-ted get-ting kyu-ri-es a-baut yu", explanation: "Alasan: hasil dari proses berpikir saat percakapan berlangsung" },
+            { indo: "Aku sudah merasa ini obrolan yang menyenangkan", en: "I have felt this is a pleasant conversation", phonetic: "Ai hev felt dis iz a ple-zent kon-ver-sei-syen", explanation: "Alasan: hasil dari pengalaman saat proses berlangsung" },
+            { indo: "Aku sudah menyadari kamu mudah diajak ngobrol", en: "I have realized you are easy to talk to", phonetic: "Ai hev ri-a-laizd yu ar i-zi tu tok tu", explanation: "Alasan: hasil dari interaksi yang sedang terjadi di masa lalu" },
+            { indo: "Aku sudah merasa lebih percaya diri saat ngobrol tadi", en: "I have felt more confident while talking earlier", phonetic: "Ai hev felt mor kon-fi-dent wail tok-ing er-li-er", explanation: "Alasan: hasil dari kondisi saat proses berlangsung" },
+            { indo: "Aku sudah mulai terbiasa berbicara denganmu", en: "I have started getting used to talking to you", phonetic: "Ai hev star-ted get-ting yust tu tok-ing tu yu", explanation: "Alasan: hasil dari kebiasaan yang terbentuk saat proses berlangsung" },
+            { indo: "Aku sudah menikmati setiap detik obrolan tadi", en: "I have enjoyed every moment of our chat", phonetic: "Ai hev en-joid ev-ri mo-men ov aur chat", explanation: "Alasan: hasil dari pengalaman selama proses berlangsung di masa lalu" },
+            { indo: "Aku sudah merasa nyaman banget ngobrol sama kamu", en: "I have felt really comfortable talking to you", phonetic: "Ai hev felt ri-li kam-for-ta-bel tok-ing tu yu", explanation: "Alasan: hasil dari perasaan saat proses ngobrol berlangsung di masa lalu" },
+            { indo: "Aku sudah mulai menikmati vibes kamu", en: "I have started enjoying your vibes", phonetic: "Ai hev star-ted en-joy-ing yor vaibs", explanation: "Alasan: hasil dari kesan selama interaksi berlangsung" },
+            { indo: "Aku sudah merasa obrolan ini beda dari yang lain", en: "I have felt this conversation is different from others", phonetic: "Ai hev felt dis kon-ver-sei-syen iz di-fe-rent from a-ders", explanation: "Alasan: hasil dari pengalaman saat proses berlangsung" },
+            { indo: "Aku sudah mulai tertarik ngobrol lebih lama sama kamu", en: "I have started wanting to talk longer with you", phonetic: "Ai hev star-ted won-ting tu tok long-ger with yu", explanation: "Alasan: hasil dari perasaan yang muncul saat proses berlangsung" },
+            { indo: "Aku sudah merasa waktu cepat banget berlalu tadi", en: "I have felt time passed so fast earlier", phonetic: "Ai hev felt taim past so fast er-li-er", explanation: "Alasan: hasil dari pengalaman saat kejadian berlangsung" },
+            { indo: "Aku sudah mulai menikmati setiap kata yang kamu bilang", en: "I have started enjoying every word you say", phonetic: "Ai hev star-ted en-joy-ing ev-ri werd yu sei", explanation: "Alasan: hasil dari proses mendengar saat berlangsung" },
+            { indo: "Aku sudah merasa kamu enak diajak ngobrol", en: "I have felt you are nice to talk to", phonetic: "Ai hev felt yu ar nais tu tok tu", explanation: "Alasan: hasil dari interaksi yang sedang berlangsung" },
+            { indo: "Aku sudah mulai senyum sendiri waktu ngobrol tadi", en: "I have started smiling to myself while we were talking", phonetic: "Ai hev star-ted smail-ing tu mai-self wail wi wer tok-ing", explanation: "Alasan: hasil dari kejadian saat proses berlangsung" },
+            { indo: "Aku sudah merasa kita cocok ngobrol", en: "I have felt we match well in conversation", phonetic: "Ai hev felt wi mach wel in kon-ver-sei-syen", explanation: "Alasan: hasil dari interaksi selama proses berlangsung" },
+            { indo: "Aku sudah mulai menikmati obrolan random kita", en: "I have started enjoying our random chat", phonetic: "Ai hev star-ted en-joy-ing aur ran-dom chat", explanation: "Alasan: hasil dari proses ngobrol santai" },
+            { indo: "Aku sudah merasa kamu orang yang asik", en: "I have felt you are a fun person", phonetic: "Ai hev felt yu ar a fan per-son", explanation: "Alasan: hasil dari pengamatan saat proses berlangsung" },
+            { indo: "Aku sudah mulai pengen lanjut ngobrol sama kamu", en: "I have started wanting to keep talking to you", phonetic: "Ai hev star-ted won-ting tu kiip tok-ing tu yu", explanation: "Alasan: hasil dari keinginan saat proses berlangsung" },
+            { indo: "Aku sudah merasa obrolan ini gak ngebosenin", en: "I have felt this conversation is not boring", phonetic: "Ai hev felt dis kon-ver-sei-syen iz not bo-ring", explanation: "Alasan: hasil dari pengalaman saat berlangsung" },
+            { indo: "Aku sudah mulai nyaman jadi diri sendiri waktu ngobrol tadi", en: "I have started being myself while we were talking", phonetic: "Ai hev star-ted bi-ing mai-self wail wi wer tok-ing", explanation: "Alasan: hasil dari kondisi saat proses berlangsung" },
+            { indo: "Aku sudah merasa kita punya chemistry", en: "I have felt we have chemistry", phonetic: "Ai hev felt wi hev ke-mis-tri", explanation: "Alasan: hasil dari interaksi selama berlangsung" },
+            { indo: "Aku sudah mulai penasaran sama cerita kamu", en: "I have started getting curious about your story", phonetic: "Ai hev star-ted get-ting kyu-ri-es a-baut yor sto-ri", explanation: "Alasan: hasil dari proses berpikir saat berlangsung" },
+            { indo: "Aku sudah merasa ngobrol sama kamu bikin happy", en: "I have felt talking to you makes me happy", phonetic: "Ai hev felt tok-ing tu yu meiks mi ha-pi", explanation: "Alasan: hasil dari pengalaman saat proses berlangsung" },
+            { indo: "Aku sudah mulai menikmati suasana ngobrol ini", en: "I have started enjoying this chatting atmosphere", phonetic: "Ai hev star-ted en-joy-ing dis chat-ing at-mos-fir", explanation: "Alasan: hasil dari kondisi selama berlangsung" },
+            { indo: "Aku sudah merasa kamu beda dari yang lain", en: "I have felt you are different from others", phonetic: "Ai hev felt yu ar di-fe-rent from a-ders", explanation: "Alasan: hasil dari pengamatan saat proses berlangsung" },
+            { indo: "Aku sudah mulai terbiasa ngobrol sama kamu", en: "I have started getting used to chatting with you", phonetic: "Ai hev star-ted get-ting yust tu chat-ing with yu", explanation: "Alasan: hasil dari proses yang berulang di masa lalu" },
+            { indo: "Aku sudah merasa ngobrol sama kamu bikin lupa waktu", en: "I have felt talking to you makes me lose track of time", phonetic: "Ai hev felt tok-ing tu yu meiks mi luz trak ov taim", explanation: "Alasan: hasil dari pengalaman saat proses berlangsung di masa lalu" },
+            { indo: "Aku sudah mulai ngerasa klik sama kamu", en: "I have started feeling a connection with you", phonetic: "Ai hev star-ted fi-ling a ko-nek-syen with yu", explanation: "Alasan: hasil dari interaksi selama berlangsung" },
+            { indo: "Aku sudah merasa obrolan ini makin seru", en: "I have felt this conversation is getting more fun", phonetic: "Ai hev felt dis kon-ver-sei-syen iz get-ting mor fan", explanation: "Alasan: hasil dari perkembangan saat proses berlangsung" },
+            { indo: "Aku sudah mulai menikmati cara kamu respon", en: "I have started enjoying the way you respond", phonetic: "Ai hev star-ted en-joy-ing de wei yu ri-spond", explanation: "Alasan: hasil dari pengamatan saat proses berlangsung" },
+            { indo: "Aku sudah merasa kamu gampang diajak nyambung", en: "I have felt you are easy to connect with", phonetic: "Ai hev felt yu ar i-zi tu ko-nek with", explanation: "Alasan: hasil dari interaksi yang terjadi" },
+            { indo: "Aku sudah mulai suka cara kamu ngobrol", en: "I have started liking the way you talk", phonetic: "Ai hev star-ted lai-king de wei yu tok", explanation: "Alasan: hasil dari perasaan saat proses berlangsung" },
+            { indo: "Aku sudah merasa obrolan ini terasa ringan", en: "I have felt this conversation feels light", phonetic: "Ai hev felt dis kon-ver-sei-syen fiils lait", explanation: "Alasan: hasil dari suasana saat berlangsung" },
+            { indo: "Aku sudah mulai ngerasa kamu orangnya santai", en: "I have started feeling you are a chill person", phonetic: "Ai hev star-ted fi-ling yu ar a chil per-son", explanation: "Alasan: hasil dari kesan selama interaksi" },
+            { indo: "Aku sudah merasa kita nyambung tanpa dipaksa", en: "I have felt we connect naturally", phonetic: "Ai hev felt wi ko-nek nach-ur-a-li", explanation: "Alasan: hasil dari proses interaksi yang berlangsung" },
+            { indo: "Aku sudah mulai menikmati alur obrolan ini", en: "I have started enjoying the flow of this conversation", phonetic: "Ai hev star-ted en-joy-ing de flo ov dis kon-ver-sei-syen", explanation: "Alasan: hasil dari pengalaman saat proses berlangsung" },
+            { indo: "Aku sudah merasa kamu bikin suasana jadi asik", en: "I have felt you make the atmosphere fun", phonetic: "Ai hev felt yu meik de at-mos-fir fan", explanation: "Alasan: hasil dari kondisi selama berlangsung" },
+            { indo: "Aku sudah mulai ngerasa betah ngobrol sama kamu", en: "I have started feeling comfortable staying in this chat with you", phonetic: "Ai hev star-ted fi-ling kam-for-ta-bel stei-ing in dis chat with yu", explanation: "Alasan: hasil dari perasaan selama proses berlangsung" },
+            { indo: "Aku sudah merasa obrolan ini makin dalam", en: "I have felt this conversation is getting deeper", phonetic: "Ai hev felt dis kon-ver-sei-syen iz get-ting di-per", explanation: "Alasan: hasil dari perkembangan saat berlangsung" },
+            { indo: "Aku sudah mulai ngerasa kita satu frekuensi", en: "I have started feeling we are on the same wavelength", phonetic: "Ai hev star-ted fi-ling wi ar on de sem weiv-length", explanation: "Alasan: hasil dari interaksi yang berjalan" },
+            { indo: "Aku sudah merasa ngobrol sama kamu bikin tenang", en: "I have felt talking to you makes me calm", phonetic: "Ai hev felt tok-ing tu yu meiks mi kam", explanation: "Alasan: hasil dari pengalaman saat berlangsung" },
+            { indo: "Aku sudah mulai menikmati setiap momen ngobrol ini", en: "I have started enjoying every moment of this chat", phonetic: "Ai hev star-ted en-joy-ing ev-ri mo-men ov dis chat", explanation: "Alasan: hasil dari proses yang sedang berlangsung" },
+            { indo: "Aku sudah merasa kamu orang yang tulus", en: "I have felt you are a sincere person", phonetic: "Ai hev felt yu ar a sin-sir per-son", explanation: "Alasan: hasil dari pengamatan selama berlangsung" },
+            { indo: "Aku sudah mulai ngerasa obrolan ini spesial", en: "I have started feeling this conversation is special", phonetic: "Ai hev star-ted fi-ling dis kon-ver-sei-syen iz spe-syal", explanation: "Alasan: hasil dari kesan selama proses berlangsung" },
+            { indo: "Aku sudah merasa kamu bikin aku nyaman ngobrol lama", en: "I have felt you make me comfortable talking longer", phonetic: "Ai hev felt yu meik mi kam-for-ta-bel tok-ing long-ger", explanation: "Alasan: hasil dari pengalaman saat berlangsung" },
+            { indo: "Aku sudah mulai berharap obrolan ini gak cepat selesai", en: "I have started hoping this conversation doesn’t end soon", phonetic: "Ai hev star-ted ho-ping dis kon-ver-sei-syen da-zent end sun", explanation: "Alasan: hasil dari perasaan yang muncul saat proses berlangsung" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            
+            const data = database[currentIndex];
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            // Speak Indonesian Prompt
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            
+            // Speak English Answer
+            setTimeout(() => { speak(data.en, 'en-US'); }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            utter.rate = 0.9;
+            synth.speak(utter);
+        }
+    </script>
+</body>
+</html>
