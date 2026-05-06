@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Trainer - Future Perfect Continuous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 60px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        .edu-box { background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; }
+        
+        .note-box {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff0f6;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: #c41e3a;
+            font-weight: 600;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </button>
+        <div class="app-title">Future Perfect Continuous</div>
+    </header>
+
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan</h3>
+            <div style="text-align:left; margin-bottom:20px;">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div style="text-align:left; margin-bottom:20px;">
+                <label>Timer Jeda: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 50</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong>
+                </div>
+                <div class="note-box">
+                    💡 Kunci singkat: "akan sudah sedang selama + waktu + sebelum waktu tertentu"
+                </div>
+            </div>
+        </div>
+        <div style="height: 150px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku akan sudah berbicara dengan banyak orang sebelum acara dimulai", en: "I will have been talking to many people before the event starts", phonetic: "Ai wil hev bin to-king tu me-ni pi-pol bi-for di i-vent starts", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menunggu kamu selama satu jam sebelum kamu datang", en: "I will have been waiting for you for an hour before you arrive", phonetic: "Ai wil hev bin wei-ting for yu for en a-wer bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah belajar bahasa Inggris selama dua bulan sebelum tes itu", en: "I will have been studying English for two months before the test", phonetic: "Ai wil hev bin sta-di-ing ing-glish for tu manths bi-for de test", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah bekerja di sini selama lima tahun tahun depan", en: "I will have been working here for five years next year", phonetic: "Ai wil hev bin wer-king hir for faiv yirs nekst yir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berlatih berbicara sebelum kamu menelponku", en: "I will have been practicing speaking before you call me", phonetic: "Ai wil hev bin prak-ti-sing spi-king bi-for yu kol mi", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menonton video itu selama satu jam sebelum kamu datang", en: "I will have been watching that video for an hour before you arrive", phonetic: "Ai wil hev bin wo-ching det vi-di-o for en a-wer bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah bermain game selama dua jam sebelum tidur", en: "I will have been playing games for two hours before sleeping", phonetic: "Ai wil hev bin plei-ing geims for tu a-wers bi-for sli-ping", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berbicara di OmeTV selama tiga jam sebelum istirahat", en: "I will have been chatting on OmeTV for three hours before taking a break", phonetic: "Ai wil hev bin chat-ting on O-me-ti-vi for tri a-wers bi-for tei-king e breik", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah membaca buku itu selama beberapa hari sebelum selesai", en: "I will have been reading that book for several days before finishing it", phonetic: "Ai wil hev bin ri-ding det buk for sev-ral deis bi-for fi-ni-shing it", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berlatih gitar selama satu tahun sebelum tampil", en: "I will have been practicing guitar for one year before performing", phonetic: "Ai wil hev bin prak-ti-sing gi-tar for wan yir bi-for per-for-ming", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menulis setiap hari sebelum bukuku selesai", en: "I will have been writing every day before my book is finished", phonetic: "Ai wil hev bin rai-ting ev-ri dei bi-for mai buk is fi-nisht", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berolahraga selama satu bulan sebelum hasilnya terlihat", en: "I will have been exercising for one month before the results appear", phonetic: "Ai wil hev bin ek-ser-saiz-ing for wan manth bi-for de ri-zalts e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba berbicara dengan orang baru sebelum kamu join", en: "I will have been trying to talk to new people before you join", phonetic: "Ai wil hev bin trai-ing tu tok tu nyu pi-pol bi-for yu join", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mendengarkan musik selama dua jam sebelum belajar", en: "I will have been listening to music for two hours before studying", phonetic: "Ai wil hev bin li-se-ning tu mu-zik for tu a-wers bi-for sta-di-ing", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencari ide selama beberapa hari sebelum mulai", en: "I will have been looking for ideas for several days before starting", phonetic: "Ai wil hev bin lu-king for ai-di-as for sev-ral deis bi-for star-ting", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berbicara dengan banyak teman sebelum kamu datang", en: "I will have been talking with many friends before you arrive", phonetic: "Ai wil hev bin to-king with me-ni frends bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mengerjakan tugas selama tiga jam sebelum selesai", en: "I will have been doing the task for three hours before finishing", phonetic: "Ai wil hev bin du-ing de task for tri a-wers bi-for fi-ni-shing", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah belajar setiap malam sebelum ujian tiba", en: "I will have been studying every night before the exam comes", phonetic: "Ai wil hev bin sta-di-ing ev-ri nait bi-for di eg-zam kams", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba memahami kamu sebelum kita bertemu", en: "I will have been trying to understand you before we meet", phonetic: "Ai wil hev bin trai-ing tu un-der-stend yu bi-for wi mit", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menghabiskan waktu di sini selama berjam-jam sebelum pulang", en: "I will have been spending time here for hours before going home", phonetic: "Ai wil hev bin spen-ding taim hir for a-wers bi-for go-ing hom", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berbicara dengan orang asing selama dua jam sebelum kamu datang", en: "I will have been talking to strangers for two hours before you arrive", phonetic: "Ai wil hev bin to-king tu strein-jers for tu a-wers bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencari teman ngobrol sebelum kamu online", en: "I will have been looking for someone to chat with before you come online", phonetic: "Ai wil hev bin lu-king for sam-wan tu chat with bi-for yu kam on-lain", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba menyapa banyak orang sebelum menemukan yang cocok", en: "I will have been trying to greet many people before finding the right one", phonetic: "Ai wil hev bin trai-ing tu grit me-ni pi-pol bi-for fain-ding de rait wan", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah tersenyum ke banyak orang sebelum kamu muncul", en: "I will have been smiling at many people before you appear", phonetic: "Ai wil hev bin smail-ing et me-ni pi-pol bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mendengarkan cerita orang lain sebelum kamu berbicara", en: "I will have been listening to other people's stories before you talk", phonetic: "Ai wil hev bin li-se-ning tu a-der pi-pol sto-ris bi-for yu tok", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah memperkenalkan diri berkali-kali sebelum kamu datang", en: "I will have been introducing myself many times before you arrive", phonetic: "Ai wil hev bin in-tro-diu-sing mai-self me-ni taims bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba berbagai topik sebelum menemukan obrolan yang seru", en: "I will have been trying different topics before finding an interesting chat", phonetic: "Ai wil hev bin trai-ing dif-rent to-piks bi-for fain-ding en in-tres-ting chat", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menghabiskan waktu berjam-jam di OmeTV sebelum istirahat", en: "I will have been spending hours on OmeTV before taking a break", phonetic: "Ai wil hev bin spen-ding a-wers on O-me-ti-vi bi-for tei-king e breik", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah melatih keberanian berbicara sebelum kamu join", en: "I will have been building my confidence before you join", phonetic: "Ai wil hev bin bil-ding mai kon-fi-dens bi-for yu join", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah bertemu banyak orang sebelum menemukan kamu", en: "I will have been meeting many people before finding you", phonetic: "Ai wil hev bin mi-ting me-ni pi-pol bi-for fain-ding yu", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba membuat orang tertawa sebelum kamu datang", en: "I will have been trying to make people laugh before you arrive", phonetic: "Ai wil hev bin trai-ing tu meik pi-pol laf bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berbagi cerita selama beberapa waktu sebelum kamu muncul", en: "I will have been sharing stories for some time before you appear", phonetic: "Ai wil hev bin she-ring sto-ris for sam taim bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menghindari obrolan yang membosankan sebelum kamu datang", en: "I will have been avoiding boring chats before you arrive", phonetic: "Ai wil hev bin e-voi-ding bo-ring chats bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba memahami berbagai karakter sebelum bertemu kamu", en: "I will have been trying to understand different personalities before meeting you", phonetic: "Ai wil hev bin trai-ing tu un-der-stend dif-rent per-so-na-li-tis bi-for mi-ting yu", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mengasah kemampuan ngobrol sebelum kamu join", en: "I will have been improving my conversation skills before you join", phonetic: "Ai wil hev bin im-pru-ving mai kon-ver-se-shen skils bi-for yu join", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah bertahan di banyak obrolan sebelum menemukan yang nyaman", en: "I will have been staying in many chats before finding a comfortable one", phonetic: "Ai wil hev bin stei-ing in me-ni chats bi-for fain-ding e kam-for-te-bol wan", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba tetap percaya diri sebelum kamu datang", en: "I will have been trying to stay confident before you arrive", phonetic: "Ai wil hev bin trai-ing tu stei kon-fi-dent bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah belajar dari setiap obrolan sebelum bertemu kamu", en: "I will have been learning from every chat before meeting you", phonetic: "Ai wil hev bin ler-ning from ev-ri chat bi-for mi-ting yu", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menikmati setiap percakapan sebelum kamu muncul", en: "I will have been enjoying every conversation before you appear", phonetic: "Ai wil hev bin en-joing ev-ri kon-ver-se-shen bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menghabiskan banyak waktu berbicara sebelum kamu datang", en: "I will have been spending a lot of time talking before you arrive", phonetic: "Ai wil hev bin spen-ding e lot of taim to-king bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menyapa orang baru terus-menerus sebelum kamu datang", en: "I will have been greeting new people continuously before you arrive", phonetic: "Ai wil hev bin gri-ting nyu pi-pol kon-ti-nyu-es-li bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba membuka obrolan selama satu jam sebelum kamu join", en: "I will have been trying to start conversations for an hour before you join", phonetic: "Ai wil hev bin trai-ing tu start kon-ver-se-shens for en a-wer bi-for yu join", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah berbicara tanpa henti sebelum kamu muncul", en: "I will have been talking non-stop before you appear", phonetic: "Ai wil hev bin to-king non-stop bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencari lawan bicara yang seru sebelum kamu datang", en: "I will have been searching for fun people to talk to before you arrive", phonetic: "Ai wil hev bin ser-ching for fan pi-pol tu tok tu bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mengasah cara berbicara sebelum kamu online", en: "I will have been sharpening my speaking skills before you come online", phonetic: "Ai wil hev bin shar-pe-ning mai spi-king skils bi-for yu kam on-lain", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mencoba berbagai gaya ngobrol sebelum kamu datang", en: "I will have been trying different chatting styles before you arrive", phonetic: "Ai wil hev bin trai-ing dif-rent chat-ting stails bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah mengulang perkenalan berkali-kali sebelum kamu muncul", en: "I will have been repeating introductions many times before you appear", phonetic: "Ai wil hev bin ri-pi-ting in-tro-duk-shens me-ni taims bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menjaga energi tetap positif sebelum kamu join", en: "I will have been keeping my energy positive before you join", phonetic: "Ai wil hev bin ki-ping mai e-ner-ji po-si-tiv bi-for yu join", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah menikmati proses ngobrol sebelum kamu datang", en: "I will have been enjoying the chatting process before you arrive", phonetic: "Ai wil hev bin en-joing de chat-ting pro-ses bi-for yu e-raiv", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." },
+            { indo: "Aku akan sudah membangun koneksi dengan banyak orang sebelum kamu muncul", en: "I will have been building connections with many people before you appear", phonetic: "Ai wil hev bin bil-ding ko-nek-shens with me-ni pi-pol bi-for yu e-pir", explanation: "Menyatakan durasi aksi yang berlangsung sampai waktu tertentu di masa depan." }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+            updateQuestionUI();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            const data = database[currentIndex];
+            
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            setTimeout(() => { speak(data.en, 'en-US'); }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            utter.rate = 0.9;
+            synth.speak(utter);
+        }
+
+        function updateQuestionUI() {
+            document.getElementById('text-indo').innerText = database[currentIndex].indo;
+        }
+    </script>
+</body>
+</html>
