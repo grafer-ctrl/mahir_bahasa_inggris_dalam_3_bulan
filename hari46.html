@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - Past Perfect Continuous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 60px;
+            line-height: 1.4;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 5px; line-height: 1.3; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 15px; font-size: 0.9rem; }
+        
+        .edu-box { background: #fff4f8; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; margin-bottom: 10px; }
+        
+        .grammar-note {
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #34495e;
+            border: 1px solid #d1d8ff;
+        }
+
+        /* Floating Nav - RAISED 250PX */
+        .bottom-nav {
+            position: fixed;
+            bottom: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="app-title">Past Perfect Continuous</div>
+    </header>
+
+    <!-- Settings -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan Latihan</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Waktu Berpikir: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1rem;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Exercise -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 40</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong>
+                </div>
+                <div class="grammar-note">
+                    <strong>📌 Note Tense Ini:</strong><br>
+                    • Ada durasi (proses lama)<br>
+                    • Terjadi sebelum kejadian lain di masa lalu<br>
+                    • Pola khas: <b>had + been + verb-ing</b>
+                </div>
+            </div>
+        </div>
+        <div style="height: 320px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku sudah mencoba membuka obrolan duluan sebelum kamu tersenyum", en: "I had been trying to start the conversation before you smiled", phonetic: "Ai hed bin trai-ing tu start de kon-ver-sei-shen bi-for yu smaild", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum respon terjadi" },
+            { indo: "Aku sudah mencari cara biar obrolan gak boring sebelum kamu ketawa", en: "I had been trying to keep the chat interesting before you laughed", phonetic: "Ai hed bin trai-ing tu kip de chat in-tres-ting bi-for yu laft", exp: "Alasan Past Perfect Continuous: proses berlangsung sebelum hasil" },
+            { indo: "Aku sudah menunggu kamu cerita dulu sebelum aku ikut cerita", en: "I had been waiting for you to share before I shared mine", phonetic: "Ai hed bin wei-ting for yu tu sher bi-for ai sherd main", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum aksi lain" },
+            { indo: "Aku sudah memperhatikan ekspresimu sebelum aku menebak perasaanmu", en: "I had been watching your expression before I guessed your feelings", phonetic: "Ai hed bin woch-ing yor eks-pre-shen bi-for ai gest yor fi-lings", exp: "Alasan Past Perfect Continuous: pengamatan berlangsung sebelum kesimpulan" },
+            { indo: "Aku sudah mencoba bikin kamu nyaman sebelum kamu mulai terbuka", en: "I had been trying to make you comfortable before you opened up", phonetic: "Ai hed bin trai-ing tu meik yu kom-for-ta-bel bi-for yu o-pend ap", exp: "Alasan Past Perfect Continuous: usaha sebelum perubahan terjadi" },
+            { indo: "Aku sudah mencari cara biar kamu tetap stay sebelum kamu hampir skip", en: "I had been trying to keep you from skipping before you almost left", phonetic: "Ai hed bin trai-ing tu kip yu from skip-ping bi-for yu ol-most left", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum aksi lain" },
+            { indo: "Aku sudah menunggu responmu cukup lama sebelum kamu jawab", en: "I had been waiting for your response for a while before you replied", phonetic: "Ai hed bin wei-ting for yor ri-spons for e wail bi-for yu ri-plaid", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum respon" },
+            { indo: "Aku sudah mencoba memahami logatmu sebelum aku menjawab", en: "I had been trying to understand your accent before I answered", phonetic: "Ai hed bin trai-ing tu un-der-stend yor ak-sent bi-for ai an-serd", exp: "Alasan Past Perfect Continuous: proses berlangsung sebelum aksi" },
+            { indo: "Aku sudah mencari topik yang kamu suka sebelum aku lanjut ngobrol", en: "I had been looking for topics you like before I continued talking", phonetic: "Ai hed bin luk-ing for to-piks yu laik bi-for ai kon-tin-yud to-king", exp: "Alasan Past Perfect Continuous: proses mencari sebelum lanjutan aksi" },
+            { indo: "Aku sudah mencoba bikin kamu tertarik sebelum kamu mulai fokus", en: "I had been trying to get your attention before you focused", phonetic: "Ai hed bin trai-ing tu get yor a-ten-shen bi-for yu fou-kest", exp: "Alasan Past Perfect Continuous: usaha sebelum hasil terjadi" },
+            { indo: "Aku sudah menunggu kamu aktif lagi sebelum aku kirim pesan", en: "I had been waiting for you to be active again before I sent a message", phonetic: "Ai hed bin wei-ting for yu tu bi ak-tif a-gen bi-for ai sent e mes-sij", exp: "Alasan Past Perfect Continuous: durasi sebelum aksi lain" },
+            { indo: "Aku sudah mencoba menjaga obrolan tetap hidup sebelum kamu diam", en: "I had been trying to keep the chat alive before you went silent", phonetic: "Ai hed bin trai-ing tu kip de chat e-laiv bi-for yu went sai-lent", exp: "Alasan Past Perfect Continuous: usaha sebelum perubahan kondisi" },
+            { indo: "Aku sudah mencari cara biar kamu gak bosan sebelum kamu menguap", en: "I had been trying to keep you from getting bored before you yawned", phonetic: "Ai hed bin trai-ing tu kip yu from get-ting bord bi-for yu yond", exp: "Alasan Past Perfect Continuous: proses sebelum kejadian lain" },
+            { indo: "Aku sudah memperhatikan reaksimu sebelum aku ganti topik", en: "I had been observing your reaction before I changed the topic", phonetic: "Ai hed bin ob-zerv-ing yor ri-ak-shen bi-for ai cheind de to-pik", exp: "Alasan Past Perfect Continuous: pengamatan sebelum aksi" },
+            { indo: "Aku sudah mencoba membuat obrolan lebih santai sebelum kamu tertawa", en: "I had been trying to make the chat more relaxed before you laughed", phonetic: "Ai hed bin trai-ing tu meik de chat mor ri-leks bi-for yu laft", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum hasil" },
+            { indo: "Aku sudah menunggu momen pas sebelum aku bilang sesuatu yang lucu", en: "I had been waiting for the right moment before I said something funny", phonetic: "Ai hed bin wei-ting for de rait mo-men bi-for ai sed sam-thing fa-ni", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum aksi" },
+            { indo: "Aku sudah mencoba membaca situasi sebelum aku lanjut bicara", en: "I had been trying to read the situation before I kept talking", phonetic: "Ai hed bin trai-ing tu rid de si-tu-ei-shen bi-for ai kept to-king", exp: "Alasan Past Perfect Continuous: proses berlangsung sebelum aksi" },
+            { indo: "Aku sudah mencari cara biar kamu nyaman sebelum kamu tersenyum lagi", en: "I had been trying to make you comfortable before you smiled again", phonetic: "Ai hed bin trai-ing tu meik yu kom-for-ta-bel bi-for yu smaild a-gen", exp: "Alasan Past Perfect Continuous: usaha sebelum respon" },
+            { indo: "Aku sudah menunggu kamu cerita lebih banyak sebelum aku ikut terbuka", en: "I had been waiting for you to share more before I opened up", phonetic: "Ai hed bin wei-ting for yu tu sher mor bi-for ai o-pend ap", exp: "Alasan Past Perfect Continuous: durasi sebelum aksi lain" },
+            { indo: "Aku sudah mencoba menjaga flow obrolan sebelum kita makin nyambung", en: "I had been trying to keep the flow before we got more connected", phonetic: "Ai hed bin trai-ing tu kip de flou bi-for wi got mor ko-nek-tid", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum hasil akhir" },
+            { indo: "Aku sudah mencoba mencari topik seru sebelum kamu mulai ngobrol", en: "I had been trying to find a fun topic before you started talking", phonetic: "Ai hed bin trai-ing tu faind e fan to-pik bi-for yu star-ted to-king", exp: "Alasan Past Perfect Continuous: proses mencari berlangsung sebelum obrolan dimulai" },
+            { indo: "Aku sudah menunggu orang random muncul sebelum kamu connect", en: "I had been waiting for e random person before you connected", phonetic: "Ai hed bin wei-ting for e ran-dom per-son bi-for yu ko-nek-tid", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum koneksi terjadi" },
+            { indo: "Aku sudah latihan ngomong Inggris sebelum aku ketemu kamu", en: "I had been practicing English before I met you", phonetic: "Ai hed bin prak-tis-ing ing-glish bi-for ai met yu", exp: "Alasan Past Perfect Continuous: proses latihan sebelum pertemuan" },
+            { indo: "Aku sudah scroll banyak orang sebelum akhirnya ketemu kamu", en: "I had been scrolling through many people before I finally found you", phonetic: "Ai hed bin skrol-ling tru me-ni pi-pol bi-for ai fai-na-li faund yu", exp: "Alasan Past Perfect Continuous: aktivitas berlangsung sebelum hasil terjadi" },
+            { indo: "Aku sudah mencoba tetap santai sebelum kamu mulai bicara", en: "I had been trying to stay relaxed before you started talking", phonetic: "Ai hed bin trai-ing tu stei ri-leks bi-for yu star-ted to-king", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum aksi lain" },
+            { indo: "Aku sudah mencari vibe yang cocok sebelum kita nyambung", en: "I had been looking for a good vibe before we clicked", phonetic: "Ai hed bin luk-ing for e gud vaib bi-for wi klik-t", exp: "Alasan Past Perfect Continuous: proses mencari sebelum koneksi terjadi" },
+            { indo: "Aku sudah berharap dapat teman ngobrol sebelum kamu muncul", en: "I had been hoping to find someone to talk to before you appeared", phonetic: "Ai hed bin ho-ping tu faind sam-wan tu tok tu bi-for yu e-pird", exp: "Alasan Past Perfect Continuous: harapan berlangsung sebelum kejadian" },
+            { indo: "Aku sudah mencoba berbagai cara biar gak awkward sebelum kita ngobrol", en: "I had been trying different ways to avoid awkwardness before we talked", phonetic: "Ai hed bin trai-ing di-fe-rent weis tu a-void ok-werd-nes bi-for wi tokt", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum interaksi" },
+            { indo: "Aku sudah mencari orang yang asik sebelum ketemu kamu", en: "I had been looking for someone fun before I met you", phonetic: "Ai hed bin luk-ing for sam-wan fan bi-for ai met yu", exp: "Alasan Past Perfect Continuous: proses mencari sebelum hasil" },
+            { indo: "Aku sudah berpikir mau ngomong apa sebelum kamu nyapa duluan", en: "I had been thinking about what to say before you greeted me first", phonetic: "Ai hed bin thing-king a-baut wot tu sei bi-for yu gri-tid mi ferst", exp: "Alasan Past Perfect Continuous: proses berpikir sebelum aksi lain" },
+            { indo: "Aku sudah menunggu koneksi bagus sebelum akhirnya lancar", en: "I had been waiting for a good connection before it became smooth", phonetic: "Ai hed bin wei-ting for e gud ko-nek-shen bi-for it bi-keim smuth", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum kondisi berubah" },
+            { indo: "Aku sudah mencoba bikin suasana nyaman sebelum obrolan jalan", en: "I had been trying to make the conversation comfortable before it flowed", phonetic: "Ai hed bin trai-ing tu meik de kon-ver-sei-shen kom-for-ta-bel bi-for it floud", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum hasil" },
+            { indo: "Aku sudah menghindari skip orang sebelum kamu tetap stay", en: "I had been avoiding skipping people before you stayed", phonetic: "Ai hed bin e-void-ing skip-ping pi-pol bi-for yu steid", exp: "Alasan Past Perfect Continuous: aktivitas berlangsung sebelum kejadian" },
+            { indo: "Aku sudah memperhatikan cara kamu bicara sebelum aku respon", en: "I had been paying attention to how you talk before I responded", phonetic: "Ai hed bin pei-ing a-ten-shen tu hau yu tok bi-for ai ri-spon-ded", exp: "Alasan Past Perfect Continuous: pengamatan sebelum respon" },
+            { indo: "Aku sudah mencoba bikin kamu ketawa sebelum suasana cair", en: "I had been trying to make you laugh before the mood became relaxed", phonetic: "Ai hed bin trai-ing tu meik yu laf bi-for de mud bi-keim ri-leks", exp: "Alasan Past Perfect Continuous: usaha berlangsung sebelum hasil" },
+            { indo: "Aku sudah mencari topik ringan sebelum kita ngobrol panjang", en: "I had been looking for light topics before we talked longer", phonetic: "Ai hed bin luk-ing for lait to-piks bi-for wi tokt long-ger", exp: "Alasan Past Perfect Continuous: proses sebelum aksi lanjutan" },
+            { indo: "Aku sudah mencoba tetap percaya diri sebelum kamu menilai aku", en: "I had been trying to stay confident before you judged me", phonetic: "Ai hed bin trai-ing tu stei kon-fi-dent bi-for yu jajd mi", exp: "Alasan Past Perfect Continuous: usaha sebelum kejadian lain" },
+            { indo: "Aku sudah menunggu momen pas sebelum aku mulai flirting", en: "I had been waiting for the right moment before I started flirting", phonetic: "Ai hed bin wei-ting for de rait mo-men bi-for ai star-ted fler-ting", exp: "Alasan Past Perfect Continuous: durasi menunggu sebelum aksi" },
+            { indo: "Aku sudah mencoba mengenal kamu sedikit sebelum ngobrol lebih jauh", en: "I had been trying to know you a bit before we talked deeper", phonetic: "Ai hed bin trai-ing tu nou yu e bit bi-for wi tokt di-per", exp: "Alasan Past Perfect Continuous: proses sebelum lanjutan aksi" },
+            { indo: "Aku sudah mencari obrolan yang nyambung sebelum kita makin dekat", en: "I had been looking for a good conversation before we got closer", phonetic: "Ai hed bin luk-ing for e gud kon-ver-sei-shen bi-for wi got klo-ser", exp: "Alasan Past Perfect Continuous: proses berlangsung sebelum hasil akhir" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let settings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        // Setup input listeners
+        document.getElementById('input-volume').oninput = (e) => {
+            settings.volume = e.target.value / 300;
+            document.getElementById('val-volume').innerText = e.target.value;
+        };
+        document.getElementById('input-timer').oninput = (e) => {
+            settings.timer = parseInt(e.target.value);
+            document.getElementById('val-timer').innerText = e.target.value;
+            document.getElementById('timer-display').innerText = e.target.value;
+        };
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            
+            const data = database[currentIndex];
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = settings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) revealAnswer();
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.exp;
+            
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            
+            setTimeout(() => speak(data.en, 'en-US'), 300);
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = settings.volume;
+            utter.rate = 0.9;
+            synth.speak(utter);
+        }
+    </script>
+</body>
+</html>
