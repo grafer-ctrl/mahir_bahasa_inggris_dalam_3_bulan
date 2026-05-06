@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Speaking Trainer - 100 Daily Phrases</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 50px;
+            color: #2d3436;
+        }
+
+        #btn-reveal {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.5rem; font-weight: 700; text-align: center; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; font-size: 0.9rem; }
+        .edu-box { background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; }
+
+        /* Floating Nav - RAISED 250PX */
+        .bottom-nav {
+            position: fixed;
+            bottom: 250px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 1px solid #eee;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; fill: currentColor; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="home-btn" onclick="location.reload()">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="app-title">100 Kata Wajib Sehari-hari</div>
+    </header>
+
+    <!-- Settings Screen -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan</h3>
+            <div class="form-group">
+                <label>Volume Suara: <span id="val-volume">240</span></label>
+                <input type="range" id="input-volume" min="0" max="300" value="240">
+            </div>
+            <div class="form-group">
+                <label>Jeda Berpikir: <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="60" value="10">
+            </div>
+            <button onclick="navTo('exercise')" style="width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">
+                MULAI LATIHAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Exercise Screen -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 100</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">Terjemahkan ke Bahasa Inggris</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong>
+                </div>
+            </div>
+        </div>
+        <div style="height: 320px;"></div>
+    </div>
+
+    <!-- Floating Nav -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="navTo('settings')">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            Seting
+        </button>
+        <button class="nav-item" onclick="changeQuestion(-1)">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            Prev
+        </button>
+        <button class="nav-item" onclick="changeQuestion(1)">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            Next
+        </button>
+    </div>
+
+    <script>
+        const database = [
+            { indo: "Aku lagi sibuk sekarang", en: "I’m busy right now", phonetic: "Aim bi-zi rait nau", explanation: "Alasan: dipakai saat kamu sedang melakukan sesuatu" },
+            { indo: "Nanti aku hubungi kamu", en: "I’ll contact you later", phonetic: "Ail kon-tek yu lei-ter", explanation: "Alasan: janji akan melakukan sesuatu di masa depan" },
+            { indo: "Tunggu sebentar ya", en: "Wait a moment", phonetic: "Weit e mo-men", explanation: "Alasan: minta waktu sebentar" },
+            { indo: "Aku tidak mengerti", en: "I don’t understand", phonetic: "Ai dont un-der-sten", explanation: "Alasan: saat tidak paham sesuatu" },
+            { indo: "Bisa kamu ulangi?", en: "Can you repeat that?", phonetic: "Ken yu ri-pit det", explanation: "Alasan: minta orang mengulang" },
+            { indo: "Aku dari Indonesia", en: "I’m from Indonesia", phonetic: "Aim from in-do-ne-sya", explanation: "Alasan: memperkenalkan asal" },
+            { indo: "Kamu dari mana?", en: "Where are you from?", phonetic: "Wer ar yu from", explanation: "Alasan: tanya asal" },
+            { indo: "Nama kamu siapa?", en: "What’s your name?", phonetic: "Wats yor neim", explanation: "Alasan: kenalan" },
+            { indo: "Nama aku Umar", en: "My name is Umar", phonetic: "Mai neim is u-mar", explanation: "Alasan: memperkenalkan diri" },
+            { indo: "Senang bertemu denganmu", en: "Nice to meet you", phonetic: "Nais tu mit yu", explanation: "Alasan: sopan saat pertama kenal" },
+            { indo: "Kamu lagi ngapain?", en: "What are you doing?", phonetic: "Wat ar yu du-ing", explanation: "Alasan: memulai obrolan" },
+            { indo: "Aku lagi santai", en: "I’m just relaxing", phonetic: "Aim jas ri-lek-sing", explanation: "Alasan: menjelaskan aktivitas" },
+            { indo: "Kamu sibuk?", en: "Are you busy?", phonetic: "Ar yu bi-zi", explanation: "Alasan: cek kondisi lawan bicara" },
+            { indo: "Aku sedikit capek", en: "I’m a bit tired", phonetic: "Aim e bit tai-erd", explanation: "Alasan: ekspresi kondisi" },
+            { indo: "Aku mau latihan bahasa Inggris", en: "I want to practice English", phonetic: "Ai wont tu prak-tis ing-glis", explanation: "Alasan: tujuan ngobrol" },
+            { indo: "Kamu bisa bahasa Inggris?", en: "Can you speak English?", phonetic: "Ken yu spik ing-glis", explanation: "Alasan: memastikan komunikasi" },
+            { indo: "Pelan-pelan saja ya", en: "Speak slowly please", phonetic: "Spik slo-li plis", explanation: "Alasan: biar mudah paham" },
+            { indo: "Aku masih belajar", en: "I’m still learning", phonetic: "Aim stil ler-ning", explanation: "Alasan: jujur soal kemampuan" },
+            { indo: "Tidak masalah", en: "No problem", phonetic: "No pro-blem", explanation: "Alasan: respon santai" },
+            { indo: "Sebentar ya aku cek dulu", en: "Hold on, let me check", phonetic: "Hol don let mi cek", explanation: "Alasan: minta waktu" },
+            { indo: "Aku setuju", en: "I agree", phonetic: "Ai e-gri", explanation: "Alasan: menyatakan persetujuan" },
+            { indo: "Aku tidak setuju", en: "I disagree", phonetic: "Ai dis-e-gri", explanation: "Alasan: menyatakan pendapat berbeda" },
+            { indo: "Itu masuk akal", en: "That makes sense", phonetic: "Det meiks sens", explanation: "Alasan: menunjukkan pemahaman" },
+            { indo: "Serius?", en: "Really?", phonetic: "Ri-li", explanation: "Alasan: ekspresi kaget" },
+            { indo: "Bercanda ya", en: "Just kidding", phonetic: "Jas ki-ding", explanation: "Alasan: meluruskan candaan" },
+            { indo: "Kamu sering ke sini?", en: "Do you come here often?", phonetic: "Du yu kam hir of-ten", explanation: "Alasan: buka topik" },
+            { indo: "Aku baru pertama kali", en: "It’s my first time", phonetic: "Its mai fers taim", explanation: "Alasan: jawab pengalaman" },
+            { indo: "Aku cuma iseng aja", en: "I’m just bored", phonetic: "Aim jas bord", explanation: "Alasan: alasan santai" },
+            { indo: "Aku lagi cari teman ngobrol", en: "I’m looking for someone to talk to", phonetic: "Aim lu-king for sam-wan tu tok tu", explanation: "Alasan: tujuan ngobrol" },
+            { indo: "Kamu kelihatan ramah", en: "You look friendly", phonetic: "Yu luk frend-li", explanation: "Alasan: pujian ringan" },
+            { indo: "Kamu orangnya asik", en: "You seem fun", phonetic: "Yu sim fan", explanation: "Alasan: bikin nyaman" },
+            { indo: "Aku suka ngobrol sama kamu", en: "I like talking with you", phonetic: "Ai laik to-king with yu", explanation: "Alasan: bangun koneksi" },
+            { indo: "Kita lanjut ngobrol yuk", en: "Let’s keep talking", phonetic: "Lets kip to-king", explanation: "Alasan: menjaga obrolan" },
+            { indo: "Jangan malu-malu", en: "Don’t be shy", phonetic: "Dont bi shai", explanation: "Alasan: mencairkan suasana" },
+            { indo: "Santai aja", en: "Just relax", phonetic: "Jas ri-leks", explanation: "Alasan: menenangkan" },
+            { indo: "Aku ngerti maksud kamu", en: "I get what you mean", phonetic: "Ai get wat yu min", explanation: "Alasan: menunjukkan pemahaman" },
+            { indo: "Itu menarik", en: "That’s interesting", phonetic: "Dets in-tres-ting", explanation: "Alasan: respon positif" },
+            { indo: "Ceritakan lebih banyak", en: "Tell me more", phonetic: "Tel mi mor", explanation: "Alasan: memperpanjang obrolan" },
+            { indo: "Aku penasaran", en: "I’m curious", phonetic: "Aim kyur-ri-es", explanation: "Alasan: ekspresi minat" },
+            { indo: "Kenapa begitu?", en: "Why is that?", phonetic: "Wai is det", explanation: "Alasan: tanya alasan" },
+            { indo: "Menurutku itu bagus", en: "I think that’s good", phonetic: "Ai tingk dets gud", explanation: "Alasan: opini" },
+            { indo: "Menurutku itu lucu", en: "I think that’s funny", phonetic: "Ai tingk dets fa-ni", explanation: "Alasan: respon santai" },
+            { indo: "Aku sering melakukan itu juga", en: "I do that a lot too", phonetic: "Ai du det e lot tu", explanation: "Alasan: mencari kesamaan" },
+            { indo: "Aku jarang melakukan itu", en: "I rarely do that", phonetic: "Ai rer-li du det", explanation: "Alasan: perbedaan kebiasaan" },
+            { indo: "Aku suka musik", en: "I like music", phonetic: "Ai laik myu-zik", explanation: "Alasan: topik umum" },
+            { indo: "Kamu suka musik apa?", en: "What music do you like?", phonetic: "Wat myu-zik du yu laik", explanation: "Alasan: lanjut topik" },
+            { indo: "Aku suka film juga", en: "I like movies too", phonetic: "Ai laik mu-viz tu", explanation: "Alasan: tambah topik" },
+            { indo: "Kamu lagi nonton apa akhir-akhir ini?", en: "What have you been watching lately?", phonetic: "Wat hev yu bin wo-ching leit-li", explanation: "Alasan: percakapan santai" },
+            { indo: "Aku suka cara kamu bicara", en: "I like the way you talk", phonetic: "Ai laik de wei yu tok", explanation: "Alasan: pujian personal" },
+            { indo: "Kamu lucu juga ya", en: "You’re funny", phonetic: "Yur fa-ni", explanation: "Alasan: mencairkan suasana" },
+            { indo: "Kamu kerja atau sekolah?", en: "Do you work or study?", phonetic: "Du yu werk or sta-di", explanation: "Alasan: topik umum" },
+            { indo: "Aku masih sekolah", en: "I’m still in school", phonetic: "Aim stil in skul", explanation: "Alasan: jawab singkat" },
+            { indo: "Aku sudah kerja", en: "I already work", phonetic: "Ai ol-re-di werk", explanation: "Alasan: status pekerjaan" },
+            { indo: "Kamu kerja apa?", en: "What do you do for work?", phonetic: "Wat du yu du for werk", explanation: "Alasan: tanya profesi" },
+            { indo: "Aku kerja sebagai freelancer", en: "I work as a freelancer", phonetic: "Ai werk az e fri-len-ser", explanation: "Alasan: jelasin pekerjaan" },
+            { indo: "Kedengarannya keren", en: "That sounds cool", phonetic: "Det saunds kul", explanation: "Alasan: respon positif" },
+            { indo: "Aku belum pernah coba itu", en: "I’ve never tried that", phonetic: "Aiv ne-ver traid det", explanation: "Alasan: pengalaman" },
+            { indo: "Kamu harus coba", en: "You should try it", phonetic: "Yu shud trai it", explanation: "Alasan: memberi saran" },
+            { indo: "Mungkin suatu hari", en: "Maybe someday", phonetic: "Mei-bi sam-dei", explanation: "Alasan: respon santai" },
+            { indo: "Aku biasanya di rumah saja", en: "I usually stay at home", phonetic: "Ai yu-zu-a-li stei at hom", explanation: "Alasan: kebiasaan" },
+            { indo: "Aku suka jalan-jalan", en: "I like traveling", phonetic: "Ai laik tra-ve-ling", explanation: "Alasan: hobi" },
+            { indo: "Tempat favorit kamu di mana?", en: "What’s your favorite place?", phonetic: "Wats yor fe-vo-rit pleis", explanation: "Alasan: topik seru" },
+            { indo: "Aku ingin ke luar negeri", en: "I want to go abroad", phonetic: "Ai wont tu go e-brod", explanation: "Alasan: impian" },
+            { indo: "Aku ingin ke sana juga", en: "I want to go there too", phonetic: "Ai wont tu go der tu", explanation: "Alasan: koneksi" },
+            { indo: "Kamu terlihat percaya diri", en: "You look confident", phonetic: "Yu luk kon-fi-dent", explanation: "Alasan: pujian" },
+            { indo: "Aku sedikit gugup", en: "I’m a bit nervous", phonetic: "Aim e bit ner-ves", explanation: "Alasan: jujur perasaan" },
+            { indo: "Tapi aku mencoba", en: "But I’m trying", phonetic: "Bat aim trai-ing", explanation: "Alasan: usaha" },
+            { indo: "Kamu gampang diajak ngobrol", en: "You’re easy to talk to", phonetic: "Yur i-zi tu tok tu", explanation: "Alasan: pujian" },
+            { indo: "Waktu cepat banget ya", en: "Time goes so fast", phonetic: "Taim go so fast", explanation: "Alasan: refleksi obrolan" },
+            { indo: "Kita sudah lama ngobrol", en: "We’ve been talking for a while", phonetic: "Wiv bin to-king for e wail", explanation: "Alasan: awareness waktu" },
+            { indo: "Aku nyaman ngobrol sama kamu", en: "I feel comfortable talking to you", phonetic: "Ai fil kom-for-ta-bel to-king tu yu", explanation: "Alasan: bangun koneksi" },
+            { indo: "Kamu orang yang baik", en: "You’re a kind person", phonetic: "Yur e kaind per-sen", explanation: "Alasan: pujian karakter" },
+            { indo: "Semoga kita bisa ngobrol lagi", en: "I hope we can talk again", phonetic: "Ai hop wi ken tok a-gen", explanation: "Alasan: closing positif" },
+            { indo: "Jaga diri ya", en: "Take care", phonetic: "Teik ker", explanation: "Alasan: penutup" },
+            { indo: "Sampai jumpa lagi", en: "See you again", phonetic: "Si yu e-gen", explanation: "Alasan: penutup santai" },
+            { indo: "Oh begitu", en: "Oh, I see", phonetic: "Oh ai si", explanation: "Alasan: tanda paham" },
+            { indo: "Oh ya?", en: "Oh really?", phonetic: "Oh ri-li", explanation: "Alasan: respon tertarik" },
+            { indo: "Serius nih?", en: "Are you serious?", phonetic: "Ar yu si-ri-es", explanation: "Alasan: kaget" },
+            { indo: "Masa sih?", en: "No way", phonetic: "No wei", explanation: "Alasan: tidak percaya" },
+            { indo: "Beneran?", en: "For real?", phonetic: "For ri-al", explanation: "Alasan: konfirmasi" },
+            { indo: "Aku juga begitu", en: "Same here", phonetic: "Seim hir", explanation: "Alasan: kesamaan" },
+            { indo: "Aku juga setuju", en: "I agree too", phonetic: "Ai e-gri tu", explanation: "Alasan: persetujuan" },
+            { indo: "Iya benar", en: "Yeah, that’s right", phonetic: "Ye dets rait", explanation: "Alasan: konfirmasi" },
+            { indo: "Aku ngerti sekarang", en: "Now I understand", phonetic: "Nau ai un-der-sten", explanation: "Alasan: pemahaman" },
+            { indo: "Oh aku baru tahu", en: "Oh, I didn’t know that", phonetic: "Oh ai did-ent no det", explanation: "Alasan: respon info baru" },
+            { indo: "Menarik juga ya", en: "That’s quite interesting", phonetic: "Dets kwait in-tres-ting", explanation: "Alasan: respon netral positif" },
+            { indo: "Lucu banget", en: "That’s so funny", phonetic: "Dets so fa-ni", explanation: "Alasan: ekspresi emosi" },
+            { indo: "Aku suka itu", en: "I like that", phonetic: "Ai laik det", explanation: "Alasan: suka" },
+            { indo: "Aku tidak suka itu", en: "I don’t like that", phonetic: "Ai dont laik det", explanation: "Alasan: tidak suka" },
+            { indo: "Aku paham maksudmu", en: "I understand your point", phonetic: "Ai un-der-sten yor point", explanation: "Alasan: diskusi" },
+            { indo: "Itu masuk akal sih", en: "That actually makes sense", phonetic: "Det ak-cu-a-li meiks sens", explanation: "Alasan: validasi" },
+            { indo: "Aku belum yakin", en: "I’m not sure", phonetic: "Aim not shur", explanation: "Alasan: ragu" },
+            { indo: "Mungkin kamu benar", en: "Maybe you’re right", phonetic: "Mei-bi yur rait", explanation: "Alasan: setengah setuju" },
+            { indo: "Aku pikir begitu juga", en: "I think so too", phonetic: "Ai tingk so tu", explanation: "Alasan: kesamaan opini" },
+            { indo: "Aku tidak yakin tentang itu", en: "I’m not sure about that", phonetic: "Aim not shur e-baut det", explanation: "Alasan: ragu sopan" },
+            { indo: "Aku baru sadar", en: "I just realized", phonetic: "Ai jas ri-a-laiz", explanation: "Alasan: insight" },
+            { indo: "Oh aku ingat sekarang", en: "Oh, I remember now", phonetic: "Oh ai ri-mem-ber nau", explanation: "Alasan: mengingat" },
+            { indo: "Tunggu sebentar", en: "Wait a second", phonetic: "Weit e se-kon", explanation: "Alasan: jeda" },
+            { indo: "Aku cek dulu ya", en: "Let me check first", phonetic: "Let mi cek ferst", explanation: "Alasan: minta waktu" },
+            { indo: "Aku kembali lagi", en: "I’m back", phonetic: "Aim bek", explanation: "Alasan: kembali ke obrolan" }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval;
+        let appSettings = { volume: 0.8, timer: 10 };
+        const synth = window.speechSynthesis;
+
+        window.onload = () => {
+            setupListeners();
+        };
+
+        function setupListeners() {
+            document.getElementById('input-volume').oninput = (e) => {
+                appSettings.volume = e.target.value / 300;
+                document.getElementById('val-volume').innerText = e.target.value;
+            };
+            document.getElementById('input-timer').oninput = (e) => {
+                appSettings.timer = parseInt(e.target.value);
+                document.getElementById('val-timer').innerText = e.target.value;
+            };
+        }
+
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            if (screenId === 'exercise') startChallenge();
+        }
+
+        function changeQuestion(dir) {
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= database.length) currentIndex = database.length - 1;
+            startChallenge();
+        }
+
+        function startChallenge() {
+            clearInterval(timerInterval);
+            synth.cancel();
+            
+            const data = database[currentIndex];
+            document.getElementById('progress-badge').innerText = `SOAL ${currentIndex + 1} / ${database.length}`;
+            document.getElementById('text-indo').innerText = data.indo;
+            document.getElementById('answer-area').classList.remove('visible');
+            document.getElementById('btn-reveal').classList.remove('hidden');
+
+            // Speak Indo
+            speak(data.indo, 'id-ID');
+
+            let timeLeft = appSettings.timer;
+            document.getElementById('timer-display').innerText = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    revealAnswer();
+                }
+            }, 1000);
+        }
+
+        function revealAnswer() {
+            clearInterval(timerInterval);
+            const data = database[currentIndex];
+            
+            document.getElementById('text-en').innerText = data.en;
+            document.getElementById('text-phonetic').innerText = data.phonetic;
+            document.getElementById('text-explanation').innerText = data.explanation;
+            
+            document.getElementById('answer-area').classList.add('visible');
+            document.getElementById('btn-reveal').classList.add('hidden');
+            
+            // Speak English
+            setTimeout(() => {
+                speak(data.en, 'en-US');
+            }, 300);
+        }
+
+        function speak(text, lang) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = lang;
+            utter.volume = appSettings.volume;
+            utter.rate = 0.9;
+            synth.speak(utter);
+        }
+    </script>
+</body>
+</html>
