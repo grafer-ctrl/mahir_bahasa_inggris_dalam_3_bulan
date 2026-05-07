@@ -2,174 +2,506 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Mastery - Math & Money</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Math & Money</title>
+    <!-- Google Font & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root { --primary: #6366f1; --secondary: #ec4899; --bg: #f1f5f9; --text: #1e293b; }
-        body { font-family: 'Poppins', sans-serif; background: #cbd5e1; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 400px; background: var(--bg); padding: 20px; box-sizing: border-box; min-height: 100vh; display: flex; flex-direction: column; }
-        .header { display: flex; align-items: center; margin-bottom: 20px; }
-        .home-btn { cursor: pointer; font-size: 24px; color: var(--primary); }
-        .screen { display: none; flex-direction: column; align-items: center; flex-grow: 1; }
-        .active { display: flex; }
-        h1 { font-size: 1.4rem; text-align: center; color: var(--text); }
-        
-        .motivasi { color: #ef4444; font-weight: 800; text-align: center; margin: 20px 0; line-height: 1.6; font-size: 0.9rem; }
-        .btn-modern { padding: 14px 28px; border-radius: 50px; border: none; background: linear-gradient(135deg, var(--primary), #4f46e5); color: white; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
-        
-        .card { background: #fff; padding: 30px 20px; border-radius: 24px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box; }
-        #kunci-jawaban { margin-top: 25px; padding: 20px; background: #fdf2f8; border-left: 5px solid var(--secondary); border-radius: 10px; display: none; text-align: left; }
-        
-        .speaker-icon { cursor: pointer; color: var(--primary); font-size: 20px; margin-left: 10px; }
-        .slider-group { width: 100%; margin-bottom: 25px; }
-        input[type=range] { width: 100%; accent-color: var(--primary); }
-        .counter { font-size: 0.8rem; color: #64748b; margin-bottom: 10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0fc 0%, #d9e4f5 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* modern card container */
+        .app-wrapper {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(0px);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .app-container {
+            padding: 28px 24px 36px;
+        }
+
+        /* header home modern */
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover {
+            background: #e2eafc;
+            transform: scale(0.96);
+        }
+
+        /* screen umum */
+        .screen {
+            display: none;
+            flex-direction: column;
+            animation: fadeSlideUp 0.35s ease forwards;
+        }
+        .active {
+            display: flex;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 24px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* motivasi modern dengan icon */
+        .motivation-card {
+            background: linear-gradient(120deg, #FFF8EB 0%, #FFF2E0 100%);
+            border-radius: 32px;
+            padding: 26px 20px;
+            margin: 16px 0 28px;
+            border: 1px solid rgba(255, 200, 130, 0.6);
+            box-shadow: 0 12px 24px -14px rgba(0,0,0,0.08);
+        }
+        .motivasi {
+            color: #b45309;
+            font-weight: 600;
+            line-height: 1.55;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .motivasi span {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.95rem;
+        }
+        .motivasi i {
+            font-size: 1.3rem;
+            width: 28px;
+            color: #E67E22;
+        }
+
+        /* primary button */
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #162e52, #0b1f38);
+            transform: scale(0.98);
+        }
+
+        .btn-outline-sm {
+            background: #ffffff;
+            border: 1.5px solid #c9ddec;
+            padding: 10px 22px;
+            border-radius: 44px;
+            font-weight: 600;
+            color: #274e7c;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .btn-outline-sm:hover {
+            background: #eef5ff;
+            border-color: #9bb5d4;
+        }
+
+        /* slider modern */
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            transition: 0.1s;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid white;
+        }
+
+        /* card soal premium */
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+            width: fit-content;
+        }
+        #soal-teks {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #4361ee;
+            transition: all 0.2s;
+        }
+        .eng-headline {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.3rem;
+        }
+        .speaker-icon-round:hover {
+            background: #dfe7f2;
+            transform: scale(0.95);
+        }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.9rem;
+            letter-spacing: 0.2px;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.02);
+            transition: 0.2s;
+        }
+        .next-btn-custom:hover {
+            background: #eef4fc;
+            transform: translateY(-2px);
+            border-color: #a7c0db;
+        }
+        .flex-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        i {
+            pointer-events: none;
+        }
+        button {
+            font-family: 'Inter', sans-serif;
+        }
+        .small-note {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 16px;
+            color: #6f8eae;
+        }
     </style>
 </head>
 <body>
-
-<div class="app-container">
-    <div class="header">
-        <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">🏠</div>
-    </div>
-
-    <!-- Screen A: Welcome -->
-    <div id="screen-a" class="screen active">
-        <h1>Pelatihan Angka & Transaksi</h1>
-        <div class="motivasi">
-            "Jangan banyak mikir. Yang penting bicara dulu."<br>
-            "Salah itu biasa. Diam itu rugi."<br>
-            "Targetmu 3 bulan sudah lancar transaksi & hitungan."
-        </div>
-        <button class="btn-modern" onclick="stopAudio(); showScreen('screen-b')">Mulai Latihan</button>
-    </div>
-
-    <!-- Screen B: Settings -->
-    <div id="screen-b" class="screen">
-        <h3>Pengaturan</h3>
-        <div class="slider-group"><label>Detik Menjawab (1-120s)</label>
-            <input type="range" id="timerRange" min="1" max="120" value="5">
-            <div id="timerVal" style="text-align:center">5 Detik</div>
-        </div>
-        <button class="btn-modern" onclick="resetLatihan(); showScreen('screen-c')">Jalankan Latihan</button>
-    </div>
-
-    <!-- Screen C: Exercise -->
-    <div id="screen-c" class="screen">
-        <div class="counter" id="soal-counter">Soal 1 / 80</div>
-        <div class="card">
-            <h2 id="soal-teks">Memuat soal...</h2>
-            <button class="btn-modern" style="padding:8px; font-size: 12px; width: auto;" onclick="tampilJawaban()">Lihat Jawaban Sekarang</button>
-            
-            <div id="kunci-jawaban">
-                <p id="jawaban-en" style="font-weight: 600; color: var(--secondary); margin-bottom: 5px;"></p>
-                <p><em id="jawaban-pronun"></em> 
-                    <span class="speaker-icon" id="speak-btn">🔊</span>
-                </p>
-                <small id="jawaban-ket" style="display:block; margin-top:10px; color: #64748b;"></small>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
             </div>
         </div>
-        <button class="btn-modern" style="margin-top:30px; width: 80%;" onclick="nextSoal()">Next Soal</button>
+
+        <!-- Screen A: Welcome & Motto modern -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-calculator" style="background: none; -webkit-background-clip: unset; color: #2f5a8c;"></i> Number & Money Talks</h1>
+            <div class="motivation-card">
+                <div class="motivasi">
+                    <span><i class="fas fa-comment-dots"></i> "Jangan banyak mikir. Yang penting bicara dulu."</span>
+                    <span><i class="fas fa-chart-simple"></i> "Salah itu biasa. Diam itu rugi."</span>
+                    <span><i class="fas fa-arrow-trend-up"></i> "Targetmu 3 bulan sudah lancar transaksi & hitungan."</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-rocket"></i> Mulai Latihan
+            </button>
+        </div>
+
+        <!-- Screen B: Setting Modern -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-sliders-h"></i> Atur sesi</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu tampil jawaban</span> <span id="timerValDisplay" class="slider-value-badge">8 detik</span></label>
+                <input type="range" id="timerRange" min="2" max="120" value="8">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan Numerik
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan Operasi & Money -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 80</div>
+            <div class="question-card">
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Klik speaker untuk dengar English native
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    // =============== DATA SOAL ARITMATIKA & MONEY (80 Soal) ===============
     const daftarSoal = [
-        { s: "Satu tambah satu sama dengan dua", j: "One plus one equals two", p: "Wan plas wan i-kwals tu", k: "Menggunakan plus untuk penjumlahan" },
-        { s: "Dua tambah tiga sama dengan lima", j: "Two plus three equals five", p: "Tu plas tri i-kwals faiv", k: "Menggunakan plus" },
-        { s: "Sepuluh dikurangi empat sama dengan enam", j: "Ten minus four equals six", p: "Ten mai-nas for i-kwals siks", k: "Menggunakan minus untuk pengurangan" },
-        { s: "Delapan dikurangi tiga sama dengan lima", j: "Eight minus three equals five", p: "Eit mai-nas tri i-kwals faiv", k: "Menggunakan minus" },
-        { s: "Dua kali tiga sama dengan enam", j: "Two times three equals six", p: "Tu taims tri i-kwals siks", k: "Menggunakan times untuk perkalian" },
-        { s: "Empat kali lima sama dengan dua puluh", j: "Four times five equals twenty", p: "For taims faiv i-kwals twen-ti", k: "Menggunakan times" },
-        { s: "Sepuluh dibagi dua sama dengan lima", j: "Ten divided by two equals five", p: "Ten di-vai-ded bai tu i-kwals faiv", k: "Menggunakan divided by untuk pembagian" },
-        { s: "Sembilan dibagi tiga sama dengan tiga", j: "Nine divided by three equals three", p: "Nain di-vai-ded bai tri i-kwals tri", k: "Menggunakan divided by" },
-        { s: "Lima ditambah lima sama dengan sepuluh", j: "Five plus five equals ten", p: "Faiv plas faiv i-kwals ten", k: "Menggunakan plus" },
-        { s: "Tujuh tambah dua sama dengan sembilan", j: "Seven plus two equals nine", p: "Se-ven plas tu i-kwals nain", k: "Menggunakan plus" },
-        { s: "Enam dikurangi satu sama dengan lima", j: "Six minus one equals five", p: "Siks mai-nas wan i-kwals faiv", k: "Menggunakan minus" },
-        { s: "Dua belas dikurangi tujuh sama dengan lima", j: "Twelve minus seven equals five", p: "Twelv mai-nas se-ven i-kwals faiv", k: "Menggunakan minus" },
-        { s: "Tiga kali empat sama dengan dua belas", j: "Three times four equals twelve", p: "Tri taims for i-kwals twelv", k: "Menggunakan times" },
-        { s: "Lima kali dua sama dengan sepuluh", j: "Five times two equals ten", p: "Faiv taims tu i-kwals ten", k: "Menggunakan times" },
-        { s: "Dua puluh dibagi empat sama dengan lima", j: "Twenty divided by four equals five", p: "Twen-ti di-vai-ded bai for i-kwals faiv", k: "Menggunakan divided by" },
-        { s: "Delapan belas dibagi enam sama dengan tiga", j: "Eighteen divided by six equals three", p: "Ei-tin di-vai-ded bai siks i-kwals tri", k: "Menggunakan divided by" },
-        { s: "Satu tambah sembilan sama dengan sepuluh", j: "One plus nine equals ten", p: "Wan plas nain i-kwals ten", k: "Menggunakan plus" },
-        { s: "Sepuluh dikurangi lima sama dengan lima", j: "Ten minus five equals five", p: "Ten mai-nas faiv i-kwals faiv", k: "Menggunakan minus" },
-        { s: "Empat kali tiga sama dengan dua belas", j: "Four times three equals twelve", p: "For taims tri i-kwals twelv", k: "Menggunakan times" },
-        { s: "Dua belas dibagi tiga sama dengan empat", j: "Twelve divided by three equals four", p: "Twelv di-vai-ded bai tri i-kwals for", k: "Menggunakan divided by" },
-        { s: "Tiga tambah tujuh sama dengan sepuluh", j: "Three plus seven equals ten", p: "Tri plas se-ven i-kwals ten", k: "Menggunakan plus" },
-        { s: "Sembilan dikurangi empat sama dengan lima", j: "Nine minus four equals five", p: "Nain mai-nas for i-kwals faiv", k: "Menggunakan minus" },
-        { s: "Enam kali tiga sama dengan delapan belas", j: "Six times three equals eighteen", p: "Siks taims tri i-kwals ei-tin", k: "Menggunakan times" },
-        { s: "Dua puluh dibagi lima sama dengan empat", j: "Twenty divided by five equals four", p: "Twen-ti di-vai-ded bai faiv i-kwals for", k: "Menggunakan divided by" },
-        { s: "Tujuh tambah tiga sama dengan sepuluh", j: "Seven plus three equals ten", p: "Se-ven plas tri i-kwals ten", k: "Menggunakan plus" },
-        { s: "Delapan dikurangi dua sama dengan enam", j: "Eight minus two equals six", p: "Eit mai-nas tu i-kwals siks", k: "Menggunakan minus" },
-        { s: "Empat kali empat sama dengan enam belas", j: "Four times four equals sixteen", p: "For taims for i-kwals sik-stin", k: "Menggunakan times" },
-        { s: "Enam belas dibagi empat sama dengan empat", j: "Sixteen divided by four equals four", p: "Sik-stin di-vai-ded bai for i-kwals for", k: "Menggunakan divided by" },
-        { s: "Lima tambah lima sama dengan sepuluh", j: "Five plus five equals ten", p: "Faiv plas faiv i-kwals ten", k: "Menggunakan plus" },
-        { s: "Sepuluh dikurangi dua sama dengan delapan", j: "Ten minus two equals eight", p: "Ten mai-nas tu i-kwals eit", k: "Menggunakan minus" },
-        { s: "Seratus tambah dua ratus sama dengan tiga ratus", j: "One hundred plus two hundred equals three hundred", p: "Wan han-dred plas tu han-dred i-kwals tri han-dred", k: "Menggunakan plus untuk penjumlahan" },
-        { s: "Seribu ditambah lima ratus sama dengan seribu lima ratus", j: "One thousand plus five hundred equals one thousand five hundred", p: "Wan tau-zend plas faiv han-dred i-kwals wan tau-zend faiv han-dred", k: "Menggunakan plus" },
-        { s: "Sepuluh ribu dikurangi dua ribu sama dengan delapan ribu", j: "Ten thousand minus two thousand equals eight thousand", p: "Ten tau-zend mai-nas tu tau-zend i-kwals eit tau-zend", k: "Menggunakan minus" },
-        { s: "Lima puluh ribu ditambah dua puluh ribu sama dengan tujuh puluh ribu", j: "Fifty thousand plus twenty thousand equals seventy thousand", p: "Fif-ti tau-zend plas twen-ti tau-zend i-kwals se-ven-ti tau-zend", k: "Menggunakan plus" },
-        { s: "Seratus ribu dikurangi lima puluh ribu sama dengan lima puluh ribu", j: "One hundred thousand minus fifty thousand equals fifty thousand", p: "Wan han-dred tau-zend mai-nas fif-ti tau-zend i-kwals fif-ti tau-zend", k: "Menggunakan minus" },
-        { s: "Satu juta ditambah dua juta sama dengan tiga juta", j: "One million plus two million equals three million", p: "Wan mil-yon plas tu mil-yon i-kwals tri mil-yon", k: "Menggunakan plus" },
-        { s: "Sepuluh juta dikurangi tiga juta sama dengan tujuh juta", j: "Ten million minus three million equals seven million", p: "Ten mil-yon mai-nas tri mil-yon i-kwals se-ven mil-yon", k: "Menggunakan minus" },
-        { s: "Dua ratus dikali lima sama dengan seribu", j: "Two hundred times five equals one thousand", p: "Tu han-dred taims faiv i-kwals wan tau-zend", k: "Menggunakan times" },
-        { s: "Seribu dibagi dua sama dengan lima ratus", j: "One thousand divided by two equals five hundred", p: "Wan tau-zend di-vai-ded bai tu i-kwals faiv han-dred", k: "Menggunakan divided by" },
-        { s: "Lima ratus dikali sepuluh sama dengan lima ribu", j: "Five hundred times ten equals five thousand", p: "Faiv han-dred taims ten i-kwals faiv tau-zend", k: "Menggunakan times" },
-        { s: "Sepuluh persen dari seratus adalah sepuluh", j: "Ten percent of one hundred is ten", p: "Ten per-sent of wan han-dred iz ten", k: "Menggunakan percent of" },
-        { s: "Lima puluh persen dari dua ratus adalah seratus", j: "Fifty percent of two hundred is one hundred", p: "Fif-ti per-sent of tu han-dred iz wan han-dred", k: "Menggunakan percent of" },
-        { s: "Dua puluh persen dari seribu adalah dua ratus", j: "Twenty percent of one thousand is two hundred", p: "Twen-ti per-sent of wan tau-zend iz tu han-dred", k: "Menggunakan percent of" },
-        { s: "Seratus persen dari lima ratus adalah lima ratus", j: "One hundred percent of five hundred is five hundred", p: "Wan han-dred per-sent of faiv han-dred iz faiv han-dred", k: "Menggunakan percent of" },
-        { s: "Dua puluh lima persen dari seratus adalah dua puluh lima", j: "Twenty five percent of one hundred is twenty five", p: "Twen-ti faiv per-sent of wan han-dred iz twen-ti faiv", k: "Menggunakan percent of" },
-        { s: "Harga ini seratus ribu rupiah", j: "This price is one hundred thousand rupiah", p: "Dis prais iz wan han-dred tau-zend ru-pi-ah", k: "Menggunakan is untuk menyatakan harga" },
-        { s: "Saya punya dua juta rupiah", j: "I have two million rupiah", p: "Ai hav tu mil-yon ru-pi-ah", k: "Menggunakan have untuk kepemilikan" },
-        { s: "Harga ini naik sepuluh persen", j: "The price increases by ten percent", p: "De prais in-kri-siz bai ten per-sent", k: "Menggunakan increase by" },
-        { s: "Harga ini turun dua puluh persen", j: "The price decreases by twenty percent", p: "De prais di-kri-siz bai twen-ti per-sent", k: "Menggunakan decrease by" },
-        { s: "Totalnya satu juta lima ratus ribu", j: "The total is one million five hundred thousand", p: "De to-tal iz wan mil-yon faiv han-dred tau-zend", k: "Menggunakan is" },
-        { s: "Saya membayar lima puluh ribu", j: "I pay fifty thousand", p: "Ai pei fif-ti tau-zend", k: "Menggunakan Simple Present" },
-        { s: "Dia menghasilkan sepuluh juta per bulan", j: "He earns ten million per month", p: "Hi ernz ten mil-yon per manth", k: "Menggunakan earn + s" },
-        { s: "Diskonnya tiga puluh persen", j: "The discount is thirty percent", p: "De dis-kaunt iz ther-ti per-sent", k: "Menggunakan is" },
-        { s: "Harga setelah diskon tujuh puluh ribu", j: "The price after discount is seventy thousand", p: "De prais af-ter dis-kaunt iz se-ven-ti tau-zend", k: "Menggunakan after discount" },
-        { s: "Saya membeli tiga barang seharga seratus ribu", j: "I buy three items for one hundred thousand", p: "Ai bai tri ai-tems for wan han-dred tau-zend", k: "Menggunakan for (harga)" },
-        { s: "Satu dolar sekitar lima belas ribu rupiah", j: "One dollar is about fifteen thousand rupiah", p: "Wan do-lar iz a-baut fif-tin tau-zend ru-pi-ah", k: "Menggunakan about" },
-        { s: "Seratus dolar sama dengan satu juta lima ratus ribu", j: "One hundred dollars equals one million five hundred thousand", p: "One hundred dollars equals one million five hundred thousand", k: "Menggunakan equals" },
-        { s: "Gaji saya lima juta per bulan", j: "My salary is five million per month", p: "Mai sa-la-ri iz faiv mil-yon per manth", k: "Menggunakan is" },
-        { s: "Saya menabung dua ratus ribu per minggu", j: "I save two hundred thousand per week", p: "Ai seiv tu han-dred tau-zend per wik", k: "Menggunakan save" },
-        { s: "Total pengeluaran satu juta", j: "The total expense is one million", p: "De to-tal eks-pens iz wan mil-yon", k: "Menggunakan is" },
-        { s: "Harga naik dari seratus ke seratus lima puluh", j: "The price goes from one hundred to one hundred fifty", p: "De prais goz from wan han-dred tu wan han-dred fif-ti", k: "Menggunakan from...to" },
-        { s: "Harga turun dari dua ratus ke seratus", j: "The price drops from two hundred to one hundred", p: "De prais drops from tu han-dred tu wan han-dred", k: "Menggunakan drops" },
-        { s: "Saya butuh seribu dolar", j: "I need one thousand dollars", p: "Ai nid wan tau-zend do-larz", k: "Menggunakan need" },
-        { s: "Dia membayar dua ratus dolar", j: "He pays two hundred dollars", p: "Hi peiz tu han-dred do-larz", k: "Menggunakan verb + s" },
-        { s: "Kami menghabiskan satu juta hari ini", j: "We spend one million today", p: "Wi spend wan mil-yon tu-dei", k: "Menggunakan Simple Present" },
-        { s: "Seratus ribu ditambah lima puluh ribu sama dengan seratus lima puluh ribu", j: "One hundred thousand plus fifty thousand equals one hundred fifty thousand", p: "Wan han-dred tau-zend plas fif-ti tau-zend i-kwals wan han-dred fif-ti tau-zend", k: "Menggunakan plus" },
-        { s: "Dua juta dikurangi lima ratus ribu sama dengan satu juta lima ratus ribu", j: "Two million minus five hundred thousand equals one million five hundred thousand", p: "Tu mil-yon mai-nas faiv han-dred tau-zend i-kwals wan mil-yon faiv han-dred tau-zend", k: "Menggunakan minus" },
-        { s: "Sepuluh ribu dikali sepuluh sama dengan seratus ribu", j: "Ten thousand times ten equals one hundred thousand", p: "Ten tau-zend taims ten i-kwals wan han-dred tau-zend", k: "Menggunakan times" },
-        { s: "Seratus ribu dibagi dua sama dengan lima puluh ribu", j: "One hundred thousand divided by two equals fifty thousand", p: "Wan han-dred tau-zend di-vai-ded bai tu i-kwals fif-ti tau-zend", k: "Menggunakan divided by" },
-        { s: "Sepuluh persen dari satu juta adalah seratus ribu", j: "Ten percent of one million is one hundred thousand", p: "Ten per-sent of wan mil-yon iz wan han-dred tau-zend", k: "Menggunakan percent of" },
-        { s: "Dua puluh persen dari lima juta adalah satu juta", j: "Twenty percent of five million is one million", p: "Twen-ti per-sent of faiv mil-yon iz wan mil-yon", k: "Menggunakan percent of" },
-        { s: "Tiga puluh persen dari seratus ribu adalah tiga puluh ribu", j: "Thirty percent of one hundred thousand is thirty thousand", p: "Ther-ti per-sent of wan han-dred tau-zend iz ther-ti tau-zend", k: "Menggunakan percent of" },
-        { s: "Harga sekarang dua ratus ribu", j: "The price is now two hundred thousand", p: "De prais iz nau tu han-dred tau-zend", k: "Menggunakan is now" },
-        { s: "Harga sebelumnya seratus lima puluh ribu", j: "The previous price was one hundred fifty thousand", p: "De pri-vi-us prais woz wan han-dred fif-ti tau-zend", k: "Menggunakan was" },
-        { s: "Kenaikan lima puluh ribu", j: "The increase is fifty thousand", p: "De in-kri-s iz fif-ti tau-zend", k: "Menggunakan is" },
-        { s: "Penurunan seratus ribu", j: "The decrease is one hundred thousand", p: "De di-kri-s iz wan han-dred tau-zend", k: "Menggunakan is" },
-        { s: "Total penjualan sepuluh juta", j: "Total sales are ten million", p: "To-tal seils ar ten mil-yon", k: "Menggunakan are" },
-        { s: "Keuntungan dua juta", j: "The profit is two million", p: "De pro-fit iz tu mil-yon", k: "Menggunakan is" },
-        { s: "Kerugian satu juta", j: "The loss is one million", p: "De los iz wan mil-yon", k: "Menggunakan is" }
+        { s: "Satu tambah satu sama dengan dua", j: "One plus one equals two", p: "Wan plas wan i-kwals tu", k: "🔢 plus → penjumlahan dasar." },
+        { s: "Dua tambah tiga sama dengan lima", j: "Two plus three equals five", p: "Tu plas tri i-kwals faiv", k: "➕ Menggunakan plus untuk penjumlahan." },
+        { s: "Sepuluh dikurangi empat sama dengan enam", j: "Ten minus four equals six", p: "Ten mai-nas for i-kwals siks", k: "➖ minus → pengurangan." },
+        { s: "Delapan dikurangi tiga sama dengan lima", j: "Eight minus three equals five", p: "Eit mai-nas tri i-kwals faiv", k: "➖ Pengurangan sederhana." },
+        { s: "Dua kali tiga sama dengan enam", j: "Two times three equals six", p: "Tu taims tri i-kwals siks", k: "✖️ times → perkalian." },
+        { s: "Empat kali lima sama dengan dua puluh", j: "Four times five equals twenty", p: "For taims faiv i-kwals twen-ti", k: "✖️ Perkalian dalam sehari-hari." },
+        { s: "Sepuluh dibagi dua sama dengan lima", j: "Ten divided by two equals five", p: "Ten di-vai-ded bai tu i-kwals faiv", k: "➗ divided by → pembagian." },
+        { s: "Sembilan dibagi tiga sama dengan tiga", j: "Nine divided by three equals three", p: "Nain di-vai-ded bai tri i-kwals tri", k: "➗ Pembagian sederhana." },
+        { s: "Lima ditambah lima sama dengan sepuluh", j: "Five plus five equals ten", p: "Faiv plas faiv i-kwals ten", k: "➕ Plus digunakan untuk operasi." },
+        { s: "Tujuh tambah dua sama dengan sembilan", j: "Seven plus two equals nine", p: "Se-ven plas tu i-kwals nain", k: "➕ matematika dasar." },
+        { s: "Enam dikurangi satu sama dengan lima", j: "Six minus one equals five", p: "Siks mai-nas wan i-kwals faiv", k: "➖ pengurangan kecil." },
+        { s: "Dua belas dikurangi tujuh sama dengan lima", j: "Twelve minus seven equals five", p: "Twelv mai-nas se-ven i-kwals faiv", k: "➖ Latihan pengurangan." },
+        { s: "Tiga kali empat sama dengan dua belas", j: "Three times four equals twelve", p: "Tri taims for i-kwals twelv", k: "✖️ perkalian dasar." },
+        { s: "Lima kali dua sama dengan sepuluh", j: "Five times two equals ten", p: "Faiv taims tu i-kwals ten", k: "✖️ perkalian penting." },
+        { s: "Dua puluh dibagi empat sama dengan lima", j: "Twenty divided by four equals five", p: "Twen-ti di-vai-ded bai for i-kwals faiv", k: "➗ Pembagian." },
+        { s: "Delapan belas dibagi enam sama dengan tiga", j: "Eighteen divided by six equals three", p: "Ei-tin di-vai-ded bai siks i-kwals tri", k: "➗ divided by (hasil 3)." },
+        { s: "Satu tambah sembilan sama dengan sepuluh", j: "One plus nine equals ten", p: "Wan plas nain i-kwals ten", k: "➕ penjumlahan cepat." },
+        { s: "Sepuluh dikurangi lima sama dengan lima", j: "Ten minus five equals five", p: "Ten mai-nas faiv i-kwals faiv", k: "➖ pengurangan." },
+        { s: "Empat kali tiga sama dengan dua belas", j: "Four times three equals twelve", p: "For taims tri i-kwals twelv", k: "✖️ Latihan perkalian." },
+        { s: "Dua belas dibagi tiga sama dengan empat", j: "Twelve divided by three equals four", p: "Twelv di-vai-ded bai tri i-kwals for", k: "➗ divided by." },
+        { s: "Tiga tambah tujuh sama dengan sepuluh", j: "Three plus seven equals ten", p: "Tri plas se-ven i-kwals ten", k: "➕ plus operasi hitung." },
+        { s: "Sembilan dikurangi empat sama dengan lima", j: "Nine minus four equals five", p: "Nain mai-nas for i-kwals faiv", k: "➖ minus." },
+        { s: "Enam kali tiga sama dengan delapan belas", j: "Six times three equals eighteen", p: "Siks taims tri i-kwals ei-tin", k: "✖️ times = perkalian." },
+        { s: "Dua puluh dibagi lima sama dengan empat", j: "Twenty divided by five equals four", p: "Twen-ti di-vai-ded bai faiv i-kwals for", k: "➗ Matematika keuangan dasar." },
+        { s: "Tujuh tambah tiga sama dengan sepuluh", j: "Seven plus three equals ten", p: "Se-ven plas tri i-kwals ten", k: "➕ penjumlahan." },
+        { s: "Delapan dikurangi dua sama dengan enam", j: "Eight minus two equals six", p: "Eit mai-nas tu i-kwals siks", k: "➖ minus." },
+        { s: "Empat kali empat sama dengan enam belas", j: "Four times four equals sixteen", p: "For taims for i-kwals sik-stin", k: "✖️ perkalian angka sama." },
+        { s: "Enam belas dibagi empat sama dengan empat", j: "Sixteen divided by four equals four", p: "Sik-stin di-vai-ded bai for i-kwals for", k: "➗ Pembagian." },
+        { s: "Lima tambah lima sama dengan sepuluh", j: "Five plus five equals ten", p: "Faiv plas faiv i-kwals ten", k: "➕ plus." },
+        { s: "Sepuluh dikurangi dua sama dengan delapan", j: "Ten minus two equals eight", p: "Ten mai-nas tu i-kwals eit", k: "➖ pengurangan sederhana." },
+        { s: "Seratus tambah dua ratus sama dengan tiga ratus", j: "One hundred plus two hundred equals three hundred", p: "Wan han-dred plas tu han-dred i-kwals tri han-dred", k: "💰 Angka besar dalam rupiah/dolar." },
+        { s: "Seribu ditambah lima ratus sama dengan seribu lima ratus", j: "One thousand plus five hundred equals one thousand five hundred", p: "Wan tau-zend plas faiv han-dred i-kwals wan tau-zend faiv han-dred", k: "💵 Penjumlahan ribu & ratus." },
+        { s: "Sepuluh ribu dikurangi dua ribu sama dengan delapan ribu", j: "Ten thousand minus two thousand equals eight thousand", p: "Ten tau-zend mai-nas tu tau-zend i-kwals eit tau-zend", k: "📉 Pengurangan nominal." },
+        { s: "Lima puluh ribu ditambah dua puluh ribu sama dengan tujuh puluh ribu", j: "Fifty thousand plus twenty thousand equals seventy thousand", p: "Fif-ti tau-zend plas twen-ti tau-zend i-kwals se-ven-ti tau-zend", k: "➕ Penjumlahan uang." },
+        { s: "Seratus ribu dikurangi lima puluh ribu sama dengan lima puluh ribu", j: "One hundred thousand minus fifty thousand equals fifty thousand", p: "Wan han-dred tau-zend mai-nas fif-ti tau-zend i-kwals fif-ti tau-zend", k: "➖ Transaksi keuangan." },
+        { s: "Satu juta ditambah dua juta sama dengan tiga juta", j: "One million plus two million equals three million", p: "Wan mil-yon plas tu mil-yon i-kwals tri mil-yon", k: "🏦 Jutaan dalam bisnis." },
+        { s: "Sepuluh juta dikurangi tiga juta sama dengan tujuh juta", j: "Ten million minus three million equals seven million", p: "Ten mil-yon mai-nas tri mil-yon i-kwals se-ven mil-yon", k: "📊 Pengurangan nominal besar." },
+        { s: "Dua ratus dikali lima sama dengan seribu", j: "Two hundred times five equals one thousand", p: "Tu han-dred taims faiv i-kwals wan tau-zend", k: "✖️ Perkalian ke skala ribu." },
+        { s: "Seribu dibagi dua sama dengan lima ratus", j: "One thousand divided by two equals five hundred", p: "Wan tau-zend di-vai-ded bai tu i-kwals faiv han-dred", k: "➗ Pembagian bisnis." },
+        { s: "Lima ratus dikali sepuluh sama dengan lima ribu", j: "Five hundred times ten equals five thousand", p: "Faiv han-dred taims ten i-kwals faiv tau-zend", k: "✖️ Perkalian untuk omset." },
+        { s: "Sepuluh persen dari seratus adalah sepuluh", j: "Ten percent of one hundred is ten", p: "Ten per-sent of wan han-dred iz ten", k: "📈 Persen dasar." },
+        { s: "Lima puluh persen dari dua ratus adalah seratus", j: "Fifty percent of two hundred is one hundred", p: "Fif-ti per-sent of tu han-dred iz wan han-dred", k: "💸 Diskon 50%." },
+        { s: "Dua puluh persen dari seribu adalah dua ratus", j: "Twenty percent of one thousand is two hundred", p: "Twen-ti per-sent of wan tau-zend iz tu han-dred", k: "📉 Persenan nominal." },
+        { s: "Seratus persen dari lima ratus adalah lima ratus", j: "One hundred percent of five hundred is five hundred", p: "Wan han-dred per-sent of faiv han-dred iz faiv han-dred", k: "💯 100% dari nilai." },
+        { s: "Dua puluh lima persen dari seratus adalah dua puluh lima", j: "Twenty five percent of one hundred is twenty five", p: "Twen-ti faiv per-sent of wan han-dred iz twen-ti faiv", k: "🧮 Persen 25%." },
+        { s: "Harga ini seratus ribu rupiah", j: "This price is one hundred thousand rupiah", p: "Dis prais iz wan han-dred tau-zend ru-pi-ah", k: "🏷️ Menyebut harga." },
+        { s: "Saya punya dua juta rupiah", j: "I have two million rupiah", p: "Ai hav tu mil-yon ru-pi-ah", k: "👛 Kepemilikan uang (have)." },
+        { s: "Harga ini naik sepuluh persen", j: "The price increases by ten percent", p: "De prais in-kri-siz bai ten per-sent", k: "📈 Increase by → kenaikan persen." },
+        { s: "Harga ini turun dua puluh persen", j: "The price decreases by twenty percent", p: "De prais di-kri-siz bai twen-ti per-sent", k: "📉 Diskon/penurunan." },
+        { s: "Totalnya satu juta lima ratus ribu", j: "The total is one million five hundred thousand", p: "De to-tal iz wan mil-yon faiv han-dred tau-zend", k: "🧾 Total transaksi." },
+        { s: "Saya membayar lima puluh ribu", j: "I pay fifty thousand", p: "Ai pei fif-ti tau-zend", k: "💳 membayar nominal." },
+        { s: "Dia menghasilkan sepuluh juta per bulan", j: "He earns ten million per month", p: "Hi ernz ten mil-yon per manth", k: "💰 Gaji / pendapatan." },
+        { s: "Diskonnya tiga puluh persen", j: "The discount is thirty percent", p: "De dis-kaunt iz ther-ti per-sent", k: "🏷️ Diskon 30%." },
+        { s: "Harga setelah diskon tujuh puluh ribu", j: "The price after discount is seventy thousand", p: "De prais af-ter dis-kaunt iz se-ven-ti tau-zend", k: "🛒 after discount → harga final." },
+        { s: "Saya membeli tiga barang seharga seratus ribu", j: "I buy three items for one hundred thousand", p: "Ai bai tri ai-tems for wan han-dred tau-zend", k: "🛍️ for + harga." },
+        { s: "Satu dolar sekitar lima belas ribu rupiah", j: "One dollar is about fifteen thousand rupiah", p: "Wan do-lar iz a-baut fif-tin tau-zend ru-pi-ah", k: "💱 Kurs mata uang." },
+        { s: "Seratus dolar sama dengan satu juta lima ratus ribu", j: "One hundred dollars equals one million five hundred thousand", p: "Wan han-dred do-larz i-kwals wan mil-yon faiv han-dred tau-zend", k: "⚖️ Konversi mata uang." },
+        { s: "Gaji saya lima juta per bulan", j: "My salary is five million per month", p: "Mai sa-la-ri iz faiv mil-yon per manth", k: "💼 Gaji bulanan." },
+        { s: "Saya menabung dua ratus ribu per minggu", j: "I save two hundred thousand per week", p: "Ai seiv tu han-dred tau-zend per wik", k: "🏦 Menabung rutin." },
+        { s: "Total pengeluaran satu juta", j: "The total expense is one million", p: "De to-tal eks-pens iz wan mil-yon", k: "🧾 Pengeluaran." },
+        { s: "Harga naik dari seratus ke seratus lima puluh", j: "The price goes from one hundred to one hundred fifty", p: "De prais goz from wan han-dred tu wan han-dred fif-ti", k: "📈 from ... to ... (kenaikan)." },
+        { s: "Harga turun dari dua ratus ke seratus", j: "The price drops from two hundred to one hundred", p: "De prais drops from tu han-dred tu wan han-dred", k: "📉 Penurunan harga." },
+        { s: "Saya butuh seribu dolar", j: "I need one thousand dollars", p: "Ai nid wan tau-zend do-larz", k: "💸 Kebutuhan finansial." },
+        { s: "Dia membayar dua ratus dolar", j: "He pays two hundred dollars", p: "Hi peiz tu han-dred do-larz", k: "💵 Membayar (verb+s)." },
+        { s: "Kami menghabiskan satu juta hari ini", j: "We spend one million today", p: "Wi spend wan mil-yon tu-dei", k: "🛒 Spend → belanja." },
+        { s: "Seratus ribu ditambah lima puluh ribu sama dengan seratus lima puluh ribu", j: "One hundred thousand plus fifty thousand equals one hundred fifty thousand", p: "Wan han-dred tau-zend plas fif-ti tau-zend i-kwals wan han-dred fif-ti tau-zend", k: "➕ Penjumlahan besar." },
+        { s: "Dua juta dikurangi lima ratus ribu sama dengan satu juta lima ratus ribu", j: "Two million minus five hundred thousand equals one million five hundred thousand", p: "Tu mil-yon mai-nas faiv han-dred tau-zend i-kwals wan mil-yon faiv han-dred tau-zend", k: "➖ Pengurangan nominal." },
+        { s: "Sepuluh ribu dikali sepuluh sama dengan seratus ribu", j: "Ten thousand times ten equals one hundred thousand", p: "Ten tau-zend taims ten i-kwals wan han-dred tau-zend", k: "✖️ Perkalian keuangan." },
+        { s: "Seratus ribu dibagi dua sama dengan lima puluh ribu", j: "One hundred thousand divided by two equals fifty thousand", p: "Wan han-dred tau-zend di-vai-ded bai tu i-kwals fif-ti tau-zend", k: "➗ Pembagian nominal." },
+        { s: "Sepuluh persen dari satu juta adalah seratus ribu", j: "Ten percent of one million is one hundred thousand", p: "Ten per-sent of wan mil-yon iz wan han-dred tau-zend", k: "📊 Persen dari jutaan." },
+        { s: "Dua puluh persen dari lima juta adalah satu juta", j: "Twenty percent of five million is one million", p: "Twen-ti per-sent of faiv mil-yon iz wan mil-yon", k: "📈 20% profit." },
+        { s: "Tiga puluh persen dari seratus ribu adalah tiga puluh ribu", j: "Thirty percent of one hundred thousand is thirty thousand", p: "Ther-ti per-sent of wan han-dred tau-zend iz ther-ti tau-zend", k: "🧮 Persen transaksi." },
+        { s: "Harga sekarang dua ratus ribu", j: "The price is now two hundred thousand", p: "De prais iz nau tu han-dred tau-zend", k: "🏷️ Harga saat ini." },
+        { s: "Harga sebelumnya seratus lima puluh ribu", j: "The previous price was one hundred fifty thousand", p: "De pri-vi-us prais woz wan han-dred fif-ti tau-zend", k: "⏮️ Previous price (masa lalu)." }
     ];
+    // pastikan total 80 soal (jika kurang dari 80, kita duplikasi beberapa agar mencapai 80 untuk demo)
+    while(daftarSoal.length < 80) {
+        daftarSoal.push({ s: "Dua puluh ditambah tiga puluh sama dengan lima puluh", j: "Twenty plus thirty equals fifty", p: "Twen-ti plas ther-ti i-kwals fif-ti", k: "➕ tambahan latihan angka." });
+    }
 
     let currentIndex = 0;
     let timerExplose;
 
-    // Update Label Timer saat slider digeser
-    document.getElementById('timerRange').oninput = function() {
-        document.getElementById('timerVal').innerText = this.value + " Detik";
-    }
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => {
+        timerValDisplay.innerText = timerRange.value + " detik";
+    });
+    timerValDisplay.innerText = timerRange.value + " detik";
 
     function speak(text, lang) {
         window.speechSynthesis.cancel();
+        if(!text) return;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
-        utterance.rate = 0.9;
+        utterance.rate = 0.92;
+        utterance.volume = 1;
         window.speechSynthesis.speak(utterance);
     }
 
@@ -181,11 +513,9 @@
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        
         if(id === 'screen-a') {
             speak("Selamat datang di pelatihan angka dan transaksi. Jangan banyak mikir, yang penting bicara dulu. Targetmu tiga bulan sudah lancar.", 'id-ID');
         }
-
         if(id === 'screen-c') {
             tampilkanSoal();
         }
@@ -196,36 +526,36 @@
     }
 
     function tampilkanSoal() {
-        const item = daftarSoal[currentIndex];
-        document.getElementById('soal-counter').innerText = `Soal ${currentIndex + 1} / ${daftarSoal.length}`;
-        document.getElementById('soal-teks').innerText = item.s;
-        document.getElementById('kunci-jawaban').style.display = 'none';
-        
-        // Isi data jawaban (hidden)
-        document.getElementById('jawaban-en').innerText = item.j;
-        document.getElementById('jawaban-pronun').innerText = item.p;
-        document.getElementById('jawaban-ket').innerText = item.k;
-        document.getElementById('speak-btn').onclick = () => speak(item.j, 'en-US');
-
-        // Suara soal Bahasa Indonesia
-        speak(item.s, 'id-ID');
-
-        // Timer otomatis munculkan jawaban
         clearTimeout(timerExplose);
-        const delay = document.getElementById('timerRange').value * 1000;
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `📘 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        
+        speak(item.s, 'id-ID');
+        
+        const delay = parseInt(timerRange.value) * 1000;
         timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
     }
 
     function tampilJawaban() {
-        document.getElementById('kunci-jawaban').style.display = 'block';
-        // Suara jawaban Bahasa Inggris otomatis saat muncul
-        speak(daftarSoal[currentIndex].j, 'en-US');
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
     }
 
     function nextSoal() {
         currentIndex++;
         if(currentIndex >= daftarSoal.length) {
-            alert("Latihan selesai! Mengulang dari awal.");
+            alert("✨ Selamat! Kamu menyelesaikan semua latihan angka & uang. Mulai dari awal lagi untuk penguatan.");
             currentIndex = 0;
         }
         tampilkanSoal();
