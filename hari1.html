@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+     <!-- KODE PROTEKSI AKSES -->
+    <script>
+        if (!localStorage.getItem('premium_code')) {
+            alert("Akses Ditolak! Silakan masukkan kode akses di halaman depan.");
+            window.location.href = "index.html"; 
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>English Speaking Trainer - 100 Daily Phrases</title>
