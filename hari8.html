@@ -2,233 +2,499 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pelatihan Aktif Berbicara - Kata Sifat</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffffff; }
-        .pink-btn { background-color: #e9337c; color: white; transition: all 0.3s; }
-        .pink-btn:active { transform: scale(0.95); background-color: #c42664; }
-        .blue-box { background-color: #89b0f8; border-radius: 12px; }
-        .slider-pink { 
-            accent-color: #ff0066; 
-            width: 100%;
-            height: 10px;
+        :root {
+            --primary-blue: #5154d8;
+            --pink-accent: #ff1a75;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
-        .hidden-answer { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0; padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Area */
+        header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: var(--bg-light);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            transition: all 0.2s;
+        }
+
+        .home-btn:active { transform: scale(0.9); background: #eee; }
+        .home-btn svg { width: 24px; height: 24px; fill: currentColor; }
+
+        .app-title {
+            margin-left: 15px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+        
+        .badge-materi {
+            margin-left: auto;
+            background: var(--pink-accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            display: none;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Card & Content */
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-progress {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            color: var(--primary-blue);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timer-pill {
+            background: var(--pink-accent);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .blink-instruction {
+            color: var(--pink-accent);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .challenge-box {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 20px 0;
+            min-height: 50px;
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 16px;
+            color: var(--primary-blue);
+        }
+
+        #btn-reveal {
+            background: linear-gradient(135deg, var(--primary-blue), #6c5ce7);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        #btn-reveal:active { transform: scale(0.97); }
+        #btn-reveal.hidden { display: none; }
+
+        .answer-area {
+            display: none;
+            text-align: left;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+            animation: slideUp 0.3s ease;
+        }
+        .answer-area.visible { display: block; }
+
+        .english-text { color: var(--primary-blue); font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 5px; }
+        .phonetic { color: #636e72; font-style: italic; text-align: center; margin-bottom: 10px; }
+        .edu-box { background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 5px solid var(--pink-accent); font-size: 0.85rem; }
+
+        /* Floating Nav - RAISED 250PX */
+        .bottom-nav {
+            position: fixed;
+            bottom: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 1px solid #eee;
+        }
+
+        .nav-item {
+            border: none; background: none; color: #a4b0be;
+            font-weight: 600; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; font-size: 0.7rem;
+        }
+        .nav-item.active { color: var(--primary-blue); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 4px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        /* Slider Styles */
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 5px; }
+        input[type="range"] { width: 100%; accent-color: var(--primary-blue); }
+        input[type="number"] { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #ddd; margin-top: 5px; }
+        
+        .volume-number {
+            margin-top: 8px;
+            width: 100%;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .speaker-tip {
+            margin-top: 10px;
+            font-size: 0.7rem;
+            color: var(--pink-accent);
+        }
     </style>
 </head>
 <body>
 
-    <!-- SCREEN A: INTRO & SETTINGS -->
-    <div id="screen-intro" class="max-w-md mx-auto p-6 flex flex-col items-center min-h-screen">
-        <h1 class="text-3xl font-bold text-center mt-10 uppercase text-gray-800">PELATIHAN<br>AKTIF BERBICARA</h1>
-        <h2 class="text-xl font-bold text-pink-600 mt-2">Materi: Kata Sifat</h2>
+    <header>
+        <button class="home-btn" onclick="resetToSettings()">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="app-title">Active Speaking</div>
+        <div class="badge-materi">📖 Kata Sifat</div>
+    </header>
+
+    <!-- Screen Settings -->
+    <div id="screen-settings" class="screen active">
+        <div class="card">
+            <h3 style="margin-top:0">⚙️ Pengaturan Suara & Timer</h3>
+            <div class="form-group">
+                <label>Volume Suara (0 - 100%) : <span id="val-volume">80</span>%</label>
+                <input type="range" id="input-volume" min="0" max="100" step="1" value="80">
+                <input type="number" id="volume-number" class="volume-number" min="0" max="100" value="80">
+            </div>
+            <div class="form-group">
+                <label>Jeda Sebelum Jawaban (detik): <span id="val-timer">10</span>s</label>
+                <input type="range" id="input-timer" min="3" max="120" step="1" value="10">
+                <input type="number" id="timer-number" class="volume-number" min="3" max="120" value="10">
+            </div>
+            <button onclick="startExercise()" style="width: 100%; background: linear-gradient(135deg, var(--primary-blue), #6c5ce7); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px;">
+                🎯 MULAI LATIHAN (34 Soal)
+            </button>
+        </div>
         
-        <div class="blue-box p-6 mt-8 mb-8 text-center text-lg leading-tight text-white font-medium">
-            Jawab langsung secara lisan, jangan ragu.<br>Kamu pasti cepat bisa bahasa Inggris.
+        <div class="card">
+            <h4>📝 Apa itu Kata Sifat (Adjective)?</h4>
+            <p style="font-size: 0.8rem; text-align: left;">Kata sifat adalah kata yang menjelaskan <strong>noun</strong> (orang, benda, tempat).<br>
+            Contoh: <strong class="text-pink-600">big</strong> house, <strong class="text-pink-600">beautiful</strong> girl, <strong class="text-pink-600">hot</strong> weather.<br><br>
+            💡 <strong>Tips:</strong> Dalam kalimat, kata sifat biasanya setelah "to be" (is/am/are).<br>
+            Contoh: <em>The cat is <span class="text-pink-600">cute</span></em>.</p>
         </div>
+    </div>
 
-        <!-- Settings -->
-        <div class="w-full space-y-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-            <div>
-                <label class="block font-bold mb-1 text-gray-700">Volume Suara</label>
-                <input type="range" id="vol-setting" min="0" max="1" step="0.1" value="1" class="slider-pink">
-            </div>
-            <div>
-                <label class="block font-bold mb-1 text-gray-700">Kecepatan Suara</label>
-                <input type="range" id="rate-setting" min="0.5" max="1.5" step="0.1" value="0.9" class="slider-pink">
-            </div>
-            <div>
-                <label class="block font-bold mb-1 text-gray-700">Jeda Kunci Jawaban</label>
-                <input type="range" id="timer-setting" min="1" max="120" step="1" value="120" class="slider-pink">
-                <p class="text-xs text-right text-gray-500 font-bold"><span id="timer-val">120</span> Detik</p>
+    <!-- Screen Exercise -->
+    <div id="screen-exercise" class="screen">
+        <div class="card">
+            <div class="btn-progress" id="progress-badge">SOAL 1 / 34</div>
+            <br>
+            <div id="timer-display" class="timer-pill">10</div>
+            <div class="blink-instruction">🎙️ Ucapkan dalam bahasa Inggris dengan keras!</div>
+
+            <div class="challenge-box" id="text-indo">--</div>
+
+            <button id="btn-reveal" onclick="revealAnswer()">💡 LIHAT JAWABAN</button>
+
+            <div id="answer-area" class="answer-area">
+                <div class="english-text" id="text-en">--</div>
+                <div class="phonetic" id="text-phonetic">--</div>
+                <div class="edu-box">
+                    <strong id="text-explanation">--</strong><br><br>
+                    <small>✨ Klik tombol speaker untuk mendengar pengucapan</small>
+                </div>
+                <button onclick="speakEnglish()" style="margin-top: 12px; background: var(--pink-accent); color: white; border: none; padding: 10px; border-radius: 12px; width: 100%; cursor: pointer;">
+                    🔊 Dengarkan Pengucapan
+                </button>
             </div>
         </div>
+        <!-- Padding agar konten tidak tertutup nav yang dinaikkan -->
+        <div style="height: 320px;"></div>
+    </div>
 
-        <button onclick="startApp()" class="mt-10 flex flex-col items-center group">
-            <div class="bg-red-600 w-20 h-20 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition">
-                <i class="fas fa-play text-3xl text-white ml-1"></i>
-            </div>
-            <span class="text-2xl font-black mt-3 text-gray-800 uppercase">Mulai Latihan</span>
+    <!-- Floating Nav - RAISED 250px -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="goToSettings()">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Setelan
+        </button>
+        <button class="nav-item" onclick="prevQuestion()">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            Sebelumnya
+        </button>
+        <button class="nav-item" onclick="nextQuestion()">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+            Selanjutnya
         </button>
     </div>
 
-    <!-- SCREEN B: PELATIHAN -->
-    <div id="screen-quiz" class="hidden max-w-md mx-auto min-h-screen flex flex-col bg-white">
-        <header class="flex items-center justify-between p-4 border-b">
-            <button onclick="goBack()" class="text-2xl text-gray-600 hover:text-black">
-                <i class="fas fa-home"></i>
-            </button>
-            <h2 class="text-xl font-bold">LATIHAN</h2>
-            <div class="text-sm font-bold bg-gray-200 px-3 py-1 rounded-full" id="quiz-counter">1/1</div>
-        </header>
-
-        <main class="flex-grow p-6 flex flex-col items-center text-center">
-            <p class="text-lg font-bold mb-6 uppercase tracking-widest text-gray-500">Ucapkan Bahasa Inggrisnya</p>
-
-            <!-- Question Box -->
-            <div class="blue-box w-full p-6 mb-8 flex justify-between items-center shadow-md text-white">
-                <span id="question-text" class="text-xl font-bold text-left">...</span>
-                <button onclick="speakText('id')" class="hover:scale-110 transition"><i class="fas fa-volume-up text-3xl"></i></button>
-            </div>
-
-            <p class="mb-2 font-bold text-gray-400 uppercase text-sm">Cek Jawaban</p>
-            
-            <div id="answer-container" class="w-full">
-                <!-- Lampu Reveal -->
-                <button id="btn-reveal" onclick="revealAnswer()" class="blue-box w-full py-6 text-white text-4xl mb-4 shadow-md hover:bg-blue-500 transition">
-                    <i class="far fa-lightbulb"></i>
-                </button>
-
-                <!-- Isi Jawaban -->
-                <div id="answer-content" class="hidden-answer blue-box w-full p-6 text-left shadow-inner fade-in">
-                    <div class="flex justify-between items-start mb-2">
-                        <div>
-                            <p id="en-text" class="text-2xl font-black text-gray-900 leading-tight">...</p>
-                            <p id="ph-text" class="text-lg italic text-blue-900 mt-1">...</p>
-                        </div>
-                        <button onclick="speakText('en')" class="bg-white p-2 rounded-full shadow-sm hover:scale-110 transition">
-                            <i class="fas fa-volume-up text-blue-500 text-xl"></i>
-                        </button>
-                    </div>
-                    <div id="reason-text" class="text-xs mt-4 border-t border-blue-300 pt-3 font-bold uppercase text-blue-800 leading-relaxed">
-                        ...
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <footer class="p-6 flex justify-between gap-4 bg-gray-50">
-            <button onclick="prevQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Prev</button>
-            <button onclick="nextQuiz()" class="pink-btn flex-1 py-4 rounded-2xl font-bold text-lg shadow-md uppercase">Next</button>
-        </footer>
-    </div>
-
     <script>
-        const quizData = [
-            { id: "Dia sangat pintar", en: "She is very smart", ph: "Syi iz veri smart", reason: "Kata sifat: smart (menjelaskan kepintaran)" },
-            { id: "Rumah itu besar", en: "The house is big", ph: "De haus iz big", reason: "Kata sifat: big (menjelaskan ukuran)" },
-            { id: "Makanan ini enak", en: "This food is delicious", ph: "Dis fud iz de-li-syes", reason: "Kata sifat: delicious (menjelaskan rasa)" },
-            { id: "Cuacanya panas", en: "The weather is hot", ph: "De we-der iz hot", reason: "Kata sifat: hot (menjelaskan suhu)" },
-            { id: "Anak itu tinggi", en: "The child is tall", ph: "De caild iz tol", reason: "Kata sifat: tall (menjelaskan tinggi badan)" },
-            { id: "Film ini menarik", en: "This movie is interesting", ph: "Dis mu-vi iz in-tres-ting", reason: "Kata sifat: interesting (menjelaskan ketertarikan)" },
-            { id: "Mobil itu cepat", en: "The car is fast", ph: "De kar iz fast", reason: "Kata sifat: fast (menjelaskan kecepatan)" },
-            { id: "Dia lelah", en: "He is tired", ph: "Hi iz tai-erd", reason: "Kata sifat: tired (menjelaskan kondisi)" },
-            { id: "Buku itu mahal", en: "The book is expensive", ph: "De buk iz eks-pen-siv", reason: "Kata sifat: expensive (menjelaskan harga)" },
-            { id: "Dia cantik", en: "She is beautiful", ph: "Syi iz byu-ti-ful", reason: "Kata sifat: beautiful (menjelaskan cantik)" },
-            { id: "Dia tampan", en: "He is handsome", ph: "Hi iz hand-sam", reason: "Kata sifat: handsome (menjelaskan tampan)" },
-            { id: "Air ini dingin", en: "This water is cold", ph: "Dis wo-ter iz kold", reason: "Kata sifat: cold (menjelaskan suhu)" },
-            { id: "Kopi ini panas", en: "This coffee is hot", ph: "Dis ko-fi iz hot", reason: "Kata sifat: hot (menjelaskan suhu)" },
-            { id: "Tas itu berat", en: "That bag is heavy", ph: "Det beg iz he-vi", reason: "Kata sifat: heavy (menjelaskan berat)" },
-            { id: "Bulu itu ringan", en: "The feather is light", ph: "De fe-der iz lait", reason: "Kata sifat: light (menjelaskan ringan)" },
-            { id: "Dia kaya", en: "He is rich", ph: "Hi iz rich", reason: "Kata sifat: rich (menjelaskan kekayaan)" },
-            { id: "Dia miskin", en: "She is poor", ph: "Syi iz pur", reason: "Kata sifat: poor (menjelaskan kondisi ekonomi)" },
-            { id: "Hari ini cerah", en: "Today is bright", ph: "Tu-dey iz brait", reason: "Kata sifat: bright (menjelaskan keadaan cahaya)" },
-            { id: "Langit gelap", en: "The sky is dark", ph: "De skai iz dark", reason: "Kata sifat: dark (menjelaskan gelap)" },
-            { id: "Soal ini mudah", en: "This question is easy", ph: "Dis kwes-cen iz i-zi", reason: "Kata sifat: easy (menjelaskan kemudahan)" },
-            { id: "Ujian itu sulit", en: "The exam is difficult", ph: "Di ig-zam iz di-fi-kelt", reason: "Kata sifat: difficult (menjelaskan kesulitan)" },
-            { id: "Dia cepat", en: "He is fast", ph: "Hi iz fast", reason: "Kata sifat: fast (menjelaskan kecepatan)" },
-            { id: "Dia lambat", en: "She is slow", ph: "Syi iz slo", reason: "Kata sifat: slow (menjelaskan kecepatan)" },
-            { id: "Anjing itu besar", en: "The dog is big", ph: "De dog iz big", reason: "Kata sifat: big (menjelaskan ukuran)" },
-            { id: "Kucing itu kecil", en: "The cat is small", ph: "De ket iz smol", reason: "Kata sifat: small (menjelaskan ukuran)" },
-            { id: "Film itu membosankan", en: "The movie is boring", ph: "De mu-vi iz bo-ring", reason: "Kata sifat: boring (menjelaskan rasa bosan)" },
-            { id: "Cerita itu seru", en: "The story is exciting", ph: "De sto-ri iz ek-sai-ting", reason: "Kata sifat: exciting (menjelaskan keseruan)" },
-            { id: "Dia ramah", en: "She is friendly", ph: "Syi iz fren-dli", reason: "Kata sifat: friendly (menjelaskan sikap)" },
-            { id: "Dia jahat", en: "He is mean", ph: "Hi iz min", reason: "Kata sifat: mean (menjelaskan sifat buruk)" },
-            { id: "Jalan ini panjang", en: "This road is long", ph: "Dis rod iz long", reason: "Kata sifat: long (menjelaskan panjang)" },
-            { id: "Jalan itu pendek", en: "That road is short", ph: "Det rod iz short", reason: "Kata sifat: short (menjelaskan pendek)" },
-            { id: "Dia kuat", en: "He is strong", ph: "Hi iz strong", reason: "Kata sifat: strong (menjelaskan kekuatan)" },
-            { id: "Dia lemah", en: "She is weak", ph: "Syi iz wik", reason: "Kata sifat: weak (menjelaskan kelemahan)" },
-            { id: "Kamar ini bersih", en: "This room is clean", ph: "Dis rum iz klin", reason: "Kata sifat: clean (menjelaskan kebersihan)" }
+        // Database soal Kata Sifat (34 soal dari kode asli)
+        const fullDatabase = [
+            { indo: "Dia sangat pintar", en: "She is very smart", phonetic: "Syi iz veri smart", explanation: "Kata sifat: smart (menjelaskan kepintaran)" },
+            { indo: "Rumah itu besar", en: "The house is big", phonetic: "De haus iz big", explanation: "Kata sifat: big (menjelaskan ukuran)" },
+            { indo: "Makanan ini enak", en: "This food is delicious", phonetic: "Dis fud iz de-li-syes", explanation: "Kata sifat: delicious (menjelaskan rasa)" },
+            { indo: "Cuacanya panas", en: "The weather is hot", phonetic: "De we-der iz hot", explanation: "Kata sifat: hot (menjelaskan suhu)" },
+            { indo: "Anak itu tinggi", en: "The child is tall", phonetic: "De caild iz tol", explanation: "Kata sifat: tall (menjelaskan tinggi badan)" },
+            { indo: "Film ini menarik", en: "This movie is interesting", phonetic: "Dis mu-vi iz in-tres-ting", explanation: "Kata sifat: interesting (menjelaskan ketertarikan)" },
+            { indo: "Mobil itu cepat", en: "The car is fast", phonetic: "De kar iz fast", explanation: "Kata sifat: fast (menjelaskan kecepatan)" },
+            { indo: "Dia lelah", en: "He is tired", phonetic: "Hi iz tai-erd", explanation: "Kata sifat: tired (menjelaskan kondisi)" },
+            { indo: "Buku itu mahal", en: "The book is expensive", phonetic: "De buk iz eks-pen-siv", explanation: "Kata sifat: expensive (menjelaskan harga)" },
+            { indo: "Dia cantik", en: "She is beautiful", phonetic: "Syi iz byu-ti-ful", explanation: "Kata sifat: beautiful (menjelaskan cantik)" },
+            { indo: "Dia tampan", en: "He is handsome", phonetic: "Hi iz hand-sam", explanation: "Kata sifat: handsome (menjelaskan tampan)" },
+            { indo: "Air ini dingin", en: "This water is cold", phonetic: "Dis wo-ter iz kold", explanation: "Kata sifat: cold (menjelaskan suhu)" },
+            { indo: "Kopi ini panas", en: "This coffee is hot", phonetic: "Dis ko-fi iz hot", explanation: "Kata sifat: hot (menjelaskan suhu)" },
+            { indo: "Tas itu berat", en: "That bag is heavy", phonetic: "Det beg iz he-vi", explanation: "Kata sifat: heavy (menjelaskan berat)" },
+            { indo: "Bulu itu ringan", en: "The feather is light", phonetic: "De fe-der iz lait", explanation: "Kata sifat: light (menjelaskan ringan)" },
+            { indo: "Dia kaya", en: "He is rich", phonetic: "Hi iz rich", explanation: "Kata sifat: rich (menjelaskan kekayaan)" },
+            { indo: "Dia miskin", en: "She is poor", phonetic: "Syi iz pur", explanation: "Kata sifat: poor (menjelaskan kondisi ekonomi)" },
+            { indo: "Hari ini cerah", en: "Today is bright", phonetic: "Tu-dey iz brait", explanation: "Kata sifat: bright (menjelaskan keadaan cahaya)" },
+            { indo: "Langit gelap", en: "The sky is dark", phonetic: "De skai iz dark", explanation: "Kata sifat: dark (menjelaskan gelap)" },
+            { indo: "Soal ini mudah", en: "This question is easy", phonetic: "Dis kwes-cen iz i-zi", explanation: "Kata sifat: easy (menjelaskan kemudahan)" },
+            { indo: "Ujian itu sulit", en: "The exam is difficult", phonetic: "Di ig-zam iz di-fi-kelt", explanation: "Kata sifat: difficult (menjelaskan kesulitan)" },
+            { indo: "Dia cepat", en: "He is fast", phonetic: "Hi iz fast", explanation: "Kata sifat: fast (menjelaskan kecepatan)" },
+            { indo: "Dia lambat", en: "She is slow", phonetic: "Syi iz slo", explanation: "Kata sifat: slow (menjelaskan kecepatan)" },
+            { indo: "Anjing itu besar", en: "The dog is big", phonetic: "De dog iz big", explanation: "Kata sifat: big (menjelaskan ukuran)" },
+            { indo: "Kucing itu kecil", en: "The cat is small", phonetic: "De ket iz smol", explanation: "Kata sifat: small (menjelaskan ukuran)" },
+            { indo: "Film itu membosankan", en: "The movie is boring", phonetic: "De mu-vi iz bo-ring", explanation: "Kata sifat: boring (menjelaskan rasa bosan)" },
+            { indo: "Cerita itu seru", en: "The story is exciting", phonetic: "De sto-ri iz ek-sai-ting", explanation: "Kata sifat: exciting (menjelaskan keseruan)" },
+            { indo: "Dia ramah", en: "She is friendly", phonetic: "Syi iz fren-dli", explanation: "Kata sifat: friendly (menjelaskan sikap)" },
+            { indo: "Dia jahat", en: "He is mean", phonetic: "Hi iz min", explanation: "Kata sifat: mean (menjelaskan sifat buruk)" },
+            { indo: "Jalan ini panjang", en: "This road is long", phonetic: "Dis rod iz long", explanation: "Kata sifat: long (menjelaskan panjang)" },
+            { indo: "Jalan itu pendek", en: "That road is short", phonetic: "Det rod iz short", explanation: "Kata sifat: short (menjelaskan pendek)" },
+            { indo: "Dia kuat", en: "He is strong", phonetic: "Hi iz strong", explanation: "Kata sifat: strong (menjelaskan kekuatan)" },
+            { indo: "Dia lemah", en: "She is weak", phonetic: "Syi iz wik", explanation: "Kata sifat: weak (menjelaskan kelemahan)" },
+            { indo: "Kamar ini bersih", en: "This room is clean", phonetic: "Dis rum iz klin", explanation: "Kata sifat: clean (menjelaskan kebersihan)" }
         ];
 
         let currentIndex = 0;
-        let config = { volume: 1, rate: 0.9, delay: 120000 };
-        let autoRevealTimer;
+        let timerInterval;
+        let revealTimeout;
+        let appSettings = { volume: 0.8, timerSeconds: 10 };
+        const synth = window.speechSynthesis;
 
-        document.getElementById('timer-setting').oninput = function() {
-            document.getElementById('timer-val').innerText = this.value;
+        // DOM Elements
+        const screenSettings = document.getElementById('screen-settings');
+        const screenExercise = document.getElementById('screen-exercise');
+        const volumeSlider = document.getElementById('input-volume');
+        const volumeNumber = document.getElementById('volume-number');
+        const valVolume = document.getElementById('val-volume');
+        const timerSlider = document.getElementById('input-timer');
+        const timerNumber = document.getElementById('timer-number');
+        const valTimer = document.getElementById('val-timer');
+        const progressBadge = document.getElementById('progress-badge');
+        const textIndo = document.getElementById('text-indo');
+        const timerDisplay = document.getElementById('timer-display');
+        const btnReveal = document.getElementById('btn-reveal');
+        const answerArea = document.getElementById('answer-area');
+        const textEn = document.getElementById('text-en');
+        const textPhonetic = document.getElementById('text-phonetic');
+        const textExplanation = document.getElementById('text-explanation');
+
+        // Setup event listeners
+        function setupControls() {
+            volumeSlider.oninput = () => {
+                let val = parseInt(volumeSlider.value);
+                volumeNumber.value = val;
+                valVolume.innerText = val;
+                appSettings.volume = val / 100;
+            };
+            volumeNumber.oninput = () => {
+                let val = parseInt(volumeNumber.value);
+                if (val < 0) val = 0;
+                if (val > 100) val = 100;
+                volumeSlider.value = val;
+                valVolume.innerText = val;
+                appSettings.volume = val / 100;
+            };
+            timerSlider.oninput = () => {
+                let val = parseInt(timerSlider.value);
+                timerNumber.value = val;
+                valTimer.innerText = val;
+                appSettings.timerSeconds = val;
+            };
+            timerNumber.oninput = () => {
+                let val = parseInt(timerNumber.value);
+                if (val < 3) val = 3;
+                if (val > 120) val = 120;
+                timerSlider.value = val;
+                valTimer.innerText = val;
+                appSettings.timerSeconds = val;
+            };
         }
 
-        function startApp() {
-            config.volume = parseFloat(document.getElementById('vol-setting').value);
-            config.rate = parseFloat(document.getElementById('rate-setting').value);
-            config.delay = parseInt(document.getElementById('timer-setting').value) * 1000;
-
-            document.getElementById('screen-intro').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.remove('hidden');
-
+        function startExercise() {
+            appSettings.volume = volumeSlider.value / 100;
+            appSettings.timerSeconds = parseInt(timerSlider.value);
+            
+            screenSettings.classList.remove('active');
+            screenExercise.classList.add('active');
             currentIndex = 0;
             loadQuestion();
         }
 
+        function goToSettings() {
+            if (timerInterval) clearInterval(timerInterval);
+            if (revealTimeout) clearTimeout(revealTimeout);
+            synth.cancel();
+            screenExercise.classList.remove('active');
+            screenSettings.classList.add('active');
+        }
+
+        function resetToSettings() {
+            goToSettings();
+        }
+
         function loadQuestion() {
-            const item = quizData[currentIndex];
-            document.getElementById('quiz-counter').innerText = `${currentIndex + 1}/${quizData.length}`;
-            document.getElementById('question-text').innerText = item.id;
-            document.getElementById('en-text').innerText = item.en;
-            document.getElementById('ph-text').innerText = item.ph;
-            document.getElementById('reason-text').innerText = item.reason;
-
-            document.getElementById('answer-content').classList.add('hidden-answer');
-            document.getElementById('btn-reveal').classList.remove('hidden');
+            clearInterval(timerInterval);
+            if (revealTimeout) clearTimeout(revealTimeout);
+            synth.cancel();
             
-            window.speechSynthesis.cancel();
-            setTimeout(() => { speakText('id'); }, 500);
-
-            clearTimeout(autoRevealTimer);
-            autoRevealTimer = setTimeout(() => { revealAnswer(); }, config.delay);
+            const data = fullDatabase[currentIndex];
+            progressBadge.innerText = `SOAL ${currentIndex + 1} / ${fullDatabase.length}`;
+            textIndo.innerText = data.indo;
+            textEn.innerText = data.en;
+            textPhonetic.innerText = data.phonetic;
+            textExplanation.innerText = data.explanation;
+            
+            answerArea.classList.remove('visible');
+            btnReveal.classList.remove('hidden');
+            
+            // Speak Indonesian text
+            speakText(data.indo, 'id-ID');
+            
+            // Start timer
+            let timeLeft = appSettings.timerSeconds;
+            timerDisplay.innerText = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft >= 0 ? timeLeft : 0;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (!answerArea.classList.contains('visible')) {
+                        revealAnswer();
+                    }
+                }
+            }, 1000);
         }
-
+        
         function revealAnswer() {
-            clearTimeout(autoRevealTimer);
-            document.getElementById('btn-reveal').classList.add('hidden');
-            document.getElementById('answer-content').classList.remove('hidden-answer');
-            speakText('en');
+            clearInterval(timerInterval);
+            if (revealTimeout) clearTimeout(revealTimeout);
+            answerArea.classList.add('visible');
+            btnReveal.classList.add('hidden');
+            setTimeout(() => {
+                speakEnglish();
+            }, 200);
         }
-
-        function speakText(lang) {
-            const item = quizData[currentIndex];
-            const speech = new SpeechSynthesisUtterance();
-            speech.text = (lang === 'id') ? item.id : item.en;
-            speech.lang = (lang === 'id') ? 'id-ID' : 'en-US';
-            speech.volume = config.volume;
-            speech.rate = config.rate;
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(speech);
+        
+        function speakEnglish() {
+            const data = fullDatabase[currentIndex];
+            speakText(data.en, 'en-US');
         }
-
-        function nextQuiz() {
-            if (currentIndex < quizData.length - 1) {
+        
+        function speakText(text, lang) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.volume = appSettings.volume;
+            utterance.rate = 0.9;
+            synth.cancel();
+            synth.speak(utterance);
+        }
+        
+        function nextQuestion() {
+            if (currentIndex < fullDatabase.length - 1) {
                 currentIndex++;
                 loadQuestion();
             } else {
-                alert("Luar biasa! Semua materi kata sifat telah selesai.");
-                goBack();
+                alert("🎉 Selamat! Anda telah menyelesaikan semua 34 soal Kata Sifat! 🎉\nKlik OK untuk kembali ke pengaturan.");
+                goToSettings();
             }
         }
-
-        function prevQuiz() {
+        
+        function prevQuestion() {
             if (currentIndex > 0) {
                 currentIndex--;
                 loadQuestion();
+            } else {
+                alert("Ini adalah soal pertama.");
             }
         }
-
-        function goBack() {
-            clearTimeout(autoRevealTimer);
-            window.speechSynthesis.cancel();
-            document.getElementById('screen-intro').classList.remove('hidden');
-            document.getElementById('screen-quiz').classList.add('hidden');
-        }
+        
+        // Initialize on page load
+        setupControls();
+        
+        // Sync default values
+        volumeNumber.value = volumeSlider.value;
+        timerNumber.value = timerSlider.value;
+        valVolume.innerText = volumeSlider.value;
+        valTimer.innerText = timerSlider.value;
+        appSettings.volume = volumeSlider.value / 100;
+        appSettings.timerSeconds = parseInt(timerSlider.value);
     </script>
 </body>
 </html>
