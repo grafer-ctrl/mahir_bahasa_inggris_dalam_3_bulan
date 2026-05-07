@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Master: Spin & Speak v5.2</title>
+    <style>
+        :root {
+            --primary: #007bff; 
+            --dark: #0056b3; 
+            --bg: #f0f5ff;
+            --white: #ffffff; 
+            --text: #2c3e50; 
+            --success: #28a745; 
+            --danger: #dc3545;
+        }
+
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+        #app-content { width: 100%; max-width: 450px; padding: 15px; }
+
+        /* Header Stats */
+        .header { background: var(--white); padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .stat-box { text-align: center; padding: 5px; }
+        .stat-val { display: block; font-size: 1.1em; font-weight: 800; color: var(--primary); }
+        .stat-lab { font-size: 0.65em; text-transform: uppercase; color: #7f8c8d; font-weight: bold; }
+        
+        .progress-container { grid-column: span 2; border-top: 1px solid #eee; margin-top: 5px; padding-top: 10px; }
+
+        /* Animasi Blink Merah */
+        .blink-red {
+            color: var(--danger);
+            font-weight: 800;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        /* Nav Buttons */
+        .nav-btns { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn { border: none; padding: 12px 18px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-outline { background: var(--white); border: 1.5px solid #e0e0e0; color: #555; width: 100%; }
+        .btn-main { background: var(--primary); color: white; width: 100%; padding: 16px; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,123,255,0.25); border-radius: 14px; }
+
+        /* Wheel Area */
+        .wheel-area { position: relative; display: flex; justify-content: center; margin: 15px 0; }
+        .pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 26px; height: 26px; background: var(--danger); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10; }
+        canvas { border-radius: 50%; border: 6px solid var(--white); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); background: white; max-width: 100%; height: auto; }
+
+        /* Challenge Card */
+        #card { display: none; background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; margin-top: 15px; animation: pop 0.3s ease; }
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .timer-bar { width: 100%; height: 6px; background: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        #timer-fill { width: 100%; height: 100%; background: var(--primary); transition: width 1s linear; }
+
+        #ans-text { display: none; background: #f8fff9; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px dashed var(--success); }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:25px; border-radius:20px; width:85%; max-width:340px; }
+    </style>
+</head>
+<body>
+
+    <div id="app-content">
+        <div class="header">
+            <div class="stat-box"><span class="stat-lab">Skor Total</span><span class="stat-val" id="score">0</span></div>
+            <div class="stat-box"><span class="stat-lab">Streak</span><span class="stat-val" id="streak">0 🔥</span></div>
+            
+            <div class="stat-box progress-container">
+                <span class="blink-red">terjemahkan dan ucapkan dalam bahasa inggris</span>
+                <span class="stat-lab">Progres Soal (Selesai / Total)</span>
+                <span class="stat-val" id="progress-text">0 / 50</span>
+            </div>
+        </div>
+
+        <div class="nav-btns">
+            <button class="btn btn-outline" onclick="openSet()">⚙️ Waktu</button>
+            <button class="btn btn-outline" onclick="resetGame()">🔄 Reset</button>
+        </div>
+
+        <div class="wheel-area">
+            <div class="pointer"></div>
+            <canvas id="wheel" width="320" height="320"></canvas>
+        </div>
+
+        <button class="btn btn-main" id="spin-btn" onclick="spin()">PUTAR RODA SEKARANG</button>
+
+        <div id="card">
+            <div id="cat-label" style="font-weight: bold; color: var(--primary); font-size: 0.8em; letter-spacing: 1px;">KATEGORI</div>
+            <h2 id="q-indo" style="margin: 15px 0; line-height: 1.4; font-weight: 700;">Memuat...</h2>
+            
+            <div class="timer-bar"><div id="timer-fill"></div></div>
+            <small id="timer-num" style="color: #7f8c8d; font-weight: bold;">Waktu: 15s</small>
+
+            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-outline" onclick="speak()">🔊 Dengar Suara</button>
+                <button class="btn btn-outline" onclick="showAns()">👁️ Lihat Jawaban</button>
+                <div id="ans-text">
+                    <div id="ans-en" style="font-size: 1.15em; font-weight: bold; color: var(--success); margin-bottom: 4px;">English</div>
+                    <div id="ans-read" style="font-size: 0.9em; color: #7f8c8d; font-style: italic;">Pronunciation</div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                <button class="btn" style="background: var(--success); color: white;" onclick="handleAns(true)">BENAR</button>
+                <button class="btn" style="background: var(--danger); color: white;" onclick="handleAns(false)">SALAH</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-set" class="modal">
+        <div class="modal-content">
+            <h3>Atur Jeda Waktu</h3>
+            <input type="range" id="time-range" min="5" max="120" value="15" style="width: 100%;" oninput="document.getElementById('range-v').innerText = this.value">
+            <p style="text-align:center; font-weight:bold;"><span id="range-v">15</span> detik</p>
+            <button class="btn btn-main" onclick="closeSet()">SIMPAN</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        
+        const categories = [
+            { label: 'Daily Life', color: '#007bff' },
+            { label: 'Social', color: '#6610f2' },
+            { label: 'Growth', color: '#e83e8c' },
+            { label: 'Motivation', color: '#2c3e50' },
+            { label: 'Mindset', color: '#ffc107' },
+            { label: 'Mental Health', color: '#20c997' }
+        ];
+
+        const questions = {
+            'Daily Life': [
+                {id: "401", txt: "Aku baru sadar sesuatu", en: "I just realized something", read: "Ai jas ri-a-laiz sam-thing"},
+                {id: "403", txt: "Aku butuh udara segar", en: "I need fresh air", read: "Ai nid fresh er"},
+                {id: "404", txt: "Aku ingin pergi sebentar", en: "I want to go out for a bit", read: "Ai wont tu go aut for e bit"},
+                {id: "406", txt: "Aku suka suasana seperti ini", en: "I like this kind of atmosphere", read: "Ai laik dis kaind of at-mos-fir"},
+                {id: "407", txt: "Aku hanya ingin bersantai hari ini", en: "I just want to relax today", read: "Ai jas wont tu ri-leks tu-dei"},
+                {id: "411", txt: "Aku tidak menyangka itu terjadi", en: "I didn’t expect that to happen", read: "Ai did-ent eks-pekt det tu he-pen"},
+                {id: "418", txt: "Aku mencoba bangun lebih pagi", en: "I’m trying to wake up earlier", read: "Aim trai-ing tu weik ap er-li-er"},
+                {id: "419", txt: "Aku sedang mengurangi penggunaan HP", en: "I’m reducing my phone usage", read: "Aim ri-du-sing mai fon yu-sij"},
+                {id: "436", txt: "Aku suka suasana pagi", en: "I like the morning atmosphere", read: "Ai laik de mor-ning at-mos-fir"}
+            ],
+            'Social': [
+                {id: "412", txt: "Aku sangat menghargai waktumu", en: "I really appreciate your time", read: "Ai ri-li e-pri-shi-eit yor taim"},
+                {id: "413", txt: "Aku senang bisa membantu", en: "I’m glad I could help", read: "Aim gled ai kud help"},
+                {id: "421", txt: "Aku suka belajar dari orang lain", en: "I like learning from other people", read: "Ai laik ler-ning from a-der pi-pol"}
+            ],
+            'Growth': [
+                {id: "414", txt: "Aku sedang belajar menjadi lebih baik", en: "I’m learning to become better", read: "Aim ler-ning tu bi-kam bet-ter"},
+                {id: "415", txt: "Aku ingin lebih fokus pada diriku sendiri", en: "I want to focus more on myself", read: "Ai wont tu fo-kes mor on mai-self"},
+                {id: "416", txt: "Aku sedang mencoba membangun kebiasaan baik", en: "I’m trying to build good habits", read: "Aim trai-ing tu bild gud ha-bits"},
+                {id: "424", txt: "Aku tidak ingin mengulangi kesalahan yang sama", en: "I don’t want to repeat the same mistake", read: "Ai dont wont tu ri-pit de seim mis-teik"},
+                {id: "426", txt: "Aku sedang mencoba lebih percaya diri", en: "I’m trying to be more confident", read: "Aim trai-ing tu bi mor kon-fi-dent"},
+                {id: "434", txt: "Aku ingin menjadi lebih mandiri", en: "I want to be more independent", read: "Ai wont tu bi mor in-di-pen-dent"},
+                {id: "435", txt: "Aku sedang mencoba kebiasaan baru", en: "I’m trying new habits", read: "Aim trai-ing nyu ha-bits"},
+                {id: "439", txt: "Aku ingin mencoba hal baru", en: "I want to try something new", read: "Ai wont tu trai sam-thing nyu"},
+                {id: "440", txt: "Aku suka belajar pelan-pelan", en: "I like learning step by step", read: "Ai laik ler-ning step bai step"},
+                {id: "446", txt: "Aku belajar menghargai diriku sendiri", en: "I’m learning to appreciate myself", read: "Aim ler-ning tu e-pri-shi-eit mai-self"}
+            ],
+            'Motivation': [
+                {id: "417", txt: "Aku harus lebih konsisten", en: "I need to be more consistent", read: "Ai nid tu bi mor kon-sis-tent"},
+                {id: "420", txt: "Aku ingin hidup lebih sehat dan bahagia", en: "I want to live healthier and happier", read: "Ai wont tu liv hel-ti-er end hap-pi-er"},
+                {id: "425", txt: "Aku siap memulai hari baru", en: "I’m ready to start a new day", read: "Aim re-di tu start e nyu dei"},
+                {id: "427", txt: "Aku ingin lebih produktif", en: "I want to be more productive", read: "Ai wont tu bi mor pro-dak-tiv"},
+                {id: "428", txt: "Aku harus mengatur waktuku lebih baik", en: "I need to manage my time better", read: "Ai nid tu me-nij mai taim bet-ter"},
+                {id: "430", txt: "Aku ingin mencapai mimpiku", en: "I want to achieve my dreams", read: "Ai wont tu e-chiv mai drims"},
+                {id: "431", txt: "Aku tidak mau membuang waktuku", en: "I don’t want to waste my time", read: "Ai dont wont tu weist mai taim"},
+                {id: "437", txt: "Aku merasa lebih semangat hari ini", en: "I feel more motivated today", read: "Ai fil mor mo-ti-ve-ted tu-dei"},
+                {id: "438", txt: "Aku sedang mencari inspirasi", en: "I’m looking for inspiration", read: "Aim lu-king for in-spi-rei-shen"},
+                {id: "442", txt: "Aku sedang membangun masa depanku", en: "I’m building my future", read: "Aim bil-ding mai fyu-cher"},
+                {id: "443", txt: "Aku tidak ingin menyerah sekarang", en: "I don’t want to give up now", read: "Ai dont wont tu giv ap nau"},
+                {id: "444", txt: "Aku percaya usaha kecil juga penting", en: "I believe small efforts matter too", read: "Ai bi-liv smol ef-forts ma-ter tu"},
+                {id: "449", txt: "Aku percaya setiap hari adalah kesempatan baru", en: "I believe every day is a new opportunity", read: "Ai bi-liv ev-ri dei is e nyu o-per-tu-ni-ti"},
+                {id: "450", txt: "Aku siap menjadi versi terbaik diriku", en: "I’m ready to become the best version of myself", read: "Aim re-di tu bi-kam de best ver-zhen of mai-self"}
+            ],
+            'Mindset': [
+                {id: "409", txt: "Aku sedang mencoba menikmati hidup", en: "I’m trying to enjoy life", read: "Aim trai-ing tu en-joy laif"},
+                {id: "422", txt: "Aku mencoba melihat sisi positifnya", en: "I’m trying to see the positive side", read: "Aim trai-ing tu si de po-si-tiv said"},
+                {id: "423", txt: "Aku percaya semuanya terjadi karena alasan tertentu", en: "I believe everything happens for a reason", read: "Ai bi-liv ev-ri-thing he-pens for e ri-zon"},
+                {id: "432", txt: "Aku mencoba tetap positif", en: "I’m trying to stay positive", read: "Aim trai-ing tu stei po-si-tiv"},
+                {id: "433", txt: "Aku percaya pada proses belajar", en: "I believe in the learning process", read: "Ai bi-liv in de ler-ning pro-ses"},
+                {id: "441", txt: "Aku ingin menikmati setiap proses", en: "I want to enjoy every process", read: "Ai wont tu en-joy ev-ri pro-ses"},
+                {id: "445", txt: "Aku ingin hidup tanpa penyesalan", en: "I want to live without regrets", read: "Ai wont tu liv wi-daut ri-grets"}
+            ],
+            'Mental Health': [
+                {id: "402", txt: "Aku sedang mencoba tetap tenang", en: "I’m trying to stay calm", read: "Aim trai-ing tu stei kam"},
+                {id: "405", txt: "Aku sedang menikmati waktuku", en: "I’m enjoying my time", read: "Aim en-joy-ing mai taim"},
+                {id: "408", txt: "Aku tidak ingin memaksakan diri", en: "I don’t want to force myself", read: "Ai dont wont tu fors mai-self"},
+                {id: "410", txt: "Aku merasa sangat lega", en: "I feel so relieved", read: "Ai fil so ri-livd"},
+                {id: "429", txt: "Aku sedang memikirkan masa depanku", en: "I’m thinking about my future", read: "Aim ting-king e-baut mai fyu-cher"},
+                {id: "447", txt: "Aku mencoba menjadi lebih tenang", en: "I’m trying to be calmer", read: "Aim trai-ing tu bi kal-mer"},
+                {id: "448", txt: "Aku ingin menjaga pikiranku tetap positif", en: "I want to keep my mind positive", read: "Ai wont tu kip mai maind po-si-tiv"}
+            ]
+        };
+
+        let score = 0, streak = 0, rotation = 0, isSpinning = false;
+        let timerMax = 15, timerInt, timeLeft, currentQ;
+        let totalSoal = 0;
+        let soalSelesai = new Set();
+
+        function initCounters() {
+            totalSoal = 0;
+            for (let cat in questions) {
+                totalSoal += questions[cat].length;
+            }
+            updateProgressUI();
+        }
+
+        function drawWheel() {
+            const arc = (Math.PI * 2) / categories.length;
+            ctx.clearRect(0,0,320,320);
+            categories.forEach((cat, i) => {
+                const ang = i * arc;
+                ctx.beginPath(); ctx.fillStyle = cat.color;
+                ctx.moveTo(160, 160); ctx.arc(160, 160, 150, ang, ang + arc); ctx.fill();
+                ctx.save(); ctx.translate(160, 160); ctx.rotate(ang + arc/2);
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 12px Arial";
+                ctx.fillText(cat.label, 140, 5); ctx.restore();
+            });
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById('spin-btn').disabled = true;
+            document.getElementById('card').style.display = 'none';
+            document.getElementById('ans-text').style.display = 'none';
+            
+            const randomDeg = Math.floor(Math.random() * 360) + 1440;
+            rotation += randomDeg;
+            canvas.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                document.getElementById('spin-btn').disabled = false;
+                const actualDeg = (360 - (rotation % 360)) % 360;
+                const idx = Math.floor(actualDeg / (360 / categories.length));
+                showQ(categories[idx].label);
+            }, 4000);
+        }
+
+        function showQ(cat) {
+            const pool = questions[cat];
+            currentQ = pool[Math.floor(Math.random() * pool.length)];
+            soalSelesai.add(currentQ.id);
+            document.getElementById('cat-label').innerText = cat.toUpperCase();
+            document.getElementById('q-indo').innerText = currentQ.txt;
+            document.getElementById('card').style.display = 'block';
+            updateProgressUI();
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInt);
+            timeLeft = timerMax;
+            const bar = document.getElementById('timer-fill');
+            timerInt = setInterval(() => {
+                timeLeft--;
+                bar.style.width = (timeLeft / timerMax * 100) + "%";
+                document.getElementById('timer-num').innerText = `Waktu: ${timeLeft}s`;
+                if (timeLeft <= 0) { clearInterval(timerInt); handleAns(false); }
+            }, 1000);
+        }
+
+        function handleAns(correct) {
+            clearInterval(timerInt);
+            if (correct) {
+                streak++;
+                score += (streak >= 3) ? 20 : 10;
+            } else {
+                streak = 0;
+            }
+            updateProgressUI();
+            document.getElementById('score').innerText = score;
+            document.getElementById('streak').innerText = streak + " 🔥";
+            document.getElementById('card').style.display = 'none';
+        }
+
+        function updateProgressUI() {
+            document.getElementById('progress-text').innerText = `${soalSelesai.size} / ${totalSoal}`;
+        }
+
+        function showAns() {
+            document.getElementById('ans-en').innerText = currentQ.en;
+            document.getElementById('ans-read').innerText = `Cara baca: "${currentQ.read}"`;
+            document.getElementById('ans-text').style.display = 'block';
+            speak();
+        }
+
+        function speak() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const msg = new SpeechSynthesisUtterance(currentQ.en);
+                msg.lang = 'en-US';
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        function resetGame() {
+            if(confirm("Reset semua progres?")) {
+                score = 0; streak = 0; soalSelesai.clear();
+                document.getElementById('score').innerText = "0";
+                document.getElementById('streak').innerText = "0 🔥";
+                updateProgressUI();
+                document.getElementById('card').style.display = 'none';
+            }
+        }
+
+        function openSet() { document.getElementById('modal-set').style.display = 'flex'; }
+        function closeSet() { 
+            timerMax = parseInt(document.getElementById('time-range').value);
+            document.getElementById('modal-set').style.display = 'none'; 
+        }
+
+        initCounters();
+        drawWheel();
+    </script>
+</body>
+</html>
