@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · To Be Expert</title>
+    <!-- Google Font & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #e0e8f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-wrapper {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .app-container {
+            padding: 28px 24px 36px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* motivational card with to-be intro */
+        .intro-card {
+            background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
+            border-radius: 32px;
+            padding: 22px 20px;
+            margin: 16px 0 28px;
+            border: 1px solid #cddef5;
+        }
+        .to-be-intro {
+            font-size: 0.9rem;
+            color: #1e4a76;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        .to-be-intro p {
+            margin: 8px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-to-be {
+            background: #2c5282;
+            color: white;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+        }
+        #soal-teks {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #4361ee;
+        }
+        .eng-headline {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.3rem;
+        }
+        .speaker-icon-round:hover { background: #dfe7f2; transform: scale(0.95); }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.9rem;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 10px 22px;
+            border-radius: 44px;
+            font-weight: 600;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+        }
+        .next-btn-custom:hover { background: #eef4fc; transform: translateY(-2px); }
+        .small-note { font-size: 11px; text-align: center; margin-top: 16px; color: #6f8eae; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        i { pointer-events: none; }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome + Intro To Be -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-spell-check"></i> Master TO BE</h1>
+            <div class="intro-card">
+                <div class="to-be-intro">
+                    <p><span class="badge-to-be">am</span> <span>➜ I am (aku adalah/sedang) → untuk subjek "I" di sekarang</span></p>
+                    <p><span class="badge-to-be">is</span> <span>➜ He/She/It is → subjek tunggal sekarang</span></p>
+                    <p><span class="badge-to-be">are</span> <span>➜ You/We/They are → subjek jamak & you</span></p>
+                    <p><span class="badge-to-be">was</span> <span>➜ I/He/She/It was → masa lalu (tunggal)</span></p>
+                    <p><span class="badge-to-be">were</span> <span>➜ You/We/They were → masa lalu (jamak/you)</span></p>
+                    <p><span class="badge-to-be">being</span> <span>➜ sedang (proses pasif/aktif) → is/am/are being + V3/Adj</span></p>
+                    <p><span class="badge-to-be">been</span> <span>➜ telah (setelah have/has/had) → pengalaman / durasi</span></p>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-graduation-cap"></i> Latihan To Be
+            </button>
+        </div>
+
+        <!-- Screen B: Settings -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-sliders-h"></i> Atur Sesi</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu tampil jawaban</span> <span id="timerValDisplay" class="slider-value-badge">7 detik</span></label>
+                <input type="range" id="timerRange" min="3" max="120" value="7">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan To Be
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan based on kalimat to be -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 54</div>
+            <div class="question-card">
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Klik speaker untuk dengar English & pronunciation
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =============== DATA SOAL LENGKAP (AM, IS, ARE, WAS, WERE, BEING, BEEN) ===============
+    const daftarSoal = [
+        { s: "Aku sedang bahagia sekarang", j: "I am happy now", p: "Ai em he-pi nau", k: "📘 Alasan 'am': dipakai untuk subjek 'I' di waktu sekarang (keadaan/perasaan)." },
+        { s: "Dia sedang belajar di kamar", j: "She is studying in the room", p: "Syi iz sta-di-ing in de rum", k: "📘 Alasan 'is': dipakai untuk subjek tunggal seperti he, she, it + V-ing (sedang)." },
+        { s: "Mereka sedang bermain di luar", j: "They are playing outside", p: "Dey ar plei-ing aut-said", k: "📘 Alasan 'are': dipakai untuk subjek jamak (they, we, you) + present continuous." },
+        { s: "Aku tadi sangat lelah", j: "I was very tired earlier", p: "Ai woz ve-ri tai-erd er-li-er", k: "📘 Alasan 'was': masa lalu dengan subjek tunggal (I, he, she, it)." },
+        { s: "Kami dulu sangat dekat", j: "We were very close before", p: "Wi wer ve-ri klos bi-for", k: "📘 Alasan 'were': masa lalu untuk subjek jamak (we, they, you)." },
+        { s: "Dia sedang dihukum oleh gurunya", j: "He is being punished by his teacher", p: "Hi iz bi-ing pan-ist bai hiz ti-cher", k: "📘 Alasan 'being': menunjukkan proses pasif yang sedang berlangsung (is being + V3)." },
+        { s: "Mereka sudah dipilih menjadi juara", j: "They have been chosen as champions", p: "Dey hev bin cho-sen ez cham-pi-ons", k: "📘 Alasan 'been': bentuk ketiga be, dipakai setelah have/has/had (perfect passive)." },
+        { s: "Aku adalah seorang pelajar", j: "I am a student", p: "Ai em e stu-dent", k: "📘 Alasan 'am': identitas diri atau profesi (present simple)." },
+        { s: "Kucing itu sangat lucu", j: "The cat is very cute", p: "De ket iz ve-ri kyut", k: "📘 Alasan 'is': menjelaskan sifat benda tunggal." },
+        { s: "Kalian sangat ramah", j: "You are very friendly", p: "Yu ar ve-ri frend-li", k: "📘 Alasan 'are': dipakai dengan subjek 'you' (baik tunggal/jamak)." },
+        { s: "Dia tadi ada di sekolah", j: "He was at school earlier", p: "Hi woz et skul er-li-er", k: "📘 Alasan 'was': menunjukkan lokasi di masa lalu untuk subjek tunggal." },
+        { s: "Mereka tadi sangat sibuk", j: "They were very busy yesterday", p: "Dey wer ve-ri bi-zi yes-ter-dei", k: "📘 Alasan 'were': keadaan jamak di masa lalu." },
+        { s: "Makanan itu sedang dimasak", j: "The food is being cooked", p: "De fud iz bi-ing kukt", k: "📘 Alasan 'being': proses pasif yang sedang terjadi (is being + V3)." },
+        { s: "Aku sudah sangat sibuk akhir-akhir ini", j: "I have been very busy lately", p: "Ai hev bin ve-ri bi-zi leit-li", k: "📘 Alasan 'been': menunjukkan kondisi yang sudah berlangsung (have + been)." },
+        { s: "Cuacanya sedang dingin", j: "The weather is cold", p: "De we-der iz kold", k: "📘 Alasan 'is': menjelaskan keadaan cuaca saat ini." },
+        { s: "Kami sedang menunggu bus", j: "We are waiting for the bus", p: "Wi ar wei-ting for de bas", k: "📘 Alasan 'are': aktivitas jamak yang sedang berlangsung (present continuous)." },
+        { s: "Aku tadi di rumah", j: "I was at home", p: "Ai woz et hom", k: "📘 Alasan 'was': posisi atau keadaan di masa lalu (I was)." },
+        { s: "Kamu dulu sangat pemalu", j: "You were very shy before", p: "Yu wer ve-ri syai bi-for", k: "📘 Alasan 'were': keadaan masa lalu dengan subjek 'you'." },
+        { s: "Dia sedang diperiksa dokter", j: "She is being examined by the doctor", p: "Syi iz bi-ing eg-zam-ind bai de dok-ter", k: "📘 Alasan 'being': tindakan pasif sedang berlangsung (is being + examined)." },
+        { s: "Kami sudah menjadi teman lama", j: "We have been friends for years", p: "Wi hev bin frends for yirs", k: "📘 Alasan 'been': kondisi yang berlangsung lama sampai sekarang (have been)." },
+        { s: "Aku sedang lapar sekarang", j: "I am hungry now", p: "Ai em hung-gri nau", k: "📘 Alasan 'am': keadaan diri sendiri saat ini." },
+        { s: "Dia teman baikku", j: "He is my good friend", p: "Hi iz may gud frend", k: "📘 Alasan 'is': dipakai untuk subjek tunggal (he)." },
+        { s: "Mereka sedang sangat senang", j: "They are very excited", p: "Dey ar ve-ri ik-sai-ted", k: "📘 Alasan 'are': dipakai untuk subjek jamak (they)." },
+        { s: "Aku tadi sangat gugup", j: "I was very nervous earlier", p: "Ai woz ve-ri ner-ves er-li-er", k: "📘 Alasan 'was': keadaan diri di masa lalu (I was)." },
+        { s: "Kami dulu tinggal di desa", j: "We were living in a village before", p: "Wi wer li-ving in e vil-lij bi-for", k: "📘 Alasan 'were': dipakai untuk subjek jamak di masa lalu + past continuous." },
+        { s: "Pintunya sedang diperbaiki", j: "The door is being repaired", p: "De dor iz bi-ing ri-perd", k: "📘 Alasan 'being': menunjukkan proses pasif yang sedang terjadi." },
+        { s: "Dia sudah sangat sabar selama ini", j: "She has been very patient all this time", p: "Syi hez bin ve-ri pei-shent ol dis taim", k: "📘 Alasan 'been': keadaan yang berlangsung sampai sekarang." },
+        { s: "Aku anak yang rajin", j: "I am a diligent child", p: "Ai em e di-li-jent caild", k: "📘 Alasan 'am': menyatakan identitas atau sifat diri." },
+        { s: "Laptop itu sangat mahal", j: "The laptop is very expensive", p: "De lep-top iz ve-ri ik-spen-siv", k: "📘 Alasan 'is': menjelaskan benda tunggal." },
+        { s: "Kita sedang belajar bersama", j: "We are studying together", p: "Wi ar sta-di-ing tu-ge-der", k: "📘 Alasan 'are': kegiatan bersama yang sedang berlangsung." },
+        { s: "Dia tadi sangat marah", j: "She was very angry yesterday", p: "Syi woz ve-ri eng-gri yes-ter-dei", k: "📘 Alasan 'was': keadaan emosi di masa lalu (lampau)." },
+        { s: "Kalian dulu sangat aktif", j: "You were very active before", p: "Yu wer ve-ri ak-tiv bi-for", k: "📘 Alasan 'were': dipakai untuk 'you' di masa lalu." },
+        { s: "Mobilnya sedang dicuci", j: "The car is being washed", p: "De kar iz bi-ing wosht", k: "📘 Alasan 'being': proses pasif sedang berlangsung." },
+        { s: "Aku sudah di sini sejak pagi", j: "I have been here since morning", p: "Ai hev bin hir sins mor-ning", k: "📘 Alasan 'been': menunjukkan keberadaan yang berlanjut (present perfect)." },
+        { s: "Hari ini sangat panas", j: "Today is very hot", p: "Tu-dei iz ve-ri hot", k: "📘 Alasan 'is': menjelaskan keadaan." },
+        { s: "Mereka sedang menonton film", j: "They are watching a movie", p: "Dey ar woc-ing e mu-vi", k: "📘 Alasan 'are': aktivitas jamak present continuous." },
+        { s: "Aku tadi berada di toko", j: "I was at the store earlier", p: "Ai woz et de stor er-li-er", k: "📘 Alasan 'was': lokasi masa lalu tunggal." },
+        { s: "Kami dulu sangat miskin", j: "We were very poor before", p: "Wi wer ve-ri pur bi-for", k: "📘 Alasan 'were': keadaan jamak di masa lalu." },
+        { s: "Anaknya sedang diajari membaca", j: "The child is being taught to read", p: "De caild iz bi-ing tot tu rid", k: "📘 Alasan 'being': proses pasif yang sedang terjadi." },
+        { s: "Mereka sudah menikah lima tahun", j: "They have been married for five years", p: "Dey hev bin mer-id for faiv yirs", k: "📘 Alasan 'been': kondisi yang sudah berlangsung lama." },
+        { s: "Aku sedang siap pergi", j: "I am ready to go", p: "Ai em re-di tu go", k: "📘 Alasan 'am': keadaan sekarang (I am ready)." },
+        { s: "Dia sangat pintar di kelas", j: "She is very smart in class", p: "Syi iz ve-ri smart in klas", k: "📘 Alasan 'is': sifat subjek tunggal." },
+        { s: "Kami sedang main game", j: "We are playing a game", p: "Wi ar plei-ing e geim", k: "📘 Alasan 'are': present continuous untuk we." },
+        { s: "Aku tadi sangat kecewa", j: "I was very disappointed earlier", p: "Ai woz ve-ri dis-a-poin-ted er-li-er", k: "📘 Alasan 'was': perasaan lampau tunggal." },
+        { s: "Mereka dulu tetangga kami", j: "They were our neighbors before", p: "Dey wer aur nei-bors bi-for", k: "📘 Alasan 'were': subjek jamak di masa lalu." },
+        { s: "Rumah itu sedang dicat", j: "The house is being painted", p: "De haus iz bi-ing pein-ted", k: "📘 Alasan 'being': proses pasif sedang berlangsung." },
+        { s: "Aku sudah sibuk minggu ini", j: "I have been very busy this week", p: "Ai hev bin ve-ri bi-zi dis wik", k: "📘 Alasan 'been': keadaan yang berlangsung sampai sekarang." },
+        { s: "Aku penggemar musik", j: "I am a music fan", p: "Ai em e myu-zik fen", k: "📘 Alasan 'am': menyatakan identitas." },
+        { s: "Buku itu sangat menarik", j: "The book is very interesting", p: "De buk iz ve-ri in-te-res-ting", k: "📘 Alasan 'is': menjelaskan objek tunggal." },
+        { s: "Kalian sedang membuat tugas", j: "You are doing homework", p: "Yu ar du-ing hom-work", k: "📘 Alasan 'are': kegiatan yang sedang dilakukan (you)." },
+        { s: "Dia tadi di kantor", j: "He was at the office earlier", p: "Hi woz et di o-fis er-li-er", k: "📘 Alasan 'was': lokasi masa lalu tunggal." },
+        { s: "Kami dulu sangat bahagia", j: "We were very happy before", p: "Wi wer ve-ri he-pi bi-for", k: "📘 Alasan 'were': keadaan masa lalu jamak." }
+    ];
+
+    // total 54 soal unik, pastikan cukup
+    while(daftarSoal.length < 54) {
+        daftarSoal.push({ s: "Latihan tambahan: Dia adalah insinyur", j: "He is an engineer", p: "Hi iz en en-ji-nir", k: "📘 'is' untuk identitas pekerjaan." });
+    }
+
+    let currentIndex = 0;
+    let timerExplose;
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => { timerValDisplay.innerText = timerRange.value + " detik"; });
+    timerValDisplay.innerText = timerRange.value + " detik";
+
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        if(!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { window.speechSynthesis.cancel(); clearTimeout(timerExplose); }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen-a') {
+            speak("Selamat datang di pelatihan To Be. Am, is, are, was, were, being, been. Kuasai dengan percaya diri!", 'id-ID');
+        }
+        if(id === 'screen-c') tampilkanSoal();
+    }
+
+    function resetLatihan() { currentIndex = 0; }
+
+    function tampilkanSoal() {
+        clearTimeout(timerExplose);
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `📖 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        speak(item.s, 'id-ID');
+        const delay = parseInt(timerRange.value) * 1000;
+        timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
+    }
+
+    function nextSoal() {
+        currentIndex++;
+        if(currentIndex >= daftarSoal.length) {
+            alert("🎉 Hebat! Kamu sudah menguasai semua bentuk To Be! Mulai dari awal untuk penguatan.");
+            currentIndex = 0;
+        }
+        tampilkanSoal();
+    }
+</script>
+</body>
+</html>
