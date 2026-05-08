@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Brain Training (Fast Response)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 560px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        .red-mission {
+            background: linear-gradient(120deg, #fff0f0, #ffe0e0);
+            border-left: 6px solid #e53e3e;
+            padding: 16px 20px;
+            border-radius: 28px;
+            margin-bottom: 24px;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .red-mission i { font-size: 1.5rem; color: #e53e3e; }
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-card {
+            background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
+            border-radius: 32px;
+            padding: 20px 18px;
+            margin: 8px 0 24px;
+            border: 1px solid #cddef5;
+        }
+        .brain-tip {
+            font-size: 0.85rem;
+            color: #1e4a76;
+            font-weight: 600;
+            line-height: 1.5;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .brain-tip span {
+            background: #ffffffcc;
+            padding: 6px 14px;
+            border-radius: 40px;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+        }
+        #soal-teks {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #f59e0b;
+        }
+        .eng-headline {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.4rem;
+        }
+        .speaker-icon-round:hover { background: #dfe7f2; transform: scale(0.95); }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.95rem;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 12px 24px;
+            border-radius: 44px;
+            font-weight: 700;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+        }
+        .next-btn-custom:hover { background: #eef4fc; transform: translateY(-2px); }
+        .small-note { font-size: 12px; text-align: center; margin-top: 16px; color: #6f8eae; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        i { pointer-events: none; }
+        .fast-badge {
+            background: #f97316;
+            color: white;
+            border-radius: 60px;
+            padding: 4px 16px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome + TUTORIAL MERAH (BRAIN TRAINING) -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-bolt"></i> BRAIN TRAINING</h1>
+            <div class="red-mission">
+                <i class="fas fa-brain"></i> 
+                <span><strong>TUGAS ANDA:</strong> Terjemahkan kalimat dengan CEPAT & ucapkan dengan keras dalam BAHASA INGGRIS! ⚡ Jangan mikir lama. Latih refleks bahasa!</span>
+            </div>
+            <div class="intro-card">
+                <div class="brain-tip">
+                    <span><i class="fas fa-clock"></i> Jawab dalam 3 detik</span>
+                    <span><i class="fas fa-volume-up"></i> Ucapkan keras-keras</span>
+                    <span><i class="fas fa-sync-alt"></i> Ulangi sampai lancar</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-rocket"></i> Mulai Latihan Otak
+            </button>
+        </div>
+
+        <!-- Screen B: Settings (timer cepat) -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-tachometer-alt"></i> Atur Kecepatan</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu muncul jawaban</span> <span id="timerValDisplay" class="slider-value-badge">3 detik</span></label>
+                <input type="range" id="timerRange" min="1" max="8" step="0.5" value="3">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan Cepat
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan otak (fast response) -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 105</div>
+            <div class="question-card">
+                <div style="text-align: center;"><span class="fast-badge"><i class="fas fa-bolt"></i> FAST RESPONSE</span></div>
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal ⚡
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Baca kalimat Indonesia, lalu ucapkan terjemahan Inggris dengan lantang!
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =============== DATA SOAL BRAIN TRAINING (RATUSAN KALIMAT SEDERHANA) ===============
+    const daftarSoal = [
+        { s: "Saya minum air", j: "I drink water", p: "Ai dringk wo-ter", k: "⚡ Latihan dasar: I drink water" },
+        { s: "Saya makan roti", j: "I eat bread", p: "Ai it bred", k: "⚡ I eat bread" },
+        { s: "Saya suka kopi", j: "I like coffee", p: "Ai laik ko-fi", k: "⚡ I like coffee" },
+        { s: "Saya pergi sekolah", j: "I go to school", p: "Ai go tu skul", k: "⚡ I go to school" },
+        { s: "Saya main bola", j: "I play football", p: "Ai plei fut-bol", k: "⚡ I play football" },
+        { s: "Saya baca buku", j: "I read a book", p: "Ai rid e buk", k: "⚡ I read a book" },
+        { s: "Saya menonton TV", j: "I watch TV", p: "Ai woc ti-vi", k: "⚡ I watch TV" },
+        { s: "Saya tidur cepat", j: "I sleep early", p: "Ai slip er-li", k: "⚡ I sleep early" },
+        { s: "Saya bangun pagi", j: "I wake up early", p: "Ai weik ap er-li", k: "⚡ I wake up early" },
+        { s: "Saya belajar bahasa Inggris", j: "I study English", p: "Ai sta-di ing-glish", k: "⚡ I study English" },
+        { s: "Saya suka musik", j: "I like music", p: "Ai laik myu-zik", k: "⚡ I like music" },
+        { s: "Saya punya teman baru", j: "I have a new friend", p: "Ai hev e nyu frend", k: "⚡ I have a new friend" },
+        { s: "Saya berjalan kaki", j: "I walk home", p: "Ai wok hom", k: "⚡ I walk home" },
+        { s: "Saya mandi pagi", j: "I take a shower", p: "Ai teik e sau-er", k: "⚡ I take a shower" },
+        { s: "Saya memakai baju baru", j: "I wear new clothes", p: "Ai wer nyu klodz", k: "⚡ I wear new clothes" },
+        { s: "Saya membuka pintu", j: "I open the door", p: "Ai o-pen de dor", k: "⚡ I open the door" },
+        { s: "Saya menutup jendela", j: "I close the window", p: "Ai kloz de win-dow", k: "⚡ I close the window" },
+        { s: "Saya duduk di kursi", j: "I sit on a chair", p: "Ai sit on e cer", k: "⚡ I sit on a chair" },
+        { s: "Saya berdiri di sini", j: "I stand here", p: "Ai stend hir", k: "⚡ I stand here" },
+        { s: "Saya melihat burung", j: "I see a bird", p: "Ai si e berd", k: "⚡ I see a bird" },
+        { s: "Saya mendengar musik", j: "I hear music", p: "Ai hir myu-zik", k: "⚡ I hear music" },
+        { s: "Saya menulis nama", j: "I write my name", p: "Ai rait mai neim", k: "⚡ I write my name" },
+        { s: "Saya membeli makanan", j: "I buy food", p: "Ai bai fud", k: "⚡ I buy food" },
+        { s: "Saya memasak nasi", j: "I cook rice", p: "Ai kuk rais", k: "⚡ I cook rice" },
+        { s: "Saya mencuci tangan", j: "I wash my hands", p: "Ai wos mai hendz", k: "⚡ I wash my hands" },
+        { s: "Saya membersihkan kamar", j: "I clean my room", p: "Ai klin mai rum", k: "⚡ I clean my room" },
+        { s: "Saya memakai sepatu", j: "I wear shoes", p: "Ai wer syuz", k: "⚡ I wear shoes" },
+        { s: "Saya membawa tas", j: "I carry a bag", p: "Ai ke-ri e beg", k: "⚡ I carry a bag" },
+        { s: "Saya membuka laptop", j: "I open my laptop", p: "Ai o-pen mai lep-top", k: "⚡ I open my laptop" },
+        { s: "Saya belajar setiap hari", j: "I study every day", p: "Ai sta-di ev-ri dei", k: "⚡ I study every day" },
+        { s: "Saya suka bermain game", j: "I like playing games", p: "Ai laik plei-ing geims", k: "⚡ I like playing games" },
+        { s: "Saya berbicara pelan", j: "I speak slowly", p: "Ai spik slo-li", k: "⚡ I speak slowly" },
+        { s: "Saya makan ayam", j: "I eat chicken", p: "Ai it cik-en", k: "⚡ I eat chicken" },
+        { s: "Saya minum susu", j: "I drink milk", p: "Ai dringk milk", k: "⚡ I drink milk" },
+        { s: "Saya pergi ke pasar", j: "I go to the market", p: "Ai go tu de mar-ket", k: "⚡ I go to the market" },
+        { s: "Saya melihat mobil", j: "I see a car", p: "Ai si e kar", k: "⚡ I see a car" },
+        { s: "Saya suka kucing", j: "I like cats", p: "Ai laik kets", k: "⚡ I like cats" },
+        { s: "Saya punya uang", j: "I have money", p: "Ai hev ma-ni", k: "⚡ I have money" },
+        { s: "Saya membaca koran", j: "I read a newspaper", p: "Ai rid e nyus-pei-per", k: "⚡ I read a newspaper" },
+        { s: "Saya bermain gitar", j: "I play guitar", p: "Ai plei gi-tar", k: "⚡ I play guitar" },
+        { s: "Saya menonton film", j: "I watch a movie", p: "Ai woc e mu-vi", k: "⚡ I watch a movie" },
+        { s: "Saya mendengarkan lagu", j: "I listen to music", p: "Ai lis-en tu myu-zik", k: "⚡ I listen to music" },
+        { s: "Saya belajar matematika", j: "I study math", p: "Ai sta-di meth", k: "⚡ I study math" },
+        { s: "Saya memakai topi", j: "I wear a hat", p: "Ai wer e het", k: "⚡ I wear a hat" },
+        { s: "Saya membeli buah", j: "I buy fruit", p: "Ai bai frut", k: "⚡ I buy fruit" },
+        { s: "Saya makan mie", j: "I eat noodles", p: "Ai it nu-dels", k: "⚡ I eat noodles" },
+        { s: "Saya suka berenang", j: "I like swimming", p: "Ai laik swim-ing", k: "⚡ I like swimming" },
+        { s: "Saya pergi bekerja", j: "I go to work", p: "Ai go tu werk", k: "⚡ I go to work" },
+        { s: "Saya bermain dengan teman", j: "I play with friends", p: "Ai plei wid frendz", k: "⚡ I play with friends" },
+        { s: "Saya sangat bahagia", j: "I am very happy", p: "Ai em ve-ri hep-pi", k: "⚡ I am very happy" },
+        { s: "Saya minum teh hangat", j: "I drink warm tea", p: "Ai dringk worm ti", k: "⚡ I drink warm tea" },
+        { s: "Saya membuka buku baru", j: "I open a new book", p: "Ai o-pen e nyu buk", k: "⚡ I open a new book" },
+        { s: "Saya menyapu lantai", j: "I sweep the floor", p: "Ai swip de flor", k: "⚡ I sweep the floor" },
+        { s: "Saya mencuci piring", j: "I wash the dishes", p: "Ai wos de di-shiz", k: "⚡ I wash the dishes" },
+        { s: "Saya menyalakan lampu", j: "I turn on the light", p: "Ai tern on de lait", k: "⚡ I turn on the light" },
+        { s: "Saya mematikan kipas", j: "I turn off the fan", p: "Ai tern of de fen", k: "⚡ I turn off the fan" },
+        { s: "Saya duduk dekat pintu", j: "I sit near the door", p: "Ai sit nir de dor", k: "⚡ I sit near the door" },
+        { s: "Saya berdiri di depan rumah", j: "I stand in front of the house", p: "Ai stend in front ov de haus", k: "⚡ I stand in front of the house" },
+        { s: "Saya membeli es krim", j: "I buy ice cream", p: "Ai bai ais krim", k: "⚡ I buy ice cream" },
+        { s: "Saya suka hujan", j: "I like rain", p: "Ai laik rein", k: "⚡ I like rain" },
+        { s: "Saya memakai jaket", j: "I wear a jacket", p: "Ai wer e ja-ket", k: "⚡ I wear a jacket" },
+        { s: "Saya pergi naik motor", j: "I ride a motorcycle", p: "Ai raid e mo-tor-sai-kel", k: "⚡ I ride a motorcycle" },
+        { s: "Saya membaca pesan", j: "I read a message", p: "Ai rid e me-sij", k: "⚡ I read a message" },
+        { s: "Saya mengirim foto", j: "I send a photo", p: "Ai send e fo-to", k: "⚡ I send a photo" },
+        { s: "Saya membuka aplikasi", j: "I open the app", p: "Ai o-pen di ep", k: "⚡ I open the app" },
+        { s: "Saya bermain setiap sore", j: "I play every afternoon", p: "Ai plei ev-ri af-ter-nun", k: "⚡ I play every afternoon" },
+        { s: "Saya membantu ibu", j: "I help my mother", p: "Ai help mai ma-der", k: "⚡ I help my mother" },
+        { s: "Saya membantu ayah", j: "I help my father", p: "Ai help mai fa-der", k: "⚡ I help my father" },
+        { s: "Saya membeli air mineral", j: "I buy mineral water", p: "Ai bai mi-ne-ral wo-ter", k: "⚡ I buy mineral water" },
+        { s: "Saya suka nasi goreng", j: "I like fried rice", p: "Ai laik fraid rais", k: "⚡ I like fried rice" },
+        { s: "Saya pergi ke toko", j: "I go to the store", p: "Ai go tu de stor", k: "⚡ I go to the store" },
+        { s: "Saya belajar di kamar", j: "I study in my room", p: "Ai sta-di in mai rum", k: "⚡ I study in my room" },
+        { s: "Saya menonton video lucu", j: "I watch funny videos", p: "Ai woc fa-ni vi-di-os", k: "⚡ I watch funny videos" },
+        { s: "Saya bermain di luar", j: "I play outside", p: "Ai plei aut-said", k: "⚡ I play outside" },
+        { s: "Saya berbicara dengan teman", j: "I talk with my friend", p: "Ai tok wid mai frend", k: "⚡ I talk with my friend" },
+        { s: "Saya mendengarkan guru", j: "I listen to the teacher", p: "Ai lis-en tu de ti-cer", k: "⚡ I listen to the teacher" },
+        { s: "Saya memakai jam tangan", j: "I wear a watch", p: "Ai wer e woc", k: "⚡ I wear a watch" },
+        { s: "Saya makan telur", j: "I eat eggs", p: "Ai it egz", k: "⚡ I eat eggs" },
+        { s: "Saya minum jus jeruk", j: "I drink orange juice", p: "Ai dringk o-renj jus", k: "⚡ I drink orange juice" },
+        { s: "Saya belajar malam ini", j: "I study tonight", p: "Ai sta-di tu-nait", k: "⚡ I study tonight" },
+        { s: "Saya bermain basket", j: "I play basketball", p: "Ai plei bas-ket-bol", k: "⚡ I play basketball" },
+        { s: "Saya suka liburan", j: "I like holidays", p: "Ai laik ho-li-deis", k: "⚡ I like holidays" },
+        { s: "Saya membaca cerita", j: "I read a story", p: "Ai rid e sto-ri", k: "⚡ I read a story" },
+        { s: "Saya membeli sepatu baru", j: "I buy new shoes", p: "Ai bai nyu syuz", k: "⚡ I buy new shoes" },
+        { s: "Saya memakai kaos hitam", j: "I wear a black shirt", p: "Ai wer e blek sert", k: "⚡ I wear a black shirt" },
+        { s: "Saya berjalan di taman", j: "I walk in the park", p: "Ai wok in de park", k: "⚡ I walk in the park" },
+        { s: "Saya menyiram tanaman", j: "I water the plants", p: "Ai wo-ter de plants", k: "⚡ I water the plants" },
+        { s: "Saya mencuci motor", j: "I wash my motorcycle", p: "Ai wos mai mo-tor-sai-kel", k: "⚡ I wash my motorcycle" },
+        { s: "Saya bermain HP", j: "I use my phone", p: "Ai yuz mai fon", k: "⚡ I use my phone" },
+        { s: "Saya mendengarkan radio", j: "I listen to the radio", p: "Ai lis-en tu de rei-di-o", k: "⚡ I listen to the radio" },
+        { s: "Saya membuka kulkas", j: "I open the fridge", p: "Ai o-pen de frij", k: "⚡ I open the fridge" },
+        { s: "Saya menutup pintu kamar", j: "I close the bedroom door", p: "Ai kloz de bed-rum dor", k: "⚡ I close the door" },
+        { s: "Saya membeli kopi dingin", j: "I buy iced coffee", p: "Ai bai aist ko-fi", k: "⚡ I buy iced coffee" },
+        { s: "Saya suka makanan pedas", j: "I like spicy food", p: "Ai laik spai-si fud", k: "⚡ I like spicy food" },
+        { s: "Saya bermain dengan adik", j: "I play with my little brother", p: "Ai plei wid mai li-tel bra-der", k: "⚡ I play with my little brother" },
+        { s: "Saya pergi ke masjid", j: "I go to the mosque", p: "Ai go tu de mosk", k: "⚡ I go to the mosque" },
+        { s: "Saya melihat bintang", j: "I see the stars", p: "Ai si de starz", k: "⚡ I see the stars" },
+        { s: "Saya suka cuaca dingin", j: "I like cold weather", p: "Ai laik kold we-der", k: "⚡ I like cold weather" },
+        { s: "Saya belajar berbicara Inggris", j: "I practice speaking English", p: "Ai prak-tis spi-king ing-glish", k: "⚡ I practice speaking English" },
+        { s: "Saya merasa lelah", j: "I feel tired", p: "Ai fil tai-red", k: "⚡ I feel tired" },
+        { s: "Saya pergi ke pantai", j: "I go to the beach", p: "Ai go tu de bich", k: "⚡ I go to the beach" },
+        { s: "Saya minum jus mangga", j: "I drink mango juice", p: "Ai dringk mang-go jus", k: "⚡ I drink mango juice" }
+    ];
+
+    while(daftarSoal.length < 105) {
+        daftarSoal.push({ s: "Saya cepat belajar", j: "I learn fast", p: "Ai lern fast", k: "⚡ Latihan refleks" });
+    }
+
+    let currentIndex = 0;
+    let timerExplose;
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => { timerValDisplay.innerText = timerRange.value + " detik"; });
+    timerValDisplay.innerText = timerRange.value + " detik";
+
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        if(!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.95;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { window.speechSynthesis.cancel(); clearTimeout(timerExplose); }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen-a') {
+            speak("Latihan otak cepat! Baca kalimat Indonesia, lalu ucapkan terjemahan bahasa Inggris dengan keras. Jangan mikir lama. Persiapan!", 'id-ID');
+        }
+        if(id === 'screen-c') tampilkanSoal();
+    }
+
+    function resetLatihan() { currentIndex = 0; }
+
+    function tampilkanSoal() {
+        clearTimeout(timerExplose);
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `🧠 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        speak(item.s, 'id-ID');
+        const delay = parseFloat(timerRange.value) * 1000;
+        timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
+    }
+
+    function nextSoal() {
+        currentIndex++;
+        if(currentIndex >= daftarSoal.length) {
+            alert("🎉 LUAR BIASA! Kamu menyelesaikan latihan otak cepat. Ulangi lagi sampai refleksmu makin tajam!");
+            currentIndex = 0;
+        }
+        tampilkanSoal();
+    }
+</script>
+</body>
+</html>
