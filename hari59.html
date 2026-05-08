@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Have / Has / Had</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 530px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-card {
+            background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
+            border-radius: 32px;
+            padding: 22px 20px;
+            margin: 16px 0 28px;
+            border: 1px solid #cddef5;
+        }
+        .have-intro {
+            font-size: 0.9rem;
+            color: #1e4a76;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        .have-intro p {
+            margin: 8px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-have {
+            background: #2c5282;
+            color: white;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+        }
+        #soal-teks {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #4361ee;
+        }
+        .eng-headline {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.3rem;
+        }
+        .speaker-icon-round:hover { background: #dfe7f2; transform: scale(0.95); }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.9rem;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 10px 22px;
+            border-radius: 44px;
+            font-weight: 600;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+        }
+        .next-btn-custom:hover { background: #eef4fc; transform: translateY(-2px); }
+        .small-note { font-size: 11px; text-align: center; margin-top: 16px; color: #6f8eae; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        i { pointer-events: none; }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome + Intro HAVE/HAS/HAD -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-boxes"></i> HAVE · HAS · HAD</h1>
+            <div class="intro-card">
+                <div class="have-intro">
+                    <p><span class="badge-have">HAVE</span> <span>➜ I / You / We / They → kepemilikan di waktu sekarang</span></p>
+                    <p><span class="badge-have">HAS</span> <span>➜ He / She / It → kepemilikan untuk subjek tunggal (present)</span></p>
+                    <p><span class="badge-have">HAD</span> <span>➜ Semua subjek (I, You, He, She, We, They) → kepemilikan di masa lalu</span></p>
+                    <p><i class="fas fa-lightbulb" style="margin-right: 6px;"></i> <strong>Gunakan HAVE/HAS untuk sekarang, HAD untuk lampau</strong></p>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-gem"></i> Latihan Have/Has/Had
+            </button>
+        </div>
+
+        <!-- Screen B: Settings -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-sliders-h"></i> Atur Sesi</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu tampil jawaban</span> <span id="timerValDisplay" class="slider-value-badge">7 detik</span></label>
+                <input type="range" id="timerRange" min="3" max="120" value="8">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan HAVE/HAS/HAD -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 68</div>
+            <div class="question-card">
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Klik speaker untuk dengar English & pronunciation
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =============== DATA SOAL HAVE / HAS / HAD (LENGKAP) ===============
+    const daftarSoal = [
+        { s: "Aku punya banyak ide untuk belajar bahasa Inggris", j: "I have many ideas for learning English", p: "Ai hev me-ni ai-dias for ler-ning ing-glish", k: "🔹 HAVE → digunakan untuk 'I' menunjukkan kepemilikan sekarang." },
+        { s: "Kamu punya waktu untuk ngobrol malam ini", j: "You have time to chat tonight", p: "Yu hev taim tu chat tu-nait", k: "🔹 HAVE → digunakan untuk 'you' pada waktu sekarang." },
+        { s: "Mereka punya rencana pergi besok", j: "They have a plan to go tomorrow", p: "Dei hev e plen tu go tu-mo-row", k: "🔹 HAVE → digunakan untuk 'they' bentuk present." },
+        { s: "Kami punya tugas bahasa Inggris hari ini", j: "We have an English assignment today", p: "Wi hev en ing-glish e-sain-ment tu-dei", k: "🔹 HAVE → digunakan untuk 'we'." },
+        { s: "Dia punya suara yang bagus", j: "She has a beautiful voice", p: "Syi hez e byu-ti-ful vois", k: "🔹 HAS → digunakan untuk 'she' bentuk tunggal." },
+        { s: "Dia punya banyak teman luar negeri", j: "He has many foreign friends", p: "Hi hez me-ni fo-ren frends", k: "🔹 HAS → digunakan untuk 'he'." },
+        { s: "Ayahku punya mobil baru", j: "My father has a new car", p: "Mai fa-der hez e nyu kar", k: "🔹 HAS → digunakan untuk subjek tunggal (my father)." },
+        { s: "Guru itu punya cara mengajar yang unik", j: "The teacher has a unique teaching style", p: "De ti-cher hez e yu-nik ti-ching stail", k: "🔹 HAS → subjek tunggal 'the teacher'." },
+        { s: "Aku sudah punya akun baru kemarin", j: "I had a new account yesterday", p: "Ai hed e nyu e-kaunt yes-ter-dei", k: "🔹 HAD → menunjukkan kepemilikan di masa lalu." },
+        { s: "Kami punya masalah saat perjalanan", j: "We had a problem during the trip", p: "Wi hed e pro-blem du-ring de trip", k: "🔹 HAD → kejadian masa lalu (we had)." },
+        { s: "Dia punya kesempatan bertemu artis terkenal", j: "She had a chance to meet a famous artist", p: "Syi hed e chans tu mit e fe-mes ar-tist", k: "🔹 HAD → sesuatu yang dimiliki di masa lalu." },
+        { s: "Mereka punya obrolan seru tadi malam", j: "They had an interesting conversation last night", p: "Dei hed en in-tres-ting kon-ver-sei-syen last nait", k: "🔹 HAD → kejadian sudah terjadi di masa lalu." },
+        { s: "Aku punya mimpi besar untuk masa depan", j: "I have big dreams for the future", p: "Ai hev big drims for de fyu-cher", k: "🔹 HAVE → digunakan untuk 'I' (sekarang)." },
+        { s: "Kita punya cukup makanan di rumah", j: "We have enough food at home", p: "Wi hev i-naf fud et hom", k: "🔹 HAVE → digunakan untuk 'we'." },
+        { s: "Dia punya senyum yang manis", j: "He has a sweet smile", p: "Hi hez e swit smail", k: "🔹 HAS → subjek tunggal 'he'." },
+        { s: "Ibuku punya resep favorit keluarga", j: "My mother has a favorite family recipe", p: "Mai ma-der hez e fei-ve-rit fe-mi-li re-se-pi", k: "🔹 HAS → digunakan untuk subjek tunggal." },
+        { s: "Aku punya banyak pertanyaan tadi pagi", j: "I had many questions this morning", p: "Ai hed me-ni kwes-cens dis mor-ning", k: "🔹 HAD → kejadian masa lalu." },
+        { s: "Kami punya kelas tambahan minggu lalu", j: "We had an extra class last week", p: "Wi hed en eks-tra klas last wik", k: "🔹 HAD → menunjukkan masa lalu." },
+        { s: "Dia punya ide bagus saat rapat", j: "She had a good idea during the meeting", p: "Syi hed e gud ai-dia du-ring de mi-ting", k: "🔹 HAD → kejadian di masa lalu." },
+        { s: "Temanku punya masalah internet semalam", j: "My friend had an internet problem last night", p: "Mai frend hed en in-ter-net pro-blem last nait", k: "🔹 HAD → sesuatu yang terjadi di masa lalu." },
+        { s: "Aku punya banyak aplikasi di laptopku", j: "I have many applications on my laptop", p: "Ai hev me-ni ap-li-kei-syens on mai lap-top", k: "🔹 HAVE → digunakan untuk 'I' di waktu sekarang." },
+        { s: "Kami punya waktu untuk belajar bersama", j: "We have time to study together", p: "Wi hev taim tu sta-di tu-ge-der", k: "🔹 HAVE → digunakan untuk 'we'." },
+        { s: "Mereka punya tujuan yang sama", j: "They have the same goal", p: "Dei hev de seim gol", k: "🔹 HAVE → digunakan untuk 'they'." },
+        { s: "Kamu punya energi besar hari ini", j: "You have great energy today", p: "Yu hev greit e-ner-ji tu-dei", k: "🔹 HAVE → digunakan untuk 'you'." },
+        { s: "Dia punya ide kreatif untuk proyek itu", j: "He has a creative idea for the project", p: "Hi hez e kri-ei-tiv ai-dia for de pro-jek", k: "🔹 HAS → digunakan untuk subjek tunggal 'he'." },
+        { s: "Dia punya rambut panjang", j: "She has long hair", p: "Syi hez long her", k: "🔹 HAS → digunakan untuk 'she'." },
+        { s: "Adikku punya sepeda baru", j: "My brother has a new bicycle", p: "Mai bra-der hez e nyu bai-si-kel", k: "🔹 HAS → subjek tunggal." },
+        { s: "Kucing itu punya mata biru", j: "The cat has blue eyes", p: "De ket hez blu aiz", k: "🔹 HAS → digunakan untuk benda/hewan tunggal." },
+        { s: "Aku punya pengalaman menarik tahun lalu", j: "I had an interesting experience last year", p: "Ai hed en in-tres-ting eks-pi-ri-ens last yir", k: "🔹 HAD → menunjukkan masa lalu." },
+        { s: "Kami punya pesta kecil kemarin malam", j: "We had a small party last night", p: "Wi hed e smol par-ti last nait", k: "🔹 HAD → kejadian di masa lalu." },
+        { s: "Dia punya banyak pekerjaan minggu lalu", j: "He had a lot of work last week", p: "Hi hed e lot ov werk last wik", k: "🔹 HAD → digunakan untuk masa lalu." },
+        { s: "Mereka punya kesempatan bermain bersama", j: "They had a chance to play together", p: "Dei hed e chans tu plei tu-ge-der", k: "🔹 HAD → kejadian sudah terjadi." },
+        { s: "Aku punya jadwal padat hari ini", j: "I have a busy schedule today", p: "Ai hev e bi-zi ske-jul tu-dei", k: "🔹 HAVE → keadaan sekarang." },
+        { s: "Kami punya koneksi internet yang cepat", j: "We have a fast internet connection", p: "Wi hev e fast in-ter-net ko-nek-syen", k: "🔹 HAVE → digunakan untuk 'we'." },
+        { s: "Kamu punya bakat berbicara bahasa Inggris", j: "You have talent in speaking English", p: "Yu hev ta-lent in spi-king ing-glish", k: "🔹 HAVE → digunakan untuk 'you'." },
+        { s: "Dia punya banyak pengikut di media sosial", j: "She has many followers on social media", p: "Syi hez me-ni fo-lo-wers on so-syal mi-dia", k: "🔹 HAS → digunakan untuk 'she'." },
+        { s: "Sekolah itu punya perpustakaan besar", j: "The school has a large library", p: "De skul hez e larj lai-bre-ri", k: "🔹 HAS → subjek tunggal 'the school'." },
+        { s: "Aku punya masalah dengan komputerku tadi pagi", j: "I had a problem with my computer this morning", p: "Ai hed e pro-blem with mai kom-pyu-ter dis mor-ning", k: "🔹 HAD → kejadian di masa lalu." },
+        { s: "Kami punya perjalanan panjang kemarin", j: "We had a long trip yesterday", p: "Wi hed e long trip yes-ter-dei", k: "🔹 HAD → menunjukkan masa lalu." },
+        { s: "Dia punya alasan kuat untuk pergi", j: "He had a strong reason to leave", p: "Hi hed e strong ri-zon tu liv", k: "🔹 HAD → kejadian sudah terjadi di masa lalu." },
+        { s: "Aku punya banyak pertanyaan untukmu", j: "I have many questions for you", p: "Ai hev me-ni kwes-cens for yu", k: "🔹 HAVE → digunakan untuk 'I' di waktu sekarang." },
+        { s: "Kamu punya aksen bahasa Inggris yang bagus", j: "You have a good English accent", p: "Yu hev e gud ing-glish ak-sent", k: "🔹 HAVE → digunakan untuk 'you'." },
+        { s: "Kami punya hobi yang sama", j: "We have the same hobby", p: "Wi hev de seim ho-bi", k: "🔹 HAVE → digunakan untuk 'we'." },
+        { s: "Mereka punya cerita lucu untuk dibagikan", j: "They have a funny story to share", p: "Dei hev e fa-ni sto-ri tu sher", k: "🔹 HAVE → digunakan untuk 'they'." },
+        { s: "Dia punya senyum yang ramah", j: "She has a friendly smile", p: "Syi hez e frend-li smail", k: "🔹 HAS → digunakan untuk 'she'." },
+        { s: "Dia punya suara yang tenang", j: "He has a calm voice", p: "Hi hez e kam vois", k: "🔹 HAS → digunakan untuk 'he'." },
+        { s: "Teman baruku punya selera musik yang bagus", j: "My new friend has good taste in music", p: "Mai nyu frend hez gud teist in myu-zik", k: "🔹 HAS → subjek tunggal." },
+        { s: "Orang itu punya kamera keren", j: "That person has a cool camera", p: "Det per-sen hez e kul ke-me-ra", k: "🔹 HAS → digunakan untuk subjek tunggal." },
+        { s: "Aku punya obrolan seru tadi malam", j: "I had an exciting conversation last night", p: "Ai hed en ek-sai-ting kon-ver-sei-syen last nait", k: "🔹 HAD → kejadian di masa lalu." },
+        { s: "Kami punya banyak tawa saat ngobrol", j: "We had a lot of laughs during the chat", p: "Wi hed e lot ov lafs du-ring de chat", k: "🔹 HAD → masa lalu." },
+        { s: "Dia punya koneksi internet buruk tadi", j: "He had a bad internet connection earlier", p: "Hi hed e bed in-ter-net ko-nek-syen er-li-er", k: "🔹 HAD → kejadian masa lalu." },
+        { s: "Mereka punya waktu singkat untuk berbicara", j: "They had little time to talk", p: "Dei hed li-tel taim tu tok", k: "🔹 HAD → sesuatu yang terjadi di masa lalu." },
+        { s: "Aku punya topik menarik untuk dibahas", j: "I have an interesting topic to discuss", p: "Ai hev en in-tres-ting to-pik tu dis-kas", k: "🔹 HAVE → digunakan untuk 'I'." },
+        { s: "Kamu punya energi positif", j: "You have positive energy", p: "Yu hev po-si-tiv e-ner-ji", k: "🔹 HAVE → digunakan untuk 'you'." },
+        { s: "Kami punya kesempatan berteman dengan orang baru", j: "We have a chance to make new friends", p: "Wi hev e chans tu meik nyu frends", k: "🔹 HAVE → keadaan sekarang." },
+        { s: "Dia punya gaya bicara yang lucu", j: "She has a funny way of speaking", p: "Syi hez e fa-ni wei ov spi-king", k: "🔹 HAS → digunakan untuk 'she'." },
+        { s: "Cowok itu punya banyak pengalaman traveling", j: "That guy has a lot of travel experience", p: "Det gai hez e lot ov tra-vel eks-pi-ri-ens", k: "🔹 HAS → subjek tunggal." },
+        { s: "Aku punya rasa gugup sebelum video call", j: "I had nervous feelings before the video call", p: "Ai hed ner-ves fi-lings bi-for de vi-di-o kol", k: "🔹 HAD → perasaan di masa lalu." },
+        { s: "Kami punya obrolan panjang tentang musik", j: "We had a long conversation about music", p: "Wi hed e long kon-ver-sei-syen e-baut myu-zik", k: "🔹 HAD → kejadian sudah berlalu." },
+        { s: "Dia punya pertanyaan unik untukku", j: "She had a unique question for me", p: "Syi hed e yu-nik kwes-cen for mi", k: "🔹 HAD → digunakan untuk masa lalu." },
+        { s: "Aku punya kesibukan luar biasa hari ini", j: "I have an extraordinary busy day today", p: "Ai hev en eks-tror-di-ne-ri bi-zi dei tu-dei", k: "🔹 HAVE → kepemilikan keadaan sekarang." },
+        { s: "Dia punya pemikiran yang dewasa", j: "He has a mature mindset", p: "Hi hez e ma-chur maind-set", k: "🔹 HAS → untuk subjek tunggal he." },
+        { s: "Kami punya rencana liburan menarik", j: "We have an exciting holiday plan", p: "Wi hev en ek-sai-ting ho-li-dei plen", k: "🔹 HAVE → untuk we." },
+        { s: "Mereka punya motivasi belajar tinggi", j: "They have high learning motivation", p: "Dei hev hai ler-ning mo-ti-vei-syen", k: "🔹 HAVE → untuk they." },
+        { s: "Kucingku punya bulu halus", j: "My cat has soft fur", p: "Mai ket hez soft fer", k: "🔹 HAS → subjek hewan tunggal." }
+    ];
+
+    // pastikan total cukup
+    while(daftarSoal.length < 68) {
+        daftarSoal.push({ s: "Dia punya semangat luar biasa", j: "He has an amazing spirit", p: "Hi hez en e-mei-zing spi-rit", k: "🔹 HAS untuk subjek tunggal (he)." });
+    }
+
+    let currentIndex = 0;
+    let timerExplose;
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => { timerValDisplay.innerText = timerRange.value + " detik"; });
+    timerValDisplay.innerText = timerRange.value + " detik";
+
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        if(!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { window.speechSynthesis.cancel(); clearTimeout(timerExplose); }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen-a') {
+            speak("Selamat datang di pelatihan Have, Has, Had. Have untuk I you we they, Has untuk he she it, Had untuk masa lalu semua subjek. Selamat berlatih!", 'id-ID');
+        }
+        if(id === 'screen-c') tampilkanSoal();
+    }
+
+    function resetLatihan() { currentIndex = 0; }
+
+    function tampilkanSoal() {
+        clearTimeout(timerExplose);
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `📘 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        speak(item.s, 'id-ID');
+        const delay = parseInt(timerRange.value) * 1000;
+        timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
+    }
+
+    function nextSoal() {
+        currentIndex++;
+        if(currentIndex >= daftarSoal.length) {
+            alert("🎉 Selamat! Kamu telah menguasai HAVE / HAS / HAD. Mulai dari awal untuk penguatan memori.");
+            currentIndex = 0;
+        }
+        tampilkanSoal();
+    }
+</script>
+</body>
+</html>
