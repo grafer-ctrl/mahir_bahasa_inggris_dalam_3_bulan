@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>English Mastery · To Be Expert</title>
-    <!-- Google Font & Font Awesome -->
+    <title>English Mastery · Do / Does / Did</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -13,9 +12,8 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            background: linear-gradient(145deg, #eef2f9 0%, #e0e8f2 100%);
+            background: linear-gradient(145deg, #edf2fa 0%, #dce5f0 100%);
             font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
@@ -23,20 +21,17 @@
             min-height: 100vh;
             padding: 20px;
         }
-
         .app-wrapper {
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             background: rgba(255, 255, 255, 0.98);
             border-radius: 48px;
             box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
         }
-
         .app-container {
             padding: 28px 24px 36px;
         }
-
         .header {
             display: flex;
             align-items: center;
@@ -56,15 +51,12 @@
             font-size: 24px;
         }
         .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
-
         .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
         .active { display: flex; }
-
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         h1 {
             font-size: 1.9rem;
             font-weight: 800;
@@ -75,7 +67,6 @@
             letter-spacing: -0.4px;
             margin-bottom: 8px;
         }
-
         h3 {
             font-size: 1.6rem;
             font-weight: 700;
@@ -85,8 +76,7 @@
             align-items: center;
             gap: 8px;
         }
-
-        /* motivational card with to-be intro */
+        /* intro card */
         .intro-card {
             background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
             border-radius: 32px;
@@ -94,20 +84,20 @@
             margin: 16px 0 28px;
             border: 1px solid #cddef5;
         }
-        .to-be-intro {
+        .do-intro {
             font-size: 0.9rem;
             color: #1e4a76;
             font-weight: 600;
             line-height: 1.6;
         }
-        .to-be-intro p {
+        .do-intro p {
             margin: 8px 0;
             display: flex;
             align-items: baseline;
             gap: 8px;
             flex-wrap: wrap;
         }
-        .badge-to-be {
+        .badge-do {
             background: #2c5282;
             color: white;
             border-radius: 40px;
@@ -116,7 +106,6 @@
             font-weight: 700;
             display: inline-block;
         }
-
         .btn-primary {
             background: linear-gradient(105deg, #1f3a68, #112a4a);
             border: none;
@@ -135,7 +124,6 @@
             transition: 0.2s;
         }
         .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
-
         .slider-group {
             background: #F8FBFE;
             padding: 18px 20px;
@@ -171,7 +159,6 @@
             cursor: pointer;
             border: 2px solid white;
         }
-
         .question-card {
             background: #FFFFFF;
             border-radius: 44px;
@@ -191,7 +178,7 @@
             margin-bottom: 18px;
         }
         #soal-teks {
-            font-size: 1.6rem;
+            font-size: 1.55rem;
             font-weight: 700;
             color: #091836;
             line-height: 1.4;
@@ -278,22 +265,20 @@
             </div>
         </div>
 
-        <!-- Screen A: Welcome + Intro To Be -->
+        <!-- Screen A: Welcome + Intro DO/DOES/DID -->
         <div id="screen-a" class="screen active">
-            <h1><i class="fas fa-spell-check"></i> Master TO BE</h1>
+            <h1><i class="fas fa-question-circle"></i> DO · DOES · DID</h1>
             <div class="intro-card">
-                <div class="to-be-intro">
-                    <p><span class="badge-to-be">am</span> <span>➜ I am (aku adalah/sedang) → untuk subjek "I" di sekarang</span></p>
-                    <p><span class="badge-to-be">is</span> <span>➜ He/She/It is → subjek tunggal sekarang</span></p>
-                    <p><span class="badge-to-be">are</span> <span>➜ You/We/They are → subjek jamak & you</span></p>
-                    <p><span class="badge-to-be">was</span> <span>➜ I/He/She/It was → masa lalu (tunggal)</span></p>
-                    <p><span class="badge-to-be">were</span> <span>➜ You/We/They were → masa lalu (jamak/you)</span></p>
-                    <p><span class="badge-to-be">being</span> <span>➜ sedang (proses pasif/aktif) → is/am/are being + V3/Adj</span></p>
-                    <p><span class="badge-to-be">been</span> <span>➜ telah (setelah have/has/had) → pengalaman / durasi</span></p>
+                <div class="do-intro">
+                    <p><span class="badge-do">DO</span> <span>➜ I / You / We / They → kebiasaan, pertanyaan, negatif (simple present)</span></p>
+                    <p><span class="badge-do">DOES</span> <span>➜ He / She / It → kebiasaan, pertanyaan, negatif + verb 1</span></p>
+                    <p><span class="badge-do">DID</span> <span>➜ semua subjek (I, You, He, She, We, They) → untuk masa lalu (simple past)</span></p>
+                    <p><span class="badge-do">➕</span> <span>Bentuk positif (penekanan): I do help / He does like / We did go</span></p>
+                    <p><span class="badge-do">❓</span> <span>Do you like? Does she work? Did they come? → pertanyaan</span></p>
                 </div>
             </div>
             <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
-                <i class="fas fa-graduation-cap"></i> Latihan To Be
+                <i class="fas fa-chalkboard-user"></i> Latihan Do/Does/Did
             </button>
         </div>
 
@@ -302,16 +287,16 @@
             <h3><i class="fas fa-sliders-h"></i> Atur Sesi</h3>
             <div class="slider-group">
                 <label><span><i class="fas fa-hourglass-half"></i> Waktu tampil jawaban</span> <span id="timerValDisplay" class="slider-value-badge">7 detik</span></label>
-                <input type="range" id="timerRange" min="3" max="120" value="7">
+                <input type="range" id="timerRange" min="3" max="120" value="8">
             </div>
             <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
-                <i class="fas fa-play-circle"></i> Mulai Latihan To Be
+                <i class="fas fa-play-circle"></i> Mulai Latihan
             </button>
         </div>
 
-        <!-- Screen C: Latihan based on kalimat to be -->
+        <!-- Screen C: Latihan DO/DOES/DID -->
         <div id="screen-c" class="screen">
-            <div class="counter-modern" id="soal-counter">Soal 1 / 54</div>
+            <div class="counter-modern" id="soal-counter">Soal 1 / 48</div>
             <div class="question-card">
                 <div id="soal-teks">Memuat soal...</div>
                 <div class="flex-row" style="margin-bottom: 12px;">
@@ -339,65 +324,60 @@
 </div>
 
 <script>
-    // =============== DATA SOAL LENGKAP (AM, IS, ARE, WAS, WERE, BEING, BEEN) ===============
+    // =============== DATA SOAL DO / DOES / DID LENGKAP ===============
     const daftarSoal = [
-        { s: "Aku sedang bahagia sekarang", j: "I am happy now", p: "Ai em he-pi nau", k: "📘 Alasan 'am': dipakai untuk subjek 'I' di waktu sekarang (keadaan/perasaan)." },
-        { s: "Dia sedang belajar di kamar", j: "She is studying in the room", p: "Syi iz sta-di-ing in de rum", k: "📘 Alasan 'is': dipakai untuk subjek tunggal seperti he, she, it + V-ing (sedang)." },
-        { s: "Mereka sedang bermain di luar", j: "They are playing outside", p: "Dey ar plei-ing aut-said", k: "📘 Alasan 'are': dipakai untuk subjek jamak (they, we, you) + present continuous." },
-        { s: "Aku tadi sangat lelah", j: "I was very tired earlier", p: "Ai woz ve-ri tai-erd er-li-er", k: "📘 Alasan 'was': masa lalu dengan subjek tunggal (I, he, she, it)." },
-        { s: "Kami dulu sangat dekat", j: "We were very close before", p: "Wi wer ve-ri klos bi-for", k: "📘 Alasan 'were': masa lalu untuk subjek jamak (we, they, you)." },
-        { s: "Dia sedang dihukum oleh gurunya", j: "He is being punished by his teacher", p: "Hi iz bi-ing pan-ist bai hiz ti-cher", k: "📘 Alasan 'being': menunjukkan proses pasif yang sedang berlangsung (is being + V3)." },
-        { s: "Mereka sudah dipilih menjadi juara", j: "They have been chosen as champions", p: "Dey hev bin cho-sen ez cham-pi-ons", k: "📘 Alasan 'been': bentuk ketiga be, dipakai setelah have/has/had (perfect passive)." },
-        { s: "Aku adalah seorang pelajar", j: "I am a student", p: "Ai em e stu-dent", k: "📘 Alasan 'am': identitas diri atau profesi (present simple)." },
-        { s: "Kucing itu sangat lucu", j: "The cat is very cute", p: "De ket iz ve-ri kyut", k: "📘 Alasan 'is': menjelaskan sifat benda tunggal." },
-        { s: "Kalian sangat ramah", j: "You are very friendly", p: "Yu ar ve-ri frend-li", k: "📘 Alasan 'are': dipakai dengan subjek 'you' (baik tunggal/jamak)." },
-        { s: "Dia tadi ada di sekolah", j: "He was at school earlier", p: "Hi woz et skul er-li-er", k: "📘 Alasan 'was': menunjukkan lokasi di masa lalu untuk subjek tunggal." },
-        { s: "Mereka tadi sangat sibuk", j: "They were very busy yesterday", p: "Dey wer ve-ri bi-zi yes-ter-dei", k: "📘 Alasan 'were': keadaan jamak di masa lalu." },
-        { s: "Makanan itu sedang dimasak", j: "The food is being cooked", p: "De fud iz bi-ing kukt", k: "📘 Alasan 'being': proses pasif yang sedang terjadi (is being + V3)." },
-        { s: "Aku sudah sangat sibuk akhir-akhir ini", j: "I have been very busy lately", p: "Ai hev bin ve-ri bi-zi leit-li", k: "📘 Alasan 'been': menunjukkan kondisi yang sudah berlangsung (have + been)." },
-        { s: "Cuacanya sedang dingin", j: "The weather is cold", p: "De we-der iz kold", k: "📘 Alasan 'is': menjelaskan keadaan cuaca saat ini." },
-        { s: "Kami sedang menunggu bus", j: "We are waiting for the bus", p: "Wi ar wei-ting for de bas", k: "📘 Alasan 'are': aktivitas jamak yang sedang berlangsung (present continuous)." },
-        { s: "Aku tadi di rumah", j: "I was at home", p: "Ai woz et hom", k: "📘 Alasan 'was': posisi atau keadaan di masa lalu (I was)." },
-        { s: "Kamu dulu sangat pemalu", j: "You were very shy before", p: "Yu wer ve-ri syai bi-for", k: "📘 Alasan 'were': keadaan masa lalu dengan subjek 'you'." },
-        { s: "Dia sedang diperiksa dokter", j: "She is being examined by the doctor", p: "Syi iz bi-ing eg-zam-ind bai de dok-ter", k: "📘 Alasan 'being': tindakan pasif sedang berlangsung (is being + examined)." },
-        { s: "Kami sudah menjadi teman lama", j: "We have been friends for years", p: "Wi hev bin frends for yirs", k: "📘 Alasan 'been': kondisi yang berlangsung lama sampai sekarang (have been)." },
-        { s: "Aku sedang lapar sekarang", j: "I am hungry now", p: "Ai em hung-gri nau", k: "📘 Alasan 'am': keadaan diri sendiri saat ini." },
-        { s: "Dia teman baikku", j: "He is my good friend", p: "Hi iz may gud frend", k: "📘 Alasan 'is': dipakai untuk subjek tunggal (he)." },
-        { s: "Mereka sedang sangat senang", j: "They are very excited", p: "Dey ar ve-ri ik-sai-ted", k: "📘 Alasan 'are': dipakai untuk subjek jamak (they)." },
-        { s: "Aku tadi sangat gugup", j: "I was very nervous earlier", p: "Ai woz ve-ri ner-ves er-li-er", k: "📘 Alasan 'was': keadaan diri di masa lalu (I was)." },
-        { s: "Kami dulu tinggal di desa", j: "We were living in a village before", p: "Wi wer li-ving in e vil-lij bi-for", k: "📘 Alasan 'were': dipakai untuk subjek jamak di masa lalu + past continuous." },
-        { s: "Pintunya sedang diperbaiki", j: "The door is being repaired", p: "De dor iz bi-ing ri-perd", k: "📘 Alasan 'being': menunjukkan proses pasif yang sedang terjadi." },
-        { s: "Dia sudah sangat sabar selama ini", j: "She has been very patient all this time", p: "Syi hez bin ve-ri pei-shent ol dis taim", k: "📘 Alasan 'been': keadaan yang berlangsung sampai sekarang." },
-        { s: "Aku anak yang rajin", j: "I am a diligent child", p: "Ai em e di-li-jent caild", k: "📘 Alasan 'am': menyatakan identitas atau sifat diri." },
-        { s: "Laptop itu sangat mahal", j: "The laptop is very expensive", p: "De lep-top iz ve-ri ik-spen-siv", k: "📘 Alasan 'is': menjelaskan benda tunggal." },
-        { s: "Kita sedang belajar bersama", j: "We are studying together", p: "Wi ar sta-di-ing tu-ge-der", k: "📘 Alasan 'are': kegiatan bersama yang sedang berlangsung." },
-        { s: "Dia tadi sangat marah", j: "She was very angry yesterday", p: "Syi woz ve-ri eng-gri yes-ter-dei", k: "📘 Alasan 'was': keadaan emosi di masa lalu (lampau)." },
-        { s: "Kalian dulu sangat aktif", j: "You were very active before", p: "Yu wer ve-ri ak-tiv bi-for", k: "📘 Alasan 'were': dipakai untuk 'you' di masa lalu." },
-        { s: "Mobilnya sedang dicuci", j: "The car is being washed", p: "De kar iz bi-ing wosht", k: "📘 Alasan 'being': proses pasif sedang berlangsung." },
-        { s: "Aku sudah di sini sejak pagi", j: "I have been here since morning", p: "Ai hev bin hir sins mor-ning", k: "📘 Alasan 'been': menunjukkan keberadaan yang berlanjut (present perfect)." },
-        { s: "Hari ini sangat panas", j: "Today is very hot", p: "Tu-dei iz ve-ri hot", k: "📘 Alasan 'is': menjelaskan keadaan." },
-        { s: "Mereka sedang menonton film", j: "They are watching a movie", p: "Dey ar woc-ing e mu-vi", k: "📘 Alasan 'are': aktivitas jamak present continuous." },
-        { s: "Aku tadi berada di toko", j: "I was at the store earlier", p: "Ai woz et de stor er-li-er", k: "📘 Alasan 'was': lokasi masa lalu tunggal." },
-        { s: "Kami dulu sangat miskin", j: "We were very poor before", p: "Wi wer ve-ri pur bi-for", k: "📘 Alasan 'were': keadaan jamak di masa lalu." },
-        { s: "Anaknya sedang diajari membaca", j: "The child is being taught to read", p: "De caild iz bi-ing tot tu rid", k: "📘 Alasan 'being': proses pasif yang sedang terjadi." },
-        { s: "Mereka sudah menikah lima tahun", j: "They have been married for five years", p: "Dey hev bin mer-id for faiv yirs", k: "📘 Alasan 'been': kondisi yang sudah berlangsung lama." },
-        { s: "Aku sedang siap pergi", j: "I am ready to go", p: "Ai em re-di tu go", k: "📘 Alasan 'am': keadaan sekarang (I am ready)." },
-        { s: "Dia sangat pintar di kelas", j: "She is very smart in class", p: "Syi iz ve-ri smart in klas", k: "📘 Alasan 'is': sifat subjek tunggal." },
-        { s: "Kami sedang main game", j: "We are playing a game", p: "Wi ar plei-ing e geim", k: "📘 Alasan 'are': present continuous untuk we." },
-        { s: "Aku tadi sangat kecewa", j: "I was very disappointed earlier", p: "Ai woz ve-ri dis-a-poin-ted er-li-er", k: "📘 Alasan 'was': perasaan lampau tunggal." },
-        { s: "Mereka dulu tetangga kami", j: "They were our neighbors before", p: "Dey wer aur nei-bors bi-for", k: "📘 Alasan 'were': subjek jamak di masa lalu." },
-        { s: "Rumah itu sedang dicat", j: "The house is being painted", p: "De haus iz bi-ing pein-ted", k: "📘 Alasan 'being': proses pasif sedang berlangsung." },
-        { s: "Aku sudah sibuk minggu ini", j: "I have been very busy this week", p: "Ai hev bin ve-ri bi-zi dis wik", k: "📘 Alasan 'been': keadaan yang berlangsung sampai sekarang." },
-        { s: "Aku penggemar musik", j: "I am a music fan", p: "Ai em e myu-zik fen", k: "📘 Alasan 'am': menyatakan identitas." },
-        { s: "Buku itu sangat menarik", j: "The book is very interesting", p: "De buk iz ve-ri in-te-res-ting", k: "📘 Alasan 'is': menjelaskan objek tunggal." },
-        { s: "Kalian sedang membuat tugas", j: "You are doing homework", p: "Yu ar du-ing hom-work", k: "📘 Alasan 'are': kegiatan yang sedang dilakukan (you)." },
-        { s: "Dia tadi di kantor", j: "He was at the office earlier", p: "Hi woz et di o-fis er-li-er", k: "📘 Alasan 'was': lokasi masa lalu tunggal." },
-        { s: "Kami dulu sangat bahagia", j: "We were very happy before", p: "Wi wer ve-ri he-pi bi-for", k: "📘 Alasan 'were': keadaan masa lalu jamak." }
+        { s: "Aku sering membantu ibu di rumah", j: "I do help my mother at home", p: "Ai du help mai ma-der at hom", k: "🔹 Alasan DO: dipakai untuk kegiatan yang sering dilakukan (simple present + penekanan)." },
+        { s: "Kamu suka bermain bola?", j: "Do you like playing football?", p: "Du yu laik plei-ing fut-bol", k: "🔹 Alasan DO: dipakai untuk membuat pertanyaan simple present (I/You/We/They)." },
+        { s: "Mereka tidak tidur siang", j: "They do not take a nap", p: "Dey du not teik e nep", k: "🔹 Alasan DO: dipakai untuk bentuk negatif simple present (they)." },
+        { s: "Dia suka membaca buku", j: "She does like reading books", p: "Shi daz laik ri-ding buks", k: "🔹 Alasan DOES: dipakai untuk he/she/it di simple present (penegasan)." },
+        { s: "Apakah ayahmu bekerja hari ini?", j: "Does your father work today?", p: "Daz yor fa-der work tu-dei", k: "🔹 Alasan DOES: pertanyaan dengan subjek tunggal (he/she/it)." },
+        { s: "Kucing itu makan ikan setiap pagi", j: "The cat does eat fish every morning", p: "De ket daz it fish ev-ri mor-ning", k: "🔹 Alasan DOES: kebiasaan untuk subjek tunggal (the cat)." },
+        { s: "Dia tidak bermain game malam ini", j: "He does not play games tonight", p: "Hi daz not plei geims tu-nait", k: "🔹 Alasan DOES: kalimat negatif untuk he/she/it." },
+        { s: "Aku mengerjakan tugas kemarin", j: "I did finish my homework yesterday", p: "Ai did fi-nish mai hom-work yes-ter-dei", k: "🔹 Alasan DID: kegiatan di masa lalu + penegasan (simple past)." },
+        { s: "Kami pergi ke pasar tadi pagi", j: "We did go to the market this morning", p: "Wi did go tu de mar-ket dis mor-ning", k: "🔹 Alasan DID: penegasan kejadian masa lalu (we did go)." },
+        { s: "Apakah kamu melihat guru tadi?", j: "Did you see the teacher earlier?", p: "Did yu sii de ti-cher er-li-er", k: "🔹 Alasan DID: pertanyaan untuk masa lalu (semua subjek)." },
+        { s: "Mereka tidak datang ke pesta kemarin", j: "They did not come to the party yesterday", p: "Dey did not kam tu de par-ti yes-ter-dei", k: "🔹 Alasan DID: bentuk negatif di masa lalu." },
+        { s: "Adikku membersihkan kamarnya tadi malam", j: "My brother did clean his room last night", p: "Mai bra-der did klin hiz rum last nait", k: "🔹 Alasan DID: aksi yang sudah terjadi + penekanan." },
+        { s: "Apakah dia meneleponmu kemarin?", j: "Did she call you yesterday?", p: "Did shi kol yu yes-ter-dei", k: "🔹 Alasan DID: pertanyaan lampau untuk she." },
+        { s: "Kami belajar bahasa Inggris setiap hari", j: "We do study English every day", p: "Wi du sta-di ing-glish ev-ri dei", k: "🔹 Alasan DO: menunjukkan kebiasaan (we do study)." },
+        { s: "Apakah mereka suka musik?", j: "Do they like music?", p: "Du dey laik myu-zik", k: "🔹 Alasan DO: pertanyaan simple present untuk they." },
+        { s: "Dia membantu temannya setiap minggu", j: "He does help his friend every week", p: "Hi daz help hiz frend ev-ri wik", k: "🔹 Alasan DOES: kebiasaan untuk he." },
+        { s: "Ibumu memasak sangat enak", j: "Your mother does cook very well", p: "Yor ma-der daz kuk ver-ri wel", k: "🔹 Alasan DOES: digunakan untuk subjek tunggal (your mother)." },
+        { s: "Aku bermain dengan teman-temanku kemarin", j: "I did play with my friends yesterday", p: "Ai did plei wid mai frends yes-ter-dei", k: "🔹 Alasan DID: aksi selesai di masa lalu." },
+        { s: "Apakah mereka belajar tadi malam?", j: "Did they study last night?", p: "Did dey sta-di last nait", k: "🔹 Alasan DID: pertanyaan tentang masa lalu." },
+        { s: "Kami tidak menonton TV tadi pagi", j: "We did not watch TV this morning", p: "Wi did not woch ti-vi dis mor-ning", k: "🔹 Alasan DID: bentuk negatif masa lalu." },
+        { s: "Aku mencuci piring setiap pagi", j: "I do wash the dishes every morning", p: "Ai du wosh de dish-es ev-ri mor-ning", k: "🔹 Alasan DO: kebiasaan yang dilakukan setiap hari." },
+        { s: "Apakah kamu minum kopi setiap pagi?", j: "Do you drink coffee every morning?", p: "Du yu dringk ko-fi ev-ri mor-ning", k: "🔹 Alasan DO: pertanyaan simple present." },
+        { s: "Kami tidak bermain hujan-hujanan", j: "We do not play in the rain", p: "Wi du not plei in de rein", k: "🔹 Alasan DO: bentuk negatif simple present." },
+        { s: "Mereka belajar bersama setiap malam", j: "They do study together every night", p: "Dey du sta-di tu-ge-der ev-ri nait", k: "🔹 Alasan DO: kegiatan rutin (they)." },
+        { s: "Apakah kalian suka film lucu?", j: "Do you like comedy movies?", p: "Du yu laik ko-me-di mu-viz", k: "🔹 Alasan DO: pertanyaan kebiasaan atau kesukaan." },
+        { s: "Dia mencuci mobil ayahnya setiap minggu", j: "He does wash his father's car every week", p: "Hi daz wosh hiz fa-derz kar ev-ri wik", k: "🔹 Alasan DOES: digunakan untuk he/she/it." },
+        { s: "Adikku suka menggambar kartun", j: "My sister does enjoy drawing cartoons", p: "Mai sis-ter daz en-joi dro-ing kar-tuns", k: "🔹 Alasan DOES: kegiatan rutin subjek tunggal." },
+        { s: "Apakah guru itu mengajar matematika?", j: "Does the teacher teach mathematics?", p: "Daz de ti-cher tich ma-the-ma-tiks", k: "🔹 Alasan DOES: pertanyaan dengan subjek tunggal." },
+        { s: "Dia tidak bangun terlambat", j: "She does not wake up late", p: "Shi daz not weik ap leit", k: "🔹 Alasan DOES: negatif simple present (she)." },
+        { s: "Kucingku tidur di sofa setiap siang", j: "My cat does sleep on the sofa every afternoon", p: "Mai ket daz slip on de so-fa ev-ri af-ter-nun", k: "🔹 Alasan DOES: kebiasaan he/she/it." },
+        { s: "Aku menonton pertandingan tadi malam", j: "I did watch the match last night", p: "Ai did woch de mech last nait", k: "🔹 Alasan DID: kejadian masa lalu." },
+        { s: "Kami mengunjungi nenek minggu lalu", j: "We did visit our grandmother last week", p: "Wi did vi-zit aur gran-mod-er last wik", k: "🔹 Alasan DID: aksi sudah terjadi." },
+        { s: "Apakah kamu membersihkan kamar tadi pagi?", j: "Did you clean your room this morning?", p: "Did yu klin yor rum dis mor-ning", k: "🔹 Alasan DID: pertanyaan masa lalu." },
+        { s: "Dia tidak membawa bukunya kemarin", j: "He did not bring his book yesterday", p: "Hi did not bring hiz buk yes-ter-dei", k: "🔹 Alasan DID: negatif masa lalu." },
+        { s: "Mereka bermain sepak bola setelah sekolah", j: "They did play football after school", p: "Dey did plei fut-bol af-ter skul", k: "🔹 Alasan DID: penegasan aksi lampau." },
+        { s: "Apakah ibumu memasak tadi malam?", j: "Did your mother cook last night?", p: "Did yor ma-der kuk last nait", k: "🔹 Alasan DID: pertanyaan tentang masa lalu." },
+        { s: "Aku tidak tidur cepat kemarin", j: "I did not sleep early yesterday", p: "Ai did not slip er-li yes-ter-dei", k: "🔹 Alasan DID: bentuk negatif lampau." },
+        { s: "Kami membantu tetangga minggu lalu", j: "We did help our neighbor last week", p: "Wi did help aur nei-bor last wik", k: "🔹 Alasan DID: kegiatan yang sudah selesai." },
+        { s: "Apakah mereka datang tepat waktu?", j: "Did they arrive on time?", p: "Did dey e-raiv on taim", k: "🔹 Alasan DID: pertanyaan simple past." },
+        { s: "Ayah memperbaiki sepeda kemarin sore", j: "Father did fix the bicycle yesterday afternoon", p: "Fa-der did fiks de bai-si-kel yes-ter-dei af-ter-nun", k: "🔹 Alasan DID: aksi terjadi di masa lalu." },
+        { s: "Aku suka kopi setiap pagi", j: "I do like coffee every morning", p: "Ai du laik ko-fi ev-ri mor-ning", k: "🔹 Alasan DO: menyatakan kesukaan rutin." },
+        { s: "Apakah dia pergi ke sekolah?", j: "Does she go to school?", p: "Daz shi go tu skul", k: "🔹 Alasan DOES: pertanyaan simple present untuk she." },
+        { s: "Kami tidak makan daging", j: "We do not eat meat", p: "Wi du not it mit", k: "🔹 Alasan DO: negatif simple present (we)." },
+        { s: "Dia mengerjakan PR setiap malam", j: "He does do his homework every night", p: "Hi daz du hiz hom-work ev-ri nait", k: "🔹 Alasan DOES: penekanan kebiasaan untuk he." },
+        { s: "Apakah mereka bermain sepak bola?", j: "Do they play soccer?", p: "Du dey plei sok-er", k: "🔹 Alasan DO: pertanyaan untuk they." },
+        { s: "Aku memperbaiki komputer kemarin", j: "I did fix the computer yesterday", p: "Ai did fiks de kom-pyu-ter yes-ter-dei", k: "🔹 Alasan DID: masa lalu + penekanan." },
+        { s: "Apakah kamu sarapan tadi?", j: "Did you have breakfast earlier?", p: "Did yu hav brek-fast er-li-er", k: "🔹 Alasan DID: pertanyaan lampau." }
     ];
 
-    // total 54 soal unik, pastikan cukup
-    while(daftarSoal.length < 54) {
-        daftarSoal.push({ s: "Latihan tambahan: Dia adalah insinyur", j: "He is an engineer", p: "Hi iz en en-ji-nir", k: "📘 'is' untuk identitas pekerjaan." });
+    // total 48 soal unik
+    while(daftarSoal.length < 48) {
+        daftarSoal.push({ s: "Dia rajin belajar setiap hari", j: "She does study hard every day", p: "Shi daz sta-di hard ev-ri dei", k: "🔹 DOES untuk kebiasaan she." });
     }
 
     let currentIndex = 0;
@@ -412,7 +392,7 @@
         if(!text) return;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
-        utterance.rate = 0.9;
+        utterance.rate = 0.92;
         utterance.volume = 1;
         window.speechSynthesis.speak(utterance);
     }
@@ -423,7 +403,7 @@
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         if(id === 'screen-a') {
-            speak("Selamat datang di pelatihan To Be. Am, is, are, was, were, being, been. Kuasai dengan percaya diri!", 'id-ID');
+            speak("Selamat datang di pelatihan Do, Does, Did. Do untuk I, you, we, they. Does untuk he, she, it. Did untuk masa lalu semua subjek. Latih terus ya!", 'id-ID');
         }
         if(id === 'screen-c') tampilkanSoal();
     }
@@ -439,7 +419,7 @@
         jawabanDiv.style.display = 'none';
         document.getElementById('jawaban-en').innerHTML = item.j;
         document.getElementById('jawaban-pronun').innerText = item.p;
-        document.getElementById('jawaban-ket').innerHTML = `📖 ${item.k}`;
+        document.getElementById('jawaban-ket').innerHTML = `📘 ${item.k}`;
         const speakBtn = document.getElementById('speak-btn');
         speakBtn.onclick = () => speak(item.j, 'en-US');
         speak(item.s, 'id-ID');
@@ -458,7 +438,7 @@
     function nextSoal() {
         currentIndex++;
         if(currentIndex >= daftarSoal.length) {
-            alert("🎉 Hebat! Kamu sudah menguasai semua bentuk To Be! Mulai dari awal untuk penguatan.");
+            alert("🎉 Selamat! Kamu telah menyelesaikan semua latihan Do/Does/Did. Ulang dari awal untuk semakin mahir.");
             currentIndex = 0;
         }
         tampilkanSoal();
