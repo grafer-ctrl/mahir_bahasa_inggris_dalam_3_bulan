@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Modal Verbs (Can, Could, May, Might, Will, Would, Shall, Should, Must)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        .red-mission {
+            background: linear-gradient(120deg, #fff0f0, #ffe0e0);
+            border-left: 6px solid #e53e3e;
+            padding: 16px 20px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .red-mission i { font-size: 1.4rem; color: #e53e3e; }
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-card {
+            background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
+            border-radius: 32px;
+            padding: 22px 20px;
+            margin: 12px 0 24px;
+            border: 1px solid #cddef5;
+        }
+        .modal-intro {
+            font-size: 0.85rem;
+            color: #1e4a76;
+            font-weight: 600;
+            line-height: 1.6;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+            gap: 8px;
+        }
+        .modal-intro span {
+            background: #ffffffcc;
+            padding: 4px 10px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        .badge-modal {
+            background: #2c5282;
+            color: white;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+        }
+        #soal-teks {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #4361ee;
+        }
+        .eng-headline {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.3rem;
+        }
+        .speaker-icon-round:hover { background: #dfe7f2; transform: scale(0.95); }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.9rem;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 10px 22px;
+            border-radius: 44px;
+            font-weight: 600;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+        }
+        .next-btn-custom:hover { background: #eef4fc; transform: translateY(-2px); }
+        .small-note { font-size: 11px; text-align: center; margin-top: 16px; color: #6f8eae; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        i { pointer-events: none; }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome + Tugas Merah -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-gavel"></i> MODAL VERBS</h1>
+            <div class="red-mission">
+                <i class="fas fa-tasks"></i> 
+                <span><strong>Tugas Anda:</strong> Terjemahkan kalimat dengan tepat & ucapkan dalam Bahasa Inggris! 🎙️</span>
+            </div>
+            <div class="intro-card">
+                <div class="modal-intro">
+                    <span><span class="badge-modal">CAN</span> kemampuan / izin informal</span>
+                    <span><span class="badge-modal">COULD</span> permintaan sopan / kemampuan lampau</span>
+                    <span><span class="badge-modal">MAY</span> izin formal / kemungkinan</span>
+                    <span><span class="badge-modal">MIGHT</span> kemungkinan lemah</span>
+                    <span><span class="badge-modal">WILL</span> rencana / janji</span>
+                    <span><span class="badge-modal">WOULD</span> keinginan sopan / permintaan</span>
+                    <span><span class="badge-modal">SHALL</span> ajakan (I/We)</span>
+                    <span><span class="badge-modal">SHOULD</span> saran / rekomendasi</span>
+                    <span><span class="badge-modal">MUST</span> kewajiban / keharusan kuat</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-chalkboard-user"></i> Latihan Modal Verbs
+            </button>
+        </div>
+
+        <!-- Screen B: Settings -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-sliders-h"></i> Atur Sesi</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu tampil jawaban</span> <span id="timerValDisplay" class="slider-value-badge">7 detik</span></label>
+                <input type="range" id="timerRange" min="3" max="120" value="8">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan MODAL VERBS -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 54</div>
+            <div class="question-card">
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Klik speaker untuk dengar English & pronunciation
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =============== DATA SOAL MODAL VERBS (CAN, COULD, MAY, MIGHT, WILL, WOULD, SHALL, SHOULD, MUST) ===============
+    const daftarSoal = [
+        { s: "Aku bisa mengerti sedikit apa yang kamu katakan", j: "I can understand a little of what you say", p: "Ai ken an-der-stend e lit-tel ov wot yu sei", k: "🔹 CAN → kemampuan memahami." },
+        { s: "Bisakah kamu berbicara lebih keras?", j: "Could you speak louder?", p: "Kud yu spik lau-der", k: "🔹 COULD → permintaan sopan (lebih halus dari can)." },
+        { s: "Aku bisa membersihkan kamar sendiri", j: "I can clean my room by myself", p: "Ai ken klin mai rum bai mai-self", k: "🔹 CAN → kemampuan sehari-hari." },
+        { s: "Bolehkah aku bertanya sesuatu?", j: "Could I ask something?", p: "Kud ai ask sam-thing", k: "🔹 COULD → meminta izin dengan sopan." },
+        { s: "Aku bisa bermain game setelah belajar", j: "I can play games after studying", p: "Ai ken plei geims af-ter sta-di-ing", k: "🔹 CAN → kemampuan atau izin informal." },
+        { s: "Mungkin dia lupa namaku", j: "He might forget my name", p: "Hi mait for-get mai neim", k: "🔹 MIGHT → kemungkinan yang belum pasti (probabilitas rendah)." },
+        { s: "Bolehkah saya membuka jendelanya?", j: "May I open the window?", p: "Mei ai o-pen de win-dou", k: "🔹 MAY → izin formal." },
+        { s: "Mungkin mereka datang malam ini", j: "They may come tonight", p: "Dei mei kam tu-nait", k: "🔹 MAY → kemungkinan terjadi (lebih formal)." },
+        { s: "Mungkin aku akan membeli makanan nanti", j: "I might buy some food later", p: "Ai mait bai sam fud lei-ter", k: "🔹 MIGHT → kemungkinan rencana (tidak terlalu pasti)." },
+        { s: "Bolehkah saya pergi lebih dulu?", j: "May I leave first?", p: "Mei ai liv ferst", k: "🔹 MAY → izin sopan." },
+        { s: "Aku akan belajar bahasa Inggris malam ini", j: "I will study English tonight", p: "Ai wil sta-di ing-glish tu-nait", k: "🔹 WILL → rencana masa depan yang pasti." },
+        { s: "Aku mau menemanimu ke sana", j: "I will go with you there", p: "Ai wil go wid yu der", k: "🔹 WILL → kemauan membantu." },
+        { s: "Aku ingin mencoba makanan Indonesia", j: "I would like to try Indonesian food", p: "Ai wud laik tu trai in-do-ni-sian fud", k: "🔹 WOULD → keinginan sopan (would like)." },
+        { s: "Maukah kamu menungguku sebentar?", j: "Would you wait for me a moment?", p: "Wud yu weit for mi e mo-ment", k: "🔹 WOULD → permintaan sopan." },
+        { s: "Aku akan menghubungimu besok pagi", j: "I will contact you tomorrow morning", p: "Ai wil kon-tak yu tu-mo-row mor-ning", k: "🔹 WILL → aksi masa depan." },
+        { s: "Haruskah kita pergi sekarang?", j: "Shall we go now?", p: "Syal wi go nau", k: "🔹 SHALL → ajakan bersama (untuk I/we)." },
+        { s: "Kamu sebaiknya makan tepat waktu", j: "You should eat on time", p: "Yu syud it on taim", k: "🔹 SHOULD → saran baik." },
+        { s: "Aku seharusnya lebih sering berolahraga", j: "I should exercise more often", p: "Ai syud ek-ser-size mor of-ten", k: "🔹 SHOULD → saran untuk diri sendiri." },
+        { s: "Aku harus mengisi baterai ponselku", j: "I must charge my phone battery", p: "Ai mast charj mai fon bat-te-ri", k: "🔹 MUST → kewajiban penting." },
+        { s: "Kita harus datang tepat waktu", j: "We must arrive on time", p: "Wi mast e-raiv on taim", k: "🔹 MUST → aturan atau kewajiban." },
+        { s: "Aku harus bangun pagi besok", j: "I must wake up early tomorrow", p: "Ai mast weik ap er-li tu-mo-row", k: "🔹 MUST → kewajiban penting." },
+        { s: "Kamu harus memakai helm", j: "You must wear a helmet", p: "Yu mast wer e hel-met", k: "🔹 MUST → aturan keselamatan." },
+        { s: "Aku harus menyelesaikan tugas ini hari ini", j: "I must finish this task today", p: "Ai mast fi-nish dis task tu-dei", k: "🔹 MUST → kewajiban yang harus selesai." },
+        { s: "Kita harus menjaga kebersihan rumah", j: "We must keep the house clean", p: "Wi mast kip de haus klin", k: "🔹 MUST → kewajiban sehari-hari." },
+        { s: "Kamu harus membawa kartu identitas", j: "You must bring your ID card", p: "Yu mast bring yor ai-di kard", k: "🔹 MUST → keharusan penting." },
+        { s: "Haruskah kita mulai sekarang?", j: "Shall we start now?", p: "Syal wi start nau", k: "🔹 SHALL → ajakan atau usulan." },
+        { s: "Kamu sebaiknya tidur lebih awal", j: "You should sleep earlier", p: "Yu syud slip er-li-er", k: "🔹 SHOULD → saran yang baik dilakukan." },
+        { s: "Aku seharusnya minum lebih banyak air", j: "I should drink more water", p: "Ai syud dringk mor wo-ter", k: "🔹 SHOULD → saran untuk diri sendiri." },
+        { s: "Haruskah aku membantumu?", j: "Shall I help you?", p: "Syal ai help yu", k: "🔹 SHALL → menawarkan bantuan." },
+        { s: "Kamu sebaiknya belajar setiap hari", j: "You should study every day", p: "Yu syud sta-di ev-ri dei", k: "🔹 SHOULD → saran kebiasaan baik." },
+        { s: "Aku akan meneleponmu nanti", j: "I will call you later", p: "Ai wil kol yu lei-ter", k: "🔹 WILL → rencana masa depan." },
+        { s: "Aku mau membantu kamu", j: "I will help you", p: "Ai wil help yu", k: "🔹 WILL → kemauan membantu." },
+        { s: "Aku ingin pergi ke luar negeri suatu hari nanti", j: "I would like to go abroad someday", p: "Ai wud laik tu go e-brod sam-dei", k: "🔹 WOULD → keinginan sopan." },
+        { s: "Maukah kamu menutup pintunya?", j: "Would you close the door?", p: "Wud yu kloz de dor", k: "🔹 WOULD → permintaan sopan." },
+        { s: "Aku akan belajar lebih rajin mulai besok", j: "I will study harder starting tomorrow", p: "Ai wil sta-di har-der star-ting tu-mo-row", k: "🔹 WILL → aksi di masa depan." },
+        { s: "Mungkin dia sedang sibuk sekarang", j: "She might be busy now", p: "Shi mait bi bi-zi nau", k: "🔹 MIGHT → kemungkinan yang belum pasti." },
+        { s: "Bolehkah saya masuk?", j: "May I come in?", p: "Mei ai kam in", k: "🔹 MAY → izin formal dan sopan." },
+        { s: "Mungkin hujan malam ini", j: "It might rain tonight", p: "It mait rein tu-nait", k: "🔹 MIGHT → kemungkinan cuaca." },
+        { s: "Mungkin aku akan belajar nanti malam", j: "I may study later tonight", p: "Ai mei sta-di lei-ter tu-nait", k: "🔹 MAY → kemungkinan melakukan sesuatu." },
+        { s: "Bolehkah saya menggunakan ponsel ini?", j: "May I use this phone?", p: "Mei ai yus dis fon", k: "🔹 MAY → meminta izin dengan sopan." },
+        { s: "Aku bisa berbicara sedikit bahasa Inggris", j: "I can speak a little English", p: "Ai ken spik e lit-tel ing-glish", k: "🔹 CAN → kemampuan yang bisa dilakukan sekarang." },
+        { s: "Bisakah kamu mengulanginya pelan-pelan?", j: "Could you repeat it slowly?", p: "Kud yu ri-pit it slo-li", k: "🔹 COULD → permintaan sopan sehari-hari." },
+        { s: "Aku bisa membantu ibuku di rumah", j: "I can help my mother at home", p: "Ai ken help mai ma-der et hom", k: "🔹 CAN → kemampuan membantu." },
+        { s: "Bolehkah aku duduk di sini?", j: "Could I sit here?", p: "Kud ai sit hir", k: "🔹 COULD → izin dengan sopan." },
+        { s: "Aku bisa memasak mie sendiri", j: "I can cook noodles by myself", p: "Ai ken kuk nu-delz bai mai-self", k: "🔹 CAN → kemampuan sehari-hari." },
+        { s: "Kamu harus menggunakan sabuk pengaman", j: "You must wear a seatbelt", p: "Yu mast wer e sit-belt", k: "🔹 MUST → aturan keselamatan berkendara." },
+        { s: "Sebaiknya kita pergi sekarang", j: "We should go now", p: "Wi syud go nau", k: "🔹 SHOULD → saran untuk bersama." },
+        { s: "Aku akan mencoba yang terbaik", j: "I will try my best", p: "Ai wil trai mai best", k: "🔹 WILL → tekad masa depan." },
+        { s: "Maukah kamu membantuku?", j: "Would you help me?", p: "Wud yu help mi", k: "🔹 WOULD → permintaan bantuan sopan." },
+        { s: "Bolehkah saya bergabung?", j: "May I join?", p: "Mei ai join", k: "🔹 MAY → izin untuk bergabung." },
+        { s: "Mungkin kita akan terlambat", j: "We might be late", p: "Wi mait bi leit", k: "🔹 MIGHT → kemungkinan terlambat." },
+        { s: "Aku bisa menyelesaikannya besok", j: "I can finish it tomorrow", p: "Ai ken fi-nish it tu-mo-row", k: "🔹 CAN → kemampuan." },
+        { s: "Haruskah kita membuka diskusi?", j: "Shall we open the discussion?", p: "Syal wi o-pen de dis-ka-syen", k: "🔹 SHALL → ajakan memulai diskusi." }
+    ];
+
+    while(daftarSoal.length < 54) {
+        daftarSoal.push({ s: "Kamu harus belajar dengan giat", j: "You must study diligently", p: "Yu mast sta-di di-li-jent-li", k: "🔹 MUST → kewajiban untuk sukses." });
+    }
+
+    let currentIndex = 0;
+    let timerExplose;
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => { timerValDisplay.innerText = timerRange.value + " detik"; });
+    timerValDisplay.innerText = timerRange.value + " detik";
+
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        if(!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.92;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { window.speechSynthesis.cancel(); clearTimeout(timerExplose); }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen-a') {
+            speak("Selamat datang di pelatihan Modal Verbs. Tugas anda: terjemahkan kalimat dan ucapkan dalam bahasa Inggris. Can, could, may, might, will, would, shall, should, must. Selamat berlatih!", 'id-ID');
+        }
+        if(id === 'screen-c') tampilkanSoal();
+    }
+
+    function resetLatihan() { currentIndex = 0; }
+
+    function tampilkanSoal() {
+        clearTimeout(timerExplose);
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `📘 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        speak(item.s, 'id-ID');
+        const delay = parseInt(timerRange.value) * 1000;
+        timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
+    }
+
+    function nextSoal() {
+        currentIndex++;
+        if(currentIndex >= daftarSoal.length) {
+            alert("🎉 Luar biasa! Kamu telah menyelesaikan semua latihan MODAL VERBS. Terus latih kemampuanmu ya!");
+            currentIndex = 0;
+        }
+        tampilkanSoal();
+    }
+</script>
+</body>
+</html>
