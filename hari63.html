@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Daily Conversation & Present Continuous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 580px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        .red-mission {
+            background: linear-gradient(120deg, #fff0f0, #ffe0e0);
+            border-left: 6px solid #e53e3e;
+            padding: 14px 18px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .red-mission i { font-size: 1.3rem; color: #e53e3e; }
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1f2b48;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .intro-card {
+            background: linear-gradient(120deg, #EFF6FF 0%, #E9F0FA 100%);
+            border-radius: 32px;
+            padding: 18px 16px;
+            margin: 8px 0 24px;
+            border: 1px solid #cddef5;
+        }
+        .daily-tip {
+            font-size: 0.8rem;
+            color: #1e4a76;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .daily-tip span {
+            background: #ffffffcc;
+            padding: 5px 12px;
+            border-radius: 40px;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .slider-group {
+            background: #F8FBFE;
+            padding: 18px 20px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f8;
+        }
+        .slider-group label {
+            font-weight: 700;
+            color: #1e375c;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .slider-value-badge {
+            background: #e9eff8;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #cbddee;
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #1f3a68;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        .question-card {
+            background: #FFFFFF;
+            border-radius: 44px;
+            padding: 32px 22px 28px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12);
+            margin: 10px 0 10px;
+            border: 1px solid #eef2fc;
+        }
+        .counter-modern {
+            background: #eef3fc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2c5270;
+            margin-bottom: 18px;
+        }
+        #soal-teks {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #091836;
+            line-height: 1.4;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .jawaban-premium {
+            margin-top: 24px;
+            background: #FCFAFE;
+            border-radius: 32px;
+            padding: 0px;
+            display: none;
+            border-left: 5px solid #10b981;
+        }
+        .eng-headline {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a3b67;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        .speaker-icon-round {
+            background: #eef2fa;
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c3e66;
+            font-size: 1.4rem;
+        }
+        .speaker-icon-round:hover { background: #dfe7f2; transform: scale(0.95); }
+        .pron-text {
+            color: #5b7c9e;
+            font-weight: 500;
+            margin: 12px 0 8px;
+            font-size: 0.95rem;
+        }
+        .grammar-note-modern {
+            background: #F1F6FD;
+            padding: 14px 16px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            color: #2a577b;
+            font-weight: 500;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 12px 24px;
+            border-radius: 44px;
+            font-weight: 700;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .next-btn-custom {
+            margin-top: 26px;
+            width: 100%;
+            background: white;
+            color: #1f3a68;
+            border: 1px solid #c9ddec;
+        }
+        .next-btn-custom:hover { background: #eef4fc; transform: translateY(-2px); }
+        .small-note { font-size: 12px; text-align: center; margin-top: 16px; color: #6f8eae; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        i { pointer-events: none; }
+        .badge-convo {
+            background: #059669;
+            color: white;
+            border-radius: 60px;
+            padding: 4px 16px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome + Daily Conversation -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-comments"></i> DAILY TALK</h1>
+            <div class="red-mission">
+                <i class="fas fa-tasks"></i> 
+                <span><strong>TUGAS ANDA:</strong> Terjemahkan kalimat & ucapkan dengan keras dalam Bahasa Inggris! Latihan percakapan sehari-hari & kegiatan sedang berlangsung.</span>
+            </div>
+            <div class="intro-card">
+                <div class="daily-tip">
+                    <span><i class="fas fa-user-friends"></i> Ngobrol asyik</span>
+                    <span><i class="fas fa-language"></i> Praktik tiap hari</span>
+                    <span><i class="fas fa-smile"></i> Percaya diri</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-chalkboard-user"></i> Mulai Latihan Percakapan
+            </button>
+        </div>
+
+        <!-- Screen B: Settings -->
+        <div id="screen-b" class="screen">
+            <h3><i class="fas fa-sliders-h"></i> Atur Kecepatan</h3>
+            <div class="slider-group">
+                <label><span><i class="fas fa-hourglass-half"></i> Waktu muncul jawaban</span> <span id="timerValDisplay" class="slider-value-badge">4 detik</span></label>
+                <input type="range" id="timerRange" min="2" max="10" step="0.5" value="4">
+            </div>
+            <button class="btn-primary" onclick="resetLatihan(); showScreen('screen-c')">
+                <i class="fas fa-play-circle"></i> Mulai Latihan
+            </button>
+        </div>
+
+        <!-- Screen C: Latihan Daily Conversation -->
+        <div id="screen-c" class="screen">
+            <div class="counter-modern" id="soal-counter">Soal 1 / 102</div>
+            <div class="question-card">
+                <div style="text-align: center;"><span class="badge-convo"><i class="fas fa-comment"></i> SPEAK UP!</span></div>
+                <div id="soal-teks">Memuat soal...</div>
+                <div class="flex-row" style="margin-bottom: 12px;">
+                    <button class="btn-outline-sm" onclick="tampilJawaban()"><i class="fas fa-eye"></i> Lihat jawaban</button>
+                </div>
+                <div id="kunci-jawaban" class="jawaban-premium" style="padding: 18px;">
+                    <div class="eng-headline">
+                        <span id="jawaban-en">...</span>
+                        <div class="speaker-icon-round" id="speak-btn">
+                            <i class="fas fa-headphones"></i> 🔊
+                        </div>
+                    </div>
+                    <div class="pron-text" id="jawaban-pronun"></div>
+                    <div class="grammar-note-modern" id="jawaban-ket"></div>
+                </div>
+            </div>
+            <button class="btn-primary next-btn-custom" onclick="nextSoal()">
+                <i class="fas fa-arrow-right"></i> Next Soal
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Baca kalimat Indonesia, lalu ucapkan terjemahan Inggris dengan lantang!
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =============== DATA SOAL PERCAKAPAN & PRESENT CONTINUOUS (LENGKAP) ===============
+    const daftarSoal = [
+        { s: "Saya suka berbicara dengan orang baru", j: "I like talking to new people", p: "Ai laik tok-ing tu nyu pi-pol", k: "💬 like + V-ing untuk hobi/kesukaan" },
+        { s: "Saya berasal dari Indonesia", j: "I come from Indonesia", p: "Ai kam from in-do-ni-sya", k: "🌏 come from → asal negara" },
+        { s: "Saya sering menggunakan OmeTV", j: "I often use OmeTV", p: "Ai of-ten yuz om-ti-vi", k: "⏰ often = adverb of frequency" },
+        { s: "Saya ingin melatih bahasa Inggris", j: "I want to practice English", p: "Ai want tu prak-tis ing-glish", k: "🎯 want to + infinitive" },
+        { s: "Saya suka berteman dengan orang luar", j: "I like making foreign friends", p: "Ai laik mei-king fo-ren frendz", k: "🤝 making friends = berteman" },
+        { s: "Saya sedang belajar bahasa Inggris", j: "I am learning English", p: "Ai em ler-ning ing-glish", k: "📘 present continuous: sedang terjadi sekarang" },
+        { s: "Saya suka mendengar aksen berbeda", j: "I like hearing different accents", p: "Ai laik hi-ring di-fe-rent ak-sents", k: "👂 like hearing = suka mendengar" },
+        { s: "Saya biasanya ngobrol malam hari", j: "I usually chat at night", p: "Ai yu-zhu-a-li chat at nait", k: "🌙 usually = kebiasaan" },
+        { s: "Saya ingin meningkatkan percaya diri", j: "I want to improve my confidence", p: "Ai want tu im-pruv mai kon-fi-dens", k: "🚀 improve confidence = tingkatkan PD" },
+        { s: "Saya suka topik tentang musik", j: "I like topics about music", p: "Ai laik to-piks e-baut myu-zik", k: "🎵 topics about music" },
+        { s: "Saya sering mendengarkan lagu Inggris", j: "I often listen to English songs", p: "Ai of-ten lis-en tu ing-glish songz", k: "🎧 listen to English songs" },
+        { s: "Saya suka film action", j: "I like action movies", p: "Ai laik ak-syen mu-viz", k: "🍿 action movies" },
+        { s: "Saya suka film horor", j: "I like horror movies", p: "Ai laik ho-ror mu-viz", k: "👻 horror movies" },
+        { s: "Saya suka anime Jepang", j: "I like Japanese anime", p: "Ai laik ja-pa-niz a-ni-me", k: "🇯🇵 Japanese anime" },
+        { s: "Saya suka bermain game online", j: "I like playing online games", p: "Ai laik plei-ing on-lain geims", k: "🎮 playing online games" },
+        { s: "Saya sering bermain Mobile Legends", j: "I often play Mobile Legends", p: "Ai of-ten plei mo-bail le-jends", k: "📱 Mobile Legends" },
+        { s: "Saya suka sepak bola", j: "I like football", p: "Ai laik fut-bol", k: "⚽ football" },
+        { s: "Saya mendukung tim favorit saya", j: "I support my favorite team", p: "Ai sa-port mai fei-ve-rit tim", k: "🏆 support my favorite team" },
+        { s: "Saya suka makanan pedas Indonesia", j: "I like spicy Indonesian food", p: "Ai laik spai-si in-do-ni-syan fud", k: "🌶️ spicy Indonesian food" },
+        { s: "Saya ingin mengunjungi negara lain", j: "I want to visit another country", p: "Ai want tu vi-zit e-na-der kan-tri", k: "✈️ visit another country" },
+        { s: "Saya penasaran dengan budaya luar", j: "I am curious about foreign cultures", p: "Ai em kyur-ri-es e-baut fo-ren kal-cers", k: "🧐 curious about = penasaran" },
+        { s: "Saya suka bertanya tentang negara orang", j: "I like asking about people's countries", p: "Ai laik as-king e-baut pi-polz kan-triz", k: "❓ asking about countries" },
+        { s: "Saya suka bercanda saat ngobrol", j: "I like joking while chatting", p: "Ai laik jo-king wail chat-ing", k: "😂 joking while chatting" },
+        { s: "Saya suka orang yang ramah", j: "I like friendly people", p: "Ai laik frend-li pi-pol", k: "😊 friendly people" },
+        { s: "Saya gugup saat pertama ngobrol", j: "I feel nervous at first", p: "Ai fil ner-ves at ferst", k: "😬 feel nervous" },
+        { s: "Saya mencoba berbicara lebih lancar", j: "I try to speak more fluently", p: "Ai trai tu spik mor flu-ent-li", k: "🗣️ speak more fluently" },
+        { s: "Saya ingin punya teman internasional", j: "I want international friends", p: "Ai want in-ter-na-syo-nal frendz", k: "🌍 international friends" },
+        { s: "Saya suka belajar kata baru", j: "I like learning new words", p: "Ai laik ler-ning nyu werdz", k: "📖 learning new words" },
+        { s: "Saya sering salah pengucapan", j: "I often pronounce words incorrectly", p: "Ai of-ten pro-nauns werdz in-ko-rekt-li", k: "🔊 pronounce incorrectly" },
+        { s: "Saya tetap mencoba berbicara", j: "I keep trying to speak", p: "Ai kip trai-ing tu spik", k: "💪 keep trying" },
+        { s: "Saya suka bertanya tentang hobi", j: "I like asking about hobbies", p: "Ai laik as-king e-baut hob-biz", k: "🎨 asking about hobbies" },
+        { s: "Saya suka mendengar cerita lucu", j: "I like hearing funny stories", p: "Ai laik hi-ring fa-ni sto-riz", k: "😂 funny stories" },
+        { s: "Saya suka topik traveling", j: "I like travel topics", p: "Ai laik tra-vel to-piks", k: "🧳 travel topics" },
+        { s: "Saya ingin traveling ke Jepang", j: "I want to travel to Japan", p: "Ai want tu tra-vel tu je-pan", k: "🗾 travel to Japan" },
+        { s: "Saya suka melihat pemandangan luar negeri", j: "I like seeing foreign views", p: "Ai laik si-ing fo-ren vyuz", k: "🏞️ foreign views" },
+        { s: "Saya suka berbicara tentang sekolah", j: "I like talking about school", p: "Ai laik tok-ing e-baut skul", k: "🏫 talking about school" },
+        { s: "Saya sering bertanya umur", j: "I often ask about age", p: "Ai of-ten ask e-baut eij", k: "📅 ask about age" },
+        { s: "Saya suka bertanya pekerjaan", j: "I like asking about jobs", p: "Ai laik as-king e-baut jobs", k: "💼 asking about jobs" },
+        { s: "Saya suka orang yang humoris", j: "I like funny people", p: "Ai laik fa-ni pi-pol", k: "😂 funny people" },
+        { s: "Saya ingin berbicara tanpa takut", j: "I want to speak without fear", p: "Ai want tu spik wi-daut fir", k: "🦁 speak without fear" },
+        { s: "Saya suka belajar lewat percakapan", j: "I like learning through conversations", p: "Ai laik ler-ning thru kon-ver-sei-syens", k: "💬 learning through conversations" },
+        { s: "Saya sering tersenyum saat ngobrol", j: "I often smile while chatting", p: "Ai of-ten smail wail chat-ing", k: "😄 smile while chatting" },
+        { s: "Saya ingin berbicara seperti native", j: "I want to speak like a native speaker", p: "Ai want tu spik laik e nei-tiv spi-ker", k: "🇬🇧 like a native speaker" },
+        { s: "Saya suka mendengar cerita negara lain", j: "I like hearing stories from other countries", p: "Ai laik hi-ring sto-riz from a-der kan-triz", k: "🌏 stories from other countries" },
+        { s: "Saya suka ngobrol santai", j: "I like casual conversations", p: "Ai laik ka-zhu-al kon-ver-sei-syens", k: "☕ casual conversations" },
+        { s: "Saya ingin berbicara lebih cepat", j: "I want to speak faster", p: "Ai want tu spik fas-ter", k: "⚡ speak faster" },
+        { s: "Saya sering belajar dari kesalahan", j: "I often learn from mistakes", p: "Ai of-ten lern from mis-teiks", k: "📚 learn from mistakes" },
+        { s: "Saya suka orang yang sabar", j: "I like patient people", p: "Ai laik pei-syent pi-pol", k: "🧘 patient people" },
+        { s: "Saya ingin punya banyak teman luar negeri", j: "I want many foreign friends", p: "Ai want me-ni fo-ren frendz", k: "🌍 many foreign friends" },
+        { s: "Saya senang saat obrolannya nyambung", j: "I feel happy when the conversation flows", p: "Ai fil hep-pi wen de kon-ver-sei-syen floz", k: "✨ conversation flows" },
+        { s: "Saya sedang duduk di ruang tamu", j: "I am sitting in the living room", p: "Ai em sit-ing in de li-ving rum", k: "🛋️ present continuous: sitting" },
+        { s: "Saya sedang menonton TV di rumah", j: "I am watching TV at home", p: "Ai em woc-ing ti-vi et hom", k: "📺 watching TV" },
+        { s: "Saya sedang makan malam", j: "I am eating dinner", p: "Ai em it-ing din-ner", k: "🍽️ eating dinner" },
+        { s: "Saya sedang minum teh hangat", j: "I am drinking warm tea", p: "Ai em dringk-ing worm ti", k: "☕ drinking warm tea" },
+        { s: "Saya sedang membersihkan kamar", j: "I am cleaning my room", p: "Ai em kli-ning mai rum", k: "🧹 cleaning my room" },
+        { s: "Saya sedang bermain HP", j: "I am using my phone", p: "Ai em yu-zing mai fon", k: "📱 using my phone" },
+        { s: "Saya sedang mendengarkan musik", j: "I am listening to music", p: "Ai em lis-en-ing tu myu-zik", k: "🎧 listening to music" },
+        { s: "Saya sedang rebahan di kasur", j: "I am lying on the bed", p: "Ai em lai-ing on de bed", k: "🛌 lying on the bed" },
+        { s: "Saya sedang membuka laptop", j: "I am opening my laptop", p: "Ai em o-pen-ing mai lep-top", k: "💻 opening laptop" },
+        { s: "Saya sedang belajar bahasa Inggris", j: "I am studying English", p: "Ai em sta-di-ing ing-glish", k: "📖 studying English" },
+        { s: "Saya sedang memasak di dapur", j: "I am cooking in the kitchen", p: "Ai em kuk-ing in de ki-chen", k: "🍳 cooking in kitchen" },
+        { s: "Saya sedang mencuci piring", j: "I am washing the dishes", p: "Ai em wos-ing de di-shiz", k: "🧼 washing dishes" },
+        { s: "Saya sedang menyapu lantai", j: "I am sweeping the floor", p: "Ai em swi-ping de flor", k: "🧹 sweeping floor" },
+        { s: "Saya sedang menyalakan kipas", j: "I am turning on the fan", p: "Ai em ter-ning on de fen", k: "💨 turning on fan" },
+        { s: "Saya sedang duduk sendirian", j: "I am sitting alone", p: "Ai em sit-ing e-lon", k: "🧘 sitting alone" },
+        { s: "Saya sedang santai di rumah", j: "I am relaxing at home", p: "Ai em ri-lek-sing et hom", k: "🏠 relaxing at home" },
+        { s: "Saya sedang berbicara dengan keluarga", j: "I am talking with my family", p: "Ai em tok-ing wid mai fe-mi-li", k: "👨‍👩‍👧 talking with family" },
+        { s: "Saya sedang minum kopi", j: "I am drinking coffee", p: "Ai em dringk-ing ko-fi", k: "☕ drinking coffee" },
+        { s: "Saya sedang menonton YouTube", j: "I am watching YouTube", p: "Ai em woc-ing yu-tub", k: "📺 watching YouTube" },
+        { s: "Saya sedang bermain game", j: "I am playing games", p: "Ai em plei-ing geims", k: "🎮 playing games" },
+        { s: "Saya sedang membuka jendela", j: "I am opening the window", p: "Ai em o-pen-ing de win-dow", k: "🪟 opening window" },
+        { s: "Saya sedang mencuci baju", j: "I am washing clothes", p: "Ai em wos-ing kloz", k: "👕 washing clothes" },
+        { s: "Saya sedang tidur-tiduran", j: "I am resting on the sofa", p: "Ai em res-ting on de so-fa", k: "🛋️ resting on sofa" },
+        { s: "Saya sedang melihat hujan", j: "I am watching the rain", p: "Ai em woc-ing de rein", k: "🌧️ watching rain" },
+        { s: "Saya sedang mengisi baterai HP", j: "I am charging my phone", p: "Ai em car-jing mai fon", k: "🔋 charging phone" },
+        { s: "Saya sedang membaca buku", j: "I am reading a book", p: "Ai em ri-ding e buk", k: "📚 reading a book" },
+        { s: "Saya sedang makan camilan", j: "I am eating snacks", p: "Ai em it-ing sneks", k: "🍿 eating snacks" },
+        { s: "Saya sedang memakai headset", j: "I am wearing a headset", p: "Ai em wer-ing e hed-set", k: "🎧 wearing headset" },
+        { s: "Saya sedang membuka kulkas", j: "I am opening the fridge", p: "Ai em o-pen-ing de frij", k: "🧊 opening fridge" },
+        { s: "Saya sedang membuat teh", j: "I am making tea", p: "Ai em mei-king ti", k: "🍵 making tea" },
+        { s: "Saya sedang duduk di lantai", j: "I am sitting on the floor", p: "Ai em sit-ing on de flor", k: "🧘 sitting on floor" },
+        { s: "Saya sedang melihat media sosial", j: "I am checking social media", p: "Ai em cek-ing so-syal mi-di-a", k: "📱 social media" },
+        { s: "Saya sedang menunggu teman online", j: "I am waiting for my online friend", p: "Ai em wei-ting for mai on-lain frend", k: "⏳ waiting for friend" },
+        { s: "Saya sedang mengobrol di OmeTV", j: "I am chatting on OmeTV", p: "Ai em chat-ing on om-ti-vi", k: "💬 chatting on OmeTV" },
+        { s: "Saya sedang mencoba berbicara Inggris", j: "I am trying to speak English", p: "Ai em trai-ing tu spik ing-glish", k: "🗣️ trying to speak English" },
+        { s: "Saya sedang menonton film", j: "I am watching a movie", p: "Ai em woc-ing e mu-vi", k: "🎬 watching movie" },
+        { s: "Saya sedang memakai baju santai", j: "I am wearing casual clothes", p: "Ai em wer-ing ka-zhu-al kloz", k: "👕 casual clothes" },
+        { s: "Saya sedang duduk dekat kipas", j: "I am sitting near the fan", p: "Ai em sit-ing nir de fen", k: "💨 near the fan" },
+        { s: "Saya sedang bermain dengan kucing", j: "I am playing with my cat", p: "Ai em plei-ing wid mai ket", k: "🐱 playing with cat" },
+        { s: "Saya sedang melihat jam", j: "I am looking at the clock", p: "Ai em luk-ing et de klok", k: "🕒 looking at clock" },
+        { s: "Saya sedang makan mie instan", j: "I am eating instant noodles", p: "Ai em it-ing in-stent nu-dels", k: "🍜 instant noodles" },
+        { s: "Saya sedang berbicara dengan teman luar negeri", j: "I am talking with a foreign friend", p: "Ai em tok-ing wid e fo-ren frend", k: "🌏 foreign friend" },
+        { s: "Saya sedang tersenyum sendiri", j: "I am smiling to myself", p: "Ai em smail-ing tu mai-self", k: "😊 smiling to myself" },
+        { s: "Saya sedang menikmati malam", j: "I am enjoying the night", p: "Ai em en-joi-ing de nait", k: "🌙 enjoying night" },
+        { s: "Saya sedang duduk dekat meja", j: "I am sitting near the table", p: "Ai em sit-ing nir de tei-bel", k: "🪑 near table" },
+        { s: "Saya sedang belajar pengucapan", j: "I am practicing pronunciation", p: "Ai em prak-tis-ing pro-nan-si-ei-syen", k: "🔊 pronunciation practice" },
+        { s: "Saya sedang menonton video lucu", j: "I am watching funny videos", p: "Ai em woc-ing fa-ni vi-di-os", k: "😂 funny videos" },
+        { s: "Saya sedang memakai jaket", j: "I am wearing a jacket", p: "Ai em wer-ing e ja-ket", k: "🧥 wearing jacket" },
+        { s: "Saya sedang berbicara pelan", j: "I am speaking slowly", p: "Ai em spi-king slo-li", k: "🐢 speaking slowly" },
+        { s: "Saya sedang merasa santai", j: "I am feeling relaxed", p: "Ai em fi-ling ri-lekst", k: "😌 feeling relaxed" }
+    ];
+
+    while(daftarSoal.length < 102) {
+        daftarSoal.push({ s: "Saya sedang belajar setiap hari", j: "I am learning every day", p: "Ai em ler-ning ev-ri dei", k: "📘 konsistensi belajar" });
+    }
+
+    let currentIndex = 0;
+    let timerExplose;
+    const timerRange = document.getElementById('timerRange');
+    const timerValDisplay = document.getElementById('timerValDisplay');
+    timerRange.addEventListener('input', () => { timerValDisplay.innerText = timerRange.value + " detik"; });
+    timerValDisplay.innerText = timerRange.value + " detik";
+
+    function speak(text, lang) {
+        window.speechSynthesis.cancel();
+        if(!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.92;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function stopAudio() { window.speechSynthesis.cancel(); clearTimeout(timerExplose); }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(id === 'screen-a') {
+            speak("Latihan percakapan sehari-hari. Baca kalimat Indonesia, lalu ucapkan terjemahan Inggris dengan keras. Selamat berlatih!", 'id-ID');
+        }
+        if(id === 'screen-c') tampilkanSoal();
+    }
+
+    function resetLatihan() { currentIndex = 0; }
+
+    function tampilkanSoal() {
+        clearTimeout(timerExplose);
+        const item = daftarSoal[currentIndex];
+        document.getElementById('soal-counter').innerText = `Soal ${currentIndex+1} / ${daftarSoal.length}`;
+        document.getElementById('soal-teks').innerText = item.s;
+        const jawabanDiv = document.getElementById('kunci-jawaban');
+        jawabanDiv.style.display = 'none';
+        document.getElementById('jawaban-en').innerHTML = item.j;
+        document.getElementById('jawaban-pronun').innerText = item.p;
+        document.getElementById('jawaban-ket').innerHTML = `📘 ${item.k}`;
+        const speakBtn = document.getElementById('speak-btn');
+        speakBtn.onclick = () => speak(item.j, 'en-US');
+        speak(item.s, 'id-ID');
+        const delay = parseFloat(timerRange.value) * 1000;
+        timerExplose = setTimeout(() => { tampilJawaban(); }, delay);
+    }
+
+    function tampilJawaban() {
+        const jawDiv = document.getElementById('kunci-jawaban');
+        if(jawDiv) {
+            jawDiv.style.display = 'block';
+            speak(daftarSoal[currentIndex].j, 'en-US');
+        }
+    }
+
+    function nextSoal() {
+        currentIndex++;
+        if(currentIndex >= daftarSoal.length) {
+            alert("🎉 Amazing! Kamu telah menyelesaikan semua latihan percakapan. Terus latih setiap hari sampai lancar!");
+            currentIndex = 0;
+        }
+        tampilkanSoal();
+    }
+</script>
+</body>
+</html>
