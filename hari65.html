@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>English Practice | Perkenalan & Obrolan Santai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .practice-card {
+            max-width: 950px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: #1f2b3c;
+            padding: 1.8rem 2rem;
+            color: white;
+            border-bottom: 4px solid #f7b32b;
+        }
+
+        .hero-section h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-section h1 span {
+            background: #f7b32b;
+            font-size: 1rem;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: #1f2b3c;
+            font-weight: 500;
+        }
+
+        .tutor-badge {
+            background: #2c3e4e;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+        }
+
+        .conversation-list {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .conversation-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .conversation-list::-webkit-scrollbar-track {
+            background: #e9ecf2;
+            border-radius: 10px;
+        }
+        .conversation-list::-webkit-scrollbar-thumb {
+            background: #f7b32b;
+            border-radius: 10px;
+        }
+
+        .card-item {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1rem 1.3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: 0.2s;
+            border: 1px solid #eef2f8;
+        }
+
+        .card-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .indonesian-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e2f3e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .speaker-icon {
+            background: #eef2f7;
+            width: 34px;
+            height: 34px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #2c4c6c;
+            font-size: 1.1rem;
+        }
+
+        .speaker-icon:hover {
+            background: #f7b32b;
+            color: #1f2b3c;
+        }
+
+        .english-section {
+            background: #f9fafc;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            margin-top: 10px;
+            border-left: 4px solid #f7b32b;
+        }
+
+        .translation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .english-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #7c8b9b;
+        }
+
+        .btn-translate {
+            background: none;
+            border: 1.5px solid #cbdbe0;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #2e4a6b;
+            transition: 0.2s;
+        }
+
+        .btn-translate:hover {
+            background: #eef2ff;
+            border-color: #f7b32b;
+        }
+
+        .translation-content {
+            margin-top: 6px;
+        }
+
+        .english-line {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1f5e3a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pronunciation-line {
+            font-size: 0.85rem;
+            color: #7c6b3f;
+            background: #fff7e8;
+            padding: 5px 10px;
+            border-radius: 24px;
+            margin-top: 6px;
+            font-family: monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .speaker-eng {
+            background: #f0f3f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            color: #2b4f6e;
+        }
+
+        .speaker-eng:hover {
+            background: #f7b32b;
+        }
+
+        .translation-hidden {
+            display: none;
+        }
+
+        .extra-simple {
+            background: #f8f5ef;
+            margin: 0 1.8rem 1.8rem 1.8rem;
+            border-radius: 36px;
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #4a627a;
+        }
+
+        .extra-simple span {
+            font-weight: 500;
+        }
+
+        footer {
+            background: #f0f4fa;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.7rem;
+            color: #6c7f8f;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 640px) {
+            .conversation-list {
+                padding: 1rem;
+            }
+            .indonesian-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="practice-card">
+    <div class="hero-section">
+        <h1>🗣️ English Practice <span>Perkenalan & Obrolan</span></h1>
+        <div class="tutor-badge">👩‍🏫 Tutor Sarah • Percakapan "Hai, boleh kenalan?"</div>
+        <p>Klik 🔊 untuk mendengar audio • Klik "Lihat Terjemahan" untuk menampilkan Inggris + cara baca (ejaan)</p>
+    </div>
+
+    <div class="conversation-list" id="conversationList"></div>
+
+    <div class="extra-simple">
+        🔊 <span>Klik ikon suara untuk mendengar pengucapan dalam Bahasa Inggris</span>
+    </div>
+    <footer>
+        🌟 Auto-play suara "Hai, boleh kenalan?" saat halaman dimuat • Setiap kalimat Indonesia bisa di-klik speakernya • Terjemahan muncul Inggris + cara baca (ejaan)
+    </footer>
+</div>
+
+<script>
+    // ======================= DATA PERCAKAPAN "HAI, BOLEH KENALAN?" LENGKAP =======================
+    const conversationData = [
+        { indo: "Hai, boleh kenalan?", english: "Hi, can we get acquainted?", pronunciation: "Hai, ken wi get e-kwein-ted?" },
+        { indo: "Tentu, siapa namamu?", english: "Sure, what is your name?", pronunciation: "Shur, wot is yor neim?" },
+        { indo: "Namaku Alex.", english: "My name is Alex.", pronunciation: "Mai neim is A-leks." },
+        { indo: "Namaku Umar.", english: "My name is Umar.", pronunciation: "Mai neim is Umar." },
+        { indo: "Senang bertemu denganmu, Umar.", english: "Nice to meet you, Umar.", pronunciation: "Nais tu mit yu, Umar." },
+        { indo: "Kamu sedang santai sekarang?", english: "Are you relaxing right now?", pronunciation: "Ar yu ri-lak-sing rait nau?" },
+        { indo: "Ya, aku sedang tidak ada kegiatan.", english: "Yes, I do not have anything to do right now.", pronunciation: "Yes, ai du not hev e-ni-thing tu du rait nau." },
+        { indo: "Aku juga begitu.", english: "Me too.", pronunciation: "Mi tu." },
+        { indo: "Kamu suka ngobrol dengan orang asing?", english: "Do you like talking with strangers?", pronunciation: "Du yu laik to-king wit stren-jers?" },
+        { indo: "Ya, kadang itu menyenangkan.", english: "Yes, sometimes it is fun.", pronunciation: "Yes, som-taims it is fan." },
+        { indo: "Kamu terlihat ramah.", english: "You look friendly.", pronunciation: "Yu luk frend-li." },
+        { indo: "Terima kasih, kamu juga.", english: "Thank you, you too.", pronunciation: "Teng-kyu, yu tu." },
+        { indo: "Kamu sedang memakai headset?", english: "Are you using a headset?", pronunciation: "Ar yu yu-zing e hed-set?" },
+        { indo: "Ya, supaya suaranya jelas.", english: "Yes, so the sound is clear.", pronunciation: "Yes, so de saund is klir." },
+        { indo: "Suaramu terdengar bagus.", english: "Your voice sounds good.", pronunciation: "Yor vois saunds gud." },
+        { indo: "Terima kasih banyak.", english: "Thank you very much.", pronunciation: "Teng-kyu ve-ri mach." },
+        { indo: "Kamu suka mendengarkan musik sambil santai?", english: "Do you like listening to music while relaxing?", pronunciation: "Du yu laik li-sen-ing tu myu-zik wail ri-lak-sing?" },
+        { indo: "Ya, hampir setiap malam.", english: "Yes, almost every night.", pronunciation: "Yes, ol-most ev-ri nait." },
+        { indo: "Musik membuatku tenang.", english: "Music makes me calm.", pronunciation: "Myu-zik meiks mi kam." },
+        { indo: "Aku setuju denganmu.", english: "I agree with you.", pronunciation: "Ai e-gri wit yu." },
+        { indo: "Kamu suka cuaca dingin?", english: "Do you like cold weather?", pronunciation: "Du yu laik kold we-der?" },
+        { indo: "Ya, aku tidak suka terlalu panas.", english: "Yes, I do not like weather that is too hot.", pronunciation: "Yes, ai du not laik we-der det is tu hot." },
+        { indo: "Di tempatku sering panas.", english: "It is often hot where I live.", pronunciation: "It is of-ten hot wer ai liv." },
+        { indo: "Kamu tinggal dekat kota besar?", english: "Do you live near a big city?", pronunciation: "Du yu liv nir e big si-ti?" },
+        { indo: "Ya, cukup dekat.", english: "Yes, quite near.", pronunciation: "Yes, kwait nir." },
+        { indo: "Kamu suka keramaian?", english: "Do you like crowded places?", pronunciation: "Du yu laik krau-ded plei-ses?" },
+        { indo: "Tidak terlalu.", english: "Not really.", pronunciation: "Not ri-a-li." },
+        { indo: "Aku lebih suka tempat tenang.", english: "I prefer quiet places.", pronunciation: "Ai pri-fer kwai-et plei-ses." },
+        { indo: "Kamu suka nonton malam hari?", english: "Do you like watching movies at night?", pronunciation: "Du yu laik wo-ching mu-viz et nait?" },
+        { indo: "Ya, suasananya lebih nyaman.", english: "Yes, the atmosphere feels better.", pronunciation: "Yes, di at-mos-fir fils be-ter." },
+        { indo: "Film terakhir yang kamu tonton apa?", english: "What was the last movie you watched?", pronunciation: "Wot wos de last mu-vi yu wocht?" },
+        { indo: "Aku menonton film aksi kemarin.", english: "I watched an action movie yesterday.", pronunciation: "Ai wocht en ak-shen mu-vi yes-ter-dei." },
+        { indo: "Kamu suka film lucu?", english: "Do you like comedy movies?", pronunciation: "Du yu laik ko-me-di mu-viz?" },
+        { indo: "Ya, aku suka tertawa.", english: "Yes, I like laughing.", pronunciation: "Yes, ai laik laf-ing." },
+        { indo: "Tertawa itu sehat.", english: "Laughing is healthy.", pronunciation: "Laf-ing is hel-thi." },
+        { indo: "Betul sekali.", english: "That is true.", pronunciation: "Det is tru." },
+        { indo: "Kamu suka bangun siang?", english: "Do you like waking up late?", pronunciation: "Du yu laik wei-king ap leit?" },
+        { indo: "Ya, apalagi saat libur.", english: "Yes, especially on holidays.", pronunciation: "Yes, es-pe-sha-li on ho-li-deis." },
+        { indo: "Aku juga suka tidur lama.", english: "I also like sleeping longer.", pronunciation: "Ai ol-so laik sli-ping long-ger." },
+        { indo: "Tidur memang nyaman.", english: "Sleeping is comfortable.", pronunciation: "Sli-ping is kamf-ter-bel." },
+        { indo: "Kamu suka bermain HP terus?", english: "Do you like using your phone all the time?", pronunciation: "Du yu laik yu-zing yor fon ol de taim?" },
+        { indo: "Kadang iya.", english: "Sometimes yes.", pronunciation: "Som-taims yes." },
+        { indo: "Aku sering menonton video pendek.", english: "I often watch short videos.", pronunciation: "Ai of-ten woch short vi-di-os." },
+        { indo: "Video lucu atau edukasi?", english: "Funny videos or educational videos?", pronunciation: "Fa-ni vi-di-os or e-du-kei-sho-nal vi-di-os?" },
+        { indo: "Kebanyakan video lucu.", english: "Mostly funny videos.", pronunciation: "Most-li fa-ni vi-di-os." },
+        { indo: "Itu bagus untuk hiburan.", english: "That is good for entertainment.", pronunciation: "Det is gud for en-ter-tein-ment." },
+        { indo: "Kamu suka minum teh manis?", english: "Do you like sweet tea?", pronunciation: "Du yu laik swit ti?" },
+        { indo: "Ya, terutama saat sore hari.", english: "Yes, especially in the afternoon.", pronunciation: "Yes, es-pe-sha-li in di af-ter-nun." },
+        { indo: "Aku lebih suka kopi hangat.", english: "I prefer hot coffee.", pronunciation: "Ai pri-fer hot ko-fi." },
+        { indo: "Kopi memang enak saat malam.", english: "Coffee is really nice at night.", pronunciation: "Ko-fi is ri-a-li nais et nait." },
+        { indo: "Kamu suka memakai baju hitam?", english: "Do you like wearing black clothes?", pronunciation: "Du yu laik we-ring blek klo-dhes?" },
+        { indo: "Ya, terlihat simpel.", english: "Yes, it looks simple.", pronunciation: "Yes, it luks sim-pel." },
+        { indo: "Aku juga suka warna hitam.", english: "I also like black color.", pronunciation: "Ai ol-so laik blek ka-ler." },
+        { indo: "Kamu suka foto-foto?", english: "Do you like taking pictures?", pronunciation: "Du yu laik tei-king pik-chers?" },
+        { indo: "Sedikit saja.", english: "Only a little.", pronunciation: "On-li e li-tel." },
+        { indo: "Aku jarang foto diri sendiri.", english: "I rarely take selfies.", pronunciation: "Ai rer-li teik sel-fis." },
+        { indo: "Aku juga begitu.", english: "Same here.", pronunciation: "Seim hir." },
+        { indo: "Kamu suka jalan-jalan malam?", english: "Do you like night walks?", pronunciation: "Du yu laik nait woks?" },
+        { indo: "Ya, udaranya lebih enak.", english: "Yes, the air feels nicer.", pronunciation: "Yes, di er fils nai-ser." },
+        { indo: "Aku suka suasana malam yang tenang.", english: "I like the calm night atmosphere.", pronunciation: "Ai laik de kam nait at-mos-fir." },
+        { indo: "Kamu suka hujan deras?", english: "Do you like heavy rain?", pronunciation: "Du yu laik he-vi rein?" },
+        { indo: "Ya, kalau di rumah terasa nyaman.", english: "Yes, if I am at home it feels cozy.", pronunciation: "Yes, if ai em et hom it fils ko-zi." },
+        { indo: "Suara hujan membuat ngantuk.", english: "The sound of rain makes me sleepy.", pronunciation: "De saund ov rein meiks mi sli-pi." },
+        { indo: "Itu benar sekali.", english: "That is very true.", pronunciation: "Det is ve-ri tru." },
+        { indo: "Kamu suka mie instan pedas?", english: "Do you like spicy instant noodles?", pronunciation: "Du yu laik spai-si in-stent nu-dels?" },
+        { indo: "Ya, tapi tidak terlalu pedas.", english: "Yes, but not too spicy.", pronunciation: "Yes, bat not tu spai-si." },
+        { indo: "Aku tidak kuat pedas.", english: "I cannot handle spicy food well.", pronunciation: "Ai ke-not hen-del spai-si fud wel." },
+        { indo: "Tidak apa-apa.", english: "That is okay.", pronunciation: "Det is o-kei." },
+        { indo: "Kamu suka belajar bahasa lewat internet?", english: "Do you like learning languages through the internet?", pronunciation: "Du yu laik ler-ning leng-gwij-es thru de in-ter-net?" },
+        { indo: "Ya, itu sangat membantu.", english: "Yes, it helps a lot.", pronunciation: "Yes, it helps e lot." },
+        { indo: "Aku belajar Inggris setiap hari.", english: "I study English every day.", pronunciation: "Ai sta-di Ing-glish ev-ri dei." },
+        { indo: "Itu bagus untuk masa depan.", english: "That is good for the future.", pronunciation: "Det is gud for de fyu-cher." },
+        { indo: "Kamu ingin pergi ke luar negeri?", english: "Do you want to go abroad?", pronunciation: "Du yu want tu go e-brod?" },
+        { indo: "Ya, suatu hari nanti.", english: "Yes, someday.", pronunciation: "Yes, sam-dei." },
+        { indo: "Negara mana yang ingin kamu kunjungi?", english: "Which country do you want to visit?", pronunciation: "Wich kan-tri du yu want tu vi-zit?" },
+        { indo: "Aku ingin ke Jepang dan Korea.", english: "I want to visit Japan and Korea.", pronunciation: "Ai want tu vi-zit Je-pan end Ko-ri-a." },
+        { indo: "Itu pasti menyenangkan.", english: "That must be exciting.", pronunciation: "Det mast bi ek-sai-ting." },
+        { indo: "Ya, aku harap begitu.", english: "Yes, I hope so.", pronunciation: "Yes, ai hop so." },
+        { indo: "Kamu suka belajar budaya baru?", english: "Do you like learning new cultures?", pronunciation: "Du yu laik ler-ning nyu kal-chers?" },
+        { indo: "Ya, itu menarik bagiku.", english: "Yes, it is interesting for me.", pronunciation: "Yes, it is in-tres-ting for mi." },
+        { indo: "Aku suka mendengar cerita dari orang lain.", english: "I like hearing stories from other people.", pronunciation: "Ai laik hi-ring sto-ris from o-der pi-pol." },
+        { indo: "Itu membuat wawasan bertambah.", english: "That increases our knowledge.", pronunciation: "Det in-kri-ses aur nol-lej." },
+        { indo: "Kamu terlihat orang yang santai.", english: "You seem like a relaxed person.", pronunciation: "Yu sim laik e ri-lakst per-sen." },
+        { indo: "Aku memang suka hidup tenang.", english: "I really like a peaceful life.", pronunciation: "Ai ri-a-li laik e pis-ful laif." },
+        { indo: "Hidup tenang itu penting.", english: "A peaceful life is important.", pronunciation: "E pis-ful laif is im-por-tent." },
+        { indo: "Aku setuju denganmu.", english: "I agree with you.", pronunciation: "Ai e-gri wit yu." },
+        { indo: "Senang bisa ngobrol malam ini.", english: "It is nice talking tonight.", pronunciation: "It is nais to-king tu-nait." },
+        { indo: "Ya, obrolannya menyenangkan.", english: "Yes, this conversation is enjoyable.", pronunciation: "Yes, dis kon-ver-sei-shen is en-joi-a-bel." },
+        { indo: "Semoga harimu selalu baik.", english: "I hope your days are always good.", pronunciation: "Ai hop yor deis ar ol-weiz gud." },
+        { indo: "Semoga harimu juga menyenangkan.", english: "I hope your day is nice too.", pronunciation: "Ai hop yor dei is nais tu." },
+        { indo: "Jangan lupa istirahat cukup.", english: "Do not forget to get enough rest.", pronunciation: "Du not for-get tu get i-naf rest." },
+        { indo: "Kamu juga ya.", english: "You too.", pronunciation: "Yu tu." },
+        { indo: "Aku senang bertemu orang baik sepertimu.", english: "I am happy to meet a kind person like you.", pronunciation: "Ai em he-pi tu mit e kaind per-sen laik yu." },
+        { indo: "Terima kasih atas kata-katamu.", english: "Thank you for your words.", pronunciation: "Teng-kyu for yor words." },
+        { indo: "Sampai jumpa lagi suatu saat nanti.", english: "See you again someday.", pronunciation: "Si yu e-gen sam-dei." },
+        { indo: "Ya, sampai jumpa lagi.", english: "Yes, see you again.", pronunciation: "Yes, si yu e-gen." },
+        { indo: "Selamat malam.", english: "Good night.", pronunciation: "Gud nait." },
+        { indo: "Hati-hati dan jaga diri.", english: "Take care and stay safe.", pronunciation: "Teik ker end stei seif." },
+        { indo: "Dadah teman baru.", english: "Bye, new friend.", pronunciation: "Bai, nyu frend." },
+        { indo: "Semoga kita bertemu lagi di OmeTV.", english: "I hope we meet again on OmeTV.", pronunciation: "Ai hop wi mit e-gen on Om-TV." }
+    ];
+
+    // Fungsi speech
+    function speakText(text, lang) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+    const speakIndo = (txt) => speakText(txt, 'id-ID');
+    const speakEng = (txt) => speakText(txt, 'en-US');
+
+    // Render percakapan dinamis
+    const container = document.getElementById('conversationList');
+    function buildConversation() {
+        container.innerHTML = '';
+        conversationData.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'card-item';
+            const uniqueId = `conv-${idx}`;
+            const hiddenClass = 'translation-hidden';
+            
+            // Escape HTML untuk keamanan
+            const safeIndo = escapeHtml(item.indo);
+            const safeEng = escapeHtml(item.english);
+            const safePron = escapeHtml(item.pronunciation);
+            
+            card.innerHTML = `
+                <div class="indonesian-text">
+                    <span>${safeIndo}</span>
+                    <div class="speaker-icon" data-indo="${safeIndo}">🔊</div>
+                </div>
+                <div class="english-section">
+                    <div class="translation-header">
+                        <div class="english-label">🇬🇧 TERJEMAHAN + CARA BACA</div>
+                        <button class="btn-translate" data-id="${uniqueId}">📖 Lihat Terjemahan</button>
+                    </div>
+                    <div class="translation-content" id="transContent-${uniqueId}">
+                        <div class="english-line ${hiddenClass}" id="engLine-${uniqueId}">
+                            <span>${safeEng}</span>
+                            <button class="speaker-eng" data-eng="${safeEng}">🔊</button>
+                        </div>
+                        <div class="pronunciation-line ${hiddenClass}" id="pronounceLine-${uniqueId}">
+                            📖 Cara baca: ${safePron}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Attach event: speaker indonesia
+        document.querySelectorAll('.speaker-icon').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const text = btn.getAttribute('data-indo');
+                if (text) speakIndo(text);
+                e.stopPropagation();
+            });
+        });
+        
+        // Attach event: speaker english (untuk tombol speaker di english-line)
+        document.querySelectorAll('.speaker-eng').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const engText = btn.getAttribute('data-eng');
+                if (engText) speakEng(engText);
+                e.stopPropagation();
+            });
+        });
+        
+        // Attach event: tombol terjemahan
+        document.querySelectorAll('.btn-translate').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = btn.getAttribute('data-id');
+                const engLine = document.getElementById(`engLine-${id}`);
+                const pronounceLine = document.getElementById(`pronounceLine-${id}`);
+                if (engLine && pronounceLine) {
+                    const isHidden = engLine.classList.contains('translation-hidden');
+                    if (isHidden) {
+                        engLine.classList.remove('translation-hidden');
+                        pronounceLine.classList.remove('translation-hidden');
+                        btn.innerHTML = '🙈 Sembunyikan';
+                    } else {
+                        engLine.classList.add('translation-hidden');
+                        pronounceLine.classList.add('translation-hidden');
+                        btn.innerHTML = '📖 Lihat Terjemahan';
+                    }
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    buildConversation();
+
+    // Auto-play suara otomatis: "Hai, boleh kenalan?"
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            speakIndo("Hai, boleh kenalan?");
+        }, 500);
+    });
+</script>
+</body>
+</html>
