@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Cerita Pendek OmeTV (Audio + Terjemahan)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        .red-mission {
+            background: linear-gradient(120deg, #fff0f0, #ffe0e0);
+            border-left: 6px solid #e53e3e;
+            padding: 14px 18px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .red-mission i { font-size: 1.3rem; color: #e53e3e; }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .story-card {
+            background: #FFFFFF;
+            border-radius: 40px;
+            padding: 28px 24px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.1);
+            margin: 12px 0 20px;
+            border: 1px solid #eef2fc;
+        }
+        .badge-story {
+            background: #8b5cf6;
+            color: white;
+            border-radius: 60px;
+            padding: 5px 18px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 18px;
+        }
+        .indonesian-text {
+            background: #f1f5f9;
+            padding: 20px 18px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3b82f6;
+        }
+        .indonesian-text p {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #0c4a6e;
+            font-weight: 500;
+        }
+        .hidden-answer {
+            display: none;
+            margin-top: 20px;
+            background: #fefce8;
+            padding: 20px 18px;
+            border-radius: 28px;
+            border-left: 5px solid #eab308;
+        }
+        .english-version {
+            background: #fefce8;
+            padding: 16px 18px;
+            border-radius: 28px;
+            margin-bottom: 16px;
+        }
+        .english-version p {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #854d0e;
+            font-weight: 600;
+        }
+        .pronunciation-box {
+            background: #f0fdf4;
+            padding: 16px 18px;
+            border-radius: 28px;
+            margin-top: 12px;
+        }
+        .pronunciation-box p {
+            font-family: 'Inter', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #166534;
+            font-weight: 500;
+        }
+        .speaker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eef2fa;
+            padding: 8px 18px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+        .speaker-btn:hover { background: #dfe7f2; transform: scale(0.98); }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 12px 24px;
+            border-radius: 44px;
+            font-weight: 700;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 12px;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+        .small-note { font-size: 11px; text-align: center; margin-top: 18px; color: #6f8eae; }
+        i { pointer-events: none; }
+        .instruction-text {
+            background: #e6f0fa;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            color: #1e4a76;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-book-open"></i> CERITA PENDEK</h1>
+            <div class="red-mission">
+                <i class="fas fa-tasks"></i> 
+                <span><strong>TUGAS ANDA:</strong> Dengarkan cerita Bahasa Indonesia, lalu terjemahkan & ucapkan dalam Bahasa Inggris dengan keras! Tekan tombol "Lihat Jawaban" untuk melihat versi Inggris + cara baca.</span>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-play-circle"></i> Mulai Cerita
+            </button>
+        </div>
+
+        <!-- Screen B: Story dengan Audio Otomatis + Tombol Lihat Jawaban -->
+        <div id="screen-b" class="screen">
+            <div class="story-card">
+                <div style="text-align: center;"><span class="badge-story"><i class="fas fa-video"></i> OmeTV · Cerita Pemula</span></div>
+                
+                <!-- Teks Bahasa Indonesia dengan audio otomatis -->
+                <div class="indonesian-text">
+                    <div class="instruction-text">
+                        <i class="fas fa-headphones"></i> Dengarkan audio di bawah, lalu coba terjemahkan sendiri ke dalam Bahasa Inggris!
+                    </div>
+                    <div class="section-title" style="font-weight:700; margin-bottom:8px;"><i class="fas fa-flag-indonesia"></i> Bahasa Indonesia</div>
+                    <p>🌙 Tadi malam aku membuka OmeTV. Aku bertemu dengan seorang cewek dari Thailand. Kami saling menyapa dan memperkenalkan nama. Dia bertanya hobiku, lalu aku menjawab bahwa aku suka musik dan game. Kami berbicara sebentar lalu mengucapkan sampai jumpa.</p>
+                    <div class="speaker-btn" onclick="playIndonesianAudio()">
+                        <i class="fas fa-volume-up"></i> <span>Dengarkan Cerita Bahasa Indonesia</span>
+                    </div>
+                </div>
+                
+                <!-- Tombol Lihat Jawaban (munculkan English + cara baca + audio) -->
+                <button class="btn-outline-sm" id="lihatJawabanBtn" onclick="toggleJawaban()">
+                    <i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)
+                </button>
+                
+                <!-- Area jawaban yang tersembunyi awal -->
+                <div id="hiddenAnswerArea" style="display: none;">
+                    <div class="english-version">
+                        <div class="section-title" style="font-weight:700; margin-bottom:8px;"><i class="fas fa-language"></i> English Version</div>
+                        <p>⭐ Last night, I opened OmeTV. I met a girl from Thailand. We said hello and introduced our names. She asked about my hobby, and I said I like music and games. We talked for a while and said goodbye.</p>
+                        <div class="speaker-btn" onclick="playEnglishAudio()">
+                            <i class="fas fa-headphones"></i> <span>Dengarkan English Story</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pronunciation-box">
+                        <div class="section-title" style="font-weight:700; margin-bottom:8px;"><i class="fas fa-microphone"></i> Cara Baca (Pronunciation Guide)</div>
+                        <p>📢 Las nait, ai o-pend Om-TV.<br>
+                        📢 Ai met e gerl from Tai-lend.<br>
+                        📢 Wi sed he-lo end in-tro-dyusd aur neims.<br>
+                        📢 Si askt e-baut mai ho-bi, end ai sed ai laik myu-zik end geims.<br>
+                        📢 Wi tokd for e wail end sed gud-bai.</p>
+                        <div class="speaker-btn" onclick="playPronunciationAudio()">
+                            <i class="fas fa-microphone-alt"></i> <span>Dengarkan Cara Baca (Slow Pronunciation)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="small-note" style="margin-top: 16px;">
+                        <i class="fas fa-lightbulb"></i> Tips: Baca berulang-ulang sampai lancar. Tirukan pengucapan dari audio!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tombol ulang ke halaman awal -->
+            <button class="btn-primary" onclick="resetToHome()" style="margin-top: 12px; background: linear-gradient(105deg, #475569, #334155);">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Setelah mendengar cerita Indo, coba ucapkan versi Inggris-mu sendiri, lalu klik "Lihat Jawaban" untuk memeriksa.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Audio elements menggunakan SpeechSynthesis
+    let currentSpeech = null;
+    
+    function stopAudio() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+    }
+    
+    function speakText(text, lang, rate = 0.9) {
+        stopAudio();
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = rate;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    // Cerita Bahasa Indonesia
+    function playIndonesianAudio() {
+        const indoText = "Tadi malam aku membuka OmeTV. Aku bertemu dengan seorang cewek dari Thailand. Kami saling menyapa dan memperkenalkan nama. Dia bertanya hobiku, lalu aku menjawab bahwa aku suka musik dan game. Kami berbicara sebentar lalu mengucapkan sampai jumpa.";
+        speakText(indoText, 'id-ID', 0.85);
+    }
+    
+    // English Version full
+    function playEnglishAudio() {
+        const engText = "Last night, I opened OmeTV. I met a girl from Thailand. We said hello and introduced our names. She asked about my hobby, and I said I like music and games. We talked for a while and said goodbye.";
+        speakText(engText, 'en-US', 0.9);
+    }
+    
+    // Pronunciation Guide (Cara baca dengan pelan)
+    function playPronunciationAudio() {
+        const pronText = "Last night, I opened OmeTV. I met a girl from Thailand. We said hello and introduced our names. She asked about my hobby, and I said I like music and games. We talked for a while and said goodbye.";
+        // Diucapkan dengan rate lebih pelan agar jelas
+        speakText(pronText, 'en-US', 0.75);
+    }
+    
+    // Toggle jawaban (munculkan area tersembunyi)
+    function toggleJawaban() {
+        const hiddenDiv = document.getElementById('hiddenAnswerArea');
+        const btn = document.getElementById('lihatJawabanBtn');
+        if (hiddenDiv.style.display === 'none' || hiddenDiv.style.display === '') {
+            hiddenDiv.style.display = 'block';
+            btn.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Jawaban';
+            // Scroll sedikit agar terlihat
+            hiddenDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            hiddenDiv.style.display = 'none';
+            btn.innerHTML = '<i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)';
+        }
+    }
+    
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        if (id === 'screen-a') {
+            stopAudio();
+            speakText("Selamat datang di cerita pendek OmeTV. Dengarkan cerita bahasa Indonesia, lalu coba terjemahkan dan ucapkan dalam bahasa Inggris. Klik mulai cerita untuk memulai.", 'id-ID', 0.9);
+        }
+        
+        if (id === 'screen-b') {
+            // Reset hidden answer area to hidden
+            const hiddenDiv = document.getElementById('hiddenAnswerArea');
+            const btn = document.getElementById('lihatJawabanBtn');
+            if (hiddenDiv) {
+                hiddenDiv.style.display = 'none';
+                if (btn) btn.innerHTML = '<i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)';
+            }
+            // Play Indonesian audio otomatis saat masuk ke screen B (sesuai permintaan: muncul suara audio)
+            setTimeout(() => {
+                playIndonesianAudio();
+            }, 300);
+        }
+    }
+    
+    function resetToHome() {
+        stopAudio();
+        showScreen('screen-a');
+    }
+    
+    // Inisialisasi tambahan untuk memastikan audio tidak bentrok
+    window.addEventListener('beforeunload', () => {
+        stopAudio();
+    });
+</script>
+</body>
+</html>
