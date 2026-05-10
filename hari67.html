@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PELATIHAN KOMUNIKASI AKTIF | Audio Otomatis Indonesia + Inggris</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b2b44 0%, #123e5e 100%);
+            font-family: 'Segoe UI', 'Poppins', system-ui, 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .trainer-container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .header {
+            background: #062c3b;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #ffb347;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+
+        .controls-panel {
+            background: #f8fafc;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        .control-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #1e4a6b;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .control-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-weight: bold;
+        }
+        .control-group span {
+            font-size: 0.8rem;
+            margin-left: 8px;
+            color: #f97316;
+        }
+
+        .timer-section {
+            background: #eef2ff;
+            margin: 20px 24px 0 24px;
+            border-radius: 60px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .timer-box {
+            background: #0f172a;
+            color: white;
+            font-family: monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 6px 18px;
+            border-radius: 48px;
+            letter-spacing: 2px;
+        }
+        .progress-text {
+            font-weight: 600;
+            background: #ffedd5;
+            padding: 6px 16px;
+            border-radius: 32px;
+            color: #9a3412;
+        }
+
+        .main-card {
+            margin: 24px;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            border: 1px solid #e2edff;
+        }
+        .indo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0a2f44;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f0f9ff;
+            border-radius: 28px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0 12px;
+        }
+        .btn {
+            padding: 10px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: #ff8c42;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background: #e67e2e;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ff8c42;
+            color: #ff8c42;
+        }
+        .btn-outline:hover {
+            background: #fff3ea;
+        }
+        .answer-panel {
+            margin-top: 24px;
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 20px;
+        }
+        .answer-card {
+            background: #fef9e8;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .english-answer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c6e2f;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .speaker-jawaban {
+            background: #eef2f7;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            color: #1e4a6b;
+        }
+        .speaker-jawaban:hover {
+            background: #ff8c42;
+            color: white;
+            transform: scale(1.05);
+        }
+        .pronunciation-answer {
+            font-family: monospace;
+            background: #fff3d1;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin-top: 12px;
+            color: #b45309;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .pronunciation-answer small {
+            font-size: 0.7rem;
+            background: #ffffffaa;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        .next-btn {
+            background: #0f3b2c;
+            color: white;
+            width: 100%;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6c7a8e;
+            padding: 0 24px 24px 24px;
+        }
+        @media (max-width: 640px) {
+            .indo-text {
+                font-size: 1.3rem;
+            }
+            .timer-box {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="trainer-container">
+    <div class="header">
+        <h1>🎙️ PELATIHAN KOMUNIKASI AKTIF</h1>
+        <p>📢 SETIAP TEKS INDONESIA OTOMATIS BERSUARA • Belajar dengan mendengar + terjemahan + audio Inggris</p>
+    </div>
+
+    <!-- SETING PANEL -->
+    <div class="controls-panel">
+        <div class="control-group">
+            <label>🔊 SETING VOLUME (IND/ENG)</label>
+            <input type="range" id="volumeSlider" min="0" max="100" value="85">
+            <span id="volumeValue">85%</span>
+        </div>
+        <div class="control-group">
+            <label>⚡ KECEPATAN SUARA (B.INGGRIS)</label>
+            <input type="range" id="rateSlider" min="0.5" max="1.8" step="0.05" value="0.95">
+            <span id="rateValue">0.95</span>
+        </div>
+        <div class="control-group">
+            <label>⏱️ JEDA MUNCUL KUNCI JAWABAN (DETIK)</label>
+            <input type="number" id="delayInput" min="5" max="300" value="20" step="1">
+            <span>detik</span>
+        </div>
+    </div>
+
+    <!-- TIMER & PROGRESS -->
+    <div class="timer-section">
+        <div class="timer-box" id="timerDisplay">00:00</div>
+        <div class="progress-text" id="progressStatus">🔊 Memutar audio Indonesia...</div>
+        <button id="resetTimerBtn" class="btn btn-secondary" style="padding: 6px 18px;">⟳ Reset Timer</button>
+    </div>
+
+    <!-- AREA KONTEN UTAMA -->
+    <div class="main-card">
+        <div class="indo-text" id="indoTextDisplay">Memuat percakapan...</div>
+        <div class="action-buttons">
+            <button id="playIndoBtn" class="btn btn-primary">🔊 Putar Ulang B.Indonesia</button>
+            <button id="showAnswerBtn" class="btn btn-outline">📖 Lihat Kunci Jawaban (Terjemahan)</button>
+        </div>
+
+        <!-- TEMPAT KUNCI JAWABAN dengan Audio Inggris -->
+        <div id="answerContainer" class="answer-panel" style="display: none;">
+            <div class="answer-card">
+                <div class="english-answer">
+                    <span id="engAnswerText">Hello, are you still studying?</span>
+                    <button class="speaker-jawaban" id="speakerEngAnswer" title="Dengar pengucapan Inggris">🔊</button>
+                </div>
+                <div class="pronunciation-answer" id="pronunciationAnswerText">
+                    <span>📖 Cara baca: He-lo, ar yu stil sta-di-ing?</span>
+                    <small>🎧 Klik speaker untuk mendengar</small>
+                </div>
+            </div>
+            <button id="nextButton" class="btn next-btn">➡️ SELESAI LIHAT → LANJUT KE KALIMAT BERIKUTNYA</button>
+        </div>
+    </div>
+    <div class="footer-note">
+        💡 Fitur Utama: ✅ <strong>Setiap teks INDONESIA otomatis berbunyi</strong> saat muncul (Audio Indonesia).<br>
+        ✅ Timer jeda berjalan, lalu kunci jawaban muncul + speaker Inggris. Tekan NEXT untuk lanjut, audio Indonesia berikutnya otomatis diputar.
+    </div>
+</div>
+
+<script>
+    // ======================= DATA PERCAKAPAN LENGKAP =======================
+    const conversationList = [
+        { indo: "Halo, kamu masih belajar atau sudah kerja?", english: "Hello, are you still studying or already working?", pronunciation: "He-lo, ar yu stil sta-di-ing or ol-re-di wer-king?" },
+        { indo: "Aku masih belajar sekarang.", english: "I am still studying now.", pronunciation: "Ai em stil sta-di-ing nau." },
+        { indo: "Jurusanmu apa?", english: "What is your major?", pronunciation: "Wot is yor mei-jer?" },
+        { indo: "Aku belajar desain grafis.", english: "I study graphic design.", pronunciation: "Ai sta-di gra-fik di-zain." },
+        { indo: "Wah, itu keren sekali.", english: "Wow, that is really cool.", pronunciation: "Wau, det is ri-a-li kul." },
+        { indo: "Kamu suka menggambar?", english: "Do you like drawing?", pronunciation: "Du yu laik dro-ing?" },
+        { indo: "Ya, sejak kecil aku suka menggambar.", english: "Yes, I have liked drawing since childhood.", pronunciation: "Yes, ai hev laikt dro-ing sins chaild-hud." },
+        { indo: "Kamu punya cita-cita apa?", english: "What is your dream job?", pronunciation: "Wot is yor drim job?" },
+        { indo: "Aku ingin punya bisnis sendiri.", english: "I want to have my own business.", pronunciation: "Ai want tu hev mai own biz-nes." },
+        { indo: "Itu impian yang bagus.", english: "That is a good dream.", pronunciation: "Det is e gud drim." },
+        { indo: "Kamu suka bekerja sendiri atau tim?", english: "Do you like working alone or in a team?", pronunciation: "Du yu laik wer-king e-lon or in e tim?" },
+        { indo: "Aku suka bekerja dalam tim.", english: "I like working in a team.", pronunciation: "Ai laik wer-king in e tim." },
+        { indo: "Kamu mudah berteman?", english: "Do you make friends easily?", pronunciation: "Du yu meik frends i-zi-li?" },
+        { indo: "Ya, kalau orangnya baik.", english: "Yes, if the person is kind.", pronunciation: "Yes, if de per-sen is kaind." },
+        { indo: "Kamu orang yang percaya diri?", english: "Are you a confident person?", pronunciation: "Ar yu e kon-fi-dent per-sen?" },
+        { indo: "Kadang percaya diri, kadang malu.", english: "Sometimes confident, sometimes shy.", pronunciation: "Som-taims kon-fi-dent, som-taims shai." },
+        { indo: "Aku juga seperti itu.", english: "I am like that too.", pronunciation: "Ai em laik det tu." },
+        { indo: "Kamu suka berbicara lewat video call?", english: "Do you like talking through video calls?", pronunciation: "Du yu laik to-king thru vi-di-o kols?" },
+        { indo: "Tidak terlalu sering.", english: "Not very often.", pronunciation: "Not ve-ri of-ten." },
+        { indo: "Aku lebih nyaman chatting.", english: "I feel more comfortable chatting.", pronunciation: "Ai fil mor kamf-ter-bel che-ting." },
+        { indo: "Kamu suka memakai headphone besar?", english: "Do you like using big headphones?", pronunciation: "Du yu laik yu-zing big hed-fons?" },
+        { indo: "Ya, suaranya lebih bagus.", english: "Yes, the sound is better.", pronunciation: "Yes, de saund is be-ter." },
+        { indo: "Kamu suka suara hujan atau suara ombak?", english: "Do you like rain sounds or ocean sounds?", pronunciation: "Du yu laik rein saunds or o-shen saunds?" },
+        { indo: "Aku suka suara ombak pantai.", english: "I like the sound of ocean waves.", pronunciation: "Ai laik de saund ov o-shen weivs." },
+        { indo: "Pantai membuat pikiran tenang.", english: "Beaches make the mind calm.", pronunciation: "Bi-ches meik de maind kam." },
+        { indo: "Kamu pernah camping?", english: "Have you ever gone camping?", pronunciation: "Hev yu e-ver gon kem-ping?" },
+        { indo: "Ya, beberapa kali bersama teman.", english: "Yes, several times with friends.", pronunciation: "Yes, sev-ral taims wit frends." },
+        { indo: "Camping malam itu seru.", english: "Night camping is fun.", pronunciation: "Nait kem-ping is fan." },
+        { indo: "Kamu suka api unggun?", english: "Do you like bonfires?", pronunciation: "Du yu laik bon-fai-ers?" },
+        { indo: "Ya, suasananya hangat dan nyaman.", english: "Yes, the atmosphere feels warm and cozy.", pronunciation: "Yes, di at-mos-fir fils worm end ko-zi." },
+        { indo: "Kamu suka memakai hoodie?", english: "Do you like wearing hoodies?", pronunciation: "Du yu laik we-ring hu-dis?" },
+        { indo: "Ya, hoodie nyaman dipakai.", english: "Yes, hoodies are comfortable to wear.", pronunciation: "Yes, hu-dis ar kamf-ter-bel tu wer." },
+        { indo: "Warna hoodie favoritmu apa?", english: "What is your favorite hoodie color?", pronunciation: "Wot is yor fei-vrit hu-di ka-ler?" }
+    ];
+
+    // ---------------------- GLOBAL STATE --------------------------
+    let currentIndex = 0;
+    let autoTimerInterval = null;
+    let remainingSeconds = 0;
+    let waitingForNext = false;      // jika kunci jawaban sedang terbuka, timer berhenti
+    let answerRevealed = false;       // apakah kunci jawaban sedang tampil
+    let isSpeakingIndonesian = false;  // flag untuk mencegah overlap (tapi speechSynthesis.cancel bisa dipakai)
+    
+    // DOM Elements
+    const indoTextDisplay = document.getElementById('indoTextDisplay');
+    const playIndoBtn = document.getElementById('playIndoBtn');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const answerContainer = document.getElementById('answerContainer');
+    const engAnswerText = document.getElementById('engAnswerText');
+    const pronunciationAnswerText = document.getElementById('pronunciationAnswerText');
+    const speakerEngAnswer = document.getElementById('speakerEngAnswer');
+    const nextButton = document.getElementById('nextButton');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const progressStatus = document.getElementById('progressStatus');
+    const resetTimerBtn = document.getElementById('resetTimerBtn');
+    const delayInput = document.getElementById('delayInput');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue = document.getElementById('volumeValue');
+    const rateSlider = document.getElementById('rateSlider');
+    const rateValue = document.getElementById('rateValue');
+
+    // ========== SPEECH UTILITIES dengan volume & rate ==========
+    let currentUtterance = null;
+    function getCurrentVolume() { return parseFloat(volumeSlider.value) / 100; }
+    function getCurrentRate() { return parseFloat(rateSlider.value); }
+    
+    function cancelSpeech() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+        currentUtterance = null;
+    }
+    
+    function speakText(text, lang, callback) {
+        if (!window.speechSynthesis) {
+            console.warn("SpeechSynthesis tidak support");
+            return;
+        }
+        cancelSpeech(); // batalkan suara sebelumnya biar tidak tumpuk
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = (lang === 'id-ID') ? 0.95 : getCurrentRate(); // kecepatan indonesia netral, inggris adjust user
+        utterance.volume = getCurrentVolume();
+        utterance.onend = () => { 
+            if (callback) callback();
+            if (lang === 'id-ID') isSpeakingIndonesian = false;
+        };
+        utterance.onstart = () => { if (lang === 'id-ID') isSpeakingIndonesian = true; };
+        window.speechSynthesis.speak(utterance);
+        currentUtterance = utterance;
+    }
+    
+    function speakIndonesian(text) {
+        if (!text) return;
+        speakText(text, 'id-ID', null);
+    }
+    
+    function speakEnglish(text) {
+        speakText(text, 'en-US', null);
+    }
+    
+    // ========== FUNGSI INTI: TAMPILKAN KALIMAT + AUTO PLAY INDONESIA ==========
+    function loadAndSpeakCurrent() {
+        if (currentIndex >= conversationList.length) {
+            indoTextDisplay.innerText = "🎉 SELAMAT! Anda telah menyelesaikan semua latihan! 🎉";
+            playIndoBtn.disabled = true;
+            showAnswerBtn.disabled = true;
+            if (autoTimerInterval) clearInterval(autoTimerInterval);
+            progressStatus.innerText = "✅ Selesai semua percakapan";
+            answerContainer.style.display = 'none';
+            return;
+        }
+        const item = conversationList[currentIndex];
+        indoTextDisplay.innerText = item.indo;
+        playIndoBtn.disabled = false;
+        showAnswerBtn.disabled = false;
+        
+        // Sembunyikan panel jawaban dan reset state
+        answerContainer.style.display = 'none';
+        answerRevealed = false;
+        waitingForNext = false;
+        
+        // Hentikan timer lama jika ada
+        if (autoTimerInterval) clearInterval(autoTimerInterval);
+        
+        // 🔥 MAIN FITUR: Auto play audio BAHASA INDONESIA setiap teks muncul 🔥
+        speakIndonesian(item.indo);
+        progressStatus.innerText = `🔊 Memutar audio: "${item.indo}" — Timer jeda dimulai.`;
+        
+        // Mulai timer countdown untuk memunculkan kunci jawaban
+        startCountdownTimer();
+    }
+    
+    // Timer countdown: setelah delay detik, otomatis buka kunci jawaban (jika user belum buka manual)
+    function startCountdownTimer() {
+        if (autoTimerInterval) clearInterval(autoTimerInterval);
+        if (waitingForNext || answerRevealed) return;
+        let delaySec = parseInt(delayInput.value);
+        if (isNaN(delaySec) || delaySec < 3) delaySec = 5;
+        remainingSeconds = delaySec;
+        updateTimerDisplay(remainingSeconds);
+        
+        autoTimerInterval = setInterval(() => {
+            if (waitingForNext || answerRevealed) return;
+            if (remainingSeconds <= 1) {
+                clearInterval(autoTimerInterval);
+                if (!answerRevealed && currentIndex < conversationList.length) {
+                    showAnswerNow();
+                }
+                updateTimerDisplay(0);
+                progressStatus.innerText = `🔓 Kunci jawaban telah muncul! Klik 'LANJUT' ke teks berikutnya.`;
+            } else {
+                remainingSeconds--;
+                updateTimerDisplay(remainingSeconds);
+                progressStatus.innerText = `⏳ Jeda otomatis: kunci jawaban muncul dalam ${remainingSeconds} detik... (Audio Indonesia selesai)`;
+            }
+        }, 1000);
+    }
+    
+    function updateTimerDisplay(sec) {
+        const mins = Math.floor(sec / 60);
+        const remainSec = sec % 60;
+        timerDisplay.innerText = `${mins.toString().padStart(2,'0')}:${remainSec.toString().padStart(2,'0')}`;
+    }
+    
+    // Menampilkan kunci jawaban (Inggris + Cara baca) dengan speaker Inggris
+    function showAnswerNow() {
+        if (answerRevealed) return;
+        if (currentIndex >= conversationList.length) return;
+        const item = conversationList[currentIndex];
+        engAnswerText.innerText = item.english;
+        pronunciationAnswerText.innerHTML = `<span>📖 Cara baca: ${item.pronunciation}</span><small style="margin-left:8px;">🎧 Klik speaker untuk mendengar</small>`;
+        answerContainer.style.display = 'block';
+        answerRevealed = true;
+        waitingForNext = true;   // jeda timer berhenti
+        if (autoTimerInterval) clearInterval(autoTimerInterval);
+        progressStatus.innerText = "📘 Kunci jawaban terbuka. Klik speaker 🎵 untuk dengar pengucapan Inggris. Tekan LANJUT ke kalimat berikutnya.";
+        
+        // Pasang event listener untuk speaker jawaban Inggris
+        attachSpeakerAnswerEvent(item.english);
+    }
+    
+    // Attach event ke tombol speaker di kunci jawaban
+    function attachSpeakerAnswerEvent(englishText) {
+        const speakerBtn = document.getElementById('speakerEngAnswer');
+        if (speakerBtn) {
+            const newSpeaker = speakerBtn.cloneNode(true);
+            speakerBtn.parentNode.replaceChild(newSpeaker, speakerBtn);
+            newSpeaker.addEventListener('click', (e) => {
+                e.stopPropagation();
+                speakEnglish(englishText);
+            });
+            newSpeaker.id = 'speakerEngAnswer';
+        }
+    }
+    
+    // ---------- EVENT HANDLERS ----------
+    // Tombol Lihat Kunci Jawaban manual
+    showAnswerBtn.addEventListener('click', () => {
+        if (answerRevealed) return;
+        showAnswerNow();
+    });
+    
+    // Tombol Next: lanjut ke kalimat berikutnya (audio indo otomatis lagi)
+    nextButton.addEventListener('click', () => {
+        if (currentIndex < conversationList.length - 1) {
+            currentIndex++;
+            loadAndSpeakCurrent();
+        } else if (currentIndex === conversationList.length - 1) {
+            // Selesai total
+            currentIndex++;
+            loadAndSpeakCurrent(); // ini akan menampilkan pesan selesai
+            if (autoTimerInterval) clearInterval(autoTimerInterval);
+            progressStatus.innerText = "🎉 Semua latihan selesai! Selamat!";
+            answerContainer.style.display = 'none';
+        } else {
+            // already finished
+            return;
+        }
+    });
+    
+    // Tombol putar ulang audio Indonesia manual
+    playIndoBtn.addEventListener('click', () => {
+        if (currentIndex < conversationList.length) {
+            const indoText = conversationList[currentIndex].indo;
+            speakIndonesian(indoText);
+            progressStatus.innerText = `🔊 Manual: Memutar ulang audio "${indoText}"`;
+        }
+    });
+    
+    // Reset Timer (hanya jika kunci jawaban belum muncul)
+    resetTimerBtn.addEventListener('click', () => {
+        if (answerRevealed) {
+            progressStatus.innerText = "⚠️ Kunci jawaban sudah terbuka, silakan lanjut dengan NEXT.";
+            return;
+        }
+        if (autoTimerInterval) clearInterval(autoTimerInterval);
+        startCountdownTimer();
+        progressStatus.innerText = "🔄 Timer direset ulang. Audio Indonesia tetap dapat diputar ulang.";
+    });
+    
+    // Slider volume & rate
+    volumeSlider.addEventListener('input', (e) => {
+        let val = e.target.value;
+        volumeValue.innerText = val + "%";
+        if (currentUtterance) currentUtterance.volume = val / 100;
+        // update untuk speech mendatang sudah pakai getCurrentVolume()
+    });
+    rateSlider.addEventListener('input', (e) => {
+        let val = parseFloat(e.target.value).toFixed(2);
+        rateValue.innerText = val;
+        if (currentUtterance && currentUtterance.lang === 'en-US') currentUtterance.rate = parseFloat(val);
+    });
+    
+    // Jika user mengubah jeda, reset timer jika belum reveal
+    delayInput.addEventListener('change', () => {
+        if (!answerRevealed && !waitingForNext) {
+            if (autoTimerInterval) clearInterval(autoTimerInterval);
+            startCountdownTimer();
+        }
+    });
+    
+    // Initial start
+    function init() {
+        currentIndex = 0;
+        loadAndSpeakCurrent();
+    }
+    
+    init();
+</script>
+</body>
+</html>
