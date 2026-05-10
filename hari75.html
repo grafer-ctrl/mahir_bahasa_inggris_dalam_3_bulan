@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>English Mastery · Cerita Kehidupan Sehari-hari di Rumah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #dfe7f2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .app-wrapper {
+            width: 100%;
+            max-width: 760px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .app-container { padding: 28px 24px 36px; }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .home-btn {
+            background: #f0f4fe;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1f3b62;
+            font-size: 24px;
+        }
+        .home-btn:hover { background: #e2eafc; transform: scale(0.96); }
+        .screen { display: none; flex-direction: column; animation: fadeSlideUp 0.35s ease forwards; }
+        .active { display: flex; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F2F4E, #2A4875);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+        }
+        .red-mission {
+            background: linear-gradient(120deg, #fff0f0, #ffe0e0);
+            border-left: 6px solid #e53e3e;
+            padding: 14px 18px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .red-mission i { font-size: 1.3rem; color: #e53e3e; }
+        .btn-primary {
+            background: linear-gradient(105deg, #1f3a68, #112a4a);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 20px -12px rgba(17, 42, 74, 0.4);
+            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: scale(0.98); background: linear-gradient(105deg, #162e52, #0b1f38); }
+        .story-card {
+            background: #FFFFFF;
+            border-radius: 40px;
+            padding: 28px 24px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.1);
+            margin: 12px 0 20px;
+            border: 1px solid #eef2fc;
+        }
+        .badge-story {
+            background: #8b5cf6;
+            color: white;
+            border-radius: 60px;
+            padding: 5px 18px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 18px;
+        }
+        .story-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .story-btn {
+            background: #eef2fa;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        .story-btn.active-story {
+            background: #1f3a68;
+            color: white;
+        }
+        .indonesian-text {
+            background: #f1f5f9;
+            padding: 20px 18px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3b82f6;
+        }
+        .indonesian-text p {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #0c4a6e;
+            font-weight: 500;
+        }
+        .instruction-text {
+            background: #e6f0fa;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            color: #1e4a76;
+            font-weight: 600;
+        }
+        .hidden-answer { display: none; margin-top: 20px; }
+        .english-version {
+            background: #fefce8;
+            padding: 18px 18px;
+            border-radius: 28px;
+            margin-bottom: 16px;
+            border-left: 5px solid #eab308;
+        }
+        .english-version p {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #854d0e;
+            font-weight: 600;
+        }
+        .pronunciation-box {
+            background: #f0fdf4;
+            padding: 18px 18px;
+            border-radius: 28px;
+            margin-top: 12px;
+            border-left: 5px solid #22c55e;
+        }
+        .pronunciation-box p {
+            font-family: 'Inter', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #166534;
+            font-weight: 500;
+        }
+        .speaker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eef2fa;
+            padding: 8px 18px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .speaker-btn:hover { background: #dfe7f2; transform: scale(0.98); }
+        .btn-outline-sm {
+            background: white;
+            border: 1.5px solid #c9ddec;
+            padding: 12px 24px;
+            border-radius: 44px;
+            font-weight: 700;
+            color: #274e7c;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 12px;
+        }
+        .btn-outline-sm:hover { background: #eef5ff; border-color: #9bb5d4; }
+        .small-note { font-size: 11px; text-align: center; margin-top: 18px; color: #6f8eae; }
+        .section-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="app-container">
+        <div class="header">
+            <div class="home-btn" onclick="stopAudio(); showScreen('screen-a')">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- Screen A: Welcome -->
+        <div id="screen-a" class="screen active">
+            <h1><i class="fas fa-home"></i> KEHIDUPAN SEHARI-HARI</h1>
+            <div class="red-mission">
+                <i class="fas fa-tasks"></i> 
+                <span><strong>TUGAS ANDA:</strong> Pilih cerita, dengarkan audio Bahasa Indonesia, lalu terjemahkan & ucapkan dalam Bahasa Inggris! Klik "Lihat Jawaban" untuk mengecek.</span>
+            </div>
+            <button class="btn-primary" onclick="stopAudio(); showScreen('screen-b')">
+                <i class="fas fa-play-circle"></i> Mulai Belajar Cerita
+            </button>
+        </div>
+
+        <!-- Screen B: Story dengan 3 pilihan cerita (UPDATE) -->
+        <div id="screen-b" class="screen">
+            <div class="story-card">
+                <div style="text-align: center;"><span class="badge-story"><i class="fas fa-sun"></i> Cerita Kehidupan Sehari-hari</span></div>
+                
+                <!-- Pilihan cerita -->
+                <div class="story-selector">
+                    <button class="story-btn" data-story="0" onclick="pilihCerita(0)">🌅 Cerita 1 (Bangun Lambat)</button>
+                    <button class="story-btn" data-story="1" onclick="pilihCerita(1)">🧺 Cerita 2 (Mencuci Baju)</button>
+                    <button class="story-btn" data-story="2" onclick="pilihCerita(2)">🪟 Cerita 3 (Membuka Jendela)</button>
+                </div>
+                
+                <!-- Teks Bahasa Indonesia dinamis -->
+                <div class="indonesian-text" id="indoTextArea">
+                    <div class="instruction-text">
+                        <i class="fas fa-headphones"></i> Dengarkan audio di bawah, lalu coba terjemahkan sendiri ke dalam Bahasa Inggris!
+                    </div>
+                    <div class="section-title"><i class="fas fa-flag-indonesia"></i> Bahasa Indonesia</div>
+                    <p id="indoParagraf">Tadi pagi aku bangun lebih lambat dari biasanya. Aku langsung minum air putih dan duduk di dapur. Setelah itu aku membantu membersihkan meja makan. Siang hari aku bermain dengan kucing di rumah. Malamnya aku mematikan lampu lebih awal dan cepat tidur.</p>
+                    <div class="speaker-btn" onclick="playIndonesianAudio()">
+                        <i class="fas fa-volume-up"></i> <span>Dengarkan Cerita Bahasa Indonesia</span>
+                    </div>
+                </div>
+                
+                <!-- Tombol Lihat Jawaban -->
+                <button class="btn-outline-sm" id="lihatJawabanBtn" onclick="toggleJawaban()">
+                    <i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)
+                </button>
+                
+                <!-- Area jawaban tersembunyi -->
+                <div id="hiddenAnswerArea" class="hidden-answer">
+                    <div class="english-version" id="englishVersionArea">
+                        <div class="section-title"><i class="fas fa-language"></i> English Version</div>
+                        <p id="englishParagraf">This morning, I woke up later than usual. I immediately drank water and sat in the kitchen. After that, I helped clean the dining table. In the afternoon, I played with the cat at home. At night, I turned off the lights earlier and slept quickly.</p>
+                        <div class="speaker-btn" onclick="playEnglishAudio()">
+                            <i class="fas fa-headphones"></i> <span>Dengarkan English Story</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pronunciation-box" id="pronunciationArea">
+                        <div class="section-title"><i class="fas fa-microphone"></i> Cara Baca (Pronunciation Guide)</div>
+                        <p id="pronParagraf">📢 Dis mor-ning, ai wok ap lei-ter den yu-zhu-al.<br>
+                        📢 Ai i-mi-di-et-li drengk wo-ter end set in de kit-chen.<br>
+                        📢 Af-ter det, ai helpt klin de dai-ning tei-bel.<br>
+                        📢 In di af-ter-nun, ai pleid with de ket et hom.<br>
+                        📢 Et nait, ai ternd off de laits er-li-er end slept kwik-li.</p>
+                        <div class="speaker-btn" onclick="playPronunciationAudio()">
+                            <i class="fas fa-microphone-alt"></i> <span>Dengarkan Cara Baca (Slow)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="small-note" style="margin-top: 16px;">
+                        <i class="fas fa-lightbulb"></i> Tips: Baca berulang-ulang sampai lancar. Tirukan pengucapan dari audio!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tombol kembali -->
+            <button class="btn-primary" onclick="resetToHome()" style="margin-top: 16px; background: linear-gradient(105deg, #475569, #334155);">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </button>
+            <div class="small-note">
+                <i class="fas fa-microphone-alt"></i> Pilih cerita berbeda, dengarkan, lalu coba ucapkan versi Inggris-mu sendiri.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============ DATA 3 CERITA (UPDATE - Kehidupan Sehari-hari) ============
+    const stories = [
+        {
+            indo: "Tadi pagi aku bangun lebih lambat dari biasanya. Aku langsung minum air putih dan duduk di dapur. Setelah itu aku membantu membersihkan meja makan. Siang hari aku bermain dengan kucing di rumah. Malamnya aku mematikan lampu lebih awal dan cepat tidur.",
+            eng: "This morning, I woke up later than usual. I immediately drank water and sat in the kitchen. After that, I helped clean the dining table. In the afternoon, I played with the cat at home. At night, I turned off the lights earlier and slept quickly.",
+            pron: "📢 Dis mor-ning, ai wok ap lei-ter den yu-zhu-al.\n📢 Ai i-mi-di-et-li drengk wo-ter end set in de kit-chen.\n📢 Af-ter det, ai helpt klin de dai-ning tei-bel.\n📢 In di af-ter-nun, ai pleid with de ket et hom.\n📢 Et nait, ai ternd off de laits er-li-er end slept kwik-li."
+        },
+        {
+            indo: "Hari ini aku mencuci baju sendiri di rumah. Setelah selesai, aku menjemur pakaian di luar. Sambil menunggu baju kering, aku bermain musik dari ponsel. Sore hari aku makan buah dan berbicara dengan keluargaku. Malamnya aku tidur sambil mendengarkan lagu pelan.",
+            eng: "Today, I washed my clothes at home by myself. After finishing, I dried the clothes outside. While waiting for the clothes to dry, I played music from my phone. In the evening, I ate fruit and talked with my family. At night, I slept while listening to soft songs.",
+            pron: "📢 Tu-dei, ai wosht mai klo-dz et hom bai mai-self.\n📢 Af-ter fi-ni-shing, ai draid de klo-dz aut-said.\n📢 Wail wei-ting for de klo-dz tu drai, ai pleid myu-zik from mai fon.\n📢 In di i-vning, ai eit frut end tokt with mai fa-mi-li.\n📢 Et nait, ai slept wail lis-en-ing tu soft songs."
+        },
+        {
+            indo: "Pagi ini aku membuka jendela karena udara sangat segar. Aku memberi makan kucing lalu membuat teh hangat. Setelah itu aku duduk santai sambil mendengarkan suara hujan. Siang hari aku membantu adik mengerjakan tugas sekolah. Malamnya aku menonton video lucu sebelum tidur.",
+            eng: "This morning, I opened the window because the air was very fresh. I fed the cat and made warm tea. After that, I relaxed while listening to the sound of rain. In the afternoon, I helped my younger brother with his homework. At night, I watched funny videos before sleeping.",
+            pron: "📢 Dis mor-ning, ai o-pend de win-dow bi-kos di er woz ve-ri fresh.\n📢 Ai fed de ket end meid worm ti.\n📢 Af-ter det, ai ri-lekst wail lis-en-ing tu de saund ov rein.\n📢 In di af-ter-nun, ai helpt mai yang-ger bra-der with hiz hom-work.\n📢 Et nait, ai wotcht fa-ni vi-di-os bi-for sli-ping."
+        }
+    ];
+    
+    let currentStoryIndex = 0;
+    
+    function stopAudio() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+    }
+    
+    function speakText(text, lang, rate = 0.9) {
+        stopAudio();
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = rate;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    // Update tampilan berdasarkan cerita yang dipilih
+    function pilihCerita(index) {
+        currentStoryIndex = index;
+        const story = stories[index];
+        
+        // Update teks Indonesia
+        document.getElementById('indoParagraf').innerText = story.indo;
+        document.getElementById('englishParagraf').innerText = story.eng;
+        document.getElementById('pronParagraf').innerHTML = story.pron.replace(/\n/g, '<br>');
+        
+        // Sembunyikan jawaban lagi saat ganti cerita
+        const hiddenDiv = document.getElementById('hiddenAnswerArea');
+        const btn = document.getElementById('lihatJawabanBtn');
+        if (hiddenDiv) {
+            hiddenDiv.style.display = 'none';
+            if (btn) btn.innerHTML = '<i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)';
+        }
+        
+        // Highlight tombol aktif
+        document.querySelectorAll('.story-btn').forEach((btnEl, i) => {
+            if (i == index) btnEl.classList.add('active-story');
+            else btnEl.classList.remove('active-story');
+        });
+        
+        // Play audio Indo otomatis setelah pilih cerita
+        setTimeout(() => {
+            playIndonesianAudio();
+        }, 200);
+    }
+    
+    // Audio functions menggunakan cerita aktif
+    function playIndonesianAudio() {
+        const indoText = stories[currentStoryIndex].indo;
+        speakText(indoText, 'id-ID', 0.85);
+    }
+    
+    function playEnglishAudio() {
+        const engText = stories[currentStoryIndex].eng;
+        speakText(engText, 'en-US', 0.9);
+    }
+    
+    function playPronunciationAudio() {
+        const pronText = stories[currentStoryIndex].eng;
+        // Ucapkan english dengan rate pelan untuk pronunciation
+        speakText(pronText, 'en-US', 0.75);
+    }
+    
+    function toggleJawaban() {
+        const hiddenDiv = document.getElementById('hiddenAnswerArea');
+        const btn = document.getElementById('lihatJawabanBtn');
+        if (hiddenDiv.style.display === 'none' || hiddenDiv.style.display === '') {
+            hiddenDiv.style.display = 'block';
+            btn.innerHTML = '<i class="fas fa-eye-slash"></i> Sembunyikan Jawaban';
+            hiddenDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            hiddenDiv.style.display = 'none';
+            btn.innerHTML = '<i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)';
+        }
+    }
+    
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        if (id === 'screen-a') {
+            stopAudio();
+            speakText("Selamat datang! Pilih cerita kehidupan sehari-hari di rumah, dengarkan bahasa Indonesia, lalu terjemahkan ke bahasa Inggris. Selamat berlatih!", 'id-ID', 0.9);
+        }
+        
+        if (id === 'screen-b') {
+            // Reset hidden answer, set cerita pertama sebagai default jika belum dipilih
+            const hiddenDiv = document.getElementById('hiddenAnswerArea');
+            const btn = document.getElementById('lihatJawabanBtn');
+            if (hiddenDiv) {
+                hiddenDiv.style.display = 'none';
+                if (btn) btn.innerHTML = '<i class="fas fa-eye"></i> Lihat Jawaban (English + Cara Baca)';
+            }
+            // Pastikan cerita pertama aktif
+            pilihCerita(currentStoryIndex);
+        }
+    }
+    
+    function resetToHome() {
+        stopAudio();
+        showScreen('screen-a');
+    }
+    
+    // Inisialisasi
+    window.addEventListener('load', () => {
+        currentStoryIndex = 0;
+        pilihCerita(0);
+    });
+    
+    window.addEventListener('beforeunload', () => {
+        stopAudio();
+    });
+</script>
+</body>
+</html>
