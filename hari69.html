@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>English Practice | 100+ Kalimat Grammar - Tema Biru</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #b8d4ff 0%, #8cb3f0 100%);
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .practice-card {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0, 35, 70, 0.35), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: #0a2b4e;
+            padding: 1.8rem 2rem;
+            color: white;
+            border-bottom: 4px solid #3b82f6;
+        }
+
+        .hero-section h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-section h1 span {
+            background: #3b82f6;
+            font-size: 1rem;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .tutor-badge {
+            background: #1e4a76;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+        }
+
+        .conversation-list {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .conversation-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .conversation-list::-webkit-scrollbar-track {
+            background: #e2edff;
+            border-radius: 10px;
+        }
+        .conversation-list::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+
+        .card-item {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1rem 1.3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: 0.2s;
+            border: 1px solid #dceaff;
+        }
+
+        .card-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.15);
+            border-color: #90caf9;
+        }
+
+        .indonesian-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0c4a6e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .speaker-icon {
+            background: #eef6ff;
+            width: 34px;
+            height: 34px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e40af;
+            font-size: 1.1rem;
+        }
+
+        .speaker-icon:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .english-section {
+            background: #f0f7ff;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            margin-top: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .translation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .english-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .btn-translate {
+            background: none;
+            border: 1.5px solid #bfdbfe;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #1e3a8a;
+            transition: 0.2s;
+        }
+
+        .btn-translate:hover {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .translation-content {
+            margin-top: 6px;
+        }
+
+        .english-line {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #065f46;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pronunciation-line {
+            font-size: 0.85rem;
+            color: #7c5c2c;
+            background: #fff8e7;
+            padding: 5px 10px;
+            border-radius: 24px;
+            margin-top: 6px;
+            font-family: monospace;
+            letter-spacing: 0.3px;
+            border-left: 3px solid #fbbf24;
+        }
+
+        .grammar-reason {
+            font-size: 0.75rem;
+            color: #2c6e9e;
+            background: #e9f4ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 5px;
+            display: inline-block;
+            font-style: italic;
+        }
+
+        .speaker-eng {
+            background: #e6f0ff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            color: #1e40af;
+        }
+
+        .speaker-eng:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .translation-hidden {
+            display: none;
+        }
+
+        .extra-simple {
+            background: #eef2ff;
+            margin: 0 1.8rem 1.8rem 1.8rem;
+            border-radius: 36px;
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #1e3a8a;
+        }
+
+        .extra-simple span {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        footer {
+            background: #eef2ff;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.7rem;
+            color: #1e40af;
+            border-top: 1px solid #bfdbfe;
+        }
+
+        @media (max-width: 640px) {
+            .conversation-list {
+                padding: 1rem;
+            }
+            .indonesian-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="practice-card">
+    <div class="hero-section">
+        <h1>📘 English Grammar <span>100+ Contoh & Penjelasan</span></h1>
+        <div class="tutor-badge">👩‍🏫 Tutor Sarah • Tema Biru • "Belajar Tata Bahasa Inggris dengan Mudah"</div>
+        <p>🔊 Klik ikon suara untuk audio • 📖 Klik "Lihat Terjemahan" untuk Inggris + cara baca + alasan tata bahasa</p>
+    </div>
+
+    <div class="conversation-list" id="conversationList"></div>
+
+    <div class="extra-simple">
+        🔊 <span>Setiap kartu berisi: Bahasa Indonesia, Inggris, Cara Baca, dan Alasan Grammar</span> • Klik speaker untuk mendengar pelafalan
+    </div>
+    <footer>
+        🌟 110+ contoh kalimat grammar lengkap dengan penjelasan | Audio Indonesia & Inggris | Desain interaktif
+    </footer>
+</div>
+
+<script>
+    // ========== DATA GRAMMAR SESUAI TEKS YANG DIBERIKAN (100% persis dari permintaan) ==========
+    const grammarData = [
+        { indo: "Kamu bisa bermain basket?", english: "Can you play basketball?", pronunciation: "Ken yu plei bas-ket-bol?", grammarNote: "Alasan: memakai “Can” untuk kemampuan." },
+        { indo: "Aku sedang merasa sangat semangat hari ini.", english: "I am feeling very excited today.", pronunciation: "Ai em fi-ling ve-ri ek-sai-ted tu-dei.", grammarNote: "Alasan: memakai “Am feeling” untuk kondisi saat ini." },
+        { indo: "Dia punya banyak teman di sekolah.", english: "He has many friends at school.", pronunciation: "Hi hez me-ni frends et skul.", grammarNote: "Alasan: memakai “Has” karena subjek “He”." },
+        { indo: "Kamu melakukan pekerjaan rumah kemarin?", english: "Did you do your homework yesterday?", pronunciation: "Did yu du yor hom-work yes-ter-dei?", grammarNote: "Alasan: memakai “Did” untuk pertanyaan masa lalu." },
+        { indo: "Aku akan pergi jogging besok pagi.", english: "I will go jogging tomorrow morning.", pronunciation: "Ai wil go jog-ing tu-mor-row mor-ning.", grammarNote: "Alasan: memakai “Will” untuk masa depan." },
+        { indo: "Dia mungkin sedang sibuk sekarang.", english: "She might be busy now.", pronunciation: "Shi mait bi bi-zi nau.", grammarNote: "Alasan: memakai “Might” untuk kemungkinan." },
+        { indo: "Kamu harus minum lebih banyak air.", english: "You should drink more water.", pronunciation: "Yu shud dringk mor wo-ter.", grammarNote: "Alasan: memakai “Should” untuk saran." },
+        { indo: "Aku dulu suka bermain layangan.", english: "I used to fly kites.", pronunciation: "Ai yusd tu flai kaits.", grammarNote: "Alasan: memakai “Used to” untuk kebiasaan masa lalu." },
+        { indo: "Mereka sedang menonton konser sekarang.", english: "They are watching a concert now.", pronunciation: "Dei ar wo-ching e kon-sert nau.", grammarNote: "Alasan: memakai “Are” untuk Present Continuous." },
+        { indo: "Kamu perlu belajar lebih fokus.", english: "You need to study more seriously.", pronunciation: "Yu nid tu sta-di mor si-ri-es-li.", grammarNote: "Alasan: memakai “Need to” untuk kebutuhan." },
+        { indo: "Aku pernah melihat gunung bersalju.", english: "I have seen snowy mountains.", pronunciation: "Ai hev sin sno-wi maun-tens.", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Dia dapat berbicara dengan percaya diri.", english: "She is able to speak confidently.", pronunciation: "Shi is ei-bel tu spik kon-fi-dent-li.", grammarNote: "Alasan: memakai “Be able to” untuk kemampuan." },
+        { indo: "Kamu sedang memakai jaket hitam?", english: "Are you wearing a black jacket?", pronunciation: "Ar yu we-ring e blek ja-ket?", grammarNote: "Alasan: memakai “Are” untuk aktivitas berlangsung." },
+        { indo: "Aku mungkin pergi ke cafe nanti malam.", english: "I may go to a cafe tonight.", pronunciation: "Ai mei go tu e ka-fe tu-nait.", grammarNote: "Alasan: memakai “May” untuk kemungkinan." },
+        { indo: "Dia harus bangun pagi setiap hari.", english: "He has to wake up early every day.", pronunciation: "Hi hez tu weik ap er-li ev-ri dei.", grammarNote: "Alasan: memakai “Has to” untuk kewajiban." },
+        { indo: "Kamu berani mencoba hal baru?", english: "Do you dare to try new things?", pronunciation: "Du yu der tu trai nyu things?", grammarNote: "Alasan: memakai “Dare” untuk keberanian." },
+        { indo: "Aku sedang diperhatikan semua orang.", english: "I am being watched by everyone.", pronunciation: "Ai em bi-ing wocht bai ev-ri-wan.", grammarNote: "Alasan: memakai “Am being” untuk Passive Continuous." },
+        { indo: "Mereka dulu tinggal dekat sungai.", english: "They used to live near the river.", pronunciation: "Dei yusd tu liv nir de ri-ver.", grammarNote: "Alasan: memakai “Used to” untuk kondisi masa lalu." },
+        { indo: "Kamu harus lebih percaya diri.", english: "You ought to be more confident.", pronunciation: "Yu ot tu bi mor kon-fi-dent.", grammarNote: "Alasan: memakai “Ought to” untuk nasihat." },
+        { indo: "Aku telah belajar bahasa Inggris selama dua tahun.", english: "I have been learning English for two years.", pronunciation: "Ai hev bin ler-ning Ing-glish for tu yirs.", grammarNote: "Alasan: memakai “Have been” untuk aktivitas yang terus berlangsung." },
+        { indo: "Dia sedang menjadi lebih dewasa sekarang.", english: "He is becoming more mature now.", pronunciation: "Hi is bi-kam-ing mor ma-tyur nau.", grammarNote: "Alasan: memakai “Is becoming” untuk perubahan." },
+        { indo: "Kamu boleh memakai kursi ini.", english: "You may use this chair.", pronunciation: "Yu mei yus dis cher.", grammarNote: "Alasan: memakai “May” untuk izin." },
+        { indo: "Aku bisa memahami perasaanmu.", english: "I can understand your feelings.", pronunciation: "Ai ken an-der-stend yor fi-lings.", grammarNote: "Alasan: memakai “Can” untuk kemampuan." },
+        { indo: "Dia melakukan kesalahan kecil tadi pagi.", english: "She did a small mistake this morning.", pronunciation: "Shi did e smol mis-teik dis mor-ning.", grammarNote: "Alasan: memakai “Did” untuk masa lalu." },
+        { indo: "Kamu sedang belajar untuk ujian?", english: "Are you studying for the exam?", pronunciation: "Ar yu sta-di-ing for di eg-zem?", grammarNote: "Alasan: memakai “Are” untuk kegiatan sekarang." },
+        { indo: "Aku akan membantu kamu nanti.", english: "I will help you later.", pronunciation: "Ai wil help yu lei-ter.", grammarNote: "Alasan: memakai “Will” untuk tindakan masa depan." },
+        { indo: "Mereka mungkin tidak datang hari ini.", english: "They might not come today.", pronunciation: "Dei mait not kam tu-dei.", grammarNote: "Alasan: memakai “Might” untuk kemungkinan." },
+        { indo: "Kamu harus memakai masker di sini.", english: "You must wear a mask here.", pronunciation: "Yu mast wer e mask hir.", grammarNote: "Alasan: memakai “Must” untuk aturan kuat." },
+        { indo: "Aku dulu takut gelap.", english: "I used to be afraid of the dark.", pronunciation: "Ai yusd tu bi e-freid ov de dark.", grammarNote: "Alasan: memakai “Used to be” untuk keadaan masa lalu." },
+        { indo: "Dia sedang dipanggil oleh ibunya.", english: "He is being called by his mother.", pronunciation: "Hi is bi-ing kold bai hiz ma-der.", grammarNote: "Alasan: memakai “Is being” untuk Passive Continuous." },
+        { indo: "Kamu pernah mencoba naik kereta cepat?", english: "Have you tried riding a fast train?", pronunciation: "Hev yu traid rai-ding e fast trein?", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Aku harus menyelesaikan tugasku malam ini.", english: "I have to finish my assignment tonight.", pronunciation: "Ai hev tu fi-nish mai e-sain-ment tu-nait.", grammarNote: "Alasan: memakai “Have to” untuk kewajiban." },
+        { indo: "Dia bisa berenang sangat cepat.", english: "She can swim very fast.", pronunciation: "Shi ken swim ve-ri fast.", grammarNote: "Alasan: memakai “Can” untuk kemampuan." },
+        { indo: "Kamu sedang menunggu seseorang?", english: "Are you waiting for someone?", pronunciation: "Ar yu wei-ting for sam-wan?", grammarNote: "Alasan: memakai “Are” untuk aktivitas berlangsung." },
+        { indo: "Aku mungkin membeli laptop baru bulan depan.", english: "I may buy a new laptop next month.", pronunciation: "Ai mei bai e nyu lap-top nekst manth.", grammarNote: "Alasan: memakai “May” untuk kemungkinan." },
+        { indo: "Mereka telah menjadi teman baik sejak kecil.", english: "They have been good friends since childhood.", pronunciation: "Dei hev bin gud frends sins chaild-hud.", grammarNote: "Alasan: memakai “Have been” untuk kondisi berlanjut." },
+        { indo: "Kamu perlu lebih banyak istirahat.", english: "You need to rest more.", pronunciation: "Yu nid tu rest mor.", grammarNote: "Alasan: memakai “Need to” untuk kebutuhan." },
+        { indo: "Aku sedang merasa lebih tenang sekarang.", english: "I am feeling calmer now.", pronunciation: "Ai em fi-ling ka-mer nau.", grammarNote: "Alasan: memakai “Am feeling” untuk kondisi sekarang." },
+        { indo: "Dia akan pergi ke luar negeri tahun depan.", english: "He will go abroad next year.", pronunciation: "Hi wil go e-brod nekst yir.", grammarNote: "Alasan: memakai “Will” untuk masa depan." },
+        { indo: "Kamu boleh bertanya apa saja.", english: "You are allowed to ask anything.", pronunciation: "Yu ar e-lau-d tu ask e-ni-thing.", grammarNote: "Alasan: memakai “Be allowed to” untuk izin." },
+        { indo: "Aku pernah memenangkan lomba menyanyi.", english: "I have won a singing competition.", pronunciation: "Ai hev wan e sing-ing kom-pe-ti-shen.", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Dia sedang memperbaiki motornya.", english: "He is fixing his motorcycle.", pronunciation: "Hi is fik-sing hiz mo-tor-sai-kel.", grammarNote: "Alasan: memakai “Is” untuk Present Continuous." },
+        { indo: "Kamu harus menjaga sikapmu.", english: "You should control your attitude.", pronunciation: "Yu shud kon-trol yor a-ti-tyud.", grammarNote: "Alasan: memakai “Should” untuk saran." },
+        { indo: "Aku dulu sering bermain hujan-hujanan.", english: "I used to play in the rain.", pronunciation: "Ai yusd tu plei in de rein.", grammarNote: "Alasan: memakai “Used to” untuk kebiasaan masa lalu." },
+        { indo: "Mereka mungkin sedang makan sekarang.", english: "They might be eating now.", pronunciation: "Dei mait bi i-ting nau.", grammarNote: "Alasan: memakai “Might” untuk kemungkinan." },
+        { indo: "Kamu bisa membuka pintunya?", english: "Can you open the door?", pronunciation: "Ken yu o-pen de dor?", grammarNote: "Alasan: memakai “Can” untuk permintaan." },
+        { indo: "Aku akan sedang bekerja malam ini.", english: "I will be working tonight.", pronunciation: "Ai wil bi wer-king tu-nait.", grammarNote: "Alasan: memakai “Will be” untuk Future Continuous." },
+        { indo: "Dia harus memakai kacamata saat membaca.", english: "She has to wear glasses when reading.", pronunciation: "Shi hez tu wer gla-ses wen ri-ding.", grammarNote: "Alasan: memakai “Has to” untuk kewajiban." },
+        { indo: "Kamu pernah melihat laut biru yang indah?", english: "Have you seen a beautiful blue sea?", pronunciation: "Hev yu sin e byu-ti-ful blu si?", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Aku sedang menjadi lebih rajin belajar.", english: "I am becoming more diligent in studying.", pronunciation: "Ai em bi-kam-ing mor di-li-jent in sta-di-ing.", grammarNote: "Alasan: memakai “Am becoming” untuk perubahan diri." },
+        { indo: "Dia melakukan semua pekerjaannya sendiri.", english: "He did all his work himself.", pronunciation: "Hi did ol hiz werk him-self.", grammarNote: "Alasan: memakai “Did” untuk masa lalu." },
+        { indo: "Kamu harus mencoba makanan ini.", english: "You ought to try this food.", pronunciation: "Yu ot tu trai dis fud.", grammarNote: "Alasan: memakai “Ought to” untuk saran." },
+        { indo: "Aku mungkin datang lebih awal besok.", english: "I might arrive earlier tomorrow.", pronunciation: "Ai mait e-raiv er-li-er tu-mor-row.", grammarNote: "Alasan: memakai “Might” untuk kemungkinan." },
+        { indo: "Mereka sedang dibantu oleh guru.", english: "They are being helped by the teacher.", pronunciation: "Dei ar bi-ing helpt bai de ti-cher.", grammarNote: "Alasan: memakai “Are being” untuk Passive Continuous." },
+        { indo: "Kamu perlu berbicara lebih jelas.", english: "You need to speak more clearly.", pronunciation: "Yu nid tu spik mor kli-er-li.", grammarNote: "Alasan: memakai “Need to” untuk kebutuhan." },
+        { indo: "Aku bisa bermain catur dengan baik.", english: "I can play chess well.", pronunciation: "Ai ken plei ches wel.", grammarNote: "Alasan: memakai “Can” untuk kemampuan." },
+        { indo: "Dia akan menemuimu nanti sore.", english: "She will meet you this afternoon.", pronunciation: "Shi wil mit yu dis af-ter-nun.", grammarNote: "Alasan: memakai “Will” untuk masa depan." },
+        { indo: "Kamu sedang menulis sesuatu?", english: "Are you writing something?", pronunciation: "Ar yu rai-ting sam-thing?", grammarNote: "Alasan: memakai “Are” untuk kegiatan berlangsung." },
+        { indo: "Aku dulu sangat pemalu saat kecil.", english: "I used to be very shy as a child.", pronunciation: "Ai yusd tu bi ve-ri shai ez e chaild.", grammarNote: "Alasan: memakai “Used to be” untuk keadaan masa lalu." },
+        { indo: "Dia mungkin sedang tidur sekarang.", english: "He may be sleeping now.", pronunciation: "Hi mei bi sli-ping nau.", grammarNote: "Alasan: memakai “May” untuk kemungkinan." },
+        { indo: "Kamu harus menghormati orang tua.", english: "You must respect your parents.", pronunciation: "Yu mast ri-spekt yor pe-rents.", grammarNote: "Alasan: memakai “Must” untuk kewajiban kuat." },
+        { indo: "Aku telah menyelesaikan bukuku.", english: "I have finished my book.", pronunciation: "Ai hev fi-nisht mai buk.", grammarNote: "Alasan: memakai “Have” untuk aksi selesai." },
+        { indo: "Mereka bisa berbicara tiga bahasa asing.", english: "They are able to speak three foreign languages.", pronunciation: "Dei ar ei-bel tu spik tri fo-ren leng-gwij-es.", grammarNote: "Alasan: memakai “Be able to” untuk kemampuan." },
+        { indo: "Kamu diperbolehkan masuk sekarang.", english: "You are allowed to enter now.", pronunciation: "Yu ar e-lau-d tu en-ter nau.", grammarNote: "Alasan: memakai “Be allowed to” untuk izin." },
+        { indo: "Aku sedang dipanggil oleh temanku.", english: "I am being called by my friend.", pronunciation: "Ai em bi-ing kold bai mai frend.", grammarNote: "Alasan: memakai “Am being” untuk Passive Continuous." },
+        { indo: "Dia dulu bermain sepak bola setiap sore.", english: "He used to play football every afternoon.", pronunciation: "Hi yusd tu plei fut-bol ev-ri af-ter-nun.", grammarNote: "Alasan: memakai “Used to” untuk kebiasaan masa lalu." },
+        { indo: "Kamu akan pergi ke sekolah besok?", english: "Will you go to school tomorrow?", pronunciation: "Wil yu go tu skul tu-mor-row?", grammarNote: "Alasan: memakai “Will” untuk masa depan." },
+        { indo: "Aku perlu membeli sepatu baru.", english: "I need to buy new shoes.", pronunciation: "Ai nid tu bai nyu shuz.", grammarNote: "Alasan: memakai “Need to” untuk kebutuhan." },
+        { indo: "Dia sedang menjadi lebih ramah sekarang.", english: "She is becoming friendlier now.", pronunciation: "Shi is bi-kam-ing frend-li-er nau.", grammarNote: "Alasan: memakai “Is becoming” untuk perubahan." },
+        { indo: "Kamu dapat membantu aku membawa tas ini?", english: "Could you help me carry this bag?", pronunciation: "Kud yu help mi ke-ri dis beg?", grammarNote: "Alasan: memakai “Could” untuk permintaan sopan." },
+        { indo: "Aku mungkin pergi berlibur bulan depan.", english: "I may go on vacation next month.", pronunciation: "Ai mei go on ve-kei-shen nekst manth.", grammarNote: "Alasan: memakai “May” untuk kemungkinan." },
+        { indo: "Mereka sedang bermain gitar di luar.", english: "They are playing guitar outside.", pronunciation: "Dei ar plei-ing gi-tar aut-said.", grammarNote: "Alasan: memakai “Are” untuk aktivitas berlangsung." },
+        { indo: "Kamu pernah mengunjungi museum itu?", english: "Have you visited that museum?", pronunciation: "Hev yu vi-zit-ed det myu-zi-em?", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Aku harus mengerjakan proyek ini hari ini.", english: "I have to finish this project today.", pronunciation: "Ai hev tu fi-nish dis pro-jekt tu-dei.", grammarNote: "Alasan: memakai “Have to” untuk kewajiban." },
+        { indo: "Dia bisa memasak makanan Jepang.", english: "She can cook Japanese food.", pronunciation: "Shi ken kuk Ja-pa-nis fud.", grammarNote: "Alasan: memakai “Can” untuk kemampuan." },
+        { indo: "Kamu sedang merasa sedih?", english: "Are you feeling sad?", pronunciation: "Ar yu fi-ling sed?", grammarNote: "Alasan: memakai “Are feeling” untuk kondisi sekarang." },
+        { indo: "Aku dulu tinggal dekat pantai.", english: "I used to live near the beach.", pronunciation: "Ai yusd tu liv nir de bich.", grammarNote: "Alasan: memakai “Used to” untuk masa lalu." },
+        { indo: "Mereka harus datang tepat waktu.", english: "They have to arrive on time.", pronunciation: "Dei hev tu e-raiv on taim.", grammarNote: "Alasan: memakai “Have to” untuk kewajiban." },
+        { indo: "Kamu boleh memakai laptopku.", english: "You may use my laptop.", pronunciation: "Yu mei yus mai lap-top.", grammarNote: "Alasan: memakai “May” untuk izin." },
+        { indo: "Aku sedang belajar memasak sekarang.", english: "I am learning to cook now.", pronunciation: "Ai em ler-ning tu kuk nau.", grammarNote: "Alasan: memakai “Am” untuk aktivitas sekarang." },
+        { indo: "Dia telah bekerja di sini selama lima tahun.", english: "He has worked here for five years.", pronunciation: "Hi hez werkt hir for faiv yirs.", grammarNote: "Alasan: memakai “Has” untuk aksi berlanjut sampai sekarang." },
+        { indo: "Kamu harus lebih sabar menghadapi masalah.", english: "You should be more patient with problems.", pronunciation: "Yu shud bi mor pei-shent wit prob-lems.", grammarNote: "Alasan: memakai “Should” untuk nasihat." },
+        { indo: "Aku mungkin akan membeli motor baru.", english: "I might buy a new motorcycle.", pronunciation: "Ai mait bai e nyu mo-tor-sai-kel.", grammarNote: "Alasan: memakai “Might” untuk kemungkinan." },
+        { indo: "Mereka sedang dibicarakan banyak orang.", english: "They are being talked about by many people.", pronunciation: "Dei ar bi-ing tokt e-baut bai me-ni pi-pol.", grammarNote: "Alasan: memakai “Are being” untuk Passive Continuous." },
+        { indo: "Kamu berani tampil di depan banyak orang?", english: "Do you dare to perform in front of many people?", pronunciation: "Du yu der tu per-form in front ov me-ni pi-pol?", grammarNote: "Alasan: memakai “Dare” untuk keberanian." },
+        { indo: "Aku akan meneleponmu malam nanti.", english: "I will call you tonight.", pronunciation: "Ai wil kol yu tu-nait.", grammarNote: "Alasan: memakai “Will” untuk masa depan." },
+        { indo: "Dia dapat berbicara dengan sangat cepat.", english: "He is able to speak very fast.", pronunciation: "Hi is ei-bel tu spik ve-ri fast.", grammarNote: "Alasan: memakai “Be able to” untuk kemampuan." },
+        { indo: "Kamu perlu lebih percaya pada dirimu sendiri.", english: "You need to trust yourself more.", pronunciation: "Yu nid tu trast yor-self mor.", grammarNote: "Alasan: memakai “Need to” untuk kebutuhan." },
+        { indo: "Aku pernah melihat konser besar sebelumnya.", english: "I have seen a huge concert before.", pronunciation: "Ai hev sin e hyuj kon-sert bi-for.", grammarNote: "Alasan: memakai “Have” untuk pengalaman." },
+        { indo: "Mereka dulu sering bermain game bersama.", english: "They used to play games together.", pronunciation: "Dei yusd tu plei geims tu-ge-der.", grammarNote: "Alasan: memakai “Used to” untuk kebiasaan masa lalu." },
+        { indo: "Kamu sedang memikirkan sesuatu?", english: "Are you thinking about something?", pronunciation: "Ar yu thing-king e-baut sam-thing?", grammarNote: "Alasan: memakai “Are” untuk aktivitas mental yang sedang berlangsung." },
+        { indo: "Aku harus menyimpan rahasia ini.", english: "I must keep this secret.", pronunciation: "Ai mast kip dis si-kret.", grammarNote: "Alasan: memakai “Must” untuk kewajiban kuat." },
+        { indo: "Dia mungkin akan terlambat sedikit.", english: "She may be a little late.", pronunciation: "Shi mei bi e li-tel leit.", grammarNote: "Alasan: memakai “May” untuk kemungkinan." },
+        { indo: "Kamu diperbolehkan membawa makanan ke sini.", english: "You are allowed to bring food here.", pronunciation: "Yu ar e-lau-d tu bring fud hir.", grammarNote: "Alasan: memakai “Be allowed to” untuk izin." },
+        { indo: "Aku sedang menjadi lebih optimis sekarang.", english: "I am becoming more optimistic now.", pronunciation: "Ai em bi-kam-ing mor op-ti-mis-tik nau.", grammarNote: "Alasan: memakai “Am becoming” untuk perubahan diri." },
+        { indo: "Mereka telah menjadi keluarga bagiku.", english: "They have become like family to me.", pronunciation: "Dei hev bi-kam laik fa-mi-li tu mi.", grammarNote: "Alasan: memakai “Have become” untuk perubahan keadaan." },
+        { indo: "Kamu bisa meminjam bukuku kalau mau.", english: "You can borrow my book if you want.", pronunciation: "Yu ken bo-row mai buk if yu want.", grammarNote: "Alasan: memakai “Can” untuk izin." },
+        { indo: "Aku sedang dibantu kakakku sekarang.", english: "I am being helped by my older brother now.", pronunciation: "Ai em bi-ing helpt bai mai ol-der bra-der nau.", grammarNote: "Alasan: memakai “Am being” untuk Passive Continuous." },
+        { indo: "Dia melakukan yang terbaik kemarin.", english: "He did his best yesterday.", pronunciation: "Hi did hiz best yes-ter-dei.", grammarNote: "Alasan: memakai “Did” untuk masa lalu." },
+        { indo: "Kamu seharusnya menikmati hidup lebih banyak.", english: "You ought to enjoy life more.", pronunciation: "Yu ot tu en-joi laif mor.", grammarNote: "Alasan: memakai “Ought to” untuk nasihat." }
+    ];
+
+    // Audio functions
+    function speakText(text, lang) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+    const speakIndo = (txt) => speakText(txt, 'id-ID');
+    const speakEng = (txt) => speakText(txt, 'en-US');
+
+    // Render semua kartu grammar
+    const container = document.getElementById('conversationList');
+    function buildGrammarCards() {
+        container.innerHTML = '';
+        grammarData.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'card-item';
+            const uniqueId = `grammar-${idx}`;
+            const hiddenClass = 'translation-hidden';
+            
+            const safeIndo = escapeHtml(item.indo);
+            const safeEng = escapeHtml(item.english);
+            const safePron = escapeHtml(item.pronunciation);
+            const safeGrammar = escapeHtml(item.grammarNote);
+            
+            card.innerHTML = `
+                <div class="indonesian-text">
+                    <span>${safeIndo}</span>
+                    <div class="speaker-icon" data-indo="${safeIndo}">🔊</div>
+                </div>
+                <div class="english-section">
+                    <div class="translation-header">
+                        <div class="english-label">🇬🇧 ENGLISH + PRONUNCIATION + GRAMMAR</div>
+                        <button class="btn-translate" data-id="${uniqueId}">📖 Lihat Terjemahan</button>
+                    </div>
+                    <div class="translation-content" id="transContent-${uniqueId}">
+                        <div class="english-line ${hiddenClass}" id="engLine-${uniqueId}">
+                            <span>${safeEng}</span>
+                            <button class="speaker-eng" data-eng="${safeEng}">🔊</button>
+                        </div>
+                        <div class="pronunciation-line ${hiddenClass}" id="pronounceLine-${uniqueId}">
+                            📖 Cara baca: ${safePron}
+                        </div>
+                        <div class="grammar-reason ${hiddenClass}" id="grammarLine-${uniqueId}">
+                            📘 ${safeGrammar}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Event listeners untuk speaker Indonesia
+        document.querySelectorAll('.speaker-icon').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const text = btn.getAttribute('data-indo');
+                if (text) speakIndo(text);
+                e.stopPropagation();
+            });
+        });
+        
+        // Event listeners untuk speaker Inggris
+        document.querySelectorAll('.speaker-eng').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const engText = btn.getAttribute('data-eng');
+                if (engText) speakEng(engText);
+                e.stopPropagation();
+            });
+        });
+        
+        // Tombol toggle terjemahan
+        document.querySelectorAll('.btn-translate').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = btn.getAttribute('data-id');
+                const engLine = document.getElementById(`engLine-${id}`);
+                const pronounceLine = document.getElementById(`pronounceLine-${id}`);
+                const grammarLine = document.getElementById(`grammarLine-${id}`);
+                if (engLine && pronounceLine) {
+                    const isHidden = engLine.classList.contains('translation-hidden');
+                    if (isHidden) {
+                        engLine.classList.remove('translation-hidden');
+                        pronounceLine.classList.remove('translation-hidden');
+                        if(grammarLine) grammarLine.classList.remove('translation-hidden');
+                        btn.innerHTML = '🙈 Sembunyikan';
+                    } else {
+                        engLine.classList.add('translation-hidden');
+                        pronounceLine.classList.add('translation-hidden');
+                        if(grammarLine) grammarLine.classList.add('translation-hidden');
+                        btn.innerHTML = '📖 Lihat Terjemahan';
+                    }
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    buildGrammarCards();
+
+    // Tidak ada auto-play kalimat percakapan bawaan, hanya fokus ke grammar (tidak ada suara otomatis)
+    // Optional: bisa tambahkan sapaan lembut tapi tidak mengganggu, sesuai permintaan tidak ada bawaan
+</script>
+</body>
+</html>
