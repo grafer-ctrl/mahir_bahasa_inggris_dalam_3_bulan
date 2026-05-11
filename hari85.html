@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LinguaVoice - Pola Kalimat Inggris (Lengkap)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .app-wrapper {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 56px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .screen { padding: 20px 24px 30px; }
+        .hidden { display: none !important; }
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px 8px;
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo-small { font-weight: 800; font-size: 20px; background: linear-gradient(120deg, #2563eb, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .home-icon { background: #f1f5f9; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 30px; cursor: pointer; color: #1e293b; font-size: 20px; transition: 0.2s; }
+        .home-icon:active { transform: scale(0.94); background: #e2e8f0; }
+        .hero-icon { text-align: center; font-size: 64px; background: linear-gradient(135deg, #2563eb, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
+        .title-glow { font-size: 32px; font-weight: 800; background: linear-gradient(120deg, #1e293b, #2d3a5e); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
+        .sub { text-align: center; color: #5b6e8c; font-weight: 500; font-size: 14px; margin-top: 8px; margin-bottom: 30px; }
+        .pattern-badge { background: #dbeafe; color: #2563eb; padding: 4px 12px; border-radius: 40px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 12px; }
+        .card-setting { background: #f1f5f9e6; border-radius: 32px; padding: 20px 24px; margin-bottom: 28px; border: 1px solid rgba(255,255,255,0.7); }
+        .slider-group { margin-bottom: 20px; }
+        .slider-label { display: flex; justify-content: space-between; font-weight: 600; font-size: 13px; color: #1e2a44; margin-bottom: 8px; }
+        input[type="range"] { width: 100%; height: 5px; background: #cbd5e1; border-radius: 10px; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #2563eb; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        .btn-primary { background: linear-gradient(95deg, #2563eb, #1d4ed8); border: none; width: 100%; padding: 18px; border-radius: 60px; font-weight: 800; font-size: 18px; color: white; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.1s; }
+        .btn-primary:active { transform: scale(0.97); }
+        .top-bar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; margin-top: 8px; }
+        .badge-progress { background: #eef2ff; padding: 8px 16px; border-radius: 40px; font-size: 13px; font-weight: 700; color: #2563eb; }
+        .score-mock { background: #d1fae5; padding: 6px 16px; border-radius: 30px; font-size: 13px; color: #047857; display: flex; align-items: center; gap: 6px; }
+        .timer-container { background: #e2e8f0; border-radius: 20px; height: 8px; width: 100%; margin: 15px 0 20px; overflow: hidden; }
+        .timer-fill { background: linear-gradient(90deg, #10b981, #34d399); width: 100%; height: 100%; transition: width 0.2s linear; }
+        .card-question { background: #ffffff; border-radius: 44px; padding: 28px 20px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1); margin: 12px 0 15px; text-align: center; }
+        .lang-tag { display: inline-flex; align-items: center; gap: 8px; background: #eff6ff; padding: 6px 16px; border-radius: 40px; font-size: 12px; font-weight: 700; color: #1e40af; margin-bottom: 20px; }
+        .indonesia-text { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.35; margin: 15px 0; }
+        .answer-reveal { margin-top: 20px; padding-top: 18px; border-top: 2px dashed #e2e8f0; animation: fadeUp 0.4s ease; }
+        .eng-text { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #0f3b2c, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 8px 0 5px; }
+        .phonetic { font-family: monospace; background: #f1f5f9; display: inline-block; padding: 6px 14px; border-radius: 30px; font-size: 14px; color: #334155; margin-bottom: 8px; }
+        .reason-text { font-size: 12px; color: #0c4a6e; background: #e0f2fe; display: inline-block; padding: 6px 14px; border-radius: 30px; font-weight: 500; }
+        .nav-buttons { display: flex; gap: 12px; margin-top: 8px; }
+        .btn-action { background: #f1f5f9; border: none; flex: 1; padding: 16px; font-weight: 800; font-size: 16px; border-radius: 60px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.1s; color: #1e293b; }
+        .btn-prev { background: #eef2ff; color: #2563eb; }
+        .btn-next { background: linear-gradient(95deg, #059669, #10b981); color: white; }
+        .btn-action:active { transform: scale(0.97); }
+        .microphone-tip { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; margin-top: 18px; background: #f8fafc; padding: 8px 12px; border-radius: 60px; color: #475569; }
+        .modal-finish { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 24px; border-radius: 56px; z-index: 20; text-align: center; padding: 20px; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .restart-btn { background: #2563eb; padding: 14px 30px; border-radius: 60px; color: white; font-weight: bold; border: none; display: inline-flex; gap: 10px; cursor: pointer; transition: 0.1s; }
+        .restart-btn:active { transform: scale(0.96); }
+        footer { font-size: 10px; text-align: center; padding: 12px; color: #94a3b8; }
+    </style>
+</head>
+<body>
+<div class="app-wrapper" id="appRoot">
+    <div class="app-header">
+        <div class="logo-small"><i class="fas fa-comment-dots"></i> LinguaVoice</div>
+        <div class="home-icon" id="homeIconBtn"><i class="fas fa-home"></i></div>
+    </div>
+    <div id="homeScreen" class="screen">
+        <div class="hero-icon"><i class="fas fa-check-double"></i></div>
+        <div class="title-glow">Pola Kalimat Inggris</div>
+        <div class="sub">Modal • To Be • Do/Does/Did • Have/Has • Tenses</div>
+        <div style="text-align: center;"><span class="pattern-badge"><i class="fas fa-graduation-cap"></i> 100+ contoh dengan alasan jelas</span></div>
+        <div class="card-setting">
+            <div class="slider-group"><div class="slider-label"><span><i class="fas fa-tachometer-alt"></i> Kecepatan suara</span><span id="rateValue">1.0x</span></div><input type="range" id="rateSlider" min="0.6" max="1.4" step="0.05" value="1.0"></div>
+            <div class="slider-group"><div class="slider-label"><span><i class="fas fa-volume-up"></i> Volume</span><span id="volValue">100%</span></div><input type="range" id="volSlider" min="0" max="1" step="0.05" value="1"></div>
+        </div>
+        <button class="btn-primary" id="startBtn"><i class="fas fa-play"></i> Mulai Latihan</button>
+        <footer>🎧 Dengarkan kalimat Indonesia → ucapkan Inggris → pahami alasan</footer>
+    </div>
+    <div id="practiceScreen" class="screen hidden">
+        <div class="top-bar"><div class="badge-progress" id="progressCounter">1 / 100</div><div class="score-mock"><i class="far fa-clock"></i> <span id="timerLabel">1:00</span></div></div>
+        <div class="timer-container"><div id="timerFill" class="timer-fill"></div></div>
+        <div class="card-question">
+            <div class="lang-tag"><i class="fas fa-language"></i> BAHASA INDONESIA + ALASAN</div>
+            <div class="indonesia-text" id="soalText">Memuat...</div>
+            <div id="answerBox" style="display: none;">
+                <div class="answer-reveal">
+                    <div class="lang-tag" style="background:#e0f2fe; color:#0369a1;"><i class="fas fa-globe-americas"></i> ENGLISH</div>
+                    <div class="eng-text" id="engText">-</div>
+                    <div class="phonetic" id="phoneticText">/ ... /</div>
+                    <div class="reason-text" id="reasonText"></div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons"><button id="prevButton" class="btn-action btn-prev"><i class="fas fa-arrow-left"></i> Prev</button><button id="nextButton" class="btn-action btn-next"><i class="fas fa-arrow-right"></i> Next</button></div>
+        <button id="revealButton" class="btn-action" style="margin-top: 10px; background:#f8fafc;"><i class="fas fa-eye"></i> Lihat Jawaban & Alasan</button>
+        <div class="microphone-tip"><i class="fas fa-brain"></i> Tips: Perhatikan pola & alasan agar langsung paham kapan menggunakannya!</div>
+    </div>
+    <div id="finishModal" class="modal-finish hidden"><i class="fas fa-trophy"></i><h2 style="font-size: 28px;">Latihan Selesai!</h2><p>Kamu sudah belajar semua pola kalimat! 🎉</p><button class="restart-btn" id="restartBtnFinal"><i class="fas fa-redo-alt"></i> Latihan Lagi</button></div>
+</div>
+<script>
+    // ======================= DATA KALIMAT (100 item) =======================
+    const conversationData = [
+        ["Dia bisa bernyanyi dengan baik","She can sing well","/ʃiː kæn sɪŋ wɛl/","can untuk kemampuan"],
+        ["Saya sangat mengantuk","I am very sleepy","/aɪ æm ˈvɛri ˈsliːpi/","am untuk I (kondisi saat ini)"],
+        ["Kita sebaiknya belajar sekarang","We should study now","/wiː ʃʊd ˈstʌdi naʊ/","should untuk saran"],
+        ["Dia punya mobil biru","He has a blue car","/hiː hæz ə bluː kɑr/","has untuk he (kepemilikan)"],
+        ["Mereka berada di mall","They were at the mall","/ðeɪ wɜr æt ðə mɔl/","were untuk plural lampau"],
+        ["Saya akan membersihkan kamar","I will clean my room","/aɪ wɪl kliːn maɪ rum/","will untuk masa depan"],
+        ["Apakah kamu mengerti saya?","Do you understand me?","/duː juː ˌʌndərˈstænd miː/","do untuk pertanyaan"],
+        ["Dia sangat ramah","She is very friendly","/ʃiː ɪz ˈvɛri ˈfrɛndli/","is untuk she"],
+        ["Saya mungkin tidur cepat malam ini","I might sleep early tonight","/aɪ maɪt sliːp ˈɜːrli təˈnaɪt/","might untuk kemungkinan"],
+        ["Kami punya cukup makanan","We have enough food","/wiː hæv ɪˈnʌf fuːd/","have untuk we"],
+        ["Dia marah kemarin","He was angry yesterday","/hiː wʌz ˈæŋɡri ˈjɛstərdeɪ/","was untuk masa lalu singular"],
+        ["Saya butuh tas baru","I need a new bag","/aɪ niːd ə nuː bæɡ/","need untuk kebutuhan"],
+        ["Bisakah kamu menunggu di sini?","Could you wait here?","/kʊd juː weɪt hɪr/","could untuk permintaan sopan"],
+        ["Dia mengerjakan PR setiap hari","She does her homework daily","/ʃiː dʌz hɜr ˈhoʊmwɜrk ˈdeɪli/","does untuk she (rutinitas)"],
+        ["Kami siap pergi","We are ready to go","/wiː ɑr ˈrɛdi tuː ɡoʊ/","are untuk we"],
+        ["Saya minum kopi pagi ini","I had coffee this morning","/aɪ hæd ˈkɔfi ðɪs ˈmɔrnɪŋ/","had untuk masa lalu"],
+        ["Mereka mungkin mengunjungi kita besok","They may visit us tomorrow","/ðeɪ meɪ ˈvɪzɪt ʌs təˈmɔroʊ/","may untuk kemungkinan"],
+        ["Saya dulu naik sepeda","I used to ride a bike","/aɪ juːst tuː raɪd ə baɪk/","used to untuk kebiasaan lama"],
+        ["Dia sebaiknya makan sayur","He should eat vegetables","/hiː ʃʊd iːt ˈvɛdʒtəbəlz/","should untuk saran kesehatan"],
+        ["Saya tidak suka hujan","I do not like rain","/aɪ duː nɑːt laɪk reɪn/","do untuk kalimat negatif"],
+        ["Dia sibuk akhir-akhir ini","She has been busy lately","/ʃiː hæz bɪn ˈbɪzi ˈleɪtli/","present perfect (has been)"],
+        ["Kita harus pergi sekarang","We must leave now","/wiː mʌst liːv naʊ/","must untuk kewajiban"],
+        ["Saya bisa mengemudi mobil","I can drive a car","/aɪ kæn draɪv ə kɑr/","can untuk kemampuan"],
+        ["Dia tidak menjawab saya","He did not answer me","/hiː dɪd nɑːt ˈænsər miː/","did untuk negatif lampau"],
+        ["Mereka sedang menonton TV","They are watching TV","/ðeɪ ɑr ˈwɑtʃɪŋ tiː viː/","present continuous"],
+        ["Saya mau air dingin","I would like cold water","/aɪ wʊd laɪk koʊld ˈwɔːtər/","would untuk permintaan sopan"],
+        ["Dia sangat bahagia","She was very happy","/ʃiː wʌz ˈvɛri ˈhæpi/","was untuk masa lalu"],
+        ["Kita akan bertemu lagi","We shall meet again","/wiː ʃæl miːt əˈɡɛn/","shall untuk future formal"],
+        ["Saya berani berbicara bahasa Inggris","I dare to speak English","/aɪ dɛr tuː spiːk ˈɪŋɡlɪʃ/","dare untuk keberanian"],
+        ["Dia sedang kasar","He is being rude","/hiː ɪz ˈbiːɪŋ ruːd/","being untuk perilaku sementara"],
+        ["Saya punya banyak buku","I have many books","/aɪ hæv ˈmɛni bʊks/","have untuk kepemilikan"],
+        ["Mereka bisa mendengar suara itu","They could hear the noise","/ðeɪ kʊd hɪr ðə nɔɪz/","could untuk kemampuan lampau"],
+        ["Dia seharusnya meminta maaf","She ought to apologize","/ʃiː ɔːt tuː əˈpɑlədʒaɪz/","ought to untuk saran kuat"],
+        ["Saya berada di dapur","I was in the kitchen","/aɪ wʌz ɪn ðə ˈkɪtʃən/","was untuk lokasi masa lalu"],
+        ["Kami olahraga bersama","We do exercise together","/wiː duː ˈɛksərsaɪz təˈɡɛðər/","do untuk aktivitas rutin"],
+        ["Dia mungkin lelah","He may be tired","/hiː meɪ biː taɪərd/","may untuk kemungkinan"],
+        ["Saya perlu menelepon ibu saya","I need to call my mother","/aɪ niːd tuː kɔːl maɪ ˈmʌðər/","need + to infinitive"],
+        ["Dia akan segera tiba","She will arrive soon","/ʃiː wɪl əˈraɪv suːn/","will untuk masa depan"],
+        ["Mereka sudah selesai makan","They have finished eating","/ðeɪ hæv ˈfɪnɪʃt ˈiːtɪŋ/","present perfect"],
+        ["Saya sedang belajar bahasa Inggris","I am learning English now","/aɪ æm ˈlɜrnɪŋ ˈɪŋɡlɪʃ naʊ/","present continuous"],
+        ["Dia dulu bermain gitar","He used to play guitar","/hiː juːst tuː pleɪ ɡɪˈtɑr/","used to kebiasaan lampau"],
+        ["Kita sebaiknya hati-hati","We should be careful","/wiː ʃʊd biː ˈkɛrfəl/","should untuk saran"],
+        ["Saya mencuci baju kemarin","I did my laundry yesterday","/aɪ dɪd maɪ ˈlɔndri ˈjɛstərdeɪ/","did untuk aksi lampau"],
+        ["Dia bisa memasak makanan enak","She can cook delicious food","/ʃiː kæn kʊk dɪˈlɪʃəs fuːd/","can untuk kemampuan"],
+        ["Mereka sangat berisik","They were very noisy","/ðeɪ wɜr ˈvɛri ˈnɔɪzi/","were untuk plural lampau"],
+        ["Saya harus menabung","I must save money","/aɪ mʌst seɪv ˈmʌni/","must untuk kewajiban"],
+        ["Dia punya rambut pendek","He has short hair","/hiː hæz ʃɔrt hɛr/","has untuk singular"],
+        ["Kami mungkin pergi nanti","We might go later","/wiː maɪt ɡoʊ ˈleɪtər/","might untuk kemungkinan"],
+        ["Saya akan membantu kamu kapan saja","I would help you anytime","/aɪ wʊd hɛlp juː ˈɛnitaɪm/","would untuk niat"],
+        ["Dia tidak minum kopi","She does not drink coffee","/ʃiː dʌz nɑːt drɪŋk ˈkɔfi/","does untuk negatif singular"],
+        ["Saya sangat lapar hari ini","I am very hungry today","/aɪ æm ˈvɛri ˈhʌŋɡri təˈdeɪ/","am untuk kondisi sekarang"],
+        ["Mereka akan mengikuti kita","They shall follow us","/ðeɪ ʃæl ˈfɑloʊ ʌs/","shall untuk future formal"],
+        ["Dia dulu bisa lari sangat cepat","He could run very fast","/hiː kʊd rʌn ˈvɛri fæst/","could kemampuan lampau"],
+        ["Saya pernah ke sana sebelumnya","I have been there before","/aɪ hæv bɪn ðɛr bɪˈfɔr/","present perfect pengalaman"],
+        ["Kami butuh lebih banyak kursi","We need more chairs","/wiː niːd mɔr tʃɛrz/","need untuk kebutuhan"],
+        ["Dia di sekolah sekarang","She is at school now","/ʃiː ɪz æt skuːl naʊ/","is untuk lokasi"],
+        ["Saya mengerjakan pekerjaan dengan hati-hati","I do my job carefully","/aɪ duː maɪ dʒɑb ˈkɛrfəli/","do untuk rutinitas"],
+        ["Mereka mungkin tahu jawabannya","They may know the answer","/ðeɪ meɪ noʊ ði ˈænsər/","may untuk kemungkinan"],
+        ["Dia guru saya","He was my teacher","/hiː wʌz maɪ ˈtiːtʃər/","was untuk masa lalu"],
+        ["Saya akan mengunjungi nenek saya","I will visit my grandma","/aɪ wɪl ˈvɪzɪt maɪ ˈɡrænmɑ/","will untuk future"],
+        ["Kami sedang bermain di luar","We are playing outside","/wiː ɑr ˈpleɪɪŋ aʊtˈsaɪd/","present continuous"],
+        ["Dia punya kucing lucu","She had a cute cat","/ʃiː hæd ə kjuːt kæt/","had untuk masa lalu"],
+        ["Saya sebaiknya minum soda lebih sedikit","I should drink less soda","/aɪ ʃʊd drɪŋk lɛs ˈsoʊdə/","should untuk saran"],
+        ["Dia bisa memperbaiki komputer","He can fix the computer","/hiː kæn fɪks ðə kəmˈpjuːtər/","can untuk kemampuan"],
+        ["Mereka tidak datang hari ini","They did not come today","/ðeɪ dɪd nɑːt kʌm təˈdeɪ/","did untuk negatif lampau"],
+        ["Saya mungkin membeli sepatu baru","I might buy new shoes","/aɪ maɪt baɪ nuː ʃuːz/","might untuk kemungkinan"],
+        ["Dia sedang sangat baik","She is being very kind","/ʃiː ɪz ˈbiːɪŋ ˈvɛri kaɪnd/","being untuk perilaku sementara"],
+        ["Kita seharusnya menghormati orang tua","We ought to respect parents","/wiː ɔːt tuː rɪˈspɛkt ˈpɛrənts/","ought to untuk moral"],
+        ["Saya butuh udara segar","I need some fresh air","/aɪ niːd sʌm frɛʃ ɛr/","need untuk kebutuhan"],
+        ["Dia sakit akhir-akhir ini","He has been sick recently","/hiː hæz bɪn sɪk ˈriːsəntli/","present perfect (has been)"],
+        ["Mereka dulu berteman","They were friends before","/ðeɪ wɜr frɛndz bɪˈfɔr/","were untuk kondisi masa lalu"],
+        ["Saya berani bertanya","I dare to ask questions","/aɪ dɛr tuː æsk ˈkwɛstʃənz/","dare untuk keberanian"],
+        ["Dia akan belajar di luar negeri","She will study abroad","/ʃiː wɪl ˈstʌdi əˈbrɔd/","will untuk future"],
+        ["Kami tidak punya cukup waktu","We do not have enough time","/wiː duː nɑːt hæv ɪˈnʌf taɪm/","do untuk negatif present"],
+        ["Saya bisa memahami dia dengan jelas","I could understand him clearly","/aɪ kʊd ˌʌndərˈstænd hɪm ˈklɪrli/","could kemampuan lampau"],
+        ["Dia sebaiknya membersihkan kamarnya","He should clean his room","/hiː ʃʊd kliːn hɪz rum/","should untuk saran"],
+        ["Saya di ruang tamu","I am in the living room","/aɪ æm ɪn ðə ˈlɪvɪŋ rum/","am untuk lokasi"],
+        ["Mereka mungkin tiba malam ini","They may arrive tonight","/ðeɪ meɪ əˈraɪv təˈnaɪt/","may untuk kemungkinan"],
+        ["Dia dulu pemalu","She used to be shy","/ʃiː juːst tuː biː ʃaɪ/","used to untuk keadaan masa lalu"],
+        ["Kita harus menjaga alam","We must protect nature","/wiː mʌst prəˈtɛkt ˈneɪtʃər/","must untuk kewajiban"],
+        ["Saya punya banyak ide","I have a lot of ideas","/aɪ hæv ə lɑt əv aɪˈdiːəz/","have untuk kepemilikan"],
+        ["Dia sangat sibuk kemarin","He was very busy yesterday","/hiː wʌz ˈvɛri ˈbɪzi ˈjɛstərdeɪ/","was untuk past tense"],
+        ["Dia bisa berbicara bahasa Jepang","She can speak Japanese","/ʃiː kæn spiːk ˌdʒæpəˈniːz/","can untuk kemampuan"],
+        ["Saya akan menunggu kamu","I would wait for you","/aɪ wʊd weɪt fɔr juː/","would untuk niat/pengandaian"],
+        ["Mereka adalah tetangga saya","They are my neighbors","/ðeɪ ɑr maɪ ˈneɪbərz/","are untuk plural"],
+        ["Kami bersenang-senang","We had a great time","/wiː hæd ə ɡreɪt taɪm/","had untuk lampau"],
+        ["Saya sebaiknya bangun lebih pagi","I should wake up earlier","/aɪ ʃʊd weɪk ʌp ˈɜːrliər/","should untuk saran"],
+        ["Dia melakukan semuanya sendiri","He does everything alone","/hiː dʌz ˈɛvriθɪŋ əˈloʊn/","does untuk he"],
+        ["Dia mungkin lupa nama saya","She might forget my name","/ʃiː maɪt fərˈɡɛt maɪ neɪm/","might untuk kemungkinan"],
+        ["Saya perlu membeli belanjaan","I need to buy groceries","/aɪ niːd tuː baɪ ˈɡroʊsəriz/","need + to infinitive"],
+        ["Kami sangat bersemangat","We were very excited","/wiː wɜr ˈvɛri ɪkˈsaɪtɪd/","were untuk plural past"],
+        ["Dia akan bergabung nanti","He will join us later","/hiː wɪl dʒɔɪn ʌs ˈleɪtər/","will untuk future"],
+        ["Saya sudah bangun sejak pagi","I have been awake since morning","/aɪ hæv bɪn əˈweɪk sɪns ˈmɔrnɪŋ/","present perfect (have been)"],
+        ["Mereka bisa menyelesaikan masalah","They can solve the problem","/ðeɪ kæn sɑlv ðə ˈprɑbləm/","can untuk kemampuan"],
+        ["Dia akan memimpin tim","She shall lead the team","/ʃiː ʃæl liːd ðə tiːm/","shall untuk future formal"],
+        ["Saya tidak melihat apa pun","I did not see anything","/aɪ dɪd nɑːt siː ˈɛniθɪŋ/","did untuk negatif past"],
+        ["Kami sedang makan malam","We are having dinner now","/wiː ɑr ˈhævɪŋ ˈdɪnər naʊ/","present continuous"],
+        ["Dia seharusnya mengatakan kebenaran","He ought to tell the truth","/hiː ɔːt tuː tɛl ðə truːθ/","ought to untuk moral advice"],
+        ["Saya mungkin tinggal di rumah hari ini","I may stay at home today","/aɪ meɪ steɪ æt hoʊm təˈdeɪ/","may untuk kemungkinan"],
+        ["Dia membutuhkan lebih banyak latihan","She needs more practice","/ʃiː niːdz mɔr ˈpræktɪs/","needs untuk singular (need+s)"]
+    ];
+
+    // DOM Elements
+    const homeScreen = document.getElementById('homeScreen'), practiceScreen = document.getElementById('practiceScreen'), startBtn = document.getElementById('startBtn');
+    const finishModal = document.getElementById('finishModal'), restartFinal = document.getElementById('restartBtnFinal');
+    const nextButton = document.getElementById('nextButton'), prevButton = document.getElementById('prevButton'), revealButton = document.getElementById('revealButton');
+    const homeIcon = document.getElementById('homeIconBtn'), answerBox = document.getElementById('answerBox'), soalText = document.getElementById('soalText');
+    const engTextSpan = document.getElementById('engText'), phoneticSpan = document.getElementById('phoneticText'), reasonSpan = document.getElementById('reasonText');
+    const progressCounter = document.getElementById('progressCounter'), timerFill = document.getElementById('timerFill'), timerLabelSpan = document.getElementById('timerLabel');
+    const rateSlider = document.getElementById('rateSlider'), volSlider = document.getElementById('volSlider'), rateValueSpan = document.getElementById('rateValue'), volValueSpan = document.getElementById('volValue');
+
+    let currentIndex = 0, timerInterval = null, timeLeft = 60, isAnswerRevealed = false;
+
+    function cancelSpeech() { if (window.speechSynthesis) window.speechSynthesis.cancel(); }
+    function speakText(text, langCode) {
+        cancelSpeech();
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langCode;
+        utterance.rate = parseFloat(rateSlider.value);
+        utterance.volume = parseFloat(volSlider.value);
+        let voices = window.speechSynthesis.getVoices();
+        if (langCode === 'id-ID') { const v = voices.find(v => v.lang.includes('id')); if(v) utterance.voice = v; }
+        else { const v = voices.find(v => v.lang.includes('en-US')); if(v) utterance.voice = v; }
+        window.speechSynthesis.speak(utterance);
+    }
+    function updateSliders() { rateValueSpan.innerText = parseFloat(rateSlider.value).toFixed(2)+"x"; volValueSpan.innerText = Math.round(volSlider.value*100)+"%"; }
+    rateSlider.addEventListener('input', updateSliders); volSlider.addEventListener('input', updateSliders); updateSliders();
+    function stopTimer() { if(timerInterval) clearInterval(timerInterval); timerInterval = null; }
+    function startTimer() { stopTimer(); timerInterval = setInterval(() => { if(timeLeft <= 1) { timeLeft=0; updateTimerUI(); stopTimer(); } else { timeLeft--; updateTimerUI(); } }, 1000); }
+    function updateTimerUI() { let sec = Math.max(0,timeLeft); let mins = Math.floor(sec/60); let secs = sec%60; timerLabelSpan.innerText = `${mins}:${secs<10?'0':''}${secs}`; timerFill.style.width = `${(sec/60)*100}%`; }
+    function revealAnswer() { if(isAnswerRevealed) return; isAnswerRevealed=true; answerBox.style.display="block"; let item=conversationData[currentIndex]; engTextSpan.innerText=item[1]; phoneticSpan.innerText=item[2]; reasonSpan.innerText="📌 " + item[3]; stopTimer(); speakText(item[1],'en-US'); }
+    function loadQuestion() { isAnswerRevealed=false; stopTimer(); answerBox.style.display="none"; let item=conversationData[currentIndex]; soalText.innerText=item[0]; engTextSpan.innerText=item[1]; phoneticSpan.innerText=item[2]; reasonSpan.innerText="📌 " + item[3]; progressCounter.innerText=`${currentIndex+1} / ${conversationData.length}`; timeLeft=60; updateTimerUI(); startTimer(); setTimeout(()=>speakText(item[0],'id-ID'),150); }
+    function goNext() { if(currentIndex+1 < conversationData.length) { currentIndex++; loadQuestion(); } else { finishLatihan(); } }
+    function goPrev() { if(currentIndex > 0) { currentIndex--; loadQuestion(); } }
+    function finishLatihan() { stopTimer(); cancelSpeech(); practiceScreen.classList.add('hidden'); finishModal.classList.remove('hidden'); }
+    function resetAndGoHome() { stopTimer(); cancelSpeech(); currentIndex=0; isAnswerRevealed=false; finishModal.classList.add('hidden'); practiceScreen.classList.add('hidden'); homeScreen.classList.remove('hidden'); }
+    function startPractice() { homeScreen.classList.add('hidden'); practiceScreen.classList.remove('hidden'); finishModal.classList.add('hidden'); currentIndex=0; isAnswerRevealed=false; loadQuestion(); }
+
+    startBtn.addEventListener('click', startPractice); nextButton.addEventListener('click', goNext); prevButton.addEventListener('click', goPrev);
+    revealButton.addEventListener('click', ()=>{ if(!isAnswerRevealed) revealAnswer(); }); homeIcon.addEventListener('click', resetAndGoHome);
+    restartFinal.addEventListener('click', ()=>{ resetAndGoHome(); startPractice(); });
+    if(typeof window.speechSynthesis !== 'undefined') { window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = ()=> window.speechSynthesis.getVoices(); }
+</script>
+</body>
+</html>
