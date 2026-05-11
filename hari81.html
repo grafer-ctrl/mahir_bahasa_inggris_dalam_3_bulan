@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>English Practice | Ngobrol Santai di Rumah - Tema Biru</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #b8d4ff 0%, #8cb3f0 100%);
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .practice-card {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0, 35, 70, 0.35), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .hero-section {
+            background: #0a2b4e;
+            padding: 1.8rem 2rem;
+            color: white;
+            border-bottom: 4px solid #3b82f6;
+        }
+
+        .hero-section h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-section h1 span {
+            background: #3b82f6;
+            font-size: 1rem;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .tutor-badge {
+            background: #1e4a76;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+        }
+
+        .conversation-list {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .conversation-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .conversation-list::-webkit-scrollbar-track {
+            background: #e2edff;
+            border-radius: 10px;
+        }
+        .conversation-list::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+
+        .card-item {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1rem 1.3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: 0.2s;
+            border: 1px solid #dceaff;
+        }
+
+        .card-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.15);
+            border-color: #90caf9;
+        }
+
+        .indonesian-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0c4a6e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .speaker-icon {
+            background: #eef6ff;
+            width: 34px;
+            height: 34px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e40af;
+            font-size: 1.1rem;
+        }
+
+        .speaker-icon:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .english-section {
+            background: #f0f7ff;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            margin-top: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .translation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .english-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .btn-translate {
+            background: none;
+            border: 1.5px solid #bfdbfe;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: #1e3a8a;
+            transition: 0.2s;
+        }
+
+        .btn-translate:hover {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .translation-content {
+            margin-top: 6px;
+        }
+
+        .english-line {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #065f46;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pronunciation-line {
+            font-size: 0.85rem;
+            color: #7c5c2c;
+            background: #fff8e7;
+            padding: 5px 10px;
+            border-radius: 24px;
+            margin-top: 6px;
+            font-family: monospace;
+            letter-spacing: 0.3px;
+            border-left: 3px solid #fbbf24;
+        }
+
+        .speaker-eng {
+            background: #e6f0ff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            color: #1e40af;
+        }
+
+        .speaker-eng:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .translation-hidden {
+            display: none;
+        }
+
+        .extra-simple {
+            background: #eef2ff;
+            margin: 0 1.8rem 1.8rem 1.8rem;
+            border-radius: 36px;
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #1e3a8a;
+        }
+
+        .extra-simple span {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        footer {
+            background: #eef2ff;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.7rem;
+            color: #1e40af;
+            border-top: 1px solid #bfdbfe;
+        }
+
+        @media (max-width: 640px) {
+            .conversation-list {
+                padding: 1rem;
+            }
+            .indonesian-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="practice-card">
+    <div class="hero-section">
+        <h1>🏠 English Practice <span>Ngobrol Santai di Rumah</span></h1>
+        <div class="tutor-badge">👩‍🏫 Tutor Sarah • Tema Biru • "Hai, kamu sedang di rumah sekarang?"</div>
+        <p>🔊 Klik ikon suara untuk audio • 📖 Klik "Lihat Terjemahan" untuk Inggris + cara baca</p>
+    </div>
+
+    <div class="conversation-list" id="conversationList"></div>
+
+    <div class="extra-simple">
+        🔊 <span>Klik ikon suara untuk mendengar pengucapan dalam Bahasa Inggris & Indonesia</span> • Percakapan tentang kegiatan di rumah
+    </div>
+    <footer>
+        🌟 Auto-play sapaan "Hai, kamu sedang di rumah sekarang?" (Indonesia) saat halaman dimuat • 100+ kalimat santai
+    </footer>
+</div>
+
+<script>
+    // ========== PERCAKAPAN TENTANG DI RUMAH (teks persis dari permintaan) ==========
+    const conversationData = [
+        { indo: "Hai, kamu sedang di rumah sekarang?", english: "Hi, are you at home now?", pronunciation: "Hai, ar yu et hom nau?" },
+        { indo: "Ya, aku sedang santai di kamar.", english: "Yes, I am relaxing in my room.", pronunciation: "Yes, ai em ri-lak-sing in mai rum." },
+        { indo: "Kamu biasanya melakukan apa di rumah?", english: "What do you usually do at home?", pronunciation: "Wot du yu yu-zua-li du et hom?" },
+        { indo: "Aku sering menonton video di YouTube.", english: "I often watch videos on YouTube.", pronunciation: "Ai of-ten woch vi-di-os on Yu-Tub." },
+        { indo: "Aku juga suka menonton YouTube saat bosan.", english: "I also like watching YouTube when I am bored.", pronunciation: "Ai ol-so laik wo-ching Yu-Tub wen ai em bord." },
+        { indo: "Kamu suka video lucu atau vlog?", english: "Do you like funny videos or vlogs?", pronunciation: "Du yu laik fa-ni vi-di-os or vlogs?" },
+        { indo: "Aku lebih suka video lucu.", english: "I prefer funny videos.", pronunciation: "Ai pri-fer fa-ni vi-di-os." },
+        { indo: "Kadang video lucu bikin lupa waktu.", english: "Funny videos sometimes make me lose track of time.", pronunciation: "Fa-ni vi-di-os som-taims meik mi luz trek ov taim." },
+        { indo: "Kamu suka rebahan sambil main HP?", english: "Do you like lying down while using your phone?", pronunciation: "Du yu laik lai-ing daun wail yu-zing yor fon?" },
+        { indo: "Ya, itu kegiatan favoritku di rumah.", english: "Yes, that is my favorite activity at home.", pronunciation: "Yes, det is mai fei-vrit ak-ti-vi-ti et hom." },
+        { indo: "Aku juga sering begitu saat malam.", english: "I also do that at night.", pronunciation: "Ai ol-so du det et nait." },
+        { indo: "Rumah terasa lebih tenang malam hari.", english: "The house feels calmer at night.", pronunciation: "De haus fils ka-mer et nait." },
+        { indo: "Kamu suka mendengarkan musik di rumah?", english: "Do you like listening to music at home?", pronunciation: "Du yu laik li-sen-ing tu myu-zik et hom?" },
+        { indo: "Ya, terutama saat sedang sendiri.", english: "Yes, especially when I am alone.", pronunciation: "Yes, es-pe-sha-li wen ai em e-lon." },
+        { indo: "Musik membuat suasana lebih nyaman.", english: "Music makes the atmosphere more comfortable.", pronunciation: "Myu-zik meiks di at-mos-fir mor kamf-ter-bel." },
+        { indo: "Aku suka lagu santai saat sore hari.", english: "I like relaxing songs in the afternoon.", pronunciation: "Ai laik ri-lak-sing songs in di af-ter-nun." },
+        { indo: "Kamu suka membantu pekerjaan rumah?", english: "Do you like helping with house chores?", pronunciation: "Du yu laik help-ing wit haus chores?" },
+        { indo: "Kadang aku membantu menyapu rumah.", english: "Sometimes I help sweep the house.", pronunciation: "Som-taims ai help swip de haus." },
+        { indo: "Aku biasanya membantu mencuci piring.", english: "I usually help wash the dishes.", pronunciation: "Ai yu-zua-li help wosh de di-shes." },
+        { indo: "Itu membuat rumah lebih bersih.", english: "That makes the house cleaner.", pronunciation: "Det meiks de haus kli-ner." },
+        { indo: "Kamu suka memasak di rumah?", english: "Do you like cooking at home?", pronunciation: "Du yu laik kuk-ing et hom?" },
+        { indo: "Sedikit, tapi aku masih belajar.", english: "A little, but I am still learning.", pronunciation: "E li-tel, bat ai em stil ler-ning." },
+        { indo: "Aku suka memasak mie malam-malam.", english: "I like cooking noodles late at night.", pronunciation: "Ai laik kuk-ing nu-dels leit et nait." },
+        { indo: "Makanan hangat terasa enak saat malam.", english: "Warm food tastes good at night.", pronunciation: "Worm fud teists gud et nait." },
+        { indo: "Kamu sering membersihkan kamar?", english: "Do you clean your room often?", pronunciation: "Du yu klin yor rum of-ten?" },
+        { indo: "Kadang kalau kamarnya terlalu berantakan.", english: "Sometimes when the room is too messy.", pronunciation: "Som-taims wen de rum is tu me-si." },
+        { indo: "Aku malas membersihkan kalau sedang lelah.", english: "I feel lazy to clean when I am tired.", pronunciation: "Ai fil lei-zi tu klin wen ai em tai-red." },
+        { indo: "Tapi kamar rapi membuat nyaman.", english: "But a clean room feels comfortable.", pronunciation: "Bat e klin rum fils kamf-ter-bel." },
+        { indo: "Kamu suka tidur siang di rumah?", english: "Do you like taking naps at home?", pronunciation: "Du yu laik tei-king neps et hom?" },
+        { indo: "Ya, terutama saat cuaca hujan.", english: "Yes, especially during rainy weather.", pronunciation: "Yes, es-pe-sha-li dyur-ing rei-ni we-der." },
+        { indo: "Tidur siang saat hujan terasa nikmat.", english: "Taking naps during rain feels amazing.", pronunciation: "Tei-king neps dyur-ing rein fils e-mei-zing." },
+        { indo: "Aku juga cepat mengantuk saat hujan.", english: "I also get sleepy when it rains.", pronunciation: "Ai ol-so get sli-pi wen it reins." },
+        { indo: "Kamu suka ngemil sambil menonton film?", english: "Do you like snacking while watching movies?", pronunciation: "Du yu laik snak-ing wail wo-ching mu-viz?" },
+        { indo: "Ya, itu sangat menyenangkan.", english: "Yes, it is very enjoyable.", pronunciation: "Yes, it is ve-ri en-joi-a-bel." },
+        { indo: "Aku suka popcorn dan minuman dingin.", english: "I like popcorn and cold drinks.", pronunciation: "Ai laik pop-korn end kold drinks." },
+        { indo: "Itu terasa seperti di bioskop kecil.", english: "It feels like a mini cinema.", pronunciation: "It fils laik e mi-ni si-ne-ma." },
+        { indo: "Kamu suka bermain game di rumah?", english: "Do you like playing games at home?", pronunciation: "Du yu laik plei-ing geims et hom?" },
+        { indo: "Ya, terutama game santai.", english: "Yes, especially relaxing games.", pronunciation: "Yes, es-pe-sha-li ri-lak-sing geims." },
+        { indo: "Aku suka game yang tidak terlalu serius.", english: "I like games that are not too serious.", pronunciation: "Ai laik geims det ar not tu si-ri-es." },
+        { indo: "Game santai cocok untuk menghilangkan stres.", english: "Relaxing games help reduce stress.", pronunciation: "Ri-lak-sing geims help ri-dyus stres." },
+        { indo: "Kamu suka duduk dekat jendela?", english: "Do you like sitting near the window?", pronunciation: "Du yu laik sit-ing nir de win-dow?" },
+        { indo: "Ya, apalagi saat sore hari.", english: "Yes, especially in the afternoon.", pronunciation: "Yes, es-pe-sha-li in di af-ter-nun." },
+        { indo: "Aku suka melihat langit dari jendela.", english: "I like looking at the sky from the window.", pronunciation: "Ai laik lu-king et de skai from de win-dow." },
+        { indo: "Itu membuat pikiran lebih tenang.", english: "It makes my mind calmer.", pronunciation: "It meiks mai maind ka-mer." },
+        { indo: "Kamu sering memakai headphone di rumah?", english: "Do you often use headphones at home?", pronunciation: "Du yu of-ten yus hed-fons et hom?" },
+        { indo: "Ya, supaya tidak mengganggu orang lain.", english: "Yes, so I do not disturb others.", pronunciation: "Yes, so ai du not dis-terb o-ders." },
+        { indo: "Aku suka mendengar musik dengan volume kecil.", english: "I like listening to music at low volume.", pronunciation: "Ai laik li-sen-ing tu myu-zik et lo vo-lyum." },
+        { indo: "Musik pelan terasa lebih nyaman.", english: "Soft music feels more relaxing.", pronunciation: "Soft myu-zik fils mor ri-lak-sing." },
+        { indo: "Kamu suka minum teh hangat di rumah?", english: "Do you like drinking warm tea at home?", pronunciation: "Du yu laik dringk-ing worm ti et hom?" },
+        { indo: "Ya, terutama saat malam dingin.", english: "Yes, especially on cold nights.", pronunciation: "Yes, es-pe-sha-li on kold naits." },
+        { indo: "Aku suka duduk sambil minum teh.", english: "I like sitting while drinking tea.", pronunciation: "Ai laik sit-ing wail dringk-ing ti." },
+        { indo: "Itu membuat suasana damai.", english: "It creates a peaceful atmosphere.", pronunciation: "It kri-eits e pis-ful at-mos-fir." },
+        { indo: "Kamu suka memakai pakaian santai di rumah?", english: "Do you like wearing comfortable clothes at home?", pronunciation: "Du yu laik we-ring kamf-ter-bel klo-dhes et hom?" },
+        { indo: "Ya, aku suka pakaian longgar.", english: "Yes, I like loose clothes.", pronunciation: "Yes, ai laik lus klo-dhes." },
+        { indo: "Aku tidak suka pakaian terlalu ketat di rumah.", english: "I do not like tight clothes at home.", pronunciation: "Ai du not laik tait klo-dhes et hom." },
+        { indo: "Yang penting nyaman dipakai.", english: "Comfort is the most important thing.", pronunciation: "Kam-fort is de most im-por-tent thing." },
+        { indo: "Kamu suka menata meja belajar?", english: "Do you like organizing your study desk?", pronunciation: "Du yu laik or-ga-naiz-ing yor sta-di desk?" },
+        { indo: "Kadang kalau sedang mood rajin.", english: "Sometimes when I feel productive.", pronunciation: "Som-taims wen ai fil pro-dak-tiv." },
+        { indo: "Aku suka meja yang bersih dan rapi.", english: "I like clean and tidy desks.", pronunciation: "Ai laik klin end tai-di desks." },
+        { indo: "Meja rapi membuat semangat belajar.", english: "A tidy desk improves study motivation.", pronunciation: "E tai-di desk im-pruvs sta-di mo-ti-vei-shen." },
+        { indo: "Kamu suka membuka jendela pagi hari?", english: "Do you like opening windows in the morning?", pronunciation: "Du yu laik o-pen-ing win-dows in de mor-ning?" },
+        { indo: "Ya, udara pagi terasa segar.", english: "Yes, morning air feels fresh.", pronunciation: "Yes, mor-ning er fils fresh." },
+        { indo: "Aku suka sinar matahari masuk ke kamar.", english: "I like sunlight entering my room.", pronunciation: "Ai laik san-lait en-ter-ing mai rum." },
+        { indo: "Itu membuat kamar terasa hidup.", english: "It makes the room feel lively.", pronunciation: "It meiks de rum fil laiv-li." },
+        { indo: "Kamu sering makan di kamar?", english: "Do you often eat in your room?", pronunciation: "Du yu of-ten it in yor rum?" },
+        { indo: "Kadang kalau sedang malas keluar.", english: "Sometimes when I feel too lazy to go out.", pronunciation: "Som-taims wen ai fil tu lei-zi tu go aut." },
+        { indo: "Aku suka ngemil sambil rebahan.", english: "I like snacking while lying down.", pronunciation: "Ai laik snak-ing wail lai-ing daun." },
+        { indo: "Tapi kadang bikin kamar berantakan.", english: "But sometimes it makes the room messy.", pronunciation: "Bat som-taims it meiks de rum me-si." },
+        { indo: "Kamu suka menonton TV bersama keluarga?", english: "Do you like watching TV with your family?", pronunciation: "Du yu laik wo-ching TV wit yor fa-mi-li?" },
+        { indo: "Ya, terutama saat malam minggu.", english: "Yes, especially on Saturday nights.", pronunciation: "Yes, es-pe-sha-li on Sa-ter-dei naits." },
+        { indo: "Aku suka suasana kumpul keluarga di rumah.", english: "I like family time at home.", pronunciation: "Ai laik fa-mi-li taim et hom." },
+        { indo: "Rumah terasa hangat saat bersama keluarga.", english: "Home feels warm with family around.", pronunciation: "Hom fils worm wit fa-mi-li e-raund." },
+        { indo: "Kamu suka rebahan sambil melihat langit-langit?", english: "Do you like lying down while staring at the ceiling?", pronunciation: "Du yu laik lai-ing daun wail ste-ring et de si-ling?" },
+        { indo: "Kadang aku melamun seperti itu.", english: "Sometimes I daydream like that.", pronunciation: "Som-taims ai dei-drim laik det." },
+        { indo: "Aku juga suka berpikir sebelum tidur.", english: "I also like thinking before sleeping.", pronunciation: "Ai ol-so laik thing-king bi-for sli-ping." },
+        { indo: "Malam membuat pikiran lebih aktif.", english: "Night makes the mind more active.", pronunciation: "Nait meiks de maind mor ak-tiv." },
+        { indo: "Kamu suka memakai selimut tebal?", english: "Do you like using thick blankets?", pronunciation: "Du yu laik yu-zing thik blen-kets?" },
+        { indo: "Ya, terutama saat cuaca dingin.", english: "Yes, especially during cold weather.", pronunciation: "Yes, es-pe-sha-li dyur-ing kold we-der." },
+        { indo: "Aku suka tidur dalam suasana dingin.", english: "I like sleeping in cold weather.", pronunciation: "Ai laik sli-ping in kold we-der." },
+        { indo: "Itu membuat tidur lebih nyenyak.", english: "It makes sleep more comfortable.", pronunciation: "It meiks slip mor kamf-ter-bel." },
+        { indo: "Kamu suka bermain dengan hewan peliharaan di rumah?", english: "Do you like playing with pets at home?", pronunciation: "Du yu laik plei-ing wit pets et hom?" },
+        { indo: "Ya, hewan lucu membuat hati senang.", english: "Yes, cute animals make me happy.", pronunciation: "Yes, kyut a-ni-mals meik mi he-pi." },
+        { indo: "Aku suka kucing yang manja.", english: "I like affectionate cats.", pronunciation: "Ai laik e-fek-shen-et kets." },
+        { indo: "Mereka membuat rumah terasa hidup.", english: "They make the house feel lively.", pronunciation: "Dei meik de haus fil laiv-li." },
+        { indo: "Kamu suka membuka media sosial di rumah?", english: "Do you like scrolling social media at home?", pronunciation: "Du yu laik scro-ling so-shal mi-di-a et hom?" },
+        { indo: "Ya, terutama sebelum tidur.", english: "Yes, especially before sleeping.", pronunciation: "Yes, es-pe-sha-li bi-for sli-ping." },
+        { indo: "Aku sering lupa waktu saat scrolling.", english: "I often lose track of time while scrolling.", pronunciation: "Ai of-ten luz trek ov taim wail scro-ling." },
+        { indo: "Itu memang sulit dihentikan.", english: "It is really hard to stop.", pronunciation: "It is ri-a-li hard tu stop." },
+        { indo: "Kamu suka suasana rumah yang tenang?", english: "Do you like quiet home atmospheres?", pronunciation: "Du yu laik kwai-et hom at-mos-firs?" },
+        { indo: "Ya, aku lebih nyaman dengan suasana tenang.", english: "Yes, I feel more comfortable in calm situations.", pronunciation: "Yes, ai fil mor kamf-ter-bel in kam si-tu-ei-shens." },
+        { indo: "Aku suka mendengar suara kipas malam hari.", english: "I like listening to fan sounds at night.", pronunciation: "Ai laik li-sen-ing tu fan saunds et nait." },
+        { indo: "Suara itu terasa menenangkan.", english: "That sound feels calming.", pronunciation: "Det saund fils kal-ming." },
+        { indo: "Senang bisa ngobrol tentang kegiatan rumah.", english: "It is fun talking about home activities.", pronunciation: "It is fan to-king e-baut hom ak-ti-vi-tis." },
+        { indo: "Ya, obrolan sederhana seperti ini nyaman.", english: "Yes, simple conversations like this feel comfortable.", pronunciation: "Yes, sim-pel kon-ver-sei-shens laik dis fil kamf-ter-bel." },
+        { indo: "Semoga harimu di rumah menyenangkan.", english: "I hope you have a nice day at home.", pronunciation: "Ai hop yu hev e nais dei et hom." },
+        { indo: "Semoga kamu selalu sehat.", english: "I hope you always stay healthy.", pronunciation: "Ai hop yu ol-weiz stei hel-thi." },
+        { indo: "Jangan lupa istirahat cukup.", english: "Do not forget to get enough rest.", pronunciation: "Du not for-get tu get i-naf rest." },
+        { indo: "Kamu juga, jaga kesehatan ya.", english: "You too, take care of yourself.", pronunciation: "Yu tu, teik ker ov yor-self." },
+        { indo: "Sampai jumpa lagi nanti.", english: "See you again later.", pronunciation: "Si yu e-gen lei-ter." },
+        { indo: "Dadah, semoga malammu nyaman.", english: "Bye, have a cozy night.", pronunciation: "Bai, hev e ko-zi nait." }
+    ];
+
+    // Audio functions
+    function speakText(text, lang) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+    const speakIndo = (txt) => speakText(txt, 'id-ID');
+    const speakEng = (txt) => speakText(txt, 'en-US');
+
+    // Render conversation
+    const container = document.getElementById('conversationList');
+    function buildConversation() {
+        container.innerHTML = '';
+        conversationData.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'card-item';
+            const uniqueId = `conv-${idx}`;
+            const hiddenClass = 'translation-hidden';
+            
+            const safeIndo = escapeHtml(item.indo);
+            const safeEng = escapeHtml(item.english);
+            const safePron = escapeHtml(item.pronunciation);
+            
+            card.innerHTML = `
+                <div class="indonesian-text">
+                    <span>${safeIndo}</span>
+                    <div class="speaker-icon" data-indo="${safeIndo}">🔊</div>
+                </div>
+                <div class="english-section">
+                    <div class="translation-header">
+                        <div class="english-label">🇬🇧 TERJEMAHAN + CARA BACA</div>
+                        <button class="btn-translate" data-id="${uniqueId}">📖 Lihat Terjemahan</button>
+                    </div>
+                    <div class="translation-content" id="transContent-${uniqueId}">
+                        <div class="english-line ${hiddenClass}" id="engLine-${uniqueId}">
+                            <span>${safeEng}</span>
+                            <button class="speaker-eng" data-eng="${safeEng}">🔊</button>
+                        </div>
+                        <div class="pronunciation-line ${hiddenClass}" id="pronounceLine-${uniqueId}">
+                            📖 Cara baca: ${safePron}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Indonesian speakers
+        document.querySelectorAll('.speaker-icon').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const text = btn.getAttribute('data-indo');
+                if (text) speakIndo(text);
+                e.stopPropagation();
+            });
+        });
+        
+        // English speakers
+        document.querySelectorAll('.speaker-eng').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const engText = btn.getAttribute('data-eng');
+                if (engText) speakEng(engText);
+                e.stopPropagation();
+            });
+        });
+        
+        // Translation toggle buttons
+        document.querySelectorAll('.btn-translate').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = btn.getAttribute('data-id');
+                const engLine = document.getElementById(`engLine-${id}`);
+                const pronounceLine = document.getElementById(`pronounceLine-${id}`);
+                if (engLine && pronounceLine) {
+                    const isHidden = engLine.classList.contains('translation-hidden');
+                    if (isHidden) {
+                        engLine.classList.remove('translation-hidden');
+                        pronounceLine.classList.remove('translation-hidden');
+                        btn.innerHTML = '🙈 Sembunyikan';
+                    } else {
+                        engLine.classList.add('translation-hidden');
+                        pronounceLine.classList.add('translation-hidden');
+                        btn.innerHTML = '📖 Lihat Terjemahan';
+                    }
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    buildConversation();
+
+    // Auto-play suara: "Hai, kamu sedang di rumah sekarang?" setelah halaman dimuat
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            speakIndo("Hai, kamu sedang di rumah sekarang?");
+        }, 600);
+    });
+</script>
+</body>
+</html>
