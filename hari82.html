@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LinguaVoice - Pola Cepat Inggris</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-wrapper {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            border-radius: 56px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .screen {
+            padding: 20px 24px 30px;
+            transition: 0.25s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* HEADER */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px 8px 24px;
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo-small {
+            font-weight: 800;
+            font-size: 20px;
+            background: linear-gradient(120deg, #2563eb, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .home-icon {
+            background: #f1f5f9;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+            font-size: 20px;
+        }
+        .home-icon:active { transform: scale(0.94); background: #e2e8f0; }
+
+        /* HOME STYLE */
+        .hero-icon {
+            text-align: center;
+            font-size: 64px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        .title-glow {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(120deg, #1e293b, #2d3a5e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        .sub {
+            text-align: center;
+            color: #5b6e8c;
+            font-weight: 500;
+            font-size: 14px;
+            margin-top: 8px;
+            margin-bottom: 30px;
+        }
+        .pattern-badge {
+            background: #dbeafe;
+            color: #2563eb;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .card-setting {
+            background: #f1f5f9e6;
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+        .slider-group {
+            margin-bottom: 20px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1e2a44;
+            margin-bottom: 8px;
+        }
+        .slider-label span:first-child i {
+            width: 24px;
+            color: #3b82f6;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 5px;
+            background: #cbd5e1;
+            border-radius: 10px;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #2563eb;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.4);
+            border: 2px solid white;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #2563eb, #1d4ed8);
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px -5px #1e3a8a40;
+        }
+        .btn-primary:active { transform: scale(0.96); }
+
+        /* LATIHAN SCREEN */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+        .badge-progress {
+            background: #eef2ff;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+        .score-mock {
+            font-weight: 700;
+            background: #d1fae5;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #047857;
+        }
+        .timer-container {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 8px;
+            width: 100%;
+            margin: 15px 0 20px;
+            overflow: hidden;
+        }
+        .timer-fill {
+            background: linear-gradient(90deg, #10b981, #34d399);
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.2s linear;
+        }
+        .card-question {
+            background: #ffffff;
+            border-radius: 44px;
+            padding: 28px 20px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            margin: 12px 0 15px;
+            text-align: center;
+            border: 1px solid #f0f2f5;
+        }
+        .lang-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eff6ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+        .indonesia-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.3;
+            margin: 15px 0;
+        }
+        .answer-reveal {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 2px dashed #e2e8f0;
+            animation: fadeUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .eng-text {
+            font-size: 25px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f3b2c, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 8px 0 5px;
+        }
+        .phonetic {
+            font-family: monospace;
+            background: #f1f5f9;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #334155;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .btn-action {
+            background: #f1f5f9;
+            border: none;
+            flex: 1;
+            padding: 16px;
+            font-weight: 800;
+            font-size: 16px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+        }
+        .btn-prev {
+            background: #eef2ff;
+            color: #2563eb;
+        }
+        .btn-next {
+            background: linear-gradient(95deg, #059669, #10b981);
+            color: white;
+            box-shadow: 0 4px 12px #05966930;
+        }
+        .btn-next:active, .btn-prev:active, .btn-action:active { transform: scale(0.97); }
+        .microphone-tip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            margin-top: 18px;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 60px;
+            color: #475569;
+        }
+        .modal-finish {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+            border-radius: 56px;
+            z-index: 20;
+            text-align: center;
+            padding: 20px;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .restart-btn {
+            background: #2563eb;
+            padding: 14px 30px;
+            border-radius: 60px;
+            color: white;
+            font-weight: bold;
+            border: none;
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            cursor: pointer;
+        }
+        footer {
+            font-size: 10px;
+            text-align: center;
+            padding: 12px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper" id="appRoot">
+    <!-- HEADER dengan Icon Home -->
+    <div class="app-header" id="globalHeader">
+        <div class="logo-small"><i class="fas fa-comment-dots"></i> LinguaVoice</div>
+        <div class="home-icon" id="homeIconBtn"><i class="fas fa-home"></i></div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen">
+        <div class="hero-icon"><i class="fas fa-brain"></i></div>
+        <div class="title-glow">Pola Cepat (Pattern)</div>
+        <div class="sub">Tanpa mikir • Langsung terbiasa</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span class="pattern-badge"><i class="fas fa-exchange-alt"></i> I eat / I drink / I go / I watch / I play / I like / I want / I need</span>
+        </div>
+        <div class="card-setting">
+            <div class="slider-group">
+                <div class="slider-label"><span><i class="fas fa-tachometer-alt"></i> Kecepatan suara</span><span id="rateValue">1.0x</span></div>
+                <input type="range" id="rateSlider" min="0.6" max="1.4" step="0.05" value="1.0">
+            </div>
+            <div class="slider-group">
+                <div class="slider-label"><span><i class="fas fa-volume-up"></i> Volume</span><span id="volValue">100%</span></div>
+                <input type="range" id="volSlider" min="0" max="1" step="0.05" value="1">
+            </div>
+        </div>
+        <button class="btn-primary" id="startBtn"><i class="fas fa-play"></i> Mulai Latihan Pola</button>
+        <footer>🎧 Dengarkan kalimat Indonesia → ucapkan dalam Inggris → lihat pola</footer>
+    </div>
+
+    <!-- PRACTICE SCREEN -->
+    <div id="practiceScreen" class="screen hidden">
+        <div class="top-bar">
+            <div class="badge-progress" id="progressCounter">1 / 100</div>
+            <div class="score-mock"><i class="far fa-clock"></i> <span id="timerLabel">1:00</span></div>
+        </div>
+        <div class="timer-container"><div id="timerFill" class="timer-fill" style="width: 100%"></div></div>
+        <div class="card-question">
+            <div class="lang-tag"><i class="fas fa-language"></i> BAHASA INDONESIA</div>
+            <div class="indonesia-text" id="soalText">Memuat...</div>
+            <div id="answerBox" style="display: none;">
+                <div class="answer-reveal">
+                    <div class="lang-tag" style="background:#e0f2fe; color:#0369a1;"><i class="fas fa-globe-americas"></i> ENGLISH PATTERN</div>
+                    <div class="eng-text" id="engText">-</div>
+                    <div class="phonetic" id="phoneticText">/ ... /</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button id="prevButton" class="btn-action btn-prev"><i class="fas fa-arrow-left"></i> Prev</button>
+            <button id="nextButton" class="btn-action btn-next"><i class="fas fa-arrow-right"></i> Next</button>
+        </div>
+        <button id="revealButton" class="btn-action" style="margin-top: 10px; background:#f8fafc;"><i class="fas fa-eye"></i> Lihat Jawaban & Dengarkan</button>
+        <div class="microphone-tip"><i class="fas fa-head-side-vr"></i> Tips: Ucapkan keras-keras sesuai pola, lalu cek jawaban.</div>
+    </div>
+
+    <!-- MODAL FINISH -->
+    <div id="finishModal" class="modal-finish hidden">
+        <i class="fas fa-trophy"></i>
+        <h2 style="font-size: 28px; font-weight:800;">Latihan Selesai!</h2>
+        <p style="font-size: 16px; color:#334155;">Kamu sudah hafal semua pola! <br>Ulangi untuk makin lancar ✨</p>
+        <button class="restart-btn" id="restartBtnFinal"><i class="fas fa-redo-alt"></i> Latihan Lagi</button>
+    </div>
+</div>
+
+<script>
+    // ======================= DATA POLA CEPAT (Pattern Drills) =======================
+    // Format: [Kalimat Indonesia, English Pattern, Phonetic Sederhana]
+    const conversationData = [
+        // I eat ... group
+        ["Saya makan nasi", "I eat rice", "/ai it rais/"],
+        ["Saya makan roti", "I eat bread", "/ai it bred/"],
+        ["Saya makan cepat", "I eat fast", "/ai it fast/"],
+        ["Saya makan mie", "I eat noodles", "/ai it nu-dels/"],
+        ["Saya makan ayam", "I eat chicken", "/ai it ci-ken/"],
+        ["Saya makan di rumah", "I eat at home", "/ai it et hom/"],
+        ["Saya makan setiap pagi", "I eat every morning", "/ai it ev-ri mor-ning/"],
+        ["Saya makan bersama keluarga saya", "I eat with my family", "/ai it wit mai fa-mi-li/"],
+        ["Saya makan makanan pedas", "I eat spicy food", "/ai it spai-si fud/"],
+        ["Saya makan sebelum tidur", "I eat before sleep", "/ai it bi-for slip/"],
+        // I drink ...
+        ["Saya minum air", "I drink water", "/ai dringk wo-ter/"],
+        ["Saya minum kopi", "I drink coffee", "/ai dringk ko-fi/"],
+        ["Saya minum teh", "I drink tea", "/ai dringk ti/"],
+        ["Saya minum susu", "I drink milk", "/ai dringk milk/"],
+        ["Saya minum jus", "I drink juice", "/ai dringk jus/"],
+        ["Saya minum setiap pagi", "I drink every morning", "/ai dringk ev-ri mor-ning/"],
+        ["Saya minum di rumah", "I drink at home", "/ai dringk et hom/"],
+        ["Saya minum perlahan", "I drink slowly", "/ai dringk slow-li/"],
+        ["Saya minum air dingin", "I drink cold water", "/ai dringk kold wo-ter/"],
+        ["Saya minum bersama teman saya", "I drink with my friend", "/ai dringk wit mai frend/"],
+        // I go ...
+        ["Saya pergi ke sekolah", "I go to school", "/ai go tu skul/"],
+        ["Saya pergi ke pasar", "I go to the market", "/ai go tu de mar-ket/"],
+        ["Saya pergi setiap pagi", "I go every morning", "/ai go ev-ri mor-ning/"],
+        ["Saya pergi bersama teman saya", "I go with my friend", "/ai go wit mai frend/"],
+        ["Saya pergi naik sepeda", "I go by bike", "/ai go bai baik/"],
+        ["Saya pulang lebih awal", "I go home early", "/ai go hom er-li/"],
+        ["Saya pergi kerja", "I go to work", "/ai go tu werk/"],
+        ["Saya pergi setelah makan siang", "I go after lunch", "/ai go af-ter lunch/"],
+        ["Saya pergi sendiri", "I go alone", "/ai go a-lon/"],
+        ["Saya pergi ke taman", "I go to the park", "/ai go tu de park/"],
+        // I watch ...
+        ["Saya menonton TV", "I watch TV", "/ai woc ti-vi/"],
+        ["Saya menonton film", "I watch movies", "/ai woc mu-vis/"],
+        ["Saya menonton YouTube", "I watch YouTube", "/ai woc yu-tub/"],
+        ["Saya menonton di malam hari", "I watch at night", "/ai woc et nait/"],
+        ["Saya menonton bersama saudara laki-laki saya", "I watch with my brother", "/ai woc wit mai bra-ther/"],
+        ["Saya menonton kartun", "I watch cartoons", "/ai woc kar-tuns/"],
+        ["Saya menonton setiap hari", "I watch every day", "/ai woc ev-ri dei/"],
+        ["Saya menonton di kamar saya", "I watch in my room", "/ai woc in mai rum/"],
+        ["Saya menonton video lucu", "I watch funny videos", "/ai woc fa-ni vi-di-os/"],
+        ["Saya menonton sebelum tidur", "I watch before sleep", "/ai woc bi-for slip/"],
+        // I play ...
+        ["Saya bermain sepak bola", "I play football", "/ai plei fut-bol/"],
+        ["Saya bermain game", "I play games", "/ai plei geims/"],
+        ["Saya bermain bersama teman-teman saya", "I play with my friends", "/ai plei wit mai frends/"],
+        ["Saya bermain setiap akhir pekan", "I play every weekend", "/ai plei ev-ri wi-kend/"],
+        ["Saya bermain di rumah", "I play at home", "/ai plei et hom/"],
+        ["Saya bermain badminton", "I play badminton", "/ai plei bad-min-ton/"],
+        ["Saya bermain setelah sekolah", "I play after school", "/ai plei af-ter skul/"],
+        ["Saya bermain game online", "I play online games", "/ai plei on-lain geims/"],
+        ["Saya bermain di halaman", "I play in the yard", "/ai plei in de yard/"],
+        ["Saya bermain bersama adik laki-laki saya", "I play with my little brother", "/ai plei wit mai li-tel bra-ther/"],
+        // I like ...
+        ["Saya suka musik", "I like music", "/ai laik myu-zik/"],
+        ["Saya suka kopi", "I like coffee", "/ai laik ko-fi/"],
+        ["Saya suka kucing", "I like cats", "/ai laik kets/"],
+        ["Saya suka tidur", "I like sleeping", "/ai laik slip-ing/"],
+        ["Saya suka hari hujan", "I like rainy days", "/ai laik rei-ni deis/"],
+        ["Saya suka guru saya", "I like my teacher", "/ai laik mai ti-cher/"],
+        ["Saya suka makanan pedas", "I like spicy food", "/ai laik spai-si fud/"],
+        ["Saya suka menonton film", "I like watching movies", "/ai laik woc-ing mu-vis/"],
+        ["Saya suka bermain game", "I like playing games", "/ai laik plei-ing geims/"],
+        ["Saya suka tinggal di rumah", "I like staying at home", "/ai laik stei-ing et hom/"],
+        // I want ...
+        ["Saya ingin air", "I want water", "/ai want wo-ter/"],
+        ["Saya ingin tidur", "I want to sleep", "/ai want tu slip/"],
+        ["Saya ingin HP baru", "I want a new phone", "/ai want e nyu fon/"],
+        ["Saya ingin makan", "I want to eat", "/ai want tu it/"],
+        ["Saya ingin lebih banyak uang", "I want more money", "/ai want mor ma-ni/"],
+        ["Saya ingin belajar bahasa Inggris", "I want to learn English", "/ai want tu lern ing-glish/"],
+        ["Saya ingin kopi", "I want some coffee", "/ai want sam ko-fi/"],
+        ["Saya ingin pergi keluar", "I want to go outside", "/ai want tu go out-side/"],
+        ["Saya ingin liburan", "I want a holiday", "/ai want e ho-li-dei/"],
+        ["Saya ingin bahagia", "I want to be happy", "/ai want tu bi ha-pi/"],
+        // I need ...
+        ["Saya butuh air", "I need water", "/ai nid wo-ter/"],
+        ["Saya butuh istirahat", "I need some rest", "/ai nid sam rest/"],
+        ["Saya butuh uang", "I need money", "/ai nid ma-ni/"],
+        ["Saya perlu belajar", "I need to study", "/ai nid tu sta-di/"],
+        ["Saya butuh bantuan", "I need help", "/ai nid help/"],
+        ["Saya butuh charger", "I need a charger", "/ai nid e char-jer/"],
+        ["Saya butuh lebih banyak waktu", "I need more time", "/ai nid mor taim/"],
+        ["Saya perlu tidur lebih awal", "I need to sleep early", "/ai nid tu slip er-li/"],
+        ["Saya butuh HP saya", "I need my phone", "/ai nid mai fon/"],
+        ["Saya butuh sepatu baru", "I need new shoes", "/ai nid nyu shuz/"]
+    ];
+
+    // DOM Elements
+    const homeScreen = document.getElementById('homeScreen');
+    const practiceScreen = document.getElementById('practiceScreen');
+    const startBtn = document.getElementById('startBtn');
+    const finishModal = document.getElementById('finishModal');
+    const restartFinal = document.getElementById('restartBtnFinal');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    const revealButton = document.getElementById('revealButton');
+    const homeIcon = document.getElementById('homeIconBtn');
+    const answerBox = document.getElementById('answerBox');
+    const soalText = document.getElementById('soalText');
+    const engTextSpan = document.getElementById('engText');
+    const phoneticSpan = document.getElementById('phoneticText');
+    const progressCounter = document.getElementById('progressCounter');
+    const timerFill = document.getElementById('timerFill');
+    const timerLabelSpan = document.getElementById('timerLabel');
+    const rateSlider = document.getElementById('rateSlider');
+    const volSlider = document.getElementById('volSlider');
+    const rateValueSpan = document.getElementById('rateValue');
+    const volValueSpan = document.getElementById('volValue');
+
+    let currentIndex = 0;
+    let timerInterval = null;
+    let timeLeft = 60;
+    let isAnswerRevealed = false;
+
+    function cancelSpeech() { if (window.speechSynthesis) window.speechSynthesis.cancel(); }
+    function speakText(text, langCode) {
+        cancelSpeech();
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langCode;
+        utterance.rate = parseFloat(rateSlider.value);
+        utterance.volume = parseFloat(volSlider.value);
+        let voices = window.speechSynthesis.getVoices();
+        if (langCode === 'id-ID') {
+            const idVoice = voices.find(v => v.lang.includes('id'));
+            if (idVoice) utterance.voice = idVoice;
+        } else {
+            const enVoice = voices.find(v => v.lang.includes('en-US'));
+            if (enVoice) utterance.voice = enVoice;
+        }
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function updateSliders() {
+        rateValueSpan.innerText = parseFloat(rateSlider.value).toFixed(2) + "x";
+        volValueSpan.innerText = Math.round(volSlider.value * 100) + "%";
+    }
+    rateSlider.addEventListener('input', updateSliders);
+    volSlider.addEventListener('input', updateSliders);
+    updateSliders();
+
+    function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
+    function startTimer() {
+        stopTimer();
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 1) {
+                timeLeft = 0;
+                updateTimerUI();
+                stopTimer();
+            } else {
+                timeLeft--;
+                updateTimerUI();
+            }
+        }, 1000);
+    }
+
+    function updateTimerUI() {
+        const seconds = Math.max(0, timeLeft);
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        timerLabelSpan.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        const percent = (seconds / 60) * 100;
+        timerFill.style.width = `${percent}%`;
+    }
+
+    function revealAnswer() {
+        if (isAnswerRevealed) return;
+        isAnswerRevealed = true;
+        answerBox.style.display = "block";
+        const item = conversationData[currentIndex];
+        engTextSpan.innerText = item[1];
+        phoneticSpan.innerText = item[2];
+        stopTimer();
+        speakText(item[1], 'en-US');
+    }
+
+    function loadQuestion() {
+        isAnswerRevealed = false;
+        stopTimer();
+        answerBox.style.display = "none";
+        const item = conversationData[currentIndex];
+        soalText.innerText = item[0];
+        engTextSpan.innerText = item[1];
+        phoneticSpan.innerText = item[2];
+        progressCounter.innerText = `${currentIndex+1} / ${conversationData.length}`;
+        timeLeft = 60;
+        updateTimerUI();
+        startTimer();
+        setTimeout(() => { speakText(item[0], 'id-ID'); }, 150);
+    }
+
+    function goNext() {
+        if (currentIndex + 1 < conversationData.length) {
+            currentIndex++;
+            loadQuestion();
+        } else {
+            finishLatihan();
+        }
+    }
+
+    function goPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadQuestion();
+        }
+    }
+
+    function finishLatihan() {
+        stopTimer(); cancelSpeech();
+        practiceScreen.classList.add('hidden');
+        finishModal.classList.remove('hidden');
+    }
+
+    function resetAndGoHome() {
+        stopTimer(); cancelSpeech();
+        currentIndex = 0;
+        isAnswerRevealed = false;
+        finishModal.classList.add('hidden');
+        practiceScreen.classList.add('hidden');
+        homeScreen.classList.remove('hidden');
+    }
+
+    function startPractice() {
+        homeScreen.classList.add('hidden');
+        practiceScreen.classList.remove('hidden');
+        finishModal.classList.add('hidden');
+        currentIndex = 0;
+        isAnswerRevealed = false;
+        loadQuestion();
+    }
+
+    // Event Listeners
+    startBtn.addEventListener('click', startPractice);
+    nextButton.addEventListener('click', goNext);
+    prevButton.addEventListener('click', goPrev);
+    revealButton.addEventListener('click', () => { if (!isAnswerRevealed) revealAnswer(); });
+    homeIcon.addEventListener('click', resetAndGoHome);
+    restartFinal.addEventListener('click', () => { resetAndGoHome(); startPractice(); });
+
+    if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+    }
+</script>
+</body>
+</html>
