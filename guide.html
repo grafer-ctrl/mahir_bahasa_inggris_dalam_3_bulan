@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Guide: 3 Bulan Ngobrol Bahasa Inggris | Disiplin Harian Tanpa Beban Sempurna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a2a2a 0%, #071e1c 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #eef4f0;
+            line-height: 1.5;
+        }
+
+        .guide-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(18, 30, 28, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            overflow: hidden;
+            border: 1px solid rgba(80, 180, 140, 0.3);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a4a3f, #0c2f28);
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+            border-bottom: 1px solid #2c6e5c;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(120deg, #d6f3e6, #a6e6cb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.15rem;
+            color: #bde0d6;
+            border-top: 1px solid #3f826e;
+            display: inline-block;
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .motivation-card {
+            background: #112b25;
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            border-left: 8px solid #4cd9b0;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+        }
+
+        .motivation-card p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 3px solid #4cd9b0;
+            padding-left: 1.2rem;
+            margin: 1.2rem 0;
+            color: #cbe9e1;
+            font-size: 1rem;
+        }
+
+        .highlight {
+            background: #2a6b5c;
+            color: #f9fefc;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .goal-box {
+            background: #0f2621;
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid #3f8b77;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+        }
+
+        .goal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            color: #e2f3ef;
+        }
+
+        .goal-title span {
+            font-size: 2rem;
+        }
+
+        .goal-desc {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .principle {
+            background: #1b423a;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            margin-top: 1rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .system-daily {
+            margin: 2rem 0;
+        }
+
+        .step-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px dashed #3f8b77;
+            padding-bottom: 0.5rem;
+        }
+
+        .steps-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+
+        .step-card {
+            background: #1d3d35;
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid #62d2b0;
+        }
+
+        .step-card .step-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #9bf0d6;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .timeline {
+            background: #0b201c;
+            border-radius: 2rem;
+            padding: 1.3rem 1.8rem;
+            margin: 2rem 0;
+        }
+
+        .timeline h3 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-note {
+            background: #1f574a;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            margin: 1rem 0;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .imperfect-tips {
+            background: #102e28;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            margin: 1.8rem 0;
+            border-right: 4px solid #5ed6b5;
+        }
+
+        .btn-daily {
+            background: #4cd9b0;
+            border: none;
+            color: #0c2620;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 1rem;
+            font-family: inherit;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-daily:hover {
+            background: #93f0d0;
+            transform: scale(0.98);
+            cursor: pointer;
+        }
+
+        .target-badge {
+            background: #e67e22;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            border-top: 1px solid #2b6456;
+            background: #0a211d;
+            color: #9ccfc0;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .content {
+                padding: 1.2rem;
+            }
+            .step-card {
+                min-width: 120px;
+            }
+            .goal-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="guide-container">
+    <div class="hero">
+        <h1>🗣️ GUIDE: 90 HARI (3 BULAN) NGOBROL B.INGGRIS</h1>
+        <div class="tagline">✨ Disiplin tiap hari → Lancar ngobrol walau belum sempurna ✨</div>
+    </div>
+
+    <div class="content">
+        <!-- MOTIVASI UTAMA -->
+        <div class="motivation-card">
+            <p>🔥 <strong>Lakukan tugas setiap hari, jangan biarkan rasa bosan menghentikanmu.</strong></p>
+            <p>Tugas yang ideal = <span class="highlight">selesaikan target HARI ke-1</span>. Jika hari pertama sudah kamu taklukkan, maka langsung pindah ke hari kedua, ketiga, dan seterusnya. Tidak perlu mengulang dengan rasa ragu.</p>
+            <div class="quote">
+                “Dengan disiplin mengikuti pelatihan di aplikasi ini, hanya dalam <strong>3 BULAN (90 hari)</strong> kamu akan terbiasa berbicara, merangkai kalimat, dan ngobrol santai dalam Bahasa Inggris.”
+            </div>
+            <p>🎯 <strong>Ingat:</strong> Bukan menjadi profesor tata bahasa, tapi <strong>keberanian bicara</strong> yang akan membuka jalur komunikasimu!</p>
+        </div>
+
+        <!-- GOAL UTAMA : BISA NGOBROL INGGRIS TANPA SEMPURNA dalam 3 BULAN -->
+        <div class="goal-box">
+            <div class="goal-title">
+                <span>🎙️</span> GOAL UTAMA ANDA (3 BULAN)
+            </div>
+            <div class="target-badge">
+                🎯 TARGET: 90 HARI → BISA NGOBROL BAHASA INGGRIS
+            </div>
+            <div class="goal-desc">
+                <strong>“Bisa ngobrol Bahasa Inggris tanpa harus sempurna terlebih dahulu dalam waktu 3 bulan.”</strong>
+            </div>
+            <p style="margin: 10px 0;">Tidak perlu takut salah grammar, tidak perlu kosa kata ribuan. Cukup berani menyusun kata sederhana, memahami konteks, dan merespon lawan bicara. <strong>Kesalahan adalah batu loncatan.</strong> Setiap hari kamu mempraktikkan 1-2 dialog pendek, maka 90 hari lagi kamu akan merasakan peningkatan drastis dalam percakapan sehari-hari.</p>
+            <div class="principle">
+                ✅ PRINSIP: FLUENCY > PERFECTION. Bicara dulu, sempurnakan nanti. Target 3 bulan, bukan 3 minggu — jadi nikmati prosesnya!
+            </div>
+        </div>
+
+        <!-- SISTEM LATIHAN HARIAN -->
+        <div class="system-daily">
+            <div class="step-title">
+                📅 SISTEM DISIPLIN HARIAN
+                <span style="font-size: 0.9rem;">(tanpa rasa bosan)</span>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">Hari 1</div>
+                    <p>🎧 + 🗣️ Selesaikan tugas hari pertama → pindah ke hari 2</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">Hari 2</div>
+                    <p>⚡ Lanjutkan, jangan menumpuk. Segera selesaikan hari 2</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">Hari 3 - 30</div>
+                    <p>📈 Rutinitas terjaga, mulai hafal ekspresi umum</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">Hari 31 - 90</div>
+                    <p>💬 Ngobrol spontan, tanpa tekanan sempurna</p>
+                </div>
+            </div>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">✔️ <strong>Rumus ajaib:</strong> Jika hari pertama selesai, maka segera eksekusi hari kedua. Jeda terlalu lama hanya akan mengundang rasa bosan. Konsistensi kecil setiap hari lebih kuat dari ledakan semangat seminggu sekali. <strong>3 bulan = 90 kali latihan berturut-turut!</strong></p>
+        </div>
+
+        <!-- JALAN CERDAS : 3 BULAN -->
+        <div class="timeline">
+            <h3>📆 Roadmap 90 Hari menuju “Ngobrol Tanpa Ragu”</h3>
+            <div class="progress-note">
+                🎯 Setiap hari kamu menyelesaikan 1 mission di aplikasi (atau latihan mandiri seperti roleplay, menjawab pertanyaan sederhana). Disiplin = jangan pernah skip lebih dari 1 hari.
+            </div>
+            <ul style="margin-left: 1.5rem; line-height: 1.6;">
+                <li><strong>Bulan 1 (Hari 1-30)</strong> – Perkenalan dasar: nama, asal, hobi, keluarga. Latihan ucapkan 3-5 kalimat tiap hari. Fokus pada <em>listening & repetition</em>.</li>
+                <li><strong>Bulan 2 (Hari 31-60)</strong> – Mulai bertanya & menjawab: “What do you like?”, “Where do you live?”, “What did you do yesterday?”. Mulai berani merangkai kalimat lampau sederhana.</li>
+                <li><strong>Bulan 3 (Hari 61-90)</strong> – Cerita pendek (daily activities, rencana liburan, opini sederhana). <strong>✨ Di akhir bulan ke-3, kamu sudah bisa ngobrol 2-3 menit tentang topik sehari-hari, walau masih ada salah sedikit. Itu sudah SUKSES! ✨</strong></li>
+            </ul>
+            <div style="background: #1e5a4d; border-radius: 1rem; padding: 0.7rem; margin-top: 1rem; text-align: center;">
+                📍 <strong>Setelah 90 hari:</strong> Bercakap-cakap dengan turis, teman asing, atau dalam grup belajar — tanpa perfeksionisme berlebihan.
+            </div>
+        </div>
+
+        <!-- APA YANG DIMAKSUD TIDAK PERLU SEMPURNA? -->
+        <div class="imperfect-tips">
+            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 2rem;">🌀</span>
+                <span style="font-weight: 800; font-size: 1.3rem;">Goal 3 Bulan: Bukan tentang ‘grammar sempurna’</span>
+            </div>
+            <p>❌ <strong>Jangan menunggu sampai kamu menguasai 16 tenses dulu.</strong> <br>
+            ✅ Mulailah dengan kalimat sederhana: <em>“I go to market yesterday”</em> (walaupun kurang tepat secara tense, lawan bicara tetap paham!). Yang penting kamu <strong>berani mengucapkan</strong> dan <strong>memahami</strong> percakapan dasar.<br><br>
+            📌 Dalam 3 bulan, targetmu adalah:
+            <ul style="margin-left: 1.8rem; margin-top: 0.5rem;">
+                <li>Mengerti pertanyaan umum sehari-hari</li>
+                <li>Bisa merespon dengan 2-3 kalimat sederhana</li>
+                <li>Tidak perlu fasih seperti native speaker, cukup dipahami lawan bicara</li>
+            </ul>
+            </p>
+            <div style="margin-top: 1rem; background: #1c4f44; border-radius: 1rem; padding: 0.5rem 1rem;">
+                💡 <strong>Motivasi tambahan:</strong> Rasa bosan akan hilang jika kamu fokus pada progres kecil setiap minggu. Setiap kali menyelesaikan satu hari, beri apresiasi pada diri sendiri. Kamu sedang membangun kebiasaan belajar seumur hidup! 90 hari terdengar lama, tapi akan terasa cepat jika kamu konsisten.
+            </div>
+        </div>
+
+        <!-- PENGINGAT DISIPLIN & TOMBOL SIMBOLIS -->
+        <div style="text-align: center; margin: 1rem 0 1rem 0;">
+            <button class="btn-daily" id="reminderBtn">✔️ Selesai hari ini, lanjut besok!</button>
+            <p style="margin-top: 12px; font-size: 0.8rem;">✨ Klik sebagai pengingat komitmen: selesaikan tugas hari ini, lalu besok lanjut hari berikutnya. Target 90 hari berturut-turut ✨</p>
+        </div>
+
+        <!-- COUNTDOWN MOTIVASI 3 BULAN -->
+        <div style="background-color: #08221e; border-radius: 1.5rem; padding: 1rem; margin-top: 1rem; text-align: center;">
+            <p style="font-weight: 600;">🎤 “Jangan takut salah, takutlah jika tidak memulai. Disiplin pada aplikasi ini <strong>90 hari (3 bulan)</strong> maka anda akan bisa berbicara dan <strong>ngobrol santai</strong> dalam Bahasa Inggris. Tidak perlu sempurna, yang penting <strong>paham dan percaya diri</strong>.”</p>
+            <p style="margin-top: 0.8rem; font-size: 0.9rem;">⏳ <strong>3 bulan dari sekarang:</strong> Anda akan berterima kasih pada diri sendiri karena tidak menyerah di hari-hari awal.</p>
+        </div>
+    </div>
+    <footer>
+        🧭 Panduan motivasi — Lakukan tugas tiap hari | Selesai H-1 → lanjut H-2 | Target 3 bulan ngobrol Inggris, tanpa perfeksionisme.
+    </footer>
+</div>
+
+<script>
+    const reminderBtn = document.getElementById('reminderBtn');
+    if(reminderBtn) {
+        reminderBtn.addEventListener('click', function() {
+            const notification = document.createElement('div');
+            notification.innerText = '✅ Komitmen tercatat! Selesaikan tugas hari ini, lalu besok langsung lanjut ke hari berikutnya. Jeda hanya akan membuat bosan. Terus disiplin menuju 90 hari (3 bulan)!';
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.backgroundColor = '#4cd9b0';
+            notification.style.color = '#0a2620';
+            notification.style.fontWeight = 'bold';
+            notification.style.padding = '12px 24px';
+            notification.style.borderRadius = '60px';
+            notification.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+            notification.style.zIndex = '999';
+            notification.style.fontSize = '0.9rem';
+            notification.style.textAlign = 'center';
+            notification.style.maxWidth = '90%';
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 800);
+            }, 3500);
+            reminderBtn.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                reminderBtn.style.transform = '';
+            }, 150);
+        });
+    }
+
+    console.log("Guide 3 Bulan: Goal = ngobrol Inggris tanpa sempurna. Disiplin 90 hari!");
+</script>
+</body>
+</html>
