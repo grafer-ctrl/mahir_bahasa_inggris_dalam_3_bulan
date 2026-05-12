@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Hubungi Kami | Dukungan Pelanggan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a2a2a 0%, #071e1c 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #eef4f0;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(18, 30, 28, 0.9);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            overflow: hidden;
+            border: 1px solid rgba(80, 180, 140, 0.4);
+        }
+
+        .contact-header {
+            background: linear-gradient(135deg, #1a4a3f, #0c2f28);
+            padding: 1.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #2c6e5c;
+        }
+
+        .contact-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(120deg, #d6f3e6, #a6e6cb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-header p {
+            color: #bde0d6;
+            font-size: 0.95rem;
+        }
+
+        .contact-body {
+            padding: 2rem;
+        }
+
+        .problem-list {
+            background: #112b25;
+            border-radius: 1.5rem;
+            padding: 1.3rem 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .problem-list h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #9bf0d6;
+        }
+
+        .problem-list ul {
+            list-style: none;
+            margin-left: 0.5rem;
+        }
+
+        .problem-list li {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .problem-list li::before {
+            content: "❌";
+            font-size: 1rem;
+        }
+
+        .wa-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #25D366;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            margin: 0.8rem 0 1rem;
+            width: 100%;
+            box-shadow: 0 6px 14px rgba(37, 211, 102, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .wa-button:hover {
+            background: #20b859;
+            transform: scale(1.02);
+            box-shadow: 0 8px 18px rgba(37, 211, 102, 0.4);
+        }
+
+        .warning-box {
+            background: #261c0c;
+            border-left: 6px solid #f39c12;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box strong {
+            color: #f5b041;
+        }
+
+        .support-hours {
+            background: #0e2a24;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #3f8b77;
+        }
+
+        .support-hours span {
+            font-size: 1.2rem;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #7cbba8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .back-link:hover {
+            color: #b0ead5;
+        }
+
+        hr {
+            border-color: #2b6456;
+            margin: 1rem 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.7rem;
+            border-top: 1px solid #2b6456;
+            background: #0a211d;
+            color: #9ccfc0;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 1rem;
+            }
+            .contact-body {
+                padding: 1.5rem;
+            }
+            .wa-button {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            .contact-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="contact-card">
+    <div class="contact-header">
+        <h1>
+            <span>📞</span> HUBUNGI KAMI
+            <span>💬</span>
+        </h1>
+        <p>Kami siap membantu Anda</p>
+    </div>
+
+    <div class="contact-body">
+        <!-- Daftar kendala -->
+        <div class="problem-list">
+            <h3>Jika Anda mengalami kendala seperti:</h3>
+            <ul>
+                <li>Kode akses tidak bisa login</li>
+                <li>Sistem error / aplikasi tidak merespon</li>
+                <li>Tidak bisa melanjutkan tugas harian</li>
+                <li>Akun terkendala atau diblokir</li>
+            </ul>
+            <p style="margin-top: 1rem; font-weight: 500;">Segera hubungi tim dukungan kami melalui WhatsApp.</p>
+        </div>
+
+        <!-- Tombol WhatsApp -->
+        <a href="https://wa.me/6285327599575?text=Halo%20tim%20dukungan,%20saya%20mengalami%20kendala:%0A-%20(Jelaskan%20kendala%20Anda)%0A-%20Nama%20pengguna:%20%0A-%20Kode%20akses:%20%0A%0ATerima%20kasih%20bantuannya." 
+           class="wa-button" 
+           target="_blank" 
+           rel="noopener noreferrer">
+            <span style="font-size: 1.5rem;">📱</span> Chat WhatsApp : 0853-2759-9575
+        </a>
+
+        <!-- Peringatan 1 identitas -->
+        <div class="warning-box">
+            <strong>⚠️ PENTING UNTUK DIKETAHUI:</strong><br><br>
+            <strong>1 user = 1 identitas.</strong> Jika kode akses digunakan dengan identitas yang berbeda (misalnya digunakan oleh orang lain atau perangkat berbeda dengan data yang tidak sesuai), maka <strong>sistem akan melakukan BLOKIR AKUN</strong> dan Anda tidak bisa login lagi.<br><br>
+            Harap jaga kerahasiaan kode akses Anda dan gunakan hanya untuk diri sendiri. Jika terjadi kesalahan sistem karena faktor teknis, segera kontak kami.
+        </div>
+
+        <!-- Jam support -->
+        <div class="support-hours">
+            <span>🕒</span> Tim support siap membantu <strong>Senin-Minggu</strong> (09.00 - 21.00 WIB)<br>
+            Sertakan detail kendala & nama pengguna saat menghubungi.
+        </div>
+
+        <hr>
+
+        <div style="text-align: center; font-size: 0.85rem; color: #aad9ce;">
+            <strong>📌 Tips:</strong> Sebelum menghubungi, pastikan koneksi internet stabil.<br>
+            Kami akan merespon secepat mungkin.
+        </div>
+
+        <a href="#" class="back-link" onclick="history.back(); return false;">← Kembali ke halaman sebelumnya</a>
+    </div>
+
+    <footer>
+        © Layanan Dukungan Resmi — 1 user 1 identitas
+    </footer>
+</div>
+
+</body>
+</html>
