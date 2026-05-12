@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Mastery Premium</title>
+    <title>English Mastery - 90 Days Challenge</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #1b5e20;
             --accent: #4caf50;
-            --bg-color: #f8faf9;
+            --bg-color: #f0f4f2;
             --white: #ffffff;
             --text-main: #2c3e50;
             --text-muted: #7f8c8d;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
+            --shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,69 +23,46 @@
 
         /* Loader */
         #loader { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Login Section */
-        .auth-wrapper { 
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); padding: 20px;
-        }
-        .auth-card { 
-            background: var(--white); padding: 40px; border-radius: 25px; 
-            box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center;
-        }
-        .form-group { text-align: left; margin-bottom: 20px; }
-        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; letter-spacing: 1px; }
-        .form-group input { 
-            width: 100%; padding: 15px; border: 2px solid #edf2f0; border-radius: 12px; 
-            font-size: 1.1rem; text-align: center; font-weight: 700; letter-spacing: 2px;
-        }
-        .btn-main { 
-            background: var(--primary); color: white; border: none; padding: 15px; 
-            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; font-size: 1rem;
-        }
+        /* Login */
+        .auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); padding: 20px; }
+        .auth-card { background: white; padding: 40px; border-radius: 25px; box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; }
+        .auth-card input { width: 100%; padding: 15px; border: 2px solid #edf2f0; border-radius: 12px; font-size: 1.1rem; text-align: center; font-weight: 700; margin-bottom: 20px; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; }
+
+        /* Header & Nav */
+        .header-dash { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow); margin: 20px 0; }
+        .nav-menu { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .btn-nav { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 0.8rem; font-weight: 600; text-decoration: none; color: var(--text-main); text-align: center; transition: 0.3s; }
+        .btn-nav:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Dashboard */
-        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
-        
-        .header-dash { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .header-actions { display: flex; gap: 10px; }
-        .btn-action { padding: 8px 15px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 600; border: 1px solid transparent; transition: var(--transition); }
-        .btn-logout { background: #fff1f0; color: #ff4d4f; border-color: #ffa39e; }
-        .btn-logout:hover { background: #ff4d4f; color: white; }
-        .btn-reset { background: #fffbe6; color: #faad14; border-color: #ffe58f; }
-        .btn-reset:hover { background: #faad14; color: white; }
-
-        /* Top Navigation Menu */
-        .top-nav { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-        .nav-btn { 
-            background: white; border: 1px solid #edf2f0; padding: 12px 15px; border-radius: 15px; 
-            cursor: pointer; font-weight: 600; font-size: 0.8rem; box-shadow: var(--shadow); 
-            transition: var(--transition); display: flex; align-items: center; gap: 8px; 
-            color: var(--text-main); flex: 1; justify-content: center; min-width: 120px;
-        }
-        .nav-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-3px); }
-
-        .progress-card { background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); color: white; padding: 25px; border-radius: 25px; margin-bottom: 30px; box-shadow: var(--shadow); }
-        .bar-bg { background: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+        .progress-card { background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); color: white; padding: 25px; border-radius: 25px; margin-bottom: 30px; }
+        .bar-bg { background: rgba(255,255,255,0.2); height: 12px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
         #progress-fill { background: white; height: 100%; width: 0%; transition: 0.8s ease; }
 
-        /* Grid */
-        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .day-card { background: white; padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); border: 2px solid transparent; display: flex; flex-direction: column; justify-content: center; }
-        .day-card:hover { transform: translateY(-5px); border-color: #c8e6c9; }
+        /* Reset Button */
+        .btn-reset { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 700; }
+
+        /* Grid Materi */
+        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .day-card { background: white; padding: 20px; border-radius: 20px; text-align: left; cursor: pointer; box-shadow: var(--shadow); transition: 0.3s; border: 2px solid transparent; position: relative; }
+        .day-card:hover { transform: translateY(-5px); border-color: var(--primary); }
         .day-card.completed { background: #e8f5e9; border-color: var(--primary); }
-        .day-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 12px; }
-        .day-card h4 { font-size: 1rem; margin-bottom: 5px; }
-        .day-desc { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
+        .day-card i.check-icon { position: absolute; top: 15px; right: 15px; color: var(--primary); font-size: 1.2rem; display: none; }
+        .day-card.completed i.check-icon { display: block; }
+        
+        .day-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+        .day-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
         /* Viewer */
         #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
         .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         iframe { flex-grow: 1; border: none; }
-        .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn-finish:hover { background: #144918; }
+        .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; }
 
         #alert-msg { color: #d9534f; font-size: 0.85rem; margin-bottom: 15px; font-weight: 600; display: none; }
     </style>
@@ -98,51 +74,47 @@
     <!-- HALAMAN LOGIN -->
     <div id="auth-section" class="auth-wrapper hidden">
         <div class="auth-card">
-            <i class="fa-solid fa-shield-halved fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
-            <h2>Akses Premium</h2>
-            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:25px;">Masukkan kode akses yang telah Anda beli</p>
-            
+            <i class="fa-solid fa-key fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
+            <h2>Akses Materi</h2>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:25px;">Masukkan kode akses 90 hari Anda</p>
             <div id="alert-msg"></div>
-
             <form id="login-form">
-                <div class="form-group">
-                    <label>KODE UNIK</label>
-                    <input type="text" id="access-code-input" placeholder="KODE-XXXX" required autocomplete="off">
-                </div>
-                <button type="submit" class="btn-main">AKTIFKAN KURSUS</button>
+                <input type="text" id="access-code-input" placeholder="VIP-XXXX" required autocomplete="off">
+                <button type="submit" class="btn-main">MASUK SEKARANG</button>
             </form>
-            <p style="margin-top:20px; font-size:0.7rem; color:#999;">Kode ini akan dikunci pada perangkat ini setelah digunakan.</p>
         </div>
     </div>
 
     <!-- HALAMAN DASHBOARD -->
     <div id="dashboard-section" class="container hidden">
         <div class="header-dash">
-            <div>
-                <h2 style="font-size: 1.2rem;">Selamat Belajar!</h2>
-                <p id="display-code" style="font-size: 0.8rem; color: var(--accent); font-weight:700;"></p>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2 style="font-size: 1.1rem;">Dashboard Belajar</h2>
+                    <p id="display-code" style="font-size: 0.7rem; color: var(--primary); font-weight:700;"></p>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="handleReset()" class="btn-reset">RESET PROGRES</button>
+                    <button onclick="handleLogout()" style="padding:8px 15px; border-radius:8px; cursor:pointer; font-size:0.75rem;">KELUAR</button>
+                </div>
             </div>
-            <div class="header-actions">
-                <button onclick="handleReset()" class="btn-action btn-reset"><i class="fa-solid fa-rotate-right"></i> Reset</button>
-                <button onclick="handleLogout()" class="btn-action btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
-            </div>
-        </div>
 
-        <!-- NAVIGASI TAMBAHAN -->
-        <div class="top-nav">
-            <button class="nav-btn" onclick="openPage('guide.html', 'Panduan (Guide)')"><i class="fa-solid fa-book"></i> Guide</button>
-            <button class="nav-btn" onclick="openPage('tense.html', 'Rumus Tenses')"><i class="fa-solid fa-clock"></i> Tenses</button>
-            <button class="nav-btn" onclick="openPage('tentang.html', 'Tentang Program')"><i class="fa-solid fa-circle-info"></i> Tentang</button>
-            <button class="nav-btn" onclick="openPage('contact.html', 'Hubungi Kami')"><i class="fa-solid fa-headset"></i> Contact</button>
+            <!-- MENU BUTTON HEADER -->
+            <div class="nav-menu">
+                <a href="guide.html" class="btn-nav"><i class="fa-solid fa-book-open"></i> GUIDE</a>
+                <a href="contact.html" class="btn-nav"><i class="fa-solid fa-headset"></i> CONTACT</a>
+                <a href="tense.html" class="btn-nav"><i class="fa-solid fa-spell-check"></i> TENSE</a>
+                <a href="tentang.html" class="btn-nav"><i class="fa-solid fa-circle-info"></i> TENTANG</a>
+            </div>
         </div>
 
         <div class="progress-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <p style="font-size:0.9rem; font-weight: 500;">Progres Belajar</p>
+                <p style="font-size:0.8rem;">Progres Tantangan 90 Hari</p>
                 <h2 id="progress-text">0%</h2>
             </div>
             <div class="bar-bg"><div id="progress-fill"></div></div>
-            <p id="progress-detail" style="font-size:0.8rem;">0/90 Hari selesai</p>
+            <p id="progress-detail" style="font-size:0.7rem;">0/90 Hari selesai</p>
         </div>
 
         <div class="grid-materi" id="materi-grid"></div>
@@ -151,211 +123,151 @@
     <!-- VIEWER MATERI -->
     <div id="viewer" class="hidden">
         <div class="viewer-nav">
-            <button onclick="closeViewer()" style="border:none; background:none; cursor: pointer; color: var(--text-main);"><i class="fa-solid fa-chevron-left fa-xl"></i></button>
-            <h4 id="view-title" style="font-size:0.95rem;">Materi</h4>
+            <button onclick="closeViewer()" style="border:none; background:none; cursor:pointer;"><i class="fa-solid fa-xmark fa-xl"></i></button>
+            <h4 id="view-title">Materi</h4>
             <div style="width:20px;"></div>
         </div>
         <iframe id="content-frame"></iframe>
-        <button id="btn-mark-complete" class="btn-finish">SAYA SUDAH MEMPELAJARI INI</button>
+        <button id="btn-mark-complete" class="btn-finish">TANDAI SELESAI HARI INI</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // ==========================================
-        // TEMPEL CONFIG FIREBASE ANDA DI BAWAH INI
-        // ==========================================
         const firebaseConfig = {
-            apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
-            authDomain: "english300-e6dd6.firebaseapp.com",
-            projectId: "english300-e6dd6",
-            storageBucket: "english300-e6dd6.firebasestorage.app",
-            messagingSenderId: "1036309233436",
-            appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
+            apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
+            authDomain: "blockdag-polling.firebaseapp.com",
+            projectId: "blockdag-polling",
+            storageBucket: "blockdag-polling.firebasestorage.app",
+            messagingSenderId: "458807719521",
+            appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let userCode = localStorage.getItem('premium_code');
-        let completedDays =[];
-        const TOTAL_DAYS = 90; // Diubah jadi 90 Hari
+        // ISI DESKRIPSI DI SINI (Contoh: Day 1, Day 2, dst)
+        const dayDescriptions = {
+            1: "Perkenalan Dasar & Greeting dalam Bahasa Inggris.",
+            2: "Penggunaan To Be (Am, Is, Are) yang Benar.",
+            3: "Kosakata Dasar di Lingkungan Rumah.",
+            4: "Mengenal Numbers dan Time Telling.",
+            5: "Latihan Mendengarkan Percakapan Pendek.",
+            // ... Tambahkan sampai 90 sesuai kebutuhan Anda
+        };
 
-        // ==========================================
-        // DESKRIPSI PELATIHAN (BISA ANDA EDIT SENDIRI)
-        // ==========================================
-        const deskripsiMateri =[
-            "Pengenalan Basic",       // Hari 1
-            "Penggunaan To Be",       // Hari 2
-            "Subject & Pronouns",     // Hari 3
-            "Simple Present Tense",   // Hari 4
-            "Present Continuous",     // Hari 5
-            "Vocabulary: Daily Life", // Hari 6
-            "Listening Practice",     // Hari 7
-            // Anda bisa tambahkan sampai 90 baris di sini.
-            // Jika kosong, sistem otomatis memakai "Materi Pelatihan Hari Ke-X"
-        ];
+        let userCode = localStorage.getItem('premium_code');
+        let completedDays = [];
 
         window.onload = async () => {
             if (userCode) {
                 const valid = await validateAndLoad(userCode);
-                if (!valid) {
-                    localStorage.removeItem('premium_code');
-                    showSection('auth');
-                }
-            } else {
-                showSection('auth');
-            }
+                if (!valid) { localStorage.removeItem('premium_code'); showSection('auth'); }
+            } else { showSection('auth'); }
             document.getElementById('loader').classList.add('hidden');
         };
 
         document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
             const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
-            const alertBox = document.getElementById('alert-msg');
-            
             document.getElementById('loader').classList.remove('hidden');
             const valid = await validateAndLoad(codeInput);
-            
             if (valid) {
                 localStorage.setItem('premium_code', codeInput);
                 userCode = codeInput;
-                alertBox.style.display = 'none';
             } else {
-                alertBox.textContent = "KODE TIDAK VALID / SUDAH DIGUNAKAN DI PERANGKAT LAIN";
-                alertBox.style.display = 'block';
-                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('alert-msg').textContent = "KODE SALAH / TERKUNCI PERANGKAT LAIN";
+                document.getElementById('alert-msg').style.display = 'block';
             }
+            document.getElementById('loader').classList.add('hidden');
         };
 
         async function validateAndLoad(code) {
             try {
                 const docRef = doc(db, "accessCodes", code);
                 const docSnap = await getDoc(docRef);
-
                 if (docSnap.exists() && docSnap.data().status === "active") {
                     const data = docSnap.data();
-                    
-                    let deviceId = localStorage.getItem('dev_token');
-                    if (!deviceId) {
-                        deviceId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-                        localStorage.setItem('dev_token', deviceId);
-                    }
+                    let deviceId = localStorage.getItem('dev_token') || 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                    localStorage.setItem('dev_token', deviceId);
 
-                    if (data.lockedDevice && data.lockedDevice !== deviceId) {
-                        return false; 
-                    }
+                    if (data.lockedDevice && data.lockedDevice !== deviceId) return false;
+                    if (!data.lockedDevice) await updateDoc(docRef, { lockedDevice: deviceId });
 
-                    if (!data.lockedDevice) {
-                        await updateDoc(docRef, { lockedDevice: deviceId });
-                    }
-
-                    completedDays = data.completed ||[];
+                    completedDays = data.completed || [];
                     renderDashboard(code);
                     showSection('dashboard');
                     return true;
                 }
                 return false;
-            } catch (err) {
-                console.log(err);
-                return false;
-            }
+            } catch (err) { return false; }
         }
 
         function renderDashboard(code) {
-            document.getElementById('display-code').textContent = code;
+            document.getElementById('display-code').textContent = "ID: " + code;
             const grid = document.getElementById('materi-grid');
             grid.innerHTML = '';
 
-            for (let i = 1; i <= TOTAL_DAYS; i++) {
+            for (let i = 1; i <= 90; i++) {
                 const isDone = completedDays.includes(i);
-                
-                // Ambil deskripsi dari Array, jika tidak ada pakai teks default
-                const desc = deskripsiMateri[i-1] || `Materi Pelatihan Hari Ke-${i}`;
-
+                const desc = dayDescriptions[i] || "Pelajari materi hari ini untuk meningkatkan kemampuan Anda.";
                 const card = document.createElement('div');
                 card.className = `day-card ${isDone ? 'completed' : ''}`;
                 card.innerHTML = `
-                    <i class="fa-solid ${isDone ? 'fa-check-circle' : 'fa-play-circle'}"></i>
-                    <h4>Hari ${i}</h4>
-                    <p class="day-desc">${desc}</p>
+                    <i class="fa-solid fa-circle-check check-icon"></i>
+                    <div class="day-title">Hari ${i}</div>
+                    <div class="day-desc">${desc}</div>
                 `;
                 card.onclick = () => openViewer(i);
                 grid.appendChild(card);
             }
 
-            const pct = Math.round((completedDays.length / TOTAL_DAYS) * 100);
+            const pct = Math.round((completedDays.length / 90) * 100);
             document.getElementById('progress-fill').style.width = pct + '%';
             document.getElementById('progress-text').textContent = pct + '%';
-            document.getElementById('progress-detail').textContent = `${completedDays.length} dari ${TOTAL_DAYS} Hari selesai`;
+            document.getElementById('progress-detail').textContent = `${completedDays.length}/90 Materi Selesai`;
         }
 
-        let currentDayOpen = 0;
+        // FUNGSI RESET PROGRES
+        window.handleReset = async () => {
+            if (confirm("Apakah Anda yakin ingin menghapus semua progres? Centang materi yang sudah selesai akan hilang.")) {
+                document.getElementById('loader').classList.remove('hidden');
+                const docRef = doc(db, "accessCodes", userCode);
+                await updateDoc(docRef, { completed: [] });
+                completedDays = [];
+                renderDashboard(userCode);
+                document.getElementById('loader').classList.add('hidden');
+                alert("Progres berhasil direset!");
+            }
+        };
 
-        // FUNGSI BUKA MATERI (HARI X)
         window.openViewer = (day) => {
-            currentDayOpen = day;
             document.getElementById('view-title').textContent = "Materi Hari " + day;
             document.getElementById('content-frame').src = `hari${day}.html`;
-            
-            const btn = document.getElementById('btn-mark-complete');
-            btn.style.display = 'block'; // Tampilkan tombol selesai
-            btn.disabled = completedDays.includes(day);
-            btn.textContent = completedDays.includes(day) ? "MATERI SUDAH SELESAI" : "SAYA SUDAH MEMPELAJARI INI";
-            btn.style.opacity = completedDays.includes(day) ? "0.5" : "1";
-            
             document.getElementById('viewer').classList.remove('hidden');
+            const btn = document.getElementById('btn-mark-complete');
+            btn.onclick = () => markComplete(day);
+            btn.disabled = completedDays.includes(day);
+            btn.textContent = completedDays.includes(day) ? "SUDAH SELESAI ✅" : "TANDAI SELESAI HARI INI";
         };
 
-        // FUNGSI BUKA MENU KHUSUS (Guide, Contact, dll)
-        window.openPage = (url, title) => {
-            document.getElementById('view-title').textContent = title;
-            document.getElementById('content-frame').src = url;
-            
-            // Sembunyikan tombol "SAYA SUDAH MEMPELAJARI INI" pada page menu biasa
-            document.getElementById('btn-mark-complete').style.display = 'none';
-            document.getElementById('viewer').classList.remove('hidden');
-        };
+        async function markComplete(day) {
+            if (completedDays.includes(day)) return;
+            const docRef = doc(db, "accessCodes", userCode);
+            await updateDoc(docRef, { completed: arrayUnion(day) });
+            completedDays.push(day);
+            renderDashboard(userCode);
+            closeViewer();
+        }
 
         window.closeViewer = () => {
             document.getElementById('viewer').classList.add('hidden');
             document.getElementById('content-frame').src = "";
         };
 
-        document.getElementById('btn-mark-complete').onclick = async () => {
-            if (completedDays.includes(currentDayOpen)) return;
-            
-            document.getElementById('loader').classList.remove('hidden');
-            const docRef = doc(db, "accessCodes", userCode);
-            await updateDoc(docRef, { completed: arrayUnion(currentDayOpen) });
-            
-            completedDays.push(currentDayOpen);
-            renderDashboard(userCode);
-            document.getElementById('loader').classList.add('hidden');
-            closeViewer();
-        };
-
-        // FUNGSI RESET PROGRES
-        window.handleReset = async () => {
-            if(confirm("PERINGATAN! Apakah Anda yakin ingin mereset seluruh progres belajar? Hari yang sudah ditandai 'Selesai' akan kembali seperti semula.")) {
-                document.getElementById('loader').classList.remove('hidden');
-                try {
-                    const docRef = doc(db, "accessCodes", userCode);
-                    await updateDoc(docRef, { completed:[] }); // Kosongkan Array di Firebase
-                    
-                    completedDays =[]; // Kosongkan Array di Lokal
-                    renderDashboard(userCode);
-                } catch(e) {
-                    console.error("Error mereset data: ", e);
-                    alert("Terjadi kesalahan. Pastikan koneksi internet stabil.");
-                }
-                document.getElementById('loader').classList.add('hidden');
-            }
-        };
-
         window.handleLogout = () => {
-            if(confirm("Keluar dari akun? Anda butuh kode akses lagi untuk masuk.")) {
+            if(confirm("Keluar? Anda butuh kode akses untuk masuk lagi.")) {
                 localStorage.removeItem('premium_code');
                 location.reload();
             }
