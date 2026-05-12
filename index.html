@@ -2,346 +2,369 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>English Mastery 90 Hari | Program Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Mastery Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #0f172a; }
-        .loader-overlay {
-            position: fixed; inset: 0; background: #ffffff; display: flex; align-items: center; justify-content: center;
-            z-index: 9999; flex-direction: column; gap: 12px;
+        :root {
+            --primary: #1b5e20;
+            --accent: #4caf50;
+            --bg-color: #f8faf9;
+            --white: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
-        .spinner { width: 48px; height: 48px; border: 4px solid #e2e8f0; border-top: 4px solid #10b981; border-radius: 50%; animation: spin 1s linear infinite; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-main); }
+        .hidden { display: none !important; }
+
+        /* Loader */
+        #loader { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .auth-container { min-height: 100vh; background: linear-gradient(145deg, #0b2f1f 0%, #1e4a2f 100%); display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .auth-card { background: rgba(255,255,255,0.97); border-radius: 44px; padding: 40px 32px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 25px 45px -12px rgba(0,0,0,0.35); }
-        .auth-icon { background: #e9f9ef; width: 80px; height: 80px; border-radius: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-        .auth-icon i { font-size: 40px; color: #15803d; }
-        .auth-card h1 { font-size: 1.7rem; font-weight: 800; }
-        .input-group { text-align: left; margin-bottom: 24px; }
-        .input-group label { font-weight: 600; font-size: 0.75rem; color: #2d6a4f; display: block; margin-bottom: 6px; }
-        .input-group input { width: 100%; padding: 16px 18px; border: 2px solid #e2e8f0; border-radius: 28px; text-align: center; font-weight: 600; }
-        .btn-primary { background: #15803d; color: white; border: none; width: 100%; padding: 14px; border-radius: 40px; font-weight: 700; cursor: pointer; }
-        .error-msg { color: #e11d48; font-size: 0.8rem; margin-top: 8px; display: none; }
-        .dashboard-wrapper { display: none; background: #f1f5f9; min-height: 100vh; }
-        .dashboard-container { max-width: 1280px; margin: 0 auto; padding: 24px 20px 40px; }
-        .navbar { background: white; border-radius: 32px; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-        .logo-area h2 { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, #14532d, #2b9348); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
-        .nav-btn { background: transparent; border: none; font-weight: 600; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 40px; cursor: pointer; color: #2c3e50; }
-        .nav-btn i { color: #2b9348; }
-        .logout-btn, .reset-btn { border: none; padding: 8px 18px; border-radius: 32px; font-weight: 600; cursor: pointer; }
-        .logout-btn { background: #fee2e2; color: #b91c1c; }
-        .reset-btn { background: #fff3e3; color: #b45309; margin-left: 10px; }
-        .hero-progress { background: linear-gradient(120deg, #0f3b2c, #1b6b43); border-radius: 40px; padding: 28px; color: white; margin-bottom: 40px; }
-        .progress-stats { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
-        .progress-percent { font-size: 2.8rem; font-weight: 800; }
-        .progress-bar-bg { background: rgba(255,255,255,0.25); border-radius: 60px; margin: 16px 0 12px; height: 12px; overflow: hidden; }
-        #progressFillBar { background: #ffea9e; width: 0%; height: 100%; border-radius: 60px; transition: width 0.5s ease; }
-        .materi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .day-card { background: white; border-radius: 28px; padding: 18px 16px; cursor: pointer; box-shadow: 0 3px 12px rgba(0,0,0,0.05); border: 1px solid #eef2f0; transition: all 0.2s; }
-        .day-card:hover { transform: translateY(-4px); box-shadow: 0 18px 30px -12px rgba(0,0,0,0.1); }
-        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .day-number { font-weight: 800; font-size: 1.1rem; background: #eef2ff; padding: 4px 12px; border-radius: 40px; color: #166534; }
-        .check-icon { font-size: 1.4rem; color: #22c55e; }
-        .day-desc { font-size: 0.8rem; color: #334155; line-height: 1.4; margin: 12px 0 10px; padding-left: 12px; border-left: 3px solid #86efac; }
-        .completed-card { background: #effdf5; border-left: 5px solid #10b981; }
-        .viewer-overlay { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; }
-        .viewer-header { padding: 16px 24px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: white; }
-        .viewer-content { flex: 1; background: #f9fafb; }
-        iframe { width: 100%; height: 100%; border: none; }
-        .viewer-footer { padding: 18px; background: white; border-top: 1px solid #e9ecef; text-align: center; }
-        .finish-btn { background: #15803d; color: white; border: none; padding: 14px 32px; border-radius: 60px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 90%; max-width: 380px; }
-        .hidden { display: none; }
-        @media (max-width: 640px) { .nav-links { order: 3; width: 100%; justify-content: center; } .navbar { flex-direction: column; align-items: stretch; } }
+
+        /* Login Section */
+        .auth-wrapper { 
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); padding: 20px;
+        }
+        .auth-card { 
+            background: var(--white); padding: 40px; border-radius: 25px; 
+            box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center;
+        }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; letter-spacing: 1px; }
+        .form-group input { 
+            width: 100%; padding: 15px; border: 2px solid #edf2f0; border-radius: 12px; 
+            font-size: 1.1rem; text-align: center; font-weight: 700; letter-spacing: 2px;
+        }
+        .btn-main { 
+            background: var(--primary); color: white; border: none; padding: 15px; 
+            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; font-size: 1rem;
+        }
+
+        /* Dashboard */
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+        
+        .header-dash { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header-actions { display: flex; gap: 10px; }
+        .btn-action { padding: 8px 15px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 600; border: 1px solid transparent; transition: var(--transition); }
+        .btn-logout { background: #fff1f0; color: #ff4d4f; border-color: #ffa39e; }
+        .btn-logout:hover { background: #ff4d4f; color: white; }
+        .btn-reset { background: #fffbe6; color: #faad14; border-color: #ffe58f; }
+        .btn-reset:hover { background: #faad14; color: white; }
+
+        /* Top Navigation Menu */
+        .top-nav { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+        .nav-btn { 
+            background: white; border: 1px solid #edf2f0; padding: 12px 15px; border-radius: 15px; 
+            cursor: pointer; font-weight: 600; font-size: 0.8rem; box-shadow: var(--shadow); 
+            transition: var(--transition); display: flex; align-items: center; gap: 8px; 
+            color: var(--text-main); flex: 1; justify-content: center; min-width: 120px;
+        }
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-3px); }
+
+        .progress-card { background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); color: white; padding: 25px; border-radius: 25px; margin-bottom: 30px; box-shadow: var(--shadow); }
+        .bar-bg { background: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        #progress-fill { background: white; height: 100%; width: 0%; transition: 0.8s ease; }
+
+        /* Grid */
+        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .day-card { background: white; padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); border: 2px solid transparent; display: flex; flex-direction: column; justify-content: center; }
+        .day-card:hover { transform: translateY(-5px); border-color: #c8e6c9; }
+        .day-card.completed { background: #e8f5e9; border-color: var(--primary); }
+        .day-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 12px; }
+        .day-card h4 { font-size: 1rem; margin-bottom: 5px; }
+        .day-desc { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
+
+        /* Viewer */
+        #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
+        .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        iframe { flex-grow: 1; border: none; }
+        .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-finish:hover { background: #144918; }
+
+        #alert-msg { color: #d9534f; font-size: 0.85rem; margin-bottom: 15px; font-weight: 600; display: none; }
     </style>
 </head>
 <body>
 
-<div id="globalLoader" class="loader-overlay"><div class="spinner"></div><span>Memuat program premium...</span></div>
+    <div id="loader"><div class="spinner"></div></div>
 
-<!-- LOGIN -->
-<div id="authSection" class="auth-container">
-    <div class="auth-card">
-        <div class="auth-icon"><i class="fa-solid fa-gem"></i></div>
-        <h1>⚡ Akses Premium</h1>
-        <p>Masukkan kode akses 90 hari • Metode Otak Cepat</p>
-        <form id="premiumLoginForm">
-            <div class="input-group"><label>KODE AKTIVASI</label><input type="text" id="accessKey" placeholder="CONTOH: ENG90-XYZ" autocomplete="off"></div>
-            <div id="loginError" class="error-msg"></div>
-            <button type="submit" class="btn-primary"><i class="fa-solid fa-unlock-keyhole"></i> Aktifkan Kursus</button>
-        </form>
-        <p style="font-size: 0.65rem; margin-top: 24px; color:#6c757d;">🔒 Kode terkunci pada perangkat ini</p>
+    <!-- HALAMAN LOGIN -->
+    <div id="auth-section" class="auth-wrapper hidden">
+        <div class="auth-card">
+            <i class="fa-solid fa-shield-halved fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
+            <h2>Akses Premium</h2>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:25px;">Masukkan kode akses yang telah Anda beli</p>
+            
+            <div id="alert-msg"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label>KODE UNIK</label>
+                    <input type="text" id="access-code-input" placeholder="KODE-XXXX" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn-main">AKTIFKAN KURSUS</button>
+            </form>
+            <p style="margin-top:20px; font-size:0.7rem; color:#999;">Kode ini akan dikunci pada perangkat ini setelah digunakan.</p>
+        </div>
     </div>
-</div>
 
-<!-- DASHBOARD -->
-<div id="dashboardSection" class="dashboard-wrapper">
-    <div class="dashboard-container">
-        <div class="navbar">
-            <div class="logo-area"><h2><i class="fa-regular fa-message"></i> English Mastery 90</h2></div>
-            <div class="nav-links">
-                <button class="nav-btn" id="guideBtn"><i class="fa-regular fa-compass"></i> Guide</button>
-                <button class="nav-btn" id="contactBtn"><i class="fa-regular fa-headset"></i> Kontak</button>
-                <button class="nav-btn" id="tenseBtn"><i class="fa-regular fa-clock"></i> Tense</button>
-                <button class="nav-btn" id="aboutBtn"><i class="fa-regular fa-circle-info"></i> Tentang</button>
+    <!-- HALAMAN DASHBOARD -->
+    <div id="dashboard-section" class="container hidden">
+        <div class="header-dash">
+            <div>
+                <h2 style="font-size: 1.2rem;">Selamat Belajar!</h2>
+                <p id="display-code" style="font-size: 0.8rem; color: var(--accent); font-weight:700;"></p>
             </div>
-            <div><button id="resetProgressBtn" class="reset-btn"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
-            <button id="logoutDashboardBtn" class="logout-btn"><i class="fa-regular fa-door-open"></i> Keluar</button></div>
+            <div class="header-actions">
+                <button onclick="handleReset()" class="btn-action btn-reset"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+                <button onclick="handleLogout()" class="btn-action btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+            </div>
         </div>
-        <div class="hero-progress">
-            <div class="progress-stats"><span><i class="fa-regular fa-calendar-check"></i> 90 Hari Tantangan</span><span class="progress-percent" id="progressPercent">0%</span></div>
-            <div class="progress-bar-bg"><div id="progressFillBar"></div></div>
-            <div class="badge-detail" id="progressDetailText">0 / 90 materi selesai</div>
+
+        <!-- NAVIGASI TAMBAHAN -->
+        <div class="top-nav">
+            <button class="nav-btn" onclick="openPage('guide.html', 'Panduan (Guide)')"><i class="fa-solid fa-book"></i> Guide</button>
+            <button class="nav-btn" onclick="openPage('tense.html', 'Rumus Tenses')"><i class="fa-solid fa-clock"></i> Tenses</button>
+            <button class="nav-btn" onclick="openPage('tentang.html', 'Tentang Program')"><i class="fa-solid fa-circle-info"></i> Tentang</button>
+            <button class="nav-btn" onclick="openPage('contact.html', 'Hubungi Kami')"><i class="fa-solid fa-headset"></i> Contact</button>
         </div>
-        <div id="materiGridContainer" class="materi-grid"></div>
+
+        <div class="progress-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <p style="font-size:0.9rem; font-weight: 500;">Progres Belajar</p>
+                <h2 id="progress-text">0%</h2>
+            </div>
+            <div class="bar-bg"><div id="progress-fill"></div></div>
+            <p id="progress-detail" style="font-size:0.8rem;">0/90 Hari selesai</p>
+        </div>
+
+        <div class="grid-materi" id="materi-grid"></div>
     </div>
-</div>
 
-<!-- VIEWER -->
-<div id="viewerPanel" class="viewer-overlay hidden">
-    <div class="viewer-header"><button id="closeViewerBtn" style="background:none; border:none; font-size:1.6rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button><h3 id="viewerDayTitle">Materi</h3><div style="width:28px;"></div></div>
-    <div class="viewer-content"><iframe id="materiFrame" src="about:blank"></iframe></div>
-    <div class="viewer-footer"><button id="markCompleteBtn" class="finish-btn"><i class="fa-regular fa-circle-check"></i> Tandai Selesai</button></div>
-</div>
+    <!-- VIEWER MATERI -->
+    <div id="viewer" class="hidden">
+        <div class="viewer-nav">
+            <button onclick="closeViewer()" style="border:none; background:none; cursor: pointer; color: var(--text-main);"><i class="fa-solid fa-chevron-left fa-xl"></i></button>
+            <h4 id="view-title" style="font-size:0.95rem;">Materi</h4>
+            <div style="width:20px;"></div>
+        </div>
+        <iframe id="content-frame"></iframe>
+        <button id="btn-mark-complete" class="btn-finish">SAYA SUDAH MEMPELAJARI INI</button>
+    </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // KONFIGURASI FIREBASE ASLI (TIDAK DIRUBAH)
-    const firebaseConfig = {
-        apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
-        authDomain: "english300-e6dd6.firebaseapp.com",
-        projectId: "english300-e6dd6",
-        storageBucket: "english300-e6dd6.firebasestorage.app",
-        messagingSenderId: "1036309233436",
-        appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        // ==========================================
+        // TEMPEL CONFIG FIREBASE ANDA DI BAWAH INI
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
+            authDomain: "english300-e6dd6.firebaseapp.com",
+            projectId: "english300-e6dd6",
+            storageBucket: "english300-e6dd6.firebasestorage.app",
+            messagingSenderId: "1036309233436",
+            appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
+        };
 
-    let currentUserCode = null;
-    let completedDays = [];  // array of integers (hari 1-90)
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // Deskripsi untuk 90 hari (kreatif dan bervariasi)
-    const descMap = {};
-    for (let i=1; i<=90; i++) {
-        if (i<=10) descMap[i] = "🎧 Listening & respon cepat • percakapan nyata";
-        else if (i<=20) descMap[i] = "🗣️ Speaking challenge • pronunciation & intonasi";
-        else if (i<=30) descMap[i] = "📖 Ekspansi vocabulary sehari-hari";
-        else if (i<=40) descMap[i] = "⚡ Fluent Drills • pola kalimat otomatis";
-        else if (i<=55) descMap[i] = "🎙️ Roleplay bisnis & sosial • percaya diri";
-        else if (i<=70) descMap[i] = "🏆 Storytelling & presentasi impromptu";
-        else descMap[i] = "🎓 Simulasi ujian & interview bahasa Inggris";
-    }
-    descMap[1] = "🚀 Perkenalan & small talk • metode otak cepat";
-    descMap[7] = "☕ Pemesanan makanan & roleplay restoran";
-    descMap[14] = "📞 Telepon bisnis • frasa profesional";
-    descMap[21] = "🎯 Present tense & kebiasaan sehari-hari";
-    descMap[30] = "🏅 Uji speaking 30 detik • topik favorit";
-    descMap[45] = "📧 Menulis email & percakapan formal";
-    descMap[60] = "🎬 Menonton adegan film & menjawab langsung";
-    descMap[75] = "💼 Negosiasi & debat ringan";
-    descMap[90] = "🎓 Simulasi kelancaran total • sertifikasi mandiri";
+        let userCode = localStorage.getItem('premium_code');
+        let completedDays =[];
+        const TOTAL_DAYS = 90; // Diubah jadi 90 Hari
 
-    // ============ FUNGSI FIREBASE TIDAK DIRUBAH STRUKTURNYA ============
-    async function validateAndLoad(code) {
-        try {
-            const docRef = doc(db, "accessCodes", code);
-            const docSnap = await getDoc(docRef);
-            if (!docSnap.exists() || docSnap.data().status !== "active") return false;
-            const data = docSnap.data();
-            let deviceId = localStorage.getItem('dev_token_master');
-            if (!deviceId) {
-                deviceId = 'DEV-' + Math.random().toString(36).substr(2, 12).toUpperCase();
-                localStorage.setItem('dev_token_master', deviceId);
+        // ==========================================
+        // DESKRIPSI PELATIHAN (BISA ANDA EDIT SENDIRI)
+        // ==========================================
+        const deskripsiMateri =[
+            "Pengenalan Basic",       // Hari 1
+            "Penggunaan To Be",       // Hari 2
+            "Subject & Pronouns",     // Hari 3
+            "Simple Present Tense",   // Hari 4
+            "Present Continuous",     // Hari 5
+            "Vocabulary: Daily Life", // Hari 6
+            "Listening Practice",     // Hari 7
+            // Anda bisa tambahkan sampai 90 baris di sini.
+            // Jika kosong, sistem otomatis memakai "Materi Pelatihan Hari Ke-X"
+        ];
+
+        window.onload = async () => {
+            if (userCode) {
+                const valid = await validateAndLoad(userCode);
+                if (!valid) {
+                    localStorage.removeItem('premium_code');
+                    showSection('auth');
+                }
+            } else {
+                showSection('auth');
             }
-            if (data.lockedDevice && data.lockedDevice !== deviceId) return false;
-            if (!data.lockedDevice) await updateDoc(docRef, { lockedDevice: deviceId });
-            completedDays = data.completed || [];
-            currentUserCode = code;
-            return true;
-        } catch(e) { console.error(e); return false; }
-    }
+            document.getElementById('loader').classList.add('hidden');
+        };
 
-    async function updateFirebaseCompleted(newCompletedArray) {
-        if (!currentUserCode) return;
-        const docRef = doc(db, "accessCodes", currentUserCode);
-        await updateDoc(docRef, { completed: newCompletedArray });
-    }
-
-    // RESET PROGRES (MENGGUNAKAN arrayRemove AGAR STRUKTUR TETAP)
-    async function resetAllProgress() {
-        if (!currentUserCode) return;
-        const confirmReset = confirm("⚠️ PERINGATAN: Semua progres 90 hari akan dihapus permanen. Lanjutkan?");
-        if (!confirmReset) return;
-        try {
-            const docRef = doc(db, "accessCodes", currentUserCode);
-            // Hapus semua completed satu per satu via arrayRemove (agar firebase konsisten)
-            for (let day of completedDays) {
-                await updateDoc(docRef, { completed: arrayRemove(day) });
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
+            const alertBox = document.getElementById('alert-msg');
+            
+            document.getElementById('loader').classList.remove('hidden');
+            const valid = await validateAndLoad(codeInput);
+            
+            if (valid) {
+                localStorage.setItem('premium_code', codeInput);
+                userCode = codeInput;
+                alertBox.style.display = 'none';
+            } else {
+                alertBox.textContent = "KODE TIDAK VALID / SUDAH DIGUNAKAN DI PERANGKAT LAIN";
+                alertBox.style.display = 'block';
+                document.getElementById('loader').classList.add('hidden');
             }
-            completedDays = [];
-            renderDashboardGrid();
-            alert("✅ Semua progres telah direset. Selamat memulai dari awal!");
-        } catch(err) { alert("Gagal reset: " + err.message); }
-    }
+        };
 
-    // RENDER GRID 90 HARI + DESKRIPSI
-    function renderDashboardGrid() {
-        const container = document.getElementById('materiGridContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let i = 1; i <= 90; i++) {
-            const isDone = completedDays.includes(i);
-            const descText = descMap[i] || "🎯 Teknik modern • praktik nyata";
-            const card = document.createElement('div');
-            card.className = `day-card ${isDone ? 'completed-card' : ''}`;
-            card.innerHTML = `
-                <div class="card-header"><span class="day-number">Hari ${i}</span>${isDone ? '<i class="fa-regular fa-circle-check check-icon"></i>' : '<i class="fa-regular fa-hourglass-half" style="color:#94a3b8;"></i>'}</div>
-                <div class="day-desc"><i class="fa-regular fa-message-lines"></i> ${descText}</div>
-                <div class="hari-label" style="font-size:0.7rem; color:#475569;"><i class="fa-regular fa-rocket"></i> Latihan interaktif & challenge</div>
-            `;
-            card.addEventListener('click', () => openDayMaterial(i));
-            container.appendChild(card);
+        async function validateAndLoad(code) {
+            try {
+                const docRef = doc(db, "accessCodes", code);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists() && docSnap.data().status === "active") {
+                    const data = docSnap.data();
+                    
+                    let deviceId = localStorage.getItem('dev_token');
+                    if (!deviceId) {
+                        deviceId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                        localStorage.setItem('dev_token', deviceId);
+                    }
+
+                    if (data.lockedDevice && data.lockedDevice !== deviceId) {
+                        return false; 
+                    }
+
+                    if (!data.lockedDevice) {
+                        await updateDoc(docRef, { lockedDevice: deviceId });
+                    }
+
+                    completedDays = data.completed ||[];
+                    renderDashboard(code);
+                    showSection('dashboard');
+                    return true;
+                }
+                return false;
+            } catch (err) {
+                console.log(err);
+                return false;
+            }
         }
-        const totalDone = completedDays.length;
-        const percent = Math.round((totalDone / 90) * 100);
-        document.getElementById('progressPercent').innerText = percent + "%";
-        document.getElementById('progressFillBar').style.width = percent + "%";
-        document.getElementById('progressDetailText').innerHTML = `${totalDone} dari 90 materi terselesaikan 🔥 Semangat!`;
-    }
 
-    let currentDayOpened = null;
+        function renderDashboard(code) {
+            document.getElementById('display-code').textContent = code;
+            const grid = document.getElementById('materi-grid');
+            grid.innerHTML = '';
 
-    function openDayMaterial(day) {
-        currentDayOpened = day;
-        const viewer = document.getElementById('viewerPanel');
-        const frame = document.getElementById('materiFrame');
-        document.getElementById('viewerDayTitle').innerText = `Hari ${day} - Materi Premium`;
-        frame.src = `hari${day}.html`;
-        viewer.classList.remove('hidden');
-        const completeBtn = document.getElementById('markCompleteBtn');
-        const isAlready = completedDays.includes(day);
-        completeBtn.innerText = isAlready ? "✅ SUDAH SELESAI" : "✨ TANDAI SELESAI & SIMPAN";
-        completeBtn.disabled = isAlready;
-        completeBtn.style.opacity = isAlready ? "0.6" : "1";
-    }
+            for (let i = 1; i <= TOTAL_DAYS; i++) {
+                const isDone = completedDays.includes(i);
+                
+                // Ambil deskripsi dari Array, jika tidak ada pakai teks default
+                const desc = deskripsiMateri[i-1] || `Materi Pelatihan Hari Ke-${i}`;
 
-    async function markCurrentComplete() {
-        if (!currentDayOpened) return;
-        if (completedDays.includes(currentDayOpened)) { alert("Sudah selesai sebelumnya"); return; }
-        const newCompleted = [...completedDays, currentDayOpened];
-        await updateFirebaseCompleted(newCompleted);
-        completedDays = newCompleted;
-        renderDashboardGrid();
-        closeViewer();
-    }
+                const card = document.createElement('div');
+                card.className = `day-card ${isDone ? 'completed' : ''}`;
+                card.innerHTML = `
+                    <i class="fa-solid ${isDone ? 'fa-check-circle' : 'fa-play-circle'}"></i>
+                    <h4>Hari ${i}</h4>
+                    <p class="day-desc">${desc}</p>
+                `;
+                card.onclick = () => openViewer(i);
+                grid.appendChild(card);
+            }
 
-    function closeViewer() {
-        document.getElementById('viewerPanel').classList.add('hidden');
-        document.getElementById('materiFrame').src = "about:blank";
-        currentDayOpened = null;
-    }
-
-    // Fungsi untuk membuka halaman info (guide, kontak, dll) di popup yang sama
-    function openInfoPage(pageFile, title) {
-        const viewer = document.getElementById('viewerPanel');
-        const frame = document.getElementById('materiFrame');
-        document.getElementById('viewerDayTitle').innerText = title;
-        frame.src = pageFile;
-        viewer.classList.remove('hidden');
-        const completeBtn = document.getElementById('markCompleteBtn');
-        completeBtn.disabled = true;
-        completeBtn.innerText = `📖 ${title} - Baca Panduan`;
-        completeBtn.style.opacity = "0.7";
-        // melepas event listener sementara agar tidak merusak progres
-        completeBtn.onclick = () => { alert("Ini halaman informasi, tidak mempengaruhi progres harian."); };
-    }
-
-    function restoreMarkButton() {
-        const completeBtn = document.getElementById('markCompleteBtn');
-        completeBtn.onclick = () => markCurrentComplete();
-        if (currentDayOpened && completedDays.includes(currentDayOpened)) {
-            completeBtn.disabled = true;
-            completeBtn.innerText = "✅ SUDAH SELESAI";
-        } else if (currentDayOpened) {
-            completeBtn.disabled = false;
-            completeBtn.innerText = "✨ TANDAI SELESAI & SIMPAN";
-        } else {
-            completeBtn.disabled = true;
-            completeBtn.innerText = "Tandai Selesai";
+            const pct = Math.round((completedDays.length / TOTAL_DAYS) * 100);
+            document.getElementById('progress-fill').style.width = pct + '%';
+            document.getElementById('progress-text').textContent = pct + '%';
+            document.getElementById('progress-detail').textContent = `${completedDays.length} dari ${TOTAL_DAYS} Hari selesai`;
         }
-    }
 
-    // LOGOUT & INIT
-    function handleLogout() {
-        if(confirm("Keluar dari akun? Anda butuh kode akses lagi untuk masuk.")) {
-            localStorage.removeItem('premium_code');
-            localStorage.removeItem('dev_token_master');
-            location.reload();
+        let currentDayOpen = 0;
+
+        // FUNGSI BUKA MATERI (HARI X)
+        window.openViewer = (day) => {
+            currentDayOpen = day;
+            document.getElementById('view-title').textContent = "Materi Hari " + day;
+            document.getElementById('content-frame').src = `hari${day}.html`;
+            
+            const btn = document.getElementById('btn-mark-complete');
+            btn.style.display = 'block'; // Tampilkan tombol selesai
+            btn.disabled = completedDays.includes(day);
+            btn.textContent = completedDays.includes(day) ? "MATERI SUDAH SELESAI" : "SAYA SUDAH MEMPELAJARI INI";
+            btn.style.opacity = completedDays.includes(day) ? "0.5" : "1";
+            
+            document.getElementById('viewer').classList.remove('hidden');
+        };
+
+        // FUNGSI BUKA MENU KHUSUS (Guide, Contact, dll)
+        window.openPage = (url, title) => {
+            document.getElementById('view-title').textContent = title;
+            document.getElementById('content-frame').src = url;
+            
+            // Sembunyikan tombol "SAYA SUDAH MEMPELAJARI INI" pada page menu biasa
+            document.getElementById('btn-mark-complete').style.display = 'none';
+            document.getElementById('viewer').classList.remove('hidden');
+        };
+
+        window.closeViewer = () => {
+            document.getElementById('viewer').classList.add('hidden');
+            document.getElementById('content-frame').src = "";
+        };
+
+        document.getElementById('btn-mark-complete').onclick = async () => {
+            if (completedDays.includes(currentDayOpen)) return;
+            
+            document.getElementById('loader').classList.remove('hidden');
+            const docRef = doc(db, "accessCodes", userCode);
+            await updateDoc(docRef, { completed: arrayUnion(currentDayOpen) });
+            
+            completedDays.push(currentDayOpen);
+            renderDashboard(userCode);
+            document.getElementById('loader').classList.add('hidden');
+            closeViewer();
+        };
+
+        // FUNGSI RESET PROGRES
+        window.handleReset = async () => {
+            if(confirm("PERINGATAN! Apakah Anda yakin ingin mereset seluruh progres belajar? Hari yang sudah ditandai 'Selesai' akan kembali seperti semula.")) {
+                document.getElementById('loader').classList.remove('hidden');
+                try {
+                    const docRef = doc(db, "accessCodes", userCode);
+                    await updateDoc(docRef, { completed:[] }); // Kosongkan Array di Firebase
+                    
+                    completedDays =[]; // Kosongkan Array di Lokal
+                    renderDashboard(userCode);
+                } catch(e) {
+                    console.error("Error mereset data: ", e);
+                    alert("Terjadi kesalahan. Pastikan koneksi internet stabil.");
+                }
+                document.getElementById('loader').classList.add('hidden');
+            }
+        };
+
+        window.handleLogout = () => {
+            if(confirm("Keluar dari akun? Anda butuh kode akses lagi untuk masuk.")) {
+                localStorage.removeItem('premium_code');
+                location.reload();
+            }
+        };
+
+        function showSection(id) {
+            document.getElementById('auth-section').classList.toggle('hidden', id !== 'auth');
+            document.getElementById('dashboard-section').classList.toggle('hidden', id !== 'dashboard');
         }
-    }
-
-    async function initDashboard(code) {
-        currentUserCode = code;
-        await validateAndLoad(code);
-        renderDashboardGrid();
-        document.getElementById('dashboardSection').style.display = 'block';
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('globalLoader').classList.add('hidden');
-        document.getElementById('resetProgressBtn').onclick = resetAllProgress;
-        document.getElementById('logoutDashboardBtn').onclick = handleLogout;
-        document.getElementById('guideBtn').onclick = () => openInfoPage('guide.html', '📘 Panduan Belajar');
-        document.getElementById('contactBtn').onclick = () => openInfoPage('contact.html', '📞 Kontak Dukungan');
-        document.getElementById('tenseBtn').onclick = () => openInfoPage('tense.html', '⏳ Ringkasan Tenses');
-        document.getElementById('aboutBtn').onclick = () => openInfoPage('tentang.html', '✨ Tentang Program 90 Hari');
-    }
-
-    // LOGIN SUBMIT
-    document.getElementById('premiumLoginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const codeInput = document.getElementById('accessKey').value.trim().toUpperCase();
-        const errDiv = document.getElementById('loginError');
-        document.getElementById('globalLoader').classList.remove('hidden');
-        errDiv.style.display = 'none';
-        const valid = await validateAndLoad(codeInput);
-        if (valid && currentUserCode) {
-            localStorage.setItem('premium_code', codeInput);
-            await initDashboard(codeInput);
-        } else {
-            document.getElementById('globalLoader').classList.add('hidden');
-            errDiv.innerText = "❌ Kode tidak valid / sudah digunakan di perangkat lain.";
-            errDiv.style.display = 'block';
-        }
-    });
-
-    // AUTO LOGIN
-    window.addEventListener('DOMContentLoaded', async () => {
-        document.getElementById('globalLoader').classList.remove('hidden');
-        const savedCode = localStorage.getItem('premium_code');
-        if (savedCode) {
-            const valid = await validateAndLoad(savedCode);
-            if (valid && currentUserCode) {
-                await initDashboard(savedCode);
-                document.getElementById('globalLoader').classList.add('hidden');
-                return;
-            } else localStorage.removeItem('premium_code');
-        }
-        document.getElementById('globalLoader').classList.add('hidden');
-        document.getElementById('dashboardSection').style.display = 'none';
-        document.getElementById('authSection').style.display = 'flex';
-    });
-
-    document.getElementById('closeViewerBtn').onclick = () => { closeViewer(); restoreMarkButton(); };
-    // Saat viewer ditutup lewat tombol close, tombol mark direset
-    const observer = new MutationObserver(() => {
-        if (document.getElementById('viewerPanel').classList.contains('hidden')) restoreMarkButton();
-    });
-    observer.observe(document.getElementById('viewerPanel'), { attributes: true });
-</script>
+    </script>
 </body>
 </html>
