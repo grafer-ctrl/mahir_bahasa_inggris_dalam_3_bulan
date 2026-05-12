@@ -2,283 +2,612 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Mastery Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>English Mastery 90 Hari | Program Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #1b5e20;
-            --accent: #4caf50;
-            --bg-color: #f8faf9;
-            --white: #ffffff;
-            --text-main: #2c3e50;
-            --text-muted: #7f8c8d;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-main); }
-        .hidden { display: none !important; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+        }
 
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        /* Loader premium */
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Login Section */
-        .auth-wrapper { 
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); padding: 20px;
+        /* Auth / login premium */
+        .auth-container {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b2f1f 0%, #1e4a2f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .auth-card { 
-            background: var(--white); padding: 40px; border-radius: 25px; 
-            box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center;
+        .auth-card {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(2px);
+            border-radius: 44px;
+            padding: 40px 32px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.35);
+            transition: 0.2s;
         }
-        .form-group { text-align: left; margin-bottom: 20px; }
-        .form-group label { font-size: 0.75rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; letter-spacing: 1px; }
-        .form-group input { 
-            width: 100%; padding: 15px; border: 2px solid #edf2f0; border-radius: 12px; 
-            font-size: 1.1rem; text-align: center; font-weight: 700; letter-spacing: 2px;
+        .auth-icon {
+            background: #e9f9ef;
+            width: 80px;
+            height: 80px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
         }
-        .btn-main { 
-            background: var(--primary); color: white; border: none; padding: 15px; 
-            border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; font-size: 1rem;
+        .auth-icon i { font-size: 40px; color: #15803d; }
+        .auth-card h1 { font-size: 1.7rem; font-weight: 800; margin-bottom: 8px;}
+        .auth-card p { color: #475569; margin-bottom: 28px; font-size: 0.9rem; }
+        .input-group {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+        .input-group label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #2d6a4f;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 28px;
+            text-align: center;
+            font-weight: 600;
+            background: #fefefe;
+            transition: 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #10b981;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+        }
+        .btn-primary {
+            background: #15803d;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px rgba(21,128,61,0.3);
+        }
+        .btn-primary:hover { background: #0e6e34; transform: scale(0.98);}
+        .error-msg { color: #e11d48; font-size: 0.8rem; margin-top: 8px; font-weight: 500; display: none; }
+
+        /* Dashboard layout */
+        .dashboard-wrapper {
+            display: none;
+            background: #f1f5f9;
+            min-height: 100vh;
+        }
+        .dashboard-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 20px 40px;
+        }
+        /* header modern */
+        .navbar {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            padding: 12px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .logo-area h2 { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, #14532d, #2b9348); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: transparent;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2c3e50;
+        }
+        .nav-btn i { font-size: 1rem; color: #2b9348; }
+        .nav-btn:hover { background: #eef2ff; }
+        .logout-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 32px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .reset-btn {
+            background: #fff3e3;
+            color: #b45309;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 32px;
+            font-weight: 600;
+            margin-left: 10px;
+            cursor: pointer;
         }
 
-        /* Dashboard */
-        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
-        .header-dash { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .progress-card { background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%); color: white; padding: 25px; border-radius: 25px; margin-bottom: 30px; }
-        .bar-bg { background: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
-        #progress-fill { background: white; height: 100%; width: 0%; transition: 0.8s ease; }
+        /* Progress card premium */
+        .hero-progress {
+            background: linear-gradient(120deg, #0f3b2c, #1b6b43);
+            border-radius: 40px;
+            padding: 28px 28px;
+            color: white;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+        }
+        .progress-stats { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;}
+        .progress-percent { font-size: 2.8rem; font-weight: 800; letter-spacing: 2px; }
+        .progress-bar-bg { background: rgba(255,255,255,0.25); border-radius: 60px; margin: 16px 0 12px; height: 12px; overflow: hidden; }
+        #progress-fill { background: #ffea9e; width: 0%; height: 100%; border-radius: 60px; transition: width 0.5s ease; }
+        .badge-detail { font-weight: 500; opacity: 0.9; font-size: 0.85rem;}
 
-        /* Grid */
-        .grid-materi { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        .day-card { background: white; padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); border: 2px solid transparent; }
-        .day-card.completed { background: #e8f5e9; border-color: var(--primary); }
-        .day-card i { font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
+        /* Grid 90 hari dengan deskripsi */
+        .grid-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;}
+        .materi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .day-card {
+            background: white;
+            border-radius: 28px;
+            padding: 18px 16px;
+            transition: all 0.25s;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f0;
+        }
+        .day-card:hover { transform: translateY(-4px); box-shadow: 0 18px 30px -12px rgba(0,0,0,0.1); background: #ffffff; border-color: #cbd5e1; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .day-number { font-weight: 800; font-size: 1.3rem; background: #eef2ff; padding: 4px 12px; border-radius: 40px; color: #166534; }
+        .check-icon { font-size: 1.4rem; color: #22c55e; }
+        .day-desc { font-size: 0.8rem; color: #334155; line-height: 1.4; margin: 12px 0 10px; font-weight: 500; border-left: 3px solid #86efac; padding-left: 12px;}
+        .hari-label { font-weight: 600; margin-top: 6px; font-size: 0.7rem; color: #475569; display: flex; align-items: center; gap: 6px; }
+        .completed-card { background: #effdf5; border-left: 5px solid #10b981; }
 
-        /* Viewer */
-        #viewer { position: fixed; inset: 0; background: white; z-index: 1000; display: flex; flex-direction: column; }
-        .viewer-nav { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        iframe { flex-grow: 1; border: none; }
-        .btn-finish { background: var(--primary); color: white; border: none; padding: 20px; font-weight: 700; cursor: pointer; }
+        /* viewer modal modern */
+        .viewer-overlay {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            animation: fadein 0.2s;
+        }
+        .viewer-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+        .viewer-content { flex: 1; background: #f9fafb; }
+        iframe { width: 100%; height: 100%; border: none; background: white; }
+        .viewer-footer { padding: 18px; background: white; border-top: 1px solid #e9ecef; text-align: center; }
+        .finish-btn { background: #15803d; color: white; border: none; padding: 14px 32px; border-radius: 60px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 90%; max-width: 380px; }
 
-        #alert-msg { color: #d9534f; font-size: 0.85rem; margin-bottom: 15px; font-weight: 600; display: none; }
+        .hidden { display: none; }
+        @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 640px) { .nav-links { order: 3; width: 100%; justify-content: center; } .navbar { flex-direction: column; align-items: stretch; } }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div></div>
+<div id="globalLoader" class="loader-overlay">
+    <div class="spinner"></div>
+    <span style="font-weight: 500;">Memuat program premium...</span>
+</div>
 
-    <!-- HALAMAN LOGIN -->
-    <div id="auth-section" class="auth-wrapper hidden">
-        <div class="auth-card">
-            <i class="fa-solid fa-shield-halved fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
-            <h2>Akses Premium</h2>
-            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:25px;">Masukkan kode akses yang telah Anda beli</p>
-            
-            <div id="alert-msg"></div>
+<!-- LOGIN PREMIUM SECTION -->
+<div id="authSection" class="auth-container">
+    <div class="auth-card">
+        <div class="auth-icon"><i class="fa-solid fa-gem"></i></div>
+        <h1>⚡ Akses Premium</h1>
+        <p>Masukkan kode akses 90 hari • Metode Otak Cepat & Simulasi Nyata</p>
+        <form id="premiumLoginForm">
+            <div class="input-group">
+                <label><i class="fa-regular fa-keyboard"></i> KODE AKTIVASI</label>
+                <input type="text" id="accessKey" placeholder="CONTOH: ENG90-XYZ" autocomplete="off" required>
+            </div>
+            <div id="loginError" class="error-msg"></div>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-unlock-keyhole"></i> Aktifkan Kursus</button>
+        </form>
+        <p style="font-size: 0.65rem; margin-top: 24px; color:#6c757d;">🔒 Kode akan terkunci pada perangkat ini demi keamanan</p>
+    </div>
+</div>
 
-            <form id="login-form">
-                <div class="form-group">
-                    <label>KODE UNIK</label>
-                    <input type="text" id="access-code-input" placeholder="KODE-XXXX" required autocomplete="off">
+<!-- DASHBOARD UTAMA (90 HARI + RESET + NAV) -->
+<div id="dashboardSection" class="dashboard-wrapper">
+    <div class="dashboard-container">
+        <div class="navbar">
+            <div class="logo-area"><h2><i class="fa-regular fa-message"></i> English Mastery 90</h2></div>
+            <div class="nav-links">
+                <button class="nav-btn" id="guideBtn"><i class="fa-regular fa-compass"></i> Guide</button>
+                <button class="nav-btn" id="contactBtn"><i class="fa-regular fa-headset"></i> Kontak</button>
+                <button class="nav-btn" id="tenseBtn"><i class="fa-regular fa-clock"></i> Tense</button>
+                <button class="nav-btn" id="aboutBtn"><i class="fa-regular fa-circle-info"></i> Tentang</button>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button id="resetProgressBtn" class="reset-btn"><i class="fa-solid fa-arrow-rotate-left"></i> Reset</button>
+                <button id="logoutDashboardBtn" class="logout-btn"><i class="fa-regular fa-door-open"></i> Keluar</button>
+            </div>
+        </div>
+
+        <div class="hero-progress">
+            <div class="progress-stats">
+                <span><i class="fa-regular fa-calendar-check"></i> <strong>90 Hari Tantangan</strong></span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg"><div id="progressFillBar"></div></div>
+            <div class="badge-detail" id="progressDetailText">0 / 90 materi selesai • Terus konsisten!</div>
+        </div>
+
+        <div class="grid-title">
+            <i class="fa-regular fa-calendar-alt" style="color:#15803d;"></i> 
+            <span>📘 Peta Belajar Interaktif : setiap sesi berisi latihan speaking & listening</span>
+        </div>
+
+        <div id="materiGridContainer" class="materi-grid"></div>
+    </div>
+</div>
+
+<!-- VIEWER MATERI PREMIUM -->
+<div id="viewerPanel" class="viewer-overlay hidden">
+    <div class="viewer-header">
+        <button id="closeViewerBtn" style="background:none; border:none; font-size:1.6rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <h3 id="viewerDayTitle">Hari 1 - Materi</h3>
+        <div style="width: 28px;"></div>
+    </div>
+    <div class="viewer-content">
+        <iframe id="materiFrame" title="materi belajar" src="about:blank"></iframe>
+    </div>
+    <div class="viewer-footer">
+        <button id="markCompleteBtn" class="finish-btn"><i class="fa-regular fa-circle-check"></i> Tandai Selesai & Lanjut</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // Konfigurasi Firebase (tetap sama seperti asli, tidak merubah struktur fungsi)
+    const firebaseConfig = {
+        apiKey: "AIzaSyA0aIG6_HpP_JTrKQPG1mzoAsyu4KotaHk",
+        authDomain: "english300-e6dd6.firebaseapp.com",
+        projectId: "english300-e6dd6",
+        storageBucket: "english300-e6dd6.firebasestorage.app",
+        messagingSenderId: "1036309233436",
+        appId: "1:1036309233436:web:a43155ff8762f4d66684d9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Variabel global
+    let currentUserCode = null;
+    let completedDaysArray = [];     // array of hari angka (1-90)
+    let currentDayOpened = null;
+
+    // Data deskripsi dinamis untuk 90 hari (menarik & variatif)
+    const descriptions = [];
+    for (let i = 1; i <= 90; i++) {
+        if (i <= 15) descriptions[i] = "🎧 Listening & respon cepat • Percakapan sehari-hari";
+        else if (i <= 30) descriptions[i] = "🗣️ Speaking challenge • Simulasi nyata & pronunciation";
+        else if (i <= 45) descriptions[i] = "📖 Ekspansi vocabulary & frasa modern";
+        else if (i <= 60) descriptions[i] = "⚡ Fluent Drills • Pola kalimat otomatis";
+        else if (i <= 75) descriptions[i] = "🎙️ Roleplay bisnis & sosial • Percaya diri";
+        else descriptions[i] = "🏆 Final Boost • Interview & presentasi impromptu";
+    }
+    // beberapa variasi spesifik
+    descriptions[1] = "🚀 Perkenalan diri & small talk basic, pola otak cepat";
+    descriptions[5] = "☕ Situasi cafe & ordering food • listening real accent";
+    descriptions[12] = "📞 Telepon & pesan singkat profesional";
+    descriptions[21] = "🎯 Present tense & kebiasaan sehari-hari • challenge respon";
+    descriptions[30] = "🏅 Uji speaking 30 detik • topik favorit";
+    descriptions[45] = "📧 Menulis email & percakapan formal/informal";
+    descriptions[60] = "🎬 Menonton adegan film & menjawab langsung";
+    descriptions[75] = "💼 Negosiasi & debat ringan bahasa Inggris";
+    descriptions[90] = "🎓 Simulasi ujian kelancaran • Sertifikasi mandiri";
+
+    // Helper load / validasi (FIREBASE device lock)
+    async function validateAndLoad(code) {
+        try {
+            const docRef = doc(db, "accessCodes", code);
+            let docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) return false;
+            const data = docSnap.data();
+            if (data.status !== "active") return false;
+            let deviceId = localStorage.getItem('dev_token_master');
+            if (!deviceId) {
+                deviceId = 'DEV-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+                localStorage.setItem('dev_token_master', deviceId);
+            }
+            if (data.lockedDevice && data.lockedDevice !== deviceId) return false;
+            if (!data.lockedDevice) {
+                await updateDoc(docRef, { lockedDevice: deviceId });
+            }
+            completedDaysArray = data.completed || [];
+            currentUserCode = code;
+            return true;
+        } catch(e) { console.warn(e); return false; }
+    }
+
+    async function updateFirebaseCompleted(newCompletedArray) {
+        if (!currentUserCode) return;
+        const docRef = doc(db, "accessCodes", currentUserCode);
+        await updateDoc(docRef, { completed: newCompletedArray });
+    }
+
+    // Fungsi RESET semua progres (90 hari)
+    window.resetAllProgress = async () => {
+        if (!currentUserCode) return;
+        const confirmReset = confirm("⚠️ PERINGATAN: Semua progres 90 hari akan dihapus permanen. Anda harus memulai dari awal. Lanjutkan?");
+        if (!confirmReset) return;
+        try {
+            const docRef = doc(db, "accessCodes", currentUserCode);
+            await updateDoc(docRef, { completed: [] });
+            completedDaysArray = [];
+            renderDashboardGrid();
+            alert("✅ Semua progres telah direset. Selamat belajar dari awal!");
+        } catch(err) {
+            alert("Gagal reset: " + err.message);
+        }
+    };
+
+    // Render dashboard 90 hari dengan deskripsi
+    function renderDashboardGrid() {
+        const container = document.getElementById('materiGridContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 1; i <= 90; i++) {
+            const isDone = completedDaysArray.includes(i);
+            const descText = descriptions[i] || "🎯 Teknik modern • praktik nyata";
+            const card = document.createElement('div');
+            card.className = `day-card ${isDone ? 'completed-card' : ''}`;
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="day-number">Hari ${i}</span>
+                    ${isDone ? '<i class="fa-regular fa-circle-check check-icon"></i>' : '<i class="fa-regular fa-hourglass-half" style="color:#94a3b8;"></i>'}
                 </div>
-                <button type="submit" class="btn-main">AKTIFKAN KURSUS</button>
-            </form>
-            <p style="margin-top:20px; font-size:0.7rem; color:#999;">Kode ini akan dikunci pada perangkat ini setelah digunakan.</p>
-        </div>
-    </div>
-
-    <!-- HALAMAN DASHBOARD -->
-    <div id="dashboard-section" class="container hidden">
-        <div class="header-dash">
-            <div>
-                <h2 style="font-size: 1rem;">Selamat Belajar!</h2>
-                <p id="display-code" style="font-size: 0.7rem; color: var(--accent); font-weight:700;"></p>
-            </div>
-            <button onclick="handleLogout()" style="background:#fff1f0; color:#ff4d4f; border:1px solid #ffa39e; padding:5px 12px; border-radius:8px; cursor:pointer; font-size:0.7rem;">Log Out</button>
-        </div>
-
-        <div class="progress-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <p style="font-size:0.8rem;">Progres Belajar</p>
-                <h2 id="progress-text">0%</h2>
-            </div>
-            <div class="bar-bg"><div id="progress-fill"></div></div>
-            <p id="progress-detail" style="font-size:0.7rem;">0/300 Hari selesai</p>
-        </div>
-
-        <div class="grid-materi" id="materi-grid"></div>
-    </div>
-
-    <!-- VIEWER MATERI -->
-    <div id="viewer" class="hidden">
-        <div class="viewer-nav">
-            <button onclick="closeViewer()" style="border:none; background:none;"><i class="fa-solid fa-chevron-left fa-xl"></i></button>
-            <h4 id="view-title" style="font-size:0.9rem;">Materi</h4>
-            <div style="width:20px;"></div>
-        </div>
-        <iframe id="content-frame"></iframe>
-        <button id="btn-mark-complete" class="btn-finish">SAYA SUDAH MEMPELAJARI INI</button>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        // ==========================================
-        // CONFIG FIREBASE (HARUS SESUAI PROYEK ANDA)
-        // ==========================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyAXqMKiTijgDVRRLntQByppWQCGbmdz04M",
-            authDomain: "blockdag-polling.firebaseapp.com",
-            databaseURL: "https://blockdag-polling-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "blockdag-polling",
-            storageBucket: "blockdag-polling.firebasestorage.app",
-            messagingSenderId: "458807719521",
-            appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        let userCode = localStorage.getItem('premium_code');
-        let completedDays = [];
-
-        // LOAD AWAL
-        window.onload = async () => {
-            if (userCode) {
-                const valid = await validateAndLoad(userCode);
-                if (!valid) {
-                    localStorage.removeItem('premium_code');
-                    showSection('auth');
-                }
-            } else {
-                showSection('auth');
-            }
-            document.getElementById('loader').classList.add('hidden'); // Sembunyikan loader saat awal buka
-        };
-
-        // FORM LOGIN
-        document.getElementById('login-form').onsubmit = async (e) => {
-            e.preventDefault();
-            const codeInput = document.getElementById('access-code-input').value.trim().toUpperCase();
-            const alertBox = document.getElementById('alert-msg');
-            
-            document.getElementById('loader').classList.remove('hidden'); // Tampilkan loader saat memproses
-            
-            const valid = await validateAndLoad(codeInput);
-            
-            if (valid) {
-                localStorage.setItem('premium_code', codeInput);
-                userCode = codeInput;
-                alertBox.style.display = 'none';
-                document.getElementById('loader').classList.add('hidden'); // SEMBUNYIKAN LOADER SETELAH SUKSES
-            } else {
-                alertBox.textContent = "KODE TIDAK VALID / SUDAH DIGUNAKAN DI PERANGKAT LAIN";
-                alertBox.style.display = 'block';
-                document.getElementById('loader').classList.add('hidden'); // SEMBUNYIKAN LOADER JIKA GAGAL
-            }
-        };
-
-        async function validateAndLoad(code) {
-            try {
-                const docRef = doc(db, "accessCodes", code);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists() && docSnap.data().status === "active") {
-                    const data = docSnap.data();
-                    
-                    let deviceId = localStorage.getItem('dev_token');
-                    if (!deviceId) {
-                        deviceId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-                        localStorage.setItem('dev_token', deviceId);
-                    }
-
-                    if (data.lockedDevice && data.lockedDevice !== deviceId) {
-                        return false; 
-                    }
-
-                    if (!data.lockedDevice) {
-                        await updateDoc(docRef, { lockedDevice: deviceId });
-                    }
-
-                    completedDays = data.completed || [];
-                    renderDashboard(code);
-                    showSection('dashboard');
-                    return true;
-                }
-                return false;
-            } catch (err) {
-                console.log("Error Firebase:", err);
-                return false;
-            }
+                <div class="day-desc"><i class="fa-regular fa-message-lines"></i> ${descText}</div>
+                <div class="hari-label"><i class="fa-regular fa-rocket"></i> Latihan interaktif & challenge</div>
+            `;
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openDayMaterial(i);
+            });
+            container.appendChild(card);
         }
+        const totalDone = completedDaysArray.length;
+        const percent = Math.round((totalDone / 90) * 100);
+        document.getElementById('progressPercent').innerText = percent + "%";
+        document.getElementById('progressFillBar').style.width = percent + "%";
+        document.getElementById('progressDetailText').innerHTML = `${totalDone} dari 90 materi terselesaikan • 🔥 terus semangat!`;
+    }
 
-        function renderDashboard(code) {
-            document.getElementById('display-code').textContent = "KODE AKTIF: " + code;
-            const grid = document.getElementById('materi-grid');
-            grid.innerHTML = '';
+    // Fungsi untuk membuka materi (iframe)
+    function openDayMaterial(day) {
+        currentDayOpened = day;
+        const viewerDiv = document.getElementById('viewerPanel');
+        const frame = document.getElementById('materiFrame');
+        const titleSpan = document.getElementById('viewerDayTitle');
+        titleSpan.innerText = `Hari ${day} - Latihan Eksklusif`;
+        // Konten file local hari[day].html (tetap sesuai struktur asli)
+        frame.src = `hari${day}.html`;
+        viewerDiv.classList.remove('hidden');
+        const completeBtn = document.getElementById('markCompleteBtn');
+        const isAlready = completedDaysArray.includes(day);
+        completeBtn.innerText = isAlready ? "✅ SUDAH SELESAI" : "✨ TANDAI SELESAI & SIMPAN PROGRES";
+        completeBtn.disabled = isAlready;
+        completeBtn.style.opacity = isAlready ? "0.6" : "1";
+    }
 
-            for (let i = 1; i <= 300; i++) {
-                const isDone = completedDays.includes(i);
-                const card = document.createElement('div');
-                card.className = `day-card ${isDone ? 'completed' : ''}`;
-                card.innerHTML = `<i class="fa-solid ${isDone ? 'fa-check-circle' : 'fa-play-circle'}"></i><h4>Hari ${i}</h4>`;
-                card.onclick = () => openViewer(i);
-                grid.appendChild(card);
-            }
-
-            const pct = Math.round((completedDays.length / 300) * 100);
-            document.getElementById('progress-fill').style.width = pct + '%';
-            document.getElementById('progress-text').textContent = pct + '%';
-            document.getElementById('progress-detail').textContent = `${completedDays.length} dari 300 materi selesai`;
+    async function markCurrentComplete() {
+        if (!currentDayOpened) return;
+        if (completedDaysArray.includes(currentDayOpened)) {
+            alert("Materi ini sudah ditandai selesai sebelumnya.");
+            return;
         }
+        // update firebase dan lokal
+        const newCompleted = [...completedDaysArray, currentDayOpened];
+        await updateFirebaseCompleted(newCompleted);
+        completedDaysArray = newCompleted;
+        renderDashboardGrid();
+        closeViewer();
+    }
 
-        let currentDayOpen = 0;
-        window.openViewer = (day) => {
-            currentDayOpen = day;
-            document.getElementById('view-title').textContent = "Materi Hari " + day;
-            document.getElementById('content-frame').src = `hari${day}.html`;
-            document.getElementById('viewer').classList.remove('hidden');
-            
-            const btn = document.getElementById('btn-mark-complete');
-            btn.disabled = completedDays.includes(day);
-            btn.textContent = completedDays.includes(day) ? "MATERI SUDAH SELESAI" : "SAYA SUDAH MEMPELAJARI INI";
-            btn.style.opacity = completedDays.includes(day) ? "0.5" : "1";
+    function closeViewer() {
+        const viewerDiv = document.getElementById('viewerPanel');
+        const frame = document.getElementById('materiFrame');
+        frame.src = "about:blank";
+        viewerDiv.classList.add('hidden');
+        currentDayOpened = null;
+    }
+
+    // Navigasi Menu Guide / Kontak / Tense / Tentang -> inject file .html otomatis di iframe popup ringan
+    function openInfoPage(pageFileName, titlePage) {
+        const viewerDiv = document.getElementById('viewerPanel');
+        const frame = document.getElementById('materiFrame');
+        document.getElementById('viewerDayTitle').innerText = titlePage;
+        frame.src = pageFileName;
+        viewerDiv.classList.remove('hidden');
+        const completeBtn = document.getElementById('markCompleteBtn');
+        completeBtn.disabled = true;
+        completeBtn.innerText = `📖 ${titlePage} - Panduan`;
+        completeBtn.style.opacity = "0.7";
+        // override click untuk tidak merubah progres
+        const originalClick = completeBtn.onclick;
+        completeBtn.onclick = () => {
+            alert("Ini adalah halaman informasi, tidak mempengaruhi progres harian.");
         };
+        // menyimpan fungsi asli nanti ketika closeViewer reset? Tidak masalah.
+        // ketika close akan reset, nanti setelah close, kita pasang ulang function mark
+        window.tempInfoFlag = true;
+    }
 
-        window.closeViewer = () => {
-            document.getElementById('viewer').classList.add('hidden');
-            document.getElementById('content-frame').src = "";
-        };
+    function resetMarkButtonHandler() {
+        const btn = document.getElementById('markCompleteBtn');
+        btn.onclick = () => markCurrentComplete();
+        btn.disabled = (currentDayOpened && completedDaysArray.includes(currentDayOpened)) ? true : false;
+        if(currentDayOpened && completedDaysArray.includes(currentDayOpened)) btn.innerText = "✅ SUDAH SELESAI";
+        else btn.innerText = "✨ TANDAI SELESAI & SIMPAN PROGRES";
+        btn.style.opacity = (currentDayOpened && completedDaysArray.includes(currentDayOpened)) ? "0.6" : "1";
+    }
 
-        document.getElementById('btn-mark-complete').onclick = async () => {
-            if (completedDays.includes(currentDayOpen)) return;
-            
-            const docRef = doc(db, "accessCodes", userCode);
-            await updateDoc(docRef, { completed: arrayUnion(currentDayOpen) });
-            
-            completedDays.push(currentDayOpen);
-            renderDashboard(userCode);
-            closeViewer();
-        };
+    // logout handler
+    function handleLogout() {
+        if(confirm("Keluar dari akun premium? Anda perlu kode akses lagi untuk masuk kembali.")) {
+            localStorage.removeItem('premium_code');
+            localStorage.removeItem('dev_token_master');
+            window.location.reload();
+        }
+    }
 
-        window.handleLogout = () => {
-            if(confirm("Keluar dari akun? Anda butuh kode akses lagi untuk masuk.")) {
+    // Inisialisasi aplikasi setelah login
+    async function initDashboard(code) {
+        currentUserCode = code;
+        await validateAndLoad(code); // refresh completed array
+        renderDashboardGrid();
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('globalLoader').classList.add('hidden');
+        // setup listener tombol reset, guide, kontak, tense, tentang
+        const resetBtn = document.getElementById('resetProgressBtn');
+        resetBtn.onclick = () => window.resetAllProgress();
+        document.getElementById('logoutDashboardBtn').onclick = handleLogout;
+        // navigation buttons
+        document.getElementById('guideBtn').onclick = () => openInfoPage('guide.html', '📘 Panduan Belajar');
+        document.getElementById('contactBtn').onclick = () => openInfoPage('contact.html', '📞 Kontak & Dukungan');
+        document.getElementById('tenseBtn').onclick = () => openInfoPage('tense.html', '⏳ Ringkasan Tenses Modern');
+        document.getElementById('aboutBtn').onclick = () => openInfoPage('tentang.html', '✨ Tentang Program 90 Hari');
+    }
+
+    // Proses login
+    document.getElementById('premiumLoginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const codeInput = document.getElementById('accessKey').value.trim().toUpperCase();
+        const errDiv = document.getElementById('loginError');
+        const loader = document.getElementById('globalLoader');
+        loader.classList.remove('hidden');
+        errDiv.style.display = 'none';
+        const isValid = await validateAndLoad(codeInput);
+        if (isValid && currentUserCode) {
+            localStorage.setItem('premium_code', codeInput);
+            await initDashboard(codeInput);
+        } else {
+            loader.classList.add('hidden');
+            errDiv.innerText = "❌ Kode akses tidak valid / sudah digunakan di perangkat lain.";
+            errDiv.style.display = 'block';
+        }
+    });
+
+    // Cek existing login di localStorage
+    window.addEventListener('DOMContentLoaded', async () => {
+        document.getElementById('globalLoader').classList.remove('hidden');
+        const savedCode = localStorage.getItem('premium_code');
+        if (savedCode) {
+            const validasi = await validateAndLoad(savedCode);
+            if (validasi && currentUserCode) {
+                await initDashboard(savedCode);
+                document.getElementById('globalLoader').classList.add('hidden');
+                return;
+            } else {
                 localStorage.removeItem('premium_code');
-                location.reload();
             }
-        };
-
-        function showSection(id) {
-            document.getElementById('auth-section').classList.toggle('hidden', id !== 'auth');
-            document.getElementById('dashboard-section').classList.toggle('hidden', id !== 'dashboard');
         }
-    </script>
+        document.getElementById('globalLoader').classList.add('hidden');
+        document.getElementById('dashboardSection').style.display = 'none';
+        document.getElementById('authSection').style.display = 'flex';
+    });
+
+    // tombol close viewer dan handler mark complete
+    document.getElementById('closeViewerBtn')?.addEventListener('click', () => {
+        closeViewer();
+        resetMarkButtonHandler();
+    });
+    // tambahkan listener agar ketika viewer dibuka untuk materi, tombol berfungsi benar
+    window.markCurrentComplete = markCurrentComplete;
+    document.getElementById('markCompleteBtn')?.addEventListener('click', () => {
+        if (currentDayOpened && !completedDaysArray.includes(currentDayOpened)) {
+            markCurrentComplete();
+        } else if (currentDayOpened && completedDaysArray.includes(currentDayOpened)) {
+            alert("Materi ini sudah terselesaikan sebelumnya :)");
+        } else {
+            // mungkin dari halaman info
+            closeViewer();
+        }
+    });
+    // untuk memastikan viewer close reset handler
+    function resetViewerContext() {
+        if(!window.tempInfoFlag) resetMarkButtonHandler();
+        window.tempInfoFlag = false;
+    }
+    const observer = new MutationObserver(() => {
+        if(document.getElementById('viewerPanel').classList.contains('hidden')){
+            resetViewerContext();
+        }
+    });
+    observer.observe(document.getElementById('viewerPanel'), { attributes: true });
+</script>
 </body>
 </html>
