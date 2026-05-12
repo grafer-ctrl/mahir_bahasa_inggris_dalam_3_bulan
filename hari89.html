@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Memory Challenge English - OmeTV Edition</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.container{
+    width:95%;
+    max-width:700px;
+    text-align:center;
+    padding:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius:25px;
+    padding:40px 30px;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:10px;
+    background:linear-gradient(90deg,#60a5fa,#a855f7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+    color:#cbd5e1;
+    margin-bottom:35px;
+}
+
+.level{
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:50px;
+    background:#1e293b;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.sentence{
+    font-size:26px;
+    line-height:1.5;
+    margin-bottom:15px;
+    min-height:120px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.4s;
+    word-break:break-word;
+    padding:0 10px;
+}
+
+.translation{
+    color:#94a3b8;
+    font-size:18px;
+    margin-bottom:30px;
+    min-height:30px;
+}
+
+.timer-bar{
+    width:100%;
+    height:12px;
+    background:#1e293b;
+    border-radius:50px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+
+.timer-fill{
+    height:100%;
+    width:100%;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+    transition:width linear;
+}
+
+.game-timer-bar{
+    width:100%;
+    height:8px;
+    background:#450a0a;
+    border-radius:50px;
+    overflow:hidden;
+    margin-bottom:15px;
+}
+
+.game-timer-fill{
+    height:100%;
+    width:100%;
+    background:linear-gradient(90deg,#ef4444,#f97316);
+    transition:width linear;
+}
+
+.input-area{
+    display:none;
+}
+
+input{
+    width:100%;
+    padding:18px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    background:#1e293b;
+    color:white;
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+input::placeholder{
+    color:#64748b;
+}
+
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.result{
+    margin-top:25px;
+    font-size:22px;
+    font-weight:bold;
+    min-height:80px;
+    line-height:1.4;
+}
+
+.score-box{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+    gap:15px;
+}
+
+.score-item{
+    flex:1;
+    background:#111827;
+    padding:15px;
+    border-radius:15px;
+}
+
+.score-number{
+    font-size:28px;
+    margin-top:5px;
+}
+
+.correct{
+    color:#22c55e;
+}
+
+.wrong{
+    color:#ef4444;
+}
+
+.hidden{
+    opacity:0;
+}
+
+.start-screen{
+    display:block;
+}
+
+.game-screen{
+    display:none;
+}
+
+.instructions{
+    margin:25px 0;
+    line-height:1.8;
+    color:#cbd5e1;
+}
+
+.footer{
+    margin-top:30px;
+    color:#64748b;
+    font-size:14px;
+}
+
+.timer-setting{
+    margin:20px 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.timer-setting label{
+    color:#cbd5e1;
+}
+
+.timer-setting input{
+    width:100px;
+    padding:10px;
+    margin:0;
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:10px;
+    color:white;
+    text-align:center;
+}
+
+.game-timer-text{
+    font-size:14px;
+    color:#f97316;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+
+    .sentence{
+        font-size:18px;
+    }
+
+    h1{
+        font-size:30px;
+    }
+    
+    .score-number{
+        font-size:22px;
+    }
+
+    .translation{
+        font-size:14px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <!-- START SCREEN -->
+        <div class="start-screen" id="startScreen">
+
+            <h1>memory challenge</h1>
+
+            <p class="subtitle">
+                train your brain to think in english faster ⚡
+            </p>
+
+            <div class="instructions">
+                📖 • lihat kalimat selama 5 detik<br>
+                👻 • kalimat akan menghilang<br>
+                ✍️ • ketik ulang dari ingatanmu<br>
+                🏆 • semakin cepat semakin bagus<br>
+                🔊 • setiap kalimat akan otomatis dibacakan
+            </div>
+
+            <div class="timer-setting">
+                <label>⏱️ batas waktu game:</label>
+                <input type="number" id="gameTimeLimit" min="10" max="120" value="120" step="10">
+                <span>detik</span>
+            </div>
+
+            <button onclick="startGame()">
+                🚀 start challenge
+            </button>
+
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div class="game-screen" id="gameScreen">
+
+            <div class="game-timer-text" id="gameTimerText">
+                ⏰ sisa waktu game: 120 detik
+            </div>
+            <div class="game-timer-bar">
+                <div class="game-timer-fill" id="gameTimerFill"></div>
+            </div>
+
+            <div class="score-box">
+
+                <div class="score-item">
+                    🎯 score
+                    <div class="score-number" id="score">
+                        0
+                    </div>
+                </div>
+
+                <div class="score-item">
+                    🔥 streak
+                    <div class="score-number" id="streak">
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="level">
+                🎥 omeTV conversation
+            </div>
+
+            <div class="sentence" id="sentence">
+                are you using a phone?
+            </div>
+
+            <div class="translation" id="translation">
+                apakah kamu memakai ponsel?
+            </div>
+
+            <div class="timer-bar">
+                <div class="timer-fill" id="timerFill"></div>
+            </div>
+
+            <div class="input-area" id="inputArea">
+
+                <input
+                    type="text"
+                    id="answerInput"
+                    placeholder="type the sentence you remember..."
+                    autocomplete="off"
+                >
+
+                <button onclick="checkAnswer()">
+                    ✅ submit answer
+                </button>
+
+            </div>
+
+            <div class="result" id="result"></div>
+
+        </div>
+
+        <div class="footer">
+            🧠 english brain training app | omeTV conversation edition
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// semua kalimat percakapan OmeTV dalam lowercase
+const challenges = [
+    { english: "are you using a phone?", indo: "apakah kamu memakai ponsel?" },
+    { english: "i am using my camera now", indo: "saya sedang memakai kamera saya sekarang" },
+    { english: "you look very cheerful", indo: "kamu terlihat sangat ceria" },
+    { english: "i just opened omeTV", indo: "saya baru membuka omeTV" },
+    { english: "do you chat here often?", indo: "apakah kamu sering ngobrol di sini?" },
+    { english: "i am bored tonight", indo: "saya bosan malam ini" },
+    { english: "you have good lighting", indo: "pencahayaanmu bagus" },
+    { english: "i cannot sleep yet", indo: "saya belum bisa tidur" },
+    { english: "what are you drinking?", indo: "apa yang sedang kamu minum?" },
+    { english: "i am drinking iced tea", indo: "saya sedang minum es teh" },
+    { english: "your english sounds nice", indo: "bahasa inggrismu terdengar bagus" },
+    { english: "i want to improve my english", indo: "saya ingin meningkatkan bahasa inggris saya" },
+    { english: "are you alone right now?", indo: "apakah kamu sendirian sekarang?" },
+    { english: "my friends are sleeping", indo: "teman-teman saya sedang tidur" },
+    { english: "i like meeting strangers", indo: "saya suka bertemu orang asing" },
+    { english: "you seem very calm", indo: "kamu terlihat sangat tenang" },
+    { english: "what music are you listening to?", indo: "musik apa yang sedang kamu dengarkan?" },
+    { english: "i like slow songs", indo: "saya suka lagu pelan" },
+    { english: "you make this chat fun", indo: "kamu membuat obrolan ini menyenangkan" },
+    { english: "i am laughing right now", indo: "saya sedang tertawa sekarang" },
+    { english: "do you stay up late often?", indo: "apakah kamu sering begadang?" },
+    { english: "i sleep very late", indo: "saya tidur sangat larut" },
+    { english: "your background looks cool", indo: "latar belakangmu terlihat keren" },
+    { english: "i am sitting in my room", indo: "saya sedang duduk di kamar saya" },
+    { english: "do you like night chats?", indo: "apakah kamu suka ngobrol malam?" },
+    { english: "i enjoy talking to new people", indo: "saya menikmati berbicara dengan orang baru" },
+    { english: "you are easy to understand", indo: "kamu mudah dimengerti" },
+    { english: "i am still shy sometimes", indo: "saya masih malu kadang-kadang" },
+    { english: "what language do you speak?", indo: "bahasa apa yang kamu gunakan?" },
+    { english: "i speak indonesian daily", indo: "saya berbicara bahasa indonesia setiap hari" },
+    { english: "you have a funny personality", indo: "kamu punya kepribadian lucu" },
+    { english: "i like your laugh", indo: "saya suka tawamu" },
+    { english: "are you watching youtube?", indo: "apakah kamu sedang menonton youtube?" },
+    { english: "i was watching videos earlier", indo: "saya tadi menonton video" },
+    { english: "you seem very confident", indo: "kamu terlihat sangat percaya diri" },
+    { english: "i want more confidence", indo: "saya ingin lebih percaya diri" },
+    { english: "what do you usually watch?", indo: "apa yang biasanya kamu tonton?" },
+    { english: "i watch gaming videos", indo: "saya menonton video game" },
+    { english: "you look friendly to everyone", indo: "kamu terlihat ramah ke semua orang" },
+    { english: "i enjoy this random chat", indo: "saya menikmati obrolan random ini" },
+    { english: "are you feeling sleepy?", indo: "apakah kamu merasa mengantuk?" },
+    { english: "i need more coffee", indo: "saya butuh lebih banyak kopi" },
+    { english: "you have a nice voice tone", indo: "nada suaramu bagus" },
+    { english: "i talk too much sometimes", indo: "saya terlalu banyak bicara kadang-kadang" },
+    { english: "what is your favorite app?", indo: "apa aplikasi favoritmu?" },
+    { english: "i use spotify every day", indo: "saya memakai spotify setiap hari" },
+    { english: "you seem very positive", indo: "kamu terlihat sangat positif" },
+    { english: "i try to stay happy", indo: "saya mencoba tetap bahagia" },
+    { english: "are you good at english?", indo: "apakah kamu bagus dalam bahasa inggris?" },
+    { english: "i practice speaking every day", indo: "saya latihan berbicara setiap hari" },
+    { english: "your smile looks natural", indo: "senyummu terlihat natural" },
+    { english: "i like positive people", indo: "saya suka orang positif" },
+    { english: "what are your hobbies?", indo: "apa hobimu?" },
+    { english: "i enjoy playing guitar", indo: "saya menikmati bermain gitar" },
+    { english: "you look relaxed tonight", indo: "kamu terlihat santai malam ini" },
+    { english: "i am just chilling here", indo: "saya hanya santai di sini" },
+    { english: "do you like online friends?", indo: "apakah kamu suka teman online?" },
+    { english: "i meet many people here", indo: "saya bertemu banyak orang di sini" },
+    { english: "you have good communication skills", indo: "kamu punya kemampuan komunikasi yang bagus" },
+    { english: "i want to speak naturally", indo: "saya ingin berbicara secara natural" },
+    { english: "are you having fun now?", indo: "apakah kamu sedang bersenang-senang sekarang?" },
+    { english: "i am enjoying this chat", indo: "saya menikmati obrolan ini" },
+    { english: "you seem very smart", indo: "kamu terlihat sangat pintar" },
+    { english: "i learn new words daily", indo: "saya belajar kata baru setiap hari" },
+    { english: "what time do you sleep?", indo: "jam berapa kamu tidur?" },
+    { english: "i usually sleep at midnight", indo: "saya biasanya tidur tengah malam" },
+    { english: "you have good vibes", indo: "kamu punya vibe yang bagus" },
+    { english: "i feel comfortable talking here", indo: "saya merasa nyaman berbicara di sini" },
+    { english: "are you using headphones?", indo: "apakah kamu memakai headphone?" },
+    { english: "i can hear you clearly", indo: "saya bisa mendengarmu dengan jelas" },
+    { english: "you seem very interesting", indo: "kamu terlihat sangat menarik" },
+    { english: "i like deep conversations", indo: "saya suka percakapan mendalam" },
+    { english: "what do you do for fun?", indo: "apa yang kamu lakukan untuk bersenang-senang?" },
+    { english: "i like watching livestreams", indo: "saya suka menonton livestream" },
+    { english: "you speak very clearly", indo: "kamu berbicara sangat jelas" },
+    { english: "i am learning pronunciation", indo: "saya sedang belajar pronunciation" },
+    { english: "are you comfortable on camera?", indo: "apakah kamu nyaman di kamera?" },
+    { english: "i am getting used to it", indo: "saya mulai terbiasa" },
+    { english: "you have a cool style", indo: "kamu punya gaya keren" },
+    { english: "i like casual conversations", indo: "saya suka percakapan santai" },
+    { english: "what is your favorite drink?", indo: "apa minuman favoritmu?" },
+    { english: "i love iced coffee", indo: "saya suka kopi dingin" },
+    { english: "you seem very energetic", indo: "kamu terlihat sangat energik" },
+    { english: "i feel more awake now", indo: "saya merasa lebih segar sekarang" },
+    { english: "are you talking from home?", indo: "apakah kamu berbicara dari rumah?" },
+    { english: "i am in my bedroom", indo: "saya di kamar tidur saya" },
+    { english: "you are very easygoing", indo: "kamu sangat santai" },
+    { english: "i like your attitude", indo: "saya suka sikapmu" },
+    { english: "what kind of movies do you like?", indo: "film seperti apa yang kamu suka?" },
+    { english: "i enjoy comedy movies", indo: "saya menikmati film komedi" },
+    { english: "you make conversations smooth", indo: "kamu membuat percakapan terasa lancar" },
+    { english: "i want to talk more confidently", indo: "saya ingin berbicara lebih percaya diri" },
+    { english: "are you having a good night?", indo: "apakah malammu menyenangkan?" },
+    { english: "i hope you feel happy today", indo: "saya harap kamu merasa bahagia hari ini" },
+    { english: "you look very relaxed", indo: "kamu terlihat sangat santai" },
+    { english: "i enjoy meeting kind people", indo: "saya senang bertemu orang baik" },
+    { english: "what are you doing tomorrow?", indo: "apa yang akan kamu lakukan besok?" },
+    { english: "i will probably stay home", indo: "saya mungkin akan di rumah saja" },
+    { english: "this conversation is really nice", indo: "percakapan ini sangat menyenangkan" },
+    { english: "i hope we meet again", indo: "saya harap kita bertemu lagi" }
+];
+
+let currentIndex = 0;
+let currentSentence = "";
+let score = 0;
+let streak = 0;
+let timeoutId = null;
+let hideTimeoutId = null;
+let gameTimerInterval = null;
+let gameTimeLeft = 120;
+let gameActive = true;
+
+// speech synthesis
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        // berhenti bicara yang sedang berjalan
+        window.speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function startGame(){
+    // reset semua state
+    currentIndex = 0;
+    score = 0;
+    streak = 0;
+    gameActive = true;
+    
+    // ambil waktu dari input
+    gameTimeLeft = parseInt(document.getElementById("gameTimeLimit").value);
+    if(isNaN(gameTimeLeft)) gameTimeLeft = 120;
+    if(gameTimeLeft < 10) gameTimeLeft = 10;
+    if(gameTimeLeft > 120) gameTimeLeft = 120;
+    
+    document.getElementById("score").innerHTML = "0";
+    document.getElementById("streak").innerHTML = "0";
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    
+    // start game timer
+    startGameTimer();
+    
+    showChallenge();
+}
+
+function startGameTimer() {
+    if(gameTimerInterval) clearInterval(gameTimerInterval);
+    
+    updateGameTimerDisplay();
+    
+    gameTimerInterval = setInterval(() => {
+        if(!gameActive) return;
+        
+        if(gameTimeLeft <= 0) {
+            // game over
+            clearInterval(gameTimerInterval);
+            gameActive = false;
+            
+            // cancel semua timeout
+            if(timeoutId) clearTimeout(timeoutId);
+            if(hideTimeoutId) clearTimeout(hideTimeoutId);
+            
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "⏰ time's up! game over ⏰<br>🎯 final score: " + score + " points<br><br>🔄 refresh page to play again";
+            resultDiv.className = "result wrong";
+            
+            document.getElementById("inputArea").style.display = "none";
+            document.getElementById("sentence").innerHTML = "💀 game over 💀";
+            
+            // stop speech
+            if('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        } else {
+            gameTimeLeft--;
+            updateGameTimerDisplay();
+        }
+    }, 1000);
+}
+
+function updateGameTimerDisplay() {
+    const minutes = Math.floor(gameTimeLeft / 60);
+    const seconds = gameTimeLeft % 60;
+    const timeString = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    document.getElementById("gameTimerText").innerHTML = `⏰ sisa waktu game: ${timeString} detik`;
+    
+    const maxTime = parseInt(document.getElementById("gameTimeLimit").value);
+    const percentage = (gameTimeLeft / maxTime) * 100;
+    document.getElementById("gameTimerFill").style.width = percentage + "%";
+}
+
+function showChallenge(){
+    if(!gameActive) return;
+    
+    // clear timeout sebelumnya
+    if(timeoutId) clearTimeout(timeoutId);
+    if(hideTimeoutId) clearTimeout(hideTimeoutId);
+    
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("inputArea").style.display = "none";
+    
+    const challenge = challenges[currentIndex];
+    currentSentence = challenge.english;
+    
+    document.getElementById("sentence").innerHTML = challenge.english;
+    document.getElementById("translation").innerHTML = challenge.indo;
+    
+    // suara otomatis bahasa inggris
+    speakText(challenge.english);
+    
+    const timer = document.getElementById("timerFill");
+    
+    // reset timer bar
+    timer.style.transition = "none";
+    timer.style.width = "100%";
+    
+    // force reflow
+    timer.offsetHeight;
+    
+    setTimeout(()=>{
+        timer.style.transition = "width 5s linear";
+        timer.style.width = "0%";
+    },50);
+    
+    // hide sentence setelah 5 detik
+    hideTimeoutId = setTimeout(()=>{
+        if(gameActive) hideSentence();
+    },5000);
+}
+
+function hideSentence(){
+    if(!gameActive) return;
+    
+    document.getElementById("sentence").innerHTML = "❓ ❓ ❓";
+    document.getElementById("translation").innerHTML = "✏️ type what you remember...";
+    document.getElementById("inputArea").style.display = "block";
+    
+    const inputElement = document.getElementById("answerInput");
+    inputElement.value = "";
+    inputElement.focus();
+}
+
+function checkAnswer(){
+    if(!gameActive) return;
+    
+    const userAnswer = document
+        .getElementById("answerInput")
+        .value
+        .trim()
+        .toLowerCase();
+    
+    const resultDiv = document.getElementById("result");
+    
+    // bandingkan tanpa case sensitive
+    if(userAnswer === currentSentence.toLowerCase()){
+        score += 10;
+        streak += 1;
+        
+        resultDiv.innerHTML = "✅ perfect! +10 points";
+        resultDiv.className = "result correct";
+    }else{
+        streak = 0;
+        
+        resultDiv.innerHTML = 
+        "❌ wrong!<br>📝 correct answer:<br><span style='color:#60a5fa'>\"" + 
+        currentSentence + "\"</span>";
+        resultDiv.className = "result wrong";
+    }
+    
+    document.getElementById("score").innerHTML = score;
+    document.getElementById("streak").innerHTML = streak;
+    
+    // pindah ke soal berikutnya
+    currentIndex++;
+    
+    if(currentIndex >= challenges.length){
+        // jika sudah selesai semua soal
+        resultDiv.innerHTML += "<br><br>🎉 congratulations! you completed all challenges! 🎉<br>starting from the beginning...";
+        currentIndex = 0;
+    }
+    
+    // clear timeout yang mungkin masih berjalan
+    if(hideTimeoutId) clearTimeout(hideTimeoutId);
+    
+    // lanjut ke soal berikutnya setelah 2.5 detik
+    timeoutId = setTimeout(()=>{
+        if(gameActive) showChallenge();
+    },2500);
+}
+
+// event listener untuk tombol enter
+document.addEventListener("keydown",(e)=>{
+    if(e.key === "Enter" && gameActive){
+        const inputArea = document.getElementById("inputArea");
+        const inputVisible = inputArea.style.display === "block";
+        
+        if(inputVisible){
+            e.preventDefault();
+            checkAnswer();
+        }
+    }
+});
+
+// persiapan awal
+if('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+}
+
+</script>
+
+</body>
+</html>
