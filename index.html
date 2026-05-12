@@ -374,9 +374,14 @@
     .viewer-header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 1rem 1.5rem;
       border-bottom: 1px solid #e0edf2;
       background: #fff;
+    }
+    .viewer-header h4 {
+      margin: 0;
+      font-size: 1.1rem;
     }
     iframe {
       flex: 1;
@@ -390,10 +395,95 @@
       font-weight: 700;
       border: none;
       cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-finish-modern:hover:not(:disabled) {
+      background: #0a5252;
     }
     .btn-finish-modern:disabled {
       background: #b0c4c4;
       cursor: not-allowed;
+    }
+
+    /* FLOATING MENU BAR */
+    .floating-menu {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 2000;
+    }
+    .menu-toggle {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(135deg, #00a8cc, #0f6b6b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: 0.2s;
+      color: white;
+      font-size: 1.5rem;
+    }
+    .menu-toggle:hover {
+      transform: scale(1.05);
+    }
+    .menu-items {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: white;
+      border-radius: 20px;
+      padding: 10px 0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      min-width: 170px;
+      display: none;
+    }
+    .menu-items.show {
+      display: block;
+    }
+    .menu-items a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: #2c3e50;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .menu-items a:hover {
+      background: #eef2f7;
+    }
+    .menu-items i {
+      width: 20px;
+      color: #00a8cc;
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast-notification {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      background: #2ecc71;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      z-index: 2001;
+      animation: slideIn 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -490,6 +580,18 @@
   </div>
 </div>
 
+<!-- FLOATING MENU BAR -->
+<div class="floating-menu">
+  <div class="menu-toggle" id="menuToggle">
+    <i class="fa-solid fa-bars"></i>
+  </div>
+  <div class="menu-items" id="menuItems">
+    <a href="#" id="menuProgress"><i class="fa-solid fa-chart-line"></i> Lihat Progress</a>
+    <a href="#" id="menuTarget"><i class="fa-solid fa-bullseye"></i> Target Hari Ini</a>
+    <a href="#" id="menuReset"><i class="fa-solid fa-rotate-left"></i> Reset Harian</a>
+  </div>
+</div>
+
 <!-- VIEWER -->
 <div id="viewerModal">
   <div class="viewer-header">
@@ -515,7 +617,6 @@
     appId: "1:458807719521:web:48f5f49f3e11ca16e45c20"
   };
 
-  // Inisialisasi Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -523,7 +624,6 @@
   let completedDaysArr = [];
   const TOTAL_DAYS = 90;
 
-  // DOM Elements
   const loaderEl = document.getElementById('loader');
   const authWrapper = document.getElementById('auth-wrapper');
   const dashboardSection = document.getElementById('dashboard-section');
@@ -534,37 +634,28 @@
   const viewerDayTitle = document.getElementById('viewerDayTitle');
 
   let currentDay = 0;
-
-  // Nomor WhatsApp (ganti dengan nomor Anda)
-  const WHATSAPP_NUMBER = "6285327599575"; // 085327599575 -> 6285327599575
+  const WHATSAPP_NUMBER = "6285327599575";
   const WHATSAPP_MESSAGE = "Halo%20saya%20tertarik%20dengan%20program%20English%20Mastery%2090%20hari.%20Mohon%20informasi%20lebih%20lanjut%20dan%20kode%20aksesnya.%20Terima%20kasih.";
 
+  function showToast(message) {
+    const existing = document.querySelector('.toast-notification');
+    if(existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
   function openWhatsApp() {
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`, '_blank');
   }
 
-  function hideLoader() {
-    loaderEl.classList.add('hidden');
-  }
+  function hideLoader() { loaderEl.classList.add('hidden'); }
+  function showLoader() { loaderEl.classList.remove('hidden'); }
+  function showAuth() { authWrapper.classList.remove('hidden'); dashboardSection.classList.add('hidden'); hideLoader(); }
+  function showDashboard() { authWrapper.classList.add('hidden'); dashboardSection.classList.remove('hidden'); hideLoader(); }
 
-  function showLoader() {
-    loaderEl.classList.remove('hidden');
-  }
-
-  function showAuth() {
-    authWrapper.classList.remove('hidden');
-    dashboardSection.classList.add('hidden');
-    hideLoader();
-  }
-
-  function showDashboard() {
-    authWrapper.classList.add('hidden');
-    dashboardSection.classList.remove('hidden');
-    hideLoader();
-  }
-
-  // Render grid 90 hari
   function renderDashboardGrid() {
     const grid = document.getElementById('materiGrid');
     if (!grid) return;
@@ -587,12 +678,10 @@
     document.getElementById('progressCounter').innerText = `${completedDaysArr.length} / ${TOTAL_DAYS} materi selesai`;
   }
 
-  // Load data dari Firestore
   async function loadUserData(code) {
     try {
       const docRef = doc(db, "accessCodes", code);
       const snap = await getDoc(docRef);
-      
       if (snap.exists() && snap.data().status === "active") {
         const data = snap.data();
         let device = localStorage.getItem('dev_token');
@@ -600,18 +689,9 @@
           device = 'DEV_' + Math.random().toString(36).substr(2, 8).toUpperCase();
           localStorage.setItem('dev_token', device);
         }
-        
-        // Cek lock device
-        if (data.lockedDevice && data.lockedDevice !== device) {
-          return false;
-        }
-        
-        if (!data.lockedDevice) {
-          await updateDoc(docRef, { lockedDevice: device });
-        }
-        
-        completedDaysArr = data.completed || [];
-        completedDaysArr = completedDaysArr.filter(d => d >= 1 && d <= TOTAL_DAYS);
+        if (data.lockedDevice && data.lockedDevice !== device) return false;
+        if (!data.lockedDevice) await updateDoc(docRef, { lockedDevice: device });
+        completedDaysArr = (data.completed || []).filter(d => d >= 1 && d <= TOTAL_DAYS);
         renderDashboardGrid();
         return true;
       }
@@ -622,7 +702,6 @@
     }
   }
 
-  // Proses login
   async function handleLogin(code) {
     showLoader();
     const isValid = await loadUserData(code);
@@ -630,18 +709,16 @@
       localStorage.setItem('premium_code', code);
       currentUserCode = code;
       showDashboard();
+      showToast("Login berhasil! Selamat belajar 🎉");
     } else {
       hideLoader();
       const alertBox = document.getElementById('loginAlert');
       alertBox.innerText = "⚠️ Kode tidak valid / sudah terdaftar di perangkat lain.";
       alertBox.style.display = 'block';
-      setTimeout(() => {
-        alertBox.style.display = 'none';
-      }, 4000);
+      setTimeout(() => alertBox.style.display = 'none', 4000);
     }
   }
 
-  // Auto login saat load
   async function autoLogin() {
     const savedCode = localStorage.getItem('premium_code');
     if (savedCode) {
@@ -659,7 +736,6 @@
     }
   }
 
-  // Inject materi fallback jika file html tidak ada
   function injectFallbackContent(day) {
     const topics = [
       "Greeting & Introduction", "Pronouns & To Be", "Simple Present Tense", "Present Continuous", "Common Verbs",
@@ -709,21 +785,17 @@
     materiIframe.srcdoc = content;
   }
 
-  // Buka materi
   function openMateri(day) {
     currentDay = day;
     viewerDayTitle.innerText = `📘 Hari ${day} – Materi Premium`;
     viewerModal.style.display = 'flex';
     
-    // Coba load file hariXX.html, jika gagal pakai fallback
-    materiIframe.src = `hari${day}.html`;
     materiIframe.onload = () => {
-      // Beri sedikit waktu untuk deteksi error load
       setTimeout(() => {
         try {
           if (materiIframe.contentDocument && materiIframe.contentDocument.body) {
             const bodyText = materiIframe.contentDocument.body.innerText;
-            if (!bodyText || bodyText.trim() === "") {
+            if (!bodyText || bodyText.trim() === "" || bodyText.includes("tidak ditemukan")) {
               injectFallbackContent(day);
             }
           }
@@ -733,9 +805,8 @@
       }, 300);
     };
     
-    materiIframe.onerror = () => {
-      injectFallbackContent(day);
-    };
+    materiIframe.onerror = () => injectFallbackContent(day);
+    materiIframe.src = `hari${day}.html?t=${Date.now()}`;
     
     const isDone = completedDaysArr.includes(day);
     markCompleteBtn.disabled = isDone;
@@ -748,7 +819,6 @@
     currentDay = 0;
   }
 
-  // Tandai selesai
   async function markAsComplete() {
     if (!currentDay || completedDaysArr.includes(currentDay)) return;
     if (!currentUserCode) return;
@@ -760,6 +830,11 @@
       completedDaysArr.push(currentDay);
       renderDashboardGrid();
       closeViewer();
+      showToast(`✅ Selamat! Hari ${currentDay} telah selesai. Target tersimpan!`);
+      
+      // Update target tracker di menu bar
+      const pct = Math.round((completedDaysArr.length / TOTAL_DAYS) * 100);
+      if(pct === 100) showToast("🎉 Luar biasa! Anda telah menyelesaikan seluruh 90 hari!");
     } catch (err) {
       console.error("Gagal update:", err);
       alert("Terjadi kesalahan, coba lagi.");
@@ -768,7 +843,27 @@
     }
   }
 
-  // Event listeners
+  // Floating menu functions
+  function showProgress() {
+    const pct = Math.round((completedDaysArr.length / TOTAL_DAYS) * 100);
+    showToast(`📊 Progress Anda: ${completedDaysArr.length}/${TOTAL_DAYS} hari (${pct}%)`);
+  }
+  
+  function showTargetToday() {
+    const nextDay = completedDaysArr.length + 1;
+    if(nextDay <= TOTAL_DAYS) {
+      showToast(`🎯 Target hari ini: Hari ${nextDay} - Lanjutkan belajar!`);
+    } else {
+      showToast(`🏆 Selamat! Anda telah menyelesaikan semua target!`);
+    }
+  }
+  
+  async function resetHarian() {
+    if(confirm("Reset hanya untuk hari ini? Data yang sudah tersimpan tidak akan hilang.")) {
+      showToast("Fitur reset hanya untuk menyegarkan tampilan, progress tetap tersimpan di server.");
+    }
+  }
+
   document.getElementById('premium-login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const codeInput = document.getElementById('accessCodeInput').value.trim().toUpperCase();
@@ -782,12 +877,7 @@
     await handleLogin(codeInput);
   });
 
-  // Tombol Daftar Sekarang ke WhatsApp
-  const daftarBtn = document.getElementById('daftarWhatsapp');
-  if (daftarBtn) {
-    daftarBtn.addEventListener('click', openWhatsApp);
-  }
-
+  document.getElementById('daftarWhatsapp')?.addEventListener('click', openWhatsApp);
   document.getElementById('logoutDashboard')?.addEventListener('click', () => {
     if (confirm("Keluar dari program? Anda perlu kode akses kembali untuk login.")) {
       localStorage.removeItem('premium_code');
@@ -799,13 +889,24 @@
   closeViewerBtn?.addEventListener('click', closeViewer);
   markCompleteBtn?.addEventListener('click', markAsComplete);
 
-  // Navigasi menu
   document.getElementById('navTensesBtn')?.addEventListener('click', () => alert("📚 16 Tenses lengkap: akses melalui materi Hari 3,4,5,6,9,10,11. Pahami pola dan latihan cepat!"));
   document.getElementById('navAboutBtn')?.addEventListener('click', () => alert("✨ SpeakEasy90: program 3 bulan belajar tanpa membosankan, fokus speaking dan percaya diri. Dibuat oleh para praktisi bahasa."));
   document.getElementById('navContactBtn')?.addEventListener('click', () => alert("📩 Hubungi: hello@speakeasy90.com | WA: +62 812 3456 7890 (Dukungan 24 jam)"));
   document.getElementById('navReadBtn')?.addEventListener('click', () => alert("📖 Rekomendasi bacaan: English Digest harian ada di setiap materi! Baca tips dan trik cepat menguasai grammar."));
 
-  // Start aplikasi
+  // Floating menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const menuItems = document.getElementById('menuItems');
+  menuToggle?.addEventListener('click', () => menuItems.classList.toggle('show'));
+  document.addEventListener('click', (e) => {
+    if (!menuToggle?.contains(e.target) && !menuItems?.contains(e.target)) {
+      menuItems?.classList.remove('show');
+    }
+  });
+  document.getElementById('menuProgress')?.addEventListener('click', (e) => { e.preventDefault(); showProgress(); menuItems.classList.remove('show'); });
+  document.getElementById('menuTarget')?.addEventListener('click', (e) => { e.preventDefault(); showTargetToday(); menuItems.classList.remove('show'); });
+  document.getElementById('menuReset')?.addEventListener('click', (e) => { e.preventDefault(); resetHarian(); menuItems.classList.remove('show'); });
+
   autoLogin();
 </script>
 </body>
