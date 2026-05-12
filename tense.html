@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Rumus Praktis Tenses Bahasa Inggris | 16 Tenses + Contoh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b2e 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #60a5fa, #c084fc, #f472b6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1e293b;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            margin-top: 0.8rem;
+            color: #a5f3fc;
+        }
+
+        /* Kategori tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: #1e293b;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #cbd5e1;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #334155;
+            color: white;
+        }
+
+        /* Grid tenses */
+        .tenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tense-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tense-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .tense-header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 1rem 1.2rem;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .tense-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f0f9ff;
+        }
+
+        .tense-use {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+
+        .tense-body {
+            padding: 1.2rem;
+        }
+
+        .formula {
+            background: #0f172a;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .formula strong {
+            color: #facc15;
+        }
+
+        .example {
+            margin-top: 0.8rem;
+        }
+
+        .example p {
+            font-size: 0.85rem;
+            margin: 0.4rem 0;
+        }
+
+        .example-indo {
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        .example-eng {
+            color: #c084fc;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background: #334155;
+            margin: 0.8rem 0;
+        }
+
+        /* Tips box */
+        .tips-box {
+            margin-top: 2.5rem;
+            background: linear-gradient(135deg, #1e1b2e, #0f172a);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #3b82f6;
+            text-align: center;
+        }
+
+        .tips-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #facc15;
+        }
+
+        .tips-box p {
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+            border-top: 1px solid #334155;
+        }
+
+        @media (max-width: 850px) {
+            .tenses-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📚 Rumus Praktis Tenses Bahasa Inggris</h1>
+        <p>16 Tenses lengkap dengan rumus, contoh kalimat positif, negatif, tanya</p>
+        <div class="badge">⚡ Praktis | Mudah Dipahami | Langsung Bisa Digunakan</div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-category="all">Semua Tenses</button>
+        <button class="tab-btn" data-category="present">Present Tense</button>
+        <button class="tab-btn" data-category="past">Past Tense</button>
+        <button class="tab-btn" data-category="future">Future Tense</button>
+        <button class="tab-btn" data-category="pastfuture">Past Future</button>
+    </div>
+
+    <div class="tenses-grid" id="tensesGrid"></div>
+
+    <!-- Tips Penting -->
+    <div class="tips-box">
+        <h3>🎯 Tips Menguasai Tenses dengan Cepat</h3>
+        <p>✨ Jangan hafal semua sekaligus! Fokus pada 4 tenses utama dulu: <strong>Simple Present, Simple Past, Simple Future, Present Perfect</strong>. Setelah itu baru yang lain.<br>
+        ✨ Latihan membuat kalimat sendiri setiap hari. Gunakan rumus di atas sebagai panduan.<br>
+        ✨ Ingat: <strong>TIDAK PERLU SEMPURNA</strong> saat awal belajar — yang penting berani mencoba dan konsisten! 🚀</p>
+    </div>
+
+    <footer>
+        📖 Rumus Praktis Tenses Inggris — Pelajari setiap hari, kuasai satu per satu. Targetkan bisa ngobrol dalam 3 bulan!
+    </footer>
+</div>
+
+<script>
+    // Data Tenses Lengkap
+    const tensesData = [
+        // ========== PRESENT TENSE ==========
+        { name: "Simple Present", category: "present", use: "Kebiasaan, fakta umum, rutinitas",
+          formula: "(+) S + V1 (s/es) + O<br>(-) S + do/does + not + V1 + O<br>(?) Do/Does + S + V1 + O?",
+          examplePos: "She <strong>reads</strong> a book every night.",
+          exampleNeg: "She <strong>does not read</strong> a book every night.",
+          exampleInt: "<strong>Does</strong> she read a book every night?",
+          indoPos: "Dia membaca buku setiap malam.",
+          indoNeg: "Dia tidak membaca buku setiap malam.",
+          indoInt: "Apakah dia membaca buku setiap malam?" },
+        { name: "Present Continuous", category: "present", use: "Sedang terjadi sekarang, rencana dekat",
+          formula: "(+) S + am/is/are + V-ing + O<br>(-) S + am/is/are + not + V-ing + O<br>(?) Am/Is/Are + S + V-ing + O?",
+          examplePos: "They <strong>are studying</strong> English now.",
+          exampleNeg: "They <strong>are not studying</strong> English now.",
+          exampleInt: "<strong>Are</strong> they studying English now?",
+          indoPos: "Mereka sedang belajar bahasa Inggris sekarang.",
+          indoNeg: "Mereka tidak sedang belajar bahasa Inggris sekarang.",
+          indoInt: "Apakah mereka sedang belajar bahasa Inggris sekarang?" },
+        { name: "Present Perfect", category: "present", use: "Telah terjadi, pengalaman, hasil",
+          formula: "(+) S + have/has + V3 + O<br>(-) S + have/has + not + V3 + O<br>(?) Have/Has + S + V3 + O?",
+          examplePos: "I <strong>have finished</strong> my homework.",
+          exampleNeg: "I <strong>have not finished</strong> my homework.",
+          exampleInt: "<strong>Have</strong> you finished your homework?",
+          indoPos: "Saya telah menyelesaikan PR saya.",
+          indoNeg: "Saya belum menyelesaikan PR saya.",
+          indoInt: "Apakah kamu sudah menyelesaikan PR-mu?" },
+        { name: "Present Perfect Continuous", category: "present", use: "Yang sudah dimulai dan masih berlangsung",
+          formula: "(+) S + have/has + been + V-ing + O<br>(-) S + have/has + not + been + V-ing + O<br>(?) Have/Has + S + been + V-ing + O?",
+          examplePos: "She <strong>has been waiting</strong> for an hour.",
+          exampleNeg: "She <strong>has not been waiting</strong> for an hour.",
+          exampleInt: "<strong>Has</strong> she been waiting for an hour?",
+          indoPos: "Dia sudah menunggu selama satu jam.",
+          indoNeg: "Dia belum menunggu selama satu jam.",
+          indoInt: "Apakah dia sudah menunggu selama satu jam?" },
+
+        // ========== PAST TENSE ==========
+        { name: "Simple Past", category: "past", use: "Kejadian selesai di masa lampau",
+          formula: "(+) S + V2 + O<br>(-) S + did + not + V1 + O<br>(?) Did + S + V1 + O?",
+          examplePos: "I <strong>went</strong> to Bali last year.",
+          exampleNeg: "I <strong>did not go</strong> to Bali last year.",
+          exampleInt: "<strong>Did</strong> you go to Bali last year?",
+          indoPos: "Saya pergi ke Bali tahun lalu.",
+          indoNeg: "Saya tidak pergi ke Bali tahun lalu.",
+          indoInt: "Apakah kamu pergi ke Bali tahun lalu?" },
+        { name: "Past Continuous", category: "past", use: "Sedang terjadi di masa lalu",
+          formula: "(+) S + was/were + V-ing + O<br>(-) S + was/were + not + V-ing + O<br>(?) Was/Were + S + V-ing + O?",
+          examplePos: "I <strong>was sleeping</strong> when you called.",
+          exampleNeg: "I <strong>was not sleeping</strong> when you called.",
+          exampleInt: "<strong>Were</strong> you sleeping when I called?",
+          indoPos: "Saya sedang tidur ketika kamu menelepon.",
+          indoNeg: "Saya tidak sedang tidur ketika kamu menelepon.",
+          indoInt: "Apakah kamu sedang tidur ketika saya menelepon?" },
+        { name: "Past Perfect", category: "past", use: "Telah selesai sebelum kejadian lain di masa lalu",
+          formula: "(+) S + had + V3 + O<br>(-) S + had + not + V3 + O<br>(?) Had + S + V3 + O?",
+          examplePos: "The train <strong>had left</strong> before I arrived.",
+          exampleNeg: "The train <strong>had not left</strong> before I arrived.",
+          exampleInt: "<strong>Had</strong> the train left before you arrived?",
+          indoPos: "Kereta sudah pergi sebelum saya tiba.",
+          indoNeg: "Kereta belum pergi sebelum saya tiba.",
+          indoInt: "Apakah kereta sudah pergi sebelum kamu tiba?" },
+        { name: "Past Perfect Continuous", category: "past", use: "Aksi berlangsung lama sebelum aksi lain di masa lalu",
+          formula: "(+) S + had + been + V-ing + O<br>(-) S + had + not + been + V-ing + O<br>(?) Had + S + been + V-ing + O?",
+          examplePos: "They <strong>had been waiting</strong> for 2 hours before the bus came.",
+          exampleNeg: "They <strong>had not been waiting</strong> for long.",
+          exampleInt: "<strong>Had</strong> they been waiting for 2 hours?",
+          indoPos: "Mereka sudah menunggu selama 2 jam sebelum bus datang.",
+          indoNeg: "Mereka belum lama menunggu.",
+          indoInt: "Apakah mereka sudah menunggu selama 2 jam?" },
+
+        // ========== FUTURE TENSE ==========
+        { name: "Simple Future", category: "future", use: "Kejadian yang akan datang",
+          formula: "(+) S + will + V1 + O<br>(-) S + will + not + V1 + O<br>(?) Will + S + V1 + O?",
+          examplePos: "I <strong>will call</strong> you tomorrow.",
+          exampleNeg: "I <strong>will not call</strong> you tomorrow.",
+          exampleInt: "<strong>Will</strong> you call me tomorrow?",
+          indoPos: "Saya akan meneleponmu besok.",
+          indoNeg: "Saya tidak akan meneleponmu besok.",
+          indoInt: "Apakah kamu akan meneleponku besok?" },
+        { name: "Future Continuous", category: "future", use: "Sedang terjadi di waktu tertentu di masa depan",
+          formula: "(+) S + will + be + V-ing + O<br>(-) S + will + not + be + V-ing + O<br>(?) Will + S + be + V-ing + O?",
+          examplePos: "This time tomorrow, I <strong>will be flying</strong> to Singapore.",
+          exampleNeg: "I <strong>will not be flying</strong> to Singapore.",
+          exampleInt: "<strong>Will</strong> you be flying to Singapore?",
+          indoPos: "Besok jam segini, saya akan sedang terbang ke Singapura.",
+          indoNeg: "Saya tidak akan sedang terbang ke Singapura.",
+          indoInt: "Apakah kamu akan sedang terbang ke Singapura?" },
+        { name: "Future Perfect", category: "future", use: "Akan telah selesai di masa depan",
+          formula: "(+) S + will + have + V3 + O<br>(-) S + will + not + have + V3 + O<br>(?) Will + S + have + V3 + O?",
+          examplePos: "I <strong>will have finished</strong> the project by Friday.",
+          exampleNeg: "I <strong>will not have finished</strong> the project by Friday.",
+          exampleInt: "<strong>Will</strong> you have finished the project by Friday?",
+          indoPos: "Saya akan telah menyelesaikan proyeknya sebelum Jumat.",
+          indoNeg: "Saya belum akan menyelesaikan proyeknya sebelum Jumat.",
+          indoInt: "Apakah kamu akan telah menyelesaikan proyeknya sebelum Jumat?" },
+        { name: "Future Perfect Continuous", category: "future", use: "Akan sudah berlangsung selama ... di masa depan",
+          formula: "(+) S + will + have + been + V-ing + O<br>(-) S + will + not + have + been + V-ing + O<br>(?) Will + S + have + been + V-ing + O?",
+          examplePos: "By next month, I <strong>will have been working</strong> here for 5 years.",
+          exampleNeg: "I <strong>will not have been working</strong> here long.",
+          exampleInt: "<strong>Will</strong> you have been working here for 5 years?",
+          indoPos: "Bulan depan, saya akan sudah bekerja di sini selama 5 tahun.",
+          indoNeg: "Saya belum lama akan bekerja di sini.",
+          indoInt: "Apakah kamu akan sudah bekerja di sini selama 5 tahun?" },
+
+        // ========== PAST FUTURE TENSE ==========
+        { name: "Past Future", category: "pastfuture", use: "Rencana di masa lalu yang belum terjadi",
+          formula: "(+) S + would + V1 + O<br>(-) S + would + not + V1 + O<br>(?) Would + S + V1 + O?",
+          examplePos: "He <strong>said he would come</strong> to the party.",
+          exampleNeg: "He <strong>said he would not come</strong> to the party.",
+          exampleInt: "<strong>Would</strong> he come to the party?",
+          indoPos: "Dia bilang dia akan datang ke pesta.",
+          indoNeg: "Dia bilang dia tidak akan datang ke pesta.",
+          indoInt: "Apakah dia akan datang ke pesta?" },
+        { name: "Past Future Continuous", category: "pastfuture", use: "Aksi yang akan sedang berlangsung di masa lalu versi rencana",
+          formula: "(+) S + would + be + V-ing + O<br>(-) S + would + not + be + V-ing + O<br>(?) Would + S + be + V-ing + O?",
+          examplePos: "I thought you <strong>would be sleeping</strong> at 10 PM.",
+          exampleNeg: "I thought you <strong>would not be sleeping</strong>.",
+          exampleInt: "Would you be sleeping at 10 PM?",
+          indoPos: "Saya kira kamu akan sedang tidur jam 10 malam.",
+          indoNeg: "Saya kira kamu tidak akan sedang tidur.",
+          indoInt: "Apakah kamu akan sedang tidur jam 10 malam?" },
+        { name: "Past Future Perfect", category: "pastfuture", use: "Akan telah selesai (versi masa lalu)",
+          formula: "(+) S + would + have + V3 + O<br>(-) S + would + not + have + V3 + O<br>(?) Would + S + have + V3 + O?",
+          examplePos: "She thought she <strong>would have finished</strong> by noon.",
+          exampleNeg: "She thought she <strong>would not have finished</strong> by noon.",
+          exampleInt: "Would she have finished by noon?",
+          indoPos: "Dia pikir dia akan telah selesai sebelum siang.",
+          indoNeg: "Dia pikir dia belum akan selesai sebelum siang.",
+          indoInt: "Apakah dia akan telah selesai sebelum siang?" },
+        { name: "Past Future Perfect Continuous", category: "pastfuture", use: "Akan sudah berlangsung lama (versi masa lalu)",
+          formula: "(+) S + would + have + been + V-ing + O<br>(-) S + would + not + have + been + V-ing + O<br>(?) Would + S + have + been + V-ing + O?",
+          examplePos: "He said he <strong>would have been waiting</strong> for 3 hours.",
+          exampleNeg: "He said he <strong>would not have been waiting</strong> long.",
+          exampleInt: "Would he have been waiting for 3 hours?",
+          indoPos: "Dia bilang dia akan sudah menunggu selama 3 jam.",
+          indoNeg: "Dia bilang dia tidak akan lama menunggu.",
+          indoInt: "Apakah dia akan sudah menunggu selama 3 jam?" }
+    ];
+
+    function renderTenses(category) {
+        const grid = document.getElementById('tensesGrid');
+        const filtered = category === 'all' ? tensesData : tensesData.filter(t => t.category === category);
+        
+        grid.innerHTML = '';
+        filtered.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'tense-card';
+            card.innerHTML = `
+                <div class="tense-header">
+                    <div class="tense-name">📖 ${t.name}</div>
+                    <div class="tense-use">🎯 ${t.use}</div>
+                </div>
+                <div class="tense-body">
+                    <div class="formula">
+                        <strong>📐 Rumus:</strong><br>${t.formula}
+                    </div>
+                    <div class="example">
+                        <p>📝 <strong>Contoh (+):</strong> <span class="example-eng">${t.examplePos}</span><br>
+                        <span class="example-indo">${t.indoPos}</span></p>
+                        <p>📝 <strong>Contoh (-):</strong> <span class="example-eng">${t.exampleNeg}</span><br>
+                        <span class="example-indo">${t.indoNeg}</span></p>
+                        <p>❓ <strong>Contoh (?):</strong> <span class="example-eng">${t.exampleInt}</span><br>
+                        <span class="example-indo">${t.indoInt}</span></p>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Tab switching logic
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const category = btn.getAttribute('data-category');
+            renderTenses(category);
+        });
+    });
+
+    // Initial render (all tenses)
+    renderTenses('all');
+</script>
+</body>
+</html>
