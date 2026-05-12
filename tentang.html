@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tentang Aplikasi | Belajar Inggris 3 Bulan Bisa Ngobrol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b2e 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, 'Poppins', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #f1f5f9;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #60a5fa, #c084fc, #f472b6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .tagline {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            background: #1e293b;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #a5f3fc;
+        }
+
+        /* Main content cards */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c084fc;
+        }
+
+        .card-title span {
+            font-size: 1.8rem;
+        }
+
+        .card-content {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .card-content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .card-content ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-content li {
+            margin: 0.5rem 0;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-left: 5px solid #facc15;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+
+        /* Timeline update */
+        .timeline-update {
+            background: #0f172a;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .update-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .update-item:last-child {
+            border-bottom: none;
+        }
+
+        .update-date {
+            min-width: 100px;
+            font-weight: 600;
+            color: #facc15;
+        }
+
+        .update-desc {
+            color: #cbd5e1;
+        }
+
+        /* Feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            background: #1e293b;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-item p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+            border-top: 1px solid #334155;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+            .update-item {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .update-date {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">🗣️📚</div>
+        <h1>Tentang Aplikasi</h1>
+        <div class="tagline">Belajar Bahasa Inggris Interaktif — Target 3 Bulan Bisa Ngobrol</div>
+        <div class="badge-container">
+            <span class="badge">🎯 Goal: Ngobrol Inggris</span>
+            <span class="badge">🔄 Perkembangan Berkala</span>
+            <span class="badge">🎮 Interaktif & Personal</span>
+            <span class="badge">💡 Tanpa Beban Sempurna</span>
+        </div>
+    </div>
+
+    <!-- Tentang Aplikasi -->
+    <div class="card">
+        <div class="card-title">
+            <span>🚀</span> Apa Itu Aplikasi Ini?
+        </div>
+        <div class="card-content">
+            <p>Aplikasi ini adalah <strong>platform interaktif belajar bahasa Inggris</strong> yang dirancang khusus untuk membantu Anda mencapai tujuan: <strong>BISA NGOBROL BAHASA INGGRIS DALAM 3 BULAN</strong> — tanpa perlu sempurna terlebih dahulu.</p>
+            <p>Berbeda dengan kursus konvensional yang sering membebani dengan teori grammar berat, aplikasi ini fokus pada <strong>praktik percakapan harian, pembiasaan, dan peningkatan rasa percaya diri</strong> Anda dalam berbicara.</p>
+            <div class="highlight-box">
+                💡 <strong>Prinsip utama kami:</strong> "Fluency > Perfection. Bicara dulu, sempurnakan nanti. Target 90 hari, bukan 90 teori!"
+            </div>
+            <p>Dengan disiplin melakukan tugas setiap hari (selesaikan hari 1 → lanjut hari 2 → seterusnya), Anda akan merasakan peningkatan signifikan dalam kemampuan berbicara dan memahami percakapan sehari-hari.</p>
+        </div>
+    </div>
+
+    <!-- Fitur Utama -->
+    <div class="card">
+        <div class="card-title">
+            <span>⭐</span> Fitur Utama
+        </div>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">📅</div>
+                <h4>Latihan Harian</h4>
+                <p>Tugas setiap hari, struktur progresif</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎙️</div>
+                <h4>Praktik Ngobrol</h4>
+                <p>Simulasi percakapan nyata</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <h4>Pelacakan Progres</h4>
+                <p>Pantau perkembangan 90 hari</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎯</div>
+                <h4>Personalized Learning</h4>
+                <p>Konten menyesuaikan minat Anda</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📖</div>
+                <h4>Rumus Praktis</h4>
+                <p>16 Tenses + contoh mudah</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💬</div>
+                <h4>Dukungan WhatsApp</h4>
+                <p>Bantuan saat kendala teknis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3 BULAN BISA NGOBROL - Roadmap -->
+    <div class="card">
+        <div class="card-title">
+            <span>🗺️</span> Roadmap 3 Bulan Anda
+        </div>
+        <div class="card-content">
+            <ul>
+                <li><strong>Bulan 1 (Hari 1-30):</strong> Perkenalan dasar, kosa kata sehari-hari, ekspresi umum. Fokus pada keberanian berbicara.</li>
+                <li><strong>Bulan 2 (Hari 31-60):</strong> Membuat kalimat tanya & jawab, cerita aktivitas sehari-hari, mulai percakapan pendek.</li>
+                <li><strong>Bulan 3 (Hari 61-90):</strong> Ngobrol 2-3 menit tentang topik favorit, memahami lawan bicara, percaya diri bercakap-cakap.</li>
+            </ul>
+            <p>✨ <strong>Di akhir bulan ke-3, Anda akan bisa:</strong> Memperkenalkan diri, menanyakan arah, bercerita tentang hobi, merespon pertanyaan umum, dan mengobrol santai dengan teman atau turis — walau masih ada kesalahan kecil, itu sudah SUKSES!</p>
+        </div>
+    </div>
+
+    <!-- PEMBAHARUAN (Update Berkala) -->
+    <div class="card">
+        <div class="card-title">
+            <span>🔄</span> Pembaharuan Berkala
+        </div>
+        <div class="card-content">
+            <p>Aplikasi ini akan <strong>terus mengalami pembaharuan dan pengembangan</strong> untuk kemajuan yang menyesuaikan dengan <strong>minat dan kebutuhan user</strong>. Kami percaya bahwa setiap orang memiliki gaya belajar yang unik, oleh karena itu konten akan terus berevolusi.</p>
+            <div class="highlight-box">
+                🔄 <strong>Sistem Adaptif:</strong> Semakin sering Anda belajar, sistem akan semakin mengenali topik yang Anda sukai (misalnya: traveling, pekerjaan, kuliner, olahraga, dll) dan menyajikan materi yang relevan dengan minat Anda.
+            </div>
+            <div class="timeline-update">
+                <div class="update-item">
+                    <div class="update-date">📅 Rencana Update v1.1</div>
+                    <div class="update-desc">Penambahan fitur "Daily Conversation" dengan topik pilihan user (sesuai minat: traveling, kerja, sekolah, dll)</div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">📅 Rencana Update v1.2</div>
+                    <div class="update-desc">Mode latihan listening dengan aksen berbeda (US, UK, Australia) — request dari banyak user</div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">📅 Rencana Update v1.3</div>
+                    <div class="update-desc">Gamifikasi: sistem poin, streak, dan reward untuk menjaga motivasi harian</div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">📅 Rencana Update v2.0</div>
+                    <div class="update-desc">AI Chatbot untuk praktik ngobrol bebas tanpa tekanan, dengan feedback ringan</div>
+                </div>
+            </div>
+            <p style="margin-top: 1rem;">🎯 <strong>Setiap pembaruan bertujuan untuk:</strong> meningkatkan pengalaman belajar, menjadikan latihan lebih menyenangkan, dan mempercepat Anda mencapai target ngobrol dalam 3 bulan.</p>
+        </div>
+    </div>
+
+    <!-- Personalisasi Minat User -->
+    <div class="card">
+        <div class="card-title">
+            <span>🎨</span> Menyesuaikan dengan Minat Anda
+        </div>
+        <div class="card-content">
+            <p>Kami memahami bahwa Anda lebih termotivasi belajar ketika materi yang disajikan relevan dengan <strong>dunia dan minat Anda</strong>. Oleh karena itu, sistem akan mengumpulkan preferensi secara halus dari aktivitas belajar Anda.</p>
+            <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                <div class="feature-item">
+                    <div class="feature-icon">✈️</div>
+                    <h4>Traveling</h4>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💼</div>
+                    <h4>Business</h4>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🍜</div>
+                    <h4>Kuliner</h4>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚽</div>
+                    <h4>Olahraga</h4>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎬</div>
+                    <h4>Film/Musik</h4>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏥</div>
+                    <h4>Kesehatan</h4>
+                </div>
+            </div>
+            <p style="margin-top: 0.8rem;">Setiap pembaruan akan membawa konten baru sesuai topik yang paling banyak diminati oleh para user. <strong>Suara Anda sangat berarti</strong> dalam perkembangan aplikasi ke depannya!</p>
+        </div>
+    </div>
+
+    <!-- Visi Misi -->
+    <div class="card">
+        <div class="card-title">
+            <span>🎯</span> Visi & Misi
+        </div>
+        <div class="card-content">
+            <p><strong>Visi:</strong> Menjadi platform belajar bahasa Inggris interaktif yang paling ramah untuk pemula dan membantu ribuan orang mampu ngobrol Inggris dalam 3 bulan.</p>
+            <p><strong>Misi:</strong></p>
+            <ul>
+                <li>Menyediakan latihan harian yang ringan tapi efektif</li>
+                <li>Menghilangkan rasa takut salah dengan prinsip "tidak perlu sempurna dulu"</li>
+                <li>Terus berinovasi dan menyesuaikan konten dengan minat user</li>
+                <li>Memberikan dukungan teknis dan motivasi selama perjalanan 90 hari</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <div class="cta-buttons">
+        <a href="guide.html" class="btn btn-primary">📘 Buka Panduan Belajar</a>
+        <a href="tenses-formula.html" class="btn btn-secondary">📖 Rumus Tenses Praktis</a>
+        <a href="contact.html" class="btn btn-secondary">📞 Hubungi Kami</a>
+    </div>
+
+    <footer>
+        <p>© 2024 Aplikasi Belajar Inggris Interaktif | Target 3 Bulan Bisa Ngobrol | Tanpa Tekanan Sempurna</p>
+        <p style="margin-top: 0.3rem;">🔄 Aplikasi terus diperbarui menyesuaikan minat user | Versi 1.0</p>
+    </footer>
+</div>
+</body>
+</html>
